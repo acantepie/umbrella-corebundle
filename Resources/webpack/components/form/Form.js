@@ -52,21 +52,6 @@ class Form {
             new Fileupload($(e));
         });
 
-        if (window.CKEDITOR) {
-            this.$view.find('.js-ckeditor').each((i, e) => {
-                let data_config = Utils.decode_html($(e).data('config')) || {};
-                let config = typeof data_config === "object" ? data_config : $.parseJSON(data_config);
-                CKEDITOR.replace(e, config);
-            });
-
-            this.$view.find('.js-ckeditor-inline').each((i, e) => {
-                let data_config = Utils.decode_html($(e).data('config')) || {};
-                let config = typeof data_config === "object" ? data_config : $.parseJSON(data_config);
-                CKEDITOR.disableAutoInline = true;
-                CKEDITOR.inline(e, config);
-            });
-        }
-
         this.$view.find('.js-umbrella-collection').each((i, e) => {
             new Collection($(e));
         });

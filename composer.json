@@ -15,8 +15,6 @@
         "psr-4": {"Umbrella\\CoreBundle\\": ""}
     },
     "require": {
-        "liip/imagine-bundle": ">=1.8",
-        "helios-ag/fm-elfinder-bundle": ">=6.2"
     },
     "scripts": {
         "post-install-cmd": [],

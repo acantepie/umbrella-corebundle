@@ -139,11 +139,6 @@ class Column implements OptionsAwareInterface
         $this->renderer = ArrayUtils::get($options, 'renderer');
         $this->labelRenderer = ArrayUtils::get($options, 'label_renderer');
         $this->isSafeHtml = ArrayUtils::get($options, 'is_safe_html');
-
-        // deprecated
-        if (isset($options['order_path'])) {
-            @trigger_error('Option order_path is deprecated. Use order_by instead.');
-        }
     }
 
     /**
@@ -157,7 +152,6 @@ class Column implements OptionsAwareInterface
 
         $resolver->setDefined(array(
             'label',
-            'order_path',
             'order_by',
             'orderable',
             'order',

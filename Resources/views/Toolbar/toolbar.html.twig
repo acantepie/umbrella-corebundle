@@ -1,26 +1,18 @@
-<div class="umbrella-toolbar js-umbrella-toolbar {{ class }}">
-    {% block actions %}
-        {% if actions %}
-            <ul class="umbrella-actions list-unstyled">
-                {% for action in actions %}
-                    <li>
-                        {% include action.template %}
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endblock %}
+<div class="toolbar {{ class }}">
 
-    {% block form %}
-        {% if form %}
-            <form class="js-umbrella-form form-inline"
-                  enctype="multipart/form-data"
-                  data-mount="Form"
-                  method="{{ form.vars.method }}">
-                {{ form_rest(form) }}
-            </form>
-        {% endif %}
-    {% endblock %}
+    {% if form %}
+        <form class="form-inline" enctype="multipart/form-data" data-mount="Form" method="{{ form.vars.method }}">
+            {{ form_rest(form) }}
+        </form>
+    {% endif %}
 
-    <div class="clearfix"></div>
+    <span class="ml-auto"></span>
+
+    {% if actions %}
+        <div class="umbrella-actions">
+            {% for action in actions %}
+                {% include action.template %}
+            {% endfor %}
+        </div>
+    {% endif %}
 </div>

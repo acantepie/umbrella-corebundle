@@ -16,16 +16,15 @@
 
         <div class="modal-footer">
             {% block modal_footer %}
-                <button type="button" class="btn btn-default" data-dismiss="modal">
-                    {{ 'action.cancel' | trans }}
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <i class="material-icons mr-1">clear</i> {{ 'action.cancel' | trans }}
                 </button>
 
                 <button type="submit" class="btn btn-primary">
-                    <i class="fa fa-check"></i> {{ 'action.save' | trans }}
+                    <i class="material-icons mr-1">check</i> {{ 'action.save' | trans }}
                 </button>
             {% endblock %}
         </div>
 
     </form>
 {% endblock %}
-

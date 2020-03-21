@@ -19,7 +19,6 @@ class SearchType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
             'label' => false,
             'input_suffix' => '<i class="fa fa-search"></i>',

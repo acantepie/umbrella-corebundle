@@ -11,7 +11,6 @@ namespace Umbrella\CoreBundle\Component\Toolbar\Type;
 
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
-use Umbrella\CoreBundle\Form\AddonTextType;
 use Umbrella\CoreBundle\Form\SearchType;
 
 /**

@@ -142,7 +142,7 @@ class Action implements OptionsAwareInterface
 
         $resolver->setDefault('route_params', array());
         $resolver->setDefault('xhr', true);
-        $resolver->setDefault('template', 'UmbrellaCoreBundle:Toolbar\Action:action.html.twig');
+        $resolver->setDefault('template', '@UmbrellaCore/Toolbar/Action/action.html.twig');
         $resolver->setDefault('attr', array());
     }
 }

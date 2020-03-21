@@ -1,11 +1,10 @@
 {% use "bootstrap_4_horizontal_layout.html.twig" %}
 
-{# DEBUT - GENERIQUE AUX DEUX LAYOUTS #}
-{% use "UmbrellaCoreBundle:Form:interval.html.twig" %}
-{% use "UmbrellaCoreBundle:Form:umbrellafile.html.twig" %}
-{% use "UmbrellaCoreBundle:Form:umbrellacollection.html.twig" %}
-{% use "UmbrellaCoreBundle:Form:accordion.html.twig" %}
-{% use "UmbrellaCoreBundle:Form:async_entity2.html.twig" %}
+{% use "@UmbrellaCore/Form/interval.html.twig" %}
+{% use "@UmbrellaCore/Form/umbrellafile.html.twig" %}
+{% use "@UmbrellaCore/Form/umbrellacollection.html.twig" %}
+{% use "@UmbrellaCore/Form/accordion.html.twig" %}
+{% use "@UmbrellaCore/Form/async_entity2.html.twig" %}
 
 {%- block form_label_class -%}
     {% if form.vars.label_class is defined %}
@@ -54,8 +53,6 @@
         {%- endif -%}
     {% endfor %}
 {%- endblock choice_widget_options -%}
-{# FIN - GENERIQUE AUX DEUX LAYOUTS #}
-
 
 {% block form_row -%}
     {{- block('form_header') -}}

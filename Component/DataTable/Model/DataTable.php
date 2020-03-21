@@ -275,7 +275,7 @@ class DataTable implements OptionsAwareInterface
         $resolver->setDefault('container_class', '');
         $resolver->setDefault('class', 'table-striped table-hover center-v');
         $resolver->setDefault('row_class', '');
-        $resolver->setDefault('template', 'UmbrellaCoreBundle:DataTable:datatable.html.twig');
+        $resolver->setDefault('template', '@UmbrellaCore/DataTable/datatable.html.twig');
         $resolver->setDefault('paging', true);
         $resolver->setDefault('info', true);
         $resolver->setDefault('length_change', false);

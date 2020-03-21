@@ -121,7 +121,7 @@ class Toolbar implements OptionsAwareInterface
             'group_class' => 'col-md-12',
             'method' => 'GET'
         ));
-        $resolver->setDefault('template', 'UmbrellaCoreBundle:Toolbar:toolbar.html.twig');
+        $resolver->setDefault('template', '@UmbrellaCore/Toolbar/toolbar.html.twig');
         $resolver->setDefault('submit_form', self::SUBMIT_ONCHANGE);
     }
 

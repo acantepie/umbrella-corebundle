@@ -273,7 +273,7 @@ class Tree implements OptionsAwareInterface
         $resolver->setDefault('class', 'umbrella-tree');
         $resolver->setDefault('collapsable', true);
         $resolver->setDefault('start_expanded', true);
-        $resolver->setDefault('template_row', 'UmbrellaCoreBundle:Tree:tree_row.html.twig');
+        $resolver->setDefault('template_row', '@UmbrellaCore/Tree/tree_row.html.twig');
         $resolver->setDefault('draggable', true);
     }
 }

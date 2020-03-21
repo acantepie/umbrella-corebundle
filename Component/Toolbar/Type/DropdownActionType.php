@@ -46,7 +46,7 @@ class DropdownActionType extends ActionType
 
         $resolver->setDefault('class', 'btn btn-default');
         $resolver->setDefault('children', array());
-        $resolver->setDefault('template', 'UmbrellaCoreBundle:Toolbar\Action:action_dropdown.html.twig');
+        $resolver->setDefault('template', '@UmbrellaCore/Toolbar/Action/action_dropdown.html.twig');
 
         // hack to build children
 

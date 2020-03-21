@@ -26,7 +26,7 @@ class Toolbar {
             });
 
             let timer = null;
-            this.$view.on('keyup', 'input[type=text]', (e) => {
+            this.$view.on('keyup', 'input[type=text], input[type=search]', (e) => {
                 clearTimeout(timer);
                 timer = setTimeout(() => {
                     this.$view.trigger('submit');

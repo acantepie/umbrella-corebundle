@@ -19,8 +19,8 @@
                         {% endfor %}
                     </tr>
                     </thead>
-                    <tbody data-spinner="{{ include("UmbrellaCoreBundle:DataTable:datatable_spinner.html.twig") | e ('html') }}">
-                        {% include "UmbrellaCoreBundle:DataTable:datatable_spinner.html.twig" %}
+                    <tbody data-spinner="{{ include("@UmbrellaCore/DataTable/datatable_spinner.html.twig") | e ('html') }}">
+                        {% include "@UmbrellaCore/DataTable/datatable_spinner.html.twig" %}
                     </tbody>
                 </table>
             </div>

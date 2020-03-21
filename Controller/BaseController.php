@@ -7,7 +7,7 @@
  * Time: 12:45.
  */
 
-namespace Umbrella\CoreBundle\Component\Core;
+namespace Umbrella\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +27,7 @@ use Umbrella\CoreBundle\Component\Tree\TreeFactory;
 /**
  * Class BaseController.
  */
-class BaseController extends AbstractController
+abstract class BaseController extends AbstractController
 {
 
     const TOAST_KEY = 'TOAST';

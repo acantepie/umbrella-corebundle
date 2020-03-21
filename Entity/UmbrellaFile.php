@@ -9,8 +9,7 @@
 namespace Umbrella\CoreBundle\Entity;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Translation\Reader\TranslationReader;
-use Umbrella\CoreBundle\Component\Core\BaseEntity;
+use Umbrella\CoreBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Umbrella\CoreBundle\Utils\MathUtils;
 
@@ -65,16 +64,6 @@ class UmbrellaFile extends BaseEntity
     public function getWebPath()
     {
         return $this->path;
-    }
-
-    /**
-     * @return string
-     * @deprecated
-     */
-    public function getAbsolutePath()
-    {
-        @trigger_error('Will fail on symfony 4.*. Use UmbrellaFileUploader::getAbsolutePath() ', E_USER_DEPRECATED);
-        return __DIR__ . '/../../../../web' . $this->path;
     }
 
     /**

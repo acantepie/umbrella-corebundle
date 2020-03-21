@@ -10,7 +10,7 @@ namespace Umbrella\CoreBundle\Component\Tree\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Umbrella\CoreBundle\Component\Core\BaseEntity;
+use Umbrella\CoreBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

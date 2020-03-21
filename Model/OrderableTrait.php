@@ -12,7 +12,7 @@ trait OrderableTrait
 {
     /**
      * @var int
-     * @ORM\Column(type="integer", nullable=false, options={"default": 0})
+     * @ORM\Column(name="`order`", type="integer", nullable=false, options={"default": 0})
      */
-    public $sequence = 0;
+    public $order = 0;
 }

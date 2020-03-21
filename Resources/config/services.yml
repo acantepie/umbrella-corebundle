@@ -4,13 +4,6 @@ services:
         autoconfigure: true
         public: false
 
-    _instanceof:
-        Umbrella\CoreBundle\Model\UserAwareInterface:
-            calls:
-                - method: setTokenStorage
-                  arguments:
-                      - '@security.token_storage'
-
     # ---- Component ---- #
     # Menu
     Umbrella\CoreBundle\Component\Menu\MenuProvider:

@@ -1,17 +1,34 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: acantepie
- * Date: 13/04/18
- * Time: 11:07
+ * Date: 07/05/17
+ * Time: 18:50.
  */
 
-namespace Umbrella\CoreBundle\Model;
+namespace Umbrella\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Umbrella\CoreBundle\Annotation\Searchable;
 
-trait TimestampableTrait
+/**
+ * Class BaseEntity.
+ *
+ * @ORM\MappedSuperclass
+ * @ORM\HasLifecycleCallbacks
+ *
+ * @Searchable(searchField="search")
+ */
+abstract class BaseEntity
 {
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    public $id;
+
     /**
      * @var \DateTime|null
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
@@ -24,6 +41,18 @@ trait TimestampableTrait
      */
     public $updatedAt;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    public $search;
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->id;
+    }
 
     /**
      * @ORM\PrePersist
@@ -49,5 +78,4 @@ trait TimestampableTrait
         $now = new \DateTime('NOW');
         $this->updatedAt = $now;
     }
-
 }

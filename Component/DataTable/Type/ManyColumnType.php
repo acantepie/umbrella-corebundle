@@ -60,7 +60,7 @@ class ManyColumnType extends ColumnType
             ? $this->accessor->getValue($one, $options['one_path'])
             : $one;
 
-        return '<span class="badge badge-info mb-1 mt-1">' . $value . '</span>';
+        return '<span class="badge badge-feather-primary mb-1 mt-1">' . $value . '</span>';
     }
 
     /**

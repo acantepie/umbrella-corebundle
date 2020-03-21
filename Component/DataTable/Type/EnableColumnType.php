@@ -39,10 +39,10 @@ class EnableColumnType extends PropertyColumnType
     {
         switch ($this->accessor->getValue($entity, $options['property_path'])) {
             case true:
-                return '<span class="text-success"><i class="fa fa-check"></i> ' . $this->translator->trans('common.enable') . '</span>';
+                return '<span class="badge badge-feather-success"><i class="material-icons mr-1">check</i> ' . $this->translator->trans('common.enable') . '</span>';
 
             case false:
-                return '<span class="text-danger"><i class="fa fa-ban"></i> ' . $this->translator->trans('common.disabled') . '</span>';
+                return '<span class="badge badge-feather-danger"><i class="material-icons mr-1">cancel</i> ' . $this->translator->trans('common.disabled') . '</span>';
 
             default:
                 return '';

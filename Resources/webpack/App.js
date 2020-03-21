@@ -1,0 +1,1 @@
+window.Api = require('umbrella_core/components/appproxy/Api');

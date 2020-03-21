@@ -1,0 +1,25 @@
+{% set icon = null %}
+{% for item in breadcrumb %}
+    {% if item.icon is defined and item.icon is not null %}
+        {% set icon = item.icon %}
+    {% endif %}
+{% endfor %}
+
+<div class="breadcrumb">
+
+    {% if icon %}
+        {{ render_icon(icon) }}
+    {% endif %}
+    <ol data-count="{{ breadcrumb | length }}">
+        {% for item in breadcrumb %}
+            {% set url = item.url | default(null) %}
+            {% set has_url = not loop.last and url %}
+            <li class="{{ loop.last ? 'active' }}">
+                {% if has_url %}<a href="{{ url }}">{% endif %}
+                    {{ item.label }}
+                    {% if has_url %}</a>{% endif %}
+            </li>
+        {% endfor %}
+    </ol>
+
+</div>

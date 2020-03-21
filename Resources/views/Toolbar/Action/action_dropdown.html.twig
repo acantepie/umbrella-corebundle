@@ -1,0 +1,12 @@
+{% use "UmbrellaCoreBundle:Toolbar/Action:action_block.html.twig" %}
+
+<div class="dropdown">
+    <button class="{{ action.class }} dropdown-toggle" {{ block('attr_action') }} type="button" data-toggle="dropdown">
+        {{ block('label_action') }}
+    </button>
+    <div class="dropdown-menu">
+        {% for action in action.options.children %}
+            {{ block('simple_action') }}
+        {% endfor %}
+    </div>
+</div>

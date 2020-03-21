@@ -1,0 +1,26 @@
+{%- block simple_action -%}
+    <a {{ block('url_action') }} class="{{ action.class }} js-umbrella-action" {% if action.confirm %}data-confirm="{{ action.confirm | trans }}"{% endif %} {{ block('attr_action') }}>
+        {% if action.iconClass %}
+            {{ render_icon(action.iconClass, 'mr-1') }}
+        {% endif %}
+        {{ block('label_action') }}
+    </a>
+{%- endblock -%}
+
+{%- block url_action -%}
+    {% if action.url is not empty %}
+        {% if action.xhr %}data-xhr-href="{{ action.url }}"{% else %}href="{{ action.url }}"{% endif %}
+    {% endif %}
+{%- endblock -%}
+
+{%- block attr_action -%}
+    {% for key,value in action.attributes %}
+        {{ key }}="{{ value }}"
+    {% endfor %}
+{%- endblock -%}
+
+{%- block label_action -%}
+    {% if action.label is not empty %}
+        {{ (action.translationPrefix ~ action.label) | trans }}
+    {% endif %}
+{%- endblock -%}

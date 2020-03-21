@@ -1,0 +1,108 @@
+{% block umbrellacollection_widget %}
+{% apply spaceless %}
+
+    {% set attr = attr|merge({
+        'data-index': form | length,
+        'data-max-number' : form.vars.max_number,
+        'data-sortable' : form.vars.sortable ? 'true' : 'false',
+        'data-prototype': block('umbrellacollection_prototype_widget'),
+        'data-prototype-name' : prototype is defined ? prototype.vars.name : null,
+        'class': attr.class | default('') ~ ' js-umbrella-collection umbrella-collection'
+    }) %}
+
+    <div {{ block('widget_container_attributes') }}>
+
+        {% if prototypes|default is iterable %}
+            {% for key, prototype in prototypes %}
+                <input type="hidden" data-form-prototype="{{ key }}" value="{{ block('umbrellacollection_prototype_widget') |e }}" />
+            {% endfor %}
+        {% endif %}
+
+        <table class="table table-bordered table-condensed">
+            {% if form.vars.vertical == false %}
+                <thead>
+                <tr>
+                    {% if form.vars.sortable %}
+                        <th></th>
+                    {% endif %}
+
+                    {% set labels = prototype is defined
+                        ? prototype
+                        : form[0] is defined ? form[0] : []  %}
+
+                    {% for child in labels %}
+                        {% if 'hidden' not in child.vars.block_prefixes %}
+                            <th class="{{ child.vars.required ? 'required' }}">
+                                <span>{{ child.vars.label | trans }}</span>
+                            </th>
+                        {% endif %}
+                    {% endfor %}
+                    <th></th>
+                </tr>
+                </thead>
+            {% endif %}
+            <tbody>
+                {% for rows in form %}
+                    {{ block('umbrellacollection_item_widget') }}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if form.vars.allow_add %}
+            <a class="js-add-row btn btn-default btn-flat" href="#">
+                <i class="fa fa-plus"></i> {{ 'action.add_row' | trans }}
+            </a>
+        {% endif %}
+    </div>
+{% endapply %}
+{% endblock %}
+
+{% block umbrellacollection_prototype_widget %}
+{% apply spaceless %}
+    {% if prototype is defined %}
+        {%  set rows = prototype %}
+        {{ block('umbrellacollection_item_widget') }}
+    {% endif %}
+{% endapply %}
+{% endblock %}
+
+{% block umbrellacollection_item_widget %}
+{% apply spaceless %}
+    <tr class="js-row" data-idx="{{ rows.vars.name }}">
+        {% set fieldNum = 1 %}
+
+        {% if form.vars.sortable %}
+            <td class="js-sort-handler sort-handler">
+                <i class="fa fa-bars text-primary" aria-hidden="true"></i>
+            </td>
+        {% endif %}
+
+        {% if form.vars.vertical %}
+            <th>
+                {% for row in rows %}
+                    {{ form_row(row) }}
+                    {% set fieldNum = fieldNum + 1 %}
+                {% endfor %}
+            </th>
+        {% else %}
+            {% for row in rows %}
+                {% if 'hidden' in row.vars.block_prefixes %}
+                    {{ form_widget(row) }}
+                {% else %}
+                    <td class="field{{ fieldNum }}">
+                        {{ form_widget(row) }}
+                        {{ form_errors(row) }}
+                    </td>
+                {% endif %}
+                {% set fieldNum = fieldNum + 1 %}
+            {% endfor %}
+        {% endif %}
+
+        {% if form.vars.allow_delete %}
+            <td class="field{{ fieldNum }} text-center">
+                <a class="js-del-row" href="#"><i class="fa fa-times text-danger"></i></a>
+            </td>
+        {% endif %}
+    </tr>
+{% endapply %}
+{% endblock %}

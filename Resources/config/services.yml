@@ -1,0 +1,126 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    _instanceof:
+        Umbrella\CoreBundle\Model\UserAwareInterface:
+            calls:
+                - method: setTokenStorage
+                  arguments:
+                      - '@security.token_storage'
+
+    # ---- Component ---- #
+    # Menu
+    Umbrella\CoreBundle\Component\Menu\MenuProvider:
+        arguments: ["@service_container", '@Umbrella\CoreBundle\Component\Menu\MenuBuilder', []]
+        public: true
+
+    Umbrella\CoreBundle\Component\Menu\MenuRendererProvider:
+        arguments: ["@service_container", []]
+        public: true
+
+    Umbrella\CoreBundle\Component\Menu\MenuAuthorizationChecker:
+        $tokenStorage: "@security.token_storage"
+        $language: "@security.expression_language"
+        $trustResolver: "@security.authentication.trust_resolver"
+        $roleHierarchy: "@security.role_hierarchy"
+    Umbrella\CoreBundle\Component\Menu\MenuBuilder:
+    Umbrella\CoreBundle\Component\Menu\Helper\MenuHelper:
+        public: true
+    Umbrella\CoreBundle\Component\Menu\Twig\MenuTwigExtension:
+
+    # Breadcrumb
+    Umbrella\CoreBundle\Component\Breadcrumb\BreadcrumbTwigExtension:
+
+    # App proxy
+    Umbrella\CoreBundle\Component\AppProxy\AppMessageBuilder:
+        public: true
+
+    # DataTable
+    Umbrella\CoreBundle\Component\DataTable\DataTableFactory:
+        public: true
+    Umbrella\CoreBundle\Component\DataTable\ColumnFactory:
+        public: true
+    Umbrella\CoreBundle\Component\DataTable\Model\DataTableQuery:
+
+    Umbrella\CoreBundle\Component\DataTable\Twig\DataTableTwigExtension:
+
+    Umbrella\CoreBundle\Component\DataTable\Type\DateDiffColumnType:
+    Umbrella\CoreBundle\Component\DataTable\Type\ToggleColumnType:
+    Umbrella\CoreBundle\Component\DataTable\Type\ActionColumnType:
+    Umbrella\CoreBundle\Component\DataTable\Type\BadgeColumnType:
+    Umbrella\CoreBundle\Component\DataTable\Type\EnableColumnType:
+    Umbrella\CoreBundle\Component\DataTable\Type\ImageColumnType:
+        $cacheManager: "@liip_imagine.cache.manager"
+
+    # Tree
+    Umbrella\CoreBundle\Component\Tree\TreeFactory:
+        public: true
+    Umbrella\CoreBundle\Component\Tree\Twig\TreeTwigExtension:
+
+    # Toolbar
+    Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory:
+        public: true
+    Umbrella\CoreBundle\Component\Toolbar\ActionFactory:
+        public: true
+    Umbrella\CoreBundle\Component\Toolbar\Twig\ToolbarTwigExtension:
+
+    Umbrella\CoreBundle\Component\Toolbar\Type\DropdownActionType:
+
+    # Webpack
+    Umbrella\CoreBundle\Component\Webpack\Twig\WebpackTwigExtension:
+
+    # DateTime
+    Umbrella\CoreBundle\Component\DateTime\DateTimeHelper:
+        public: true
+    Umbrella\CoreBundle\Component\DateTime\DateTimeFormatter:
+    Umbrella\CoreBundle\Component\DateTime\DateTimeExtension:
+
+    # Other
+    Umbrella\CoreBundle\Component\RowAction\UmbrellaRowActionFactory:
+        public: true
+
+    # ---- Umbrella ----#
+
+    #Command
+    Umbrella\CoreBundle\Command\IndexEntityCommand:
+
+    #Twig
+    Umbrella\CoreBundle\Twig\CoreTwigExtension:
+
+    #Form
+    Umbrella\CoreBundle\Form\:
+        resource: '../../Form'
+
+    # Services
+    Umbrella\CoreBundle\Services\UmbrellaFileUploader:
+        public: true
+    Umbrella\CoreBundle\Services\SearchHandler:
+        public: true
+    Umbrella\CoreBundle\Services\UmbrellaMailer:
+        public: true
+    Umbrella\CoreBundle\Services\UmbrellaRedis:
+        public: true
+    Umbrella\CoreBundle\Services\EntityIndexer:
+        public: true
+    Umbrella\CoreBundle\Services\DateFormater:
+        public: true
+
+    # Annotation
+    Umbrella\CoreBundle\Annotation\SearchableAnnotationReader:
+
+    # Validator
+    Umbrella\CoreBundle\Validator\UmbrellaFileValidator:
+
+    # Listener
+    Umbrella\CoreBundle\Listener\EntitySubscriber:
+        tags:
+            - {name: doctrine.event_subscriber}
+    Umbrella\CoreBundle\Listener\UmbrellaFileListener:
+        tags:
+            - { name: doctrine.orm.entity_listener }
+    Umbrella\CoreBundle\Listener\UmbrellaViewResponseListener:
+        tags:
+            - {name: kernel.event_subscriber }

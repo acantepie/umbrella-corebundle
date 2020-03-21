@@ -1,0 +1,48 @@
+input.form-control.readonly {
+  pointer-events: none;
+}
+
+.help-btn {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+}
+
+.col-form-legend {
+  font-size: inherit;
+}
+
+.form-control-label, .col-form-label, .col-form-legend {
+  font-weight: 400;
+}
+
+.form-control-label.required:after, .col-form-label.required:after, .col-form-legend.required:after {
+  content: " *";
+  color: #dd4b39;
+  font-weight: 500;
+  line-height: 1;
+  font-size: 1.2em;
+}
+
+.form-group {
+
+  &.form-group-v {
+
+    legend.col-form-label {
+      text-align: left;
+    }
+
+  }
+
+  p.form-text.text-muted {
+    margin-bottom: 0;
+  }
+
+}
+
+.js-select2 {
+  display: none;
+}

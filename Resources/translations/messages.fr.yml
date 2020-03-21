@@ -1,0 +1,141 @@
+common:
+    delete: Supprimer
+    edit: Editer
+    yes: Oui
+    no: Non
+    cancel: Annuler
+    save: Sauvegarder
+    confirm_delete: Confirmer la suppression ?
+    browser: Browse
+    loading: Chargement...
+    settings: Configuration
+    enable: Activé
+    disabled: Désactivé
+
+action:
+    add: Ajouter
+    edit: Modifier
+    delete: Supprimer
+    save: Sauvegarder
+    show: Prévisualiser
+    add_child: Ajouter une sous rubrique
+    signout: Se déconnecter
+    add_group: Ajouter un groupe
+    edit_group: Modifier un groupe
+    add_user: Ajouter un utilisateur
+    edit_user: Modifier un utilisateur
+    cancel: Annuler
+    continue: Continuer
+    submit: Soumettre
+    apply: Appliquer
+    filter: Filtrer
+    yes: Oui
+    no: Non
+    update: Mettre à jour
+    close: Fermer
+    add_row: Ajouter un élément
+    my_account: Mon compte
+    forget_password: Mot de passe oublié ?
+    signin: Se connecter
+    back_login: Revenir à l'écran de connexion
+    send: Envoyer
+    next: Suivant
+    previous: Précédent
+    create: Créer
+    mark_all_as_seen: Tous marquer comme lus
+    see_more: Voir plus
+
+toastr:
+    entity_updated: L'élément a bien été mis à jour.
+    entity_added: L'élément a bien été crée.
+    entity_deleted: L'élément a été supprimé.
+
+form:
+    header:
+        identity: Identité
+
+    label:
+        search: Rechercher
+        firstname: Prénom
+        lastname: Nom
+        username: Login
+        email: Email
+        password: Mot de passe
+        password_confirm: Confirmation
+        groups: Groupes
+        title: Titre
+        roles: Roles
+        avatar: Avatar
+        your_email: Votre email
+        active: Activer
+
+    placeholder:
+        search: Rechercher ...
+        password_not_set_if_empty: Laissez vide pour conserver le mot de passe actuel
+
+table:
+    id: Identifiant
+    name: Nom
+    email: Email
+    username: Login
+    state: Etat
+    groups: Groupes
+    title: Titre
+    roles: Roles
+    actions: Actions
+    avatar: Avatar
+    updatedAt: Modifié le
+    createdAt: Crée le
+    file: Fichier
+    size: Taille
+    status: Statut
+
+message:
+    delete_confirm: Confirmez-vous la suppression ?
+    auth_ask: Veuillez vous authentifier
+    forget_password: Mot de passe oublié
+    forget_password_explanation: Saisissez l'adresse email associée à votre compte. Nous enverrons la procédure de récupération de votre mot de passe sur votre messagerie.
+    reset_password: Réinitialiser votre mot de passe
+    entity_updated: L'élément a bien été mis à jour.
+    entity_added: L'élément a bien été crée.
+    entity_deleted: L'élément a été supprimé.
+    account_updated: Votre compte a bien été mis à jour.
+    request_password_success: Si vous avez créé un compte avec cette adresse, un message vous a été envoyé pour réinitialiser votre mot de passe.
+    password_resetted: Votre mot de passe a bien été réinitialisé.
+    signin_to_bo: "Merci de vous identifier pour accéder au service:"
+
+dateFormater:
+    day:
+        Monday: Lundi
+        Tuesday: Mardi
+        Wednesday: Mercredi
+        Thursday: Jeudi
+        Friday: Vendredi
+        Saturday: Samedi
+        Sunday: Dimanche
+    month:
+        September: Septembre
+        October: Octobre
+        November: Novembre
+        December: Decembre
+        January: Janvier
+        February: Fevrier
+        March: Mars
+        April: Avril
+        May: Mai
+        June: Juin
+        July: Juillet
+        August: Aout
+    reverseMonth:
+        Septembre: September
+        Octobre: October
+        Novembre: November
+        Decembre: December
+        Janvier: January
+        Fevrier: February
+        Mars: March
+        Avril: April
+        Mai: May
+        Juin: June
+        Juillet: July
+        Aout: August

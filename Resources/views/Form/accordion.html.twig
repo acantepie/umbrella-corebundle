@@ -1,0 +1,27 @@
+{% block accordion_row %}
+    <div {% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+        <a class="title-divider block" data-toggle="collapse" href="#{{ form.vars.id }}" aria-expanded="{{ collapsed ? 'false' : 'true' }}">
+            {% if label is empty -%}
+                {%- if label_format is not empty -%}
+                    {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                    }) %}
+                {%- else -%}
+                    {% set label = name|humanize %}
+                {%- endif -%}
+            {%- endif -%}
+            {%- if translation_domain is same as(false) -%}
+                <h5>{{- label -}}</h5>
+            {%- else -%}
+                <h5>{{- label|trans({}, translation_domain) -}}</h5>
+            {%- endif -%}
+        </a>
+
+        <div id="{{ form.vars.id }}" class="collapse {{ collapsed ? '' : 'show' }}">
+            {% for child in form %}
+                {{- form_row(child) -}}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

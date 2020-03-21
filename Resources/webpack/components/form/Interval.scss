@@ -1,0 +1,58 @@
+.js-interval-container {
+  display: flex;
+  width: 100%;
+
+  .js-interval-widget {
+    flex-grow: 1;
+    min-width: 130px;
+    margin: 6px 12px;
+  }
+
+  .js-min-value,
+  .js-max-value {
+    width: 50px;
+    text-align: left;
+  }
+
+  .js-min-value {
+    text-align: right;
+  }
+
+}
+
+.noUi-target {
+  background: #FAFAFA;
+  border-radius: 2px;
+  border: 1px solid #D3D3D3;
+
+  &.noUi-horizontal {
+    height: 8px;
+
+    .noUi-handle {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      left: -9px;
+
+      &:before,
+      &:after {
+        display: none;
+      }
+    }
+
+  }
+
+  .noUi-connect {
+    background: #03A9F4;
+  }
+
+}
+
+html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
+  right: -9px;
+  left: auto;
+}
+
+
+
+

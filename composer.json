@@ -1,0 +1,25 @@
+{
+    "name": "umbrella/corebundle",
+    "type": "symfony-bundle",
+    "description": "Umbrella framework",
+    "keywords": [],
+    "version": "1.0.0",
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Adrien Cantepie",
+            "email": "adrien.cantepie@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"Umbrella\\CoreBundle\\": ""}
+    },
+    "require": {
+        "liip/imagine-bundle": ">=1.8",
+        "helios-ag/fm-elfinder-bundle": ">=6.2"
+    },
+    "scripts": {
+        "post-install-cmd": [],
+        "post-update-cmd": []
+    }
+}

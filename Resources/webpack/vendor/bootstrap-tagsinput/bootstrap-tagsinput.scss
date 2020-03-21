@@ -1,0 +1,15 @@
+.bootstrap-tagsinput {
+  border-radius: inherit;
+  width: 100%;
+  border-color: #d2d6de;
+  box-shadow: none;
+  height: 34px;
+
+  .tag.label {
+    font-size: 100%;
+
+    &.label-info {
+      background-color: theme-color("primary") !important;
+    }
+  }
+}

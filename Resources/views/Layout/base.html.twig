@@ -1,0 +1,22 @@
+{# app/Resources/views/base.html.twig #}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>{% block title %}{% endblock %}</title>
+
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        {% block stylesheets %}
+        {% endblock %}
+    </head>
+
+    {% include "@UmbrellaCore/Include/toastr.html.twig" %}
+
+    {% block body %}
+    {% endblock %}
+
+    {% block js %}
+    {% endblock %}
+</html>

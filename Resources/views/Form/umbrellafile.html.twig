@@ -1,5 +1,4 @@
 {% block umbrellafile_widget %}
-{% apply spaceless %}
     <div class="js-umbrella-fileupload umbrella-fileupload" id="{{ form.vars.id }}">
         <div hidden="hidden">
             {{ form_widget(form.file, { 'attr' : { 'class' : 'js-umbrella-file' }}) }}
@@ -8,20 +7,18 @@
         </div>
 
         <div class="input-group">
-
-            {% if form.vars.entity and form.vars.entity.webPath is not empty %}
-                <button onclick="window.open('{{ asset(form.vars.entity.webPath) }}'); return false" class="btn btn-default js-umbrella-download umbrella-download">
-                    <i class="fa fa-download"></i>
-                </button>
-            {% endif %}
-
             {# Use readonly class to allow required attribute #}
             {{ form_widget(form.text, { 'attr' : { 'class' : 'js-umbrella-text readonly' }}) }}
 
-            <div class="input-group-btn">
+            <div class="input-group-append">
                 {% if allow_delete %}
                     <button class="btn btn-default js-umbrella-remove umbrella-remove" type="button">
-                        <i class="fa fa-trash" aria-hidden="true"></i>
+                        <i class="material-icons">close</i>
+                    </button>
+                {% endif %}
+                {% if form.vars.entity and form.vars.entity.webPath is not empty %}
+                    <button onclick="window.open('{{ asset(form.vars.entity.webPath) }}'); return false" class="btn btn-default js-umbrella-download umbrella-download">
+                        <i class="material-icons">cloud_download</i>
                     </button>
                 {% endif %}
                 <button class="btn btn-default js-umbrella-browse umbrella-browse" type="button">
@@ -29,7 +26,6 @@
                     {% if form.vars.browse_html %}
                         {{ form.vars.browse_html | raw }}
                     {% else %}
-                        <i class="fa fa-folder-open"></i>
                         {% if form.vars.browse_label %}
                             <span class="ml-1">{{ form.vars.browse_label | trans }}</span>
                         {% endif %}
@@ -39,5 +35,4 @@
             </div>
         </div>
     </div>
-{% endapply %}
 {% endblock %}

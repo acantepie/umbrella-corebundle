@@ -1,4 +1,3 @@
-require('./FileUpload.scss');
 const Utils = require('umbrella_core/utils/Utils.js');
 
 class FileUpload {

@@ -38,7 +38,7 @@ class UmbrellaFileListener
      */
     public function preRemove(UmbrellaFile $umbrellaFile, LifecycleEventArgs $event)
     {
-        @unlink($umbrellaFile->getAbsolutePath());
+        @unlink($this->uploader->getAbsolutePath($umbrellaFile));
 
     }
 

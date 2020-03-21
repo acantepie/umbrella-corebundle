@@ -13,9 +13,7 @@ use Umbrella\CoreBundle\Component\Toolbar\Type\ActionType;
 use Umbrella\CoreBundle\Component\Toolbar\Type\ToolbarType;
 use Umbrella\CoreBundle\Component\Tree\Type\TreeType;
 use Umbrella\CoreBundle\Component\Webpack\Twig\WebpackTwigExtension;
-use Umbrella\CoreBundle\Model\UserAwareInterface;
 use Umbrella\CoreBundle\Services\UmbrellaFileUploader;
-use Umbrella\CoreBundle\Services\UmbrellaMailer;
 use Umbrella\CoreBundle\Services\UmbrellaRedis;
 
 /**
@@ -46,9 +44,6 @@ class UmbrellaCoreExtension extends Extension
 
         $def = $container->getDefinition(UmbrellaFileUploader::class);
         $def->addMethodCall('loadConfig', [$config['file']]);
-
-        $def = $container->getDefinition(UmbrellaMailer::class);
-        $def->addMethodCall('loadConfig', [$config['mailer']]);
 
         $def = $container->getDefinition(UmbrellaRedis::class);
         $def->addMethodCall('loadConfig', [$config['redis']]);

@@ -99,8 +99,6 @@ services:
         public: true
     Umbrella\CoreBundle\Services\SearchHandler:
         public: true
-    Umbrella\CoreBundle\Services\UmbrellaMailer:
-        public: true
     Umbrella\CoreBundle\Services\UmbrellaRedis:
         public: true
     Umbrella\CoreBundle\Services\EntityIndexer:

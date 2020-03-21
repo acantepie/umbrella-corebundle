@@ -2,7 +2,6 @@
 
 namespace Umbrella\CoreBundle\DependencyInjection;
 
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -18,22 +17,20 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('umbrella_core');
-        $rootNode->append($this->webpackNode());
-        $rootNode->append($this->formNode());
-        $rootNode->append($this->fileNode());
-        $rootNode->append($this->mailerNode());
-        $rootNode->append($this->redisNode());
+        $treeBuilder = new TreeBuilder('umbrella_core');
+        $treeBuilder
+            ->getRootNode()
+            ->append($this->webpackNode())
+            ->append($this->formNode())
+            ->append($this->fileNode())
+            ->append($this->redisNode());
         return $treeBuilder;
     }
 
     private function webpackNode()
     {
-        $treeBuilder = new TreeBuilder();
-
-        /** @var ArrayNodeDefinition $webpackNode */
-        $webpackNode = $treeBuilder->root('webpack')->addDefaultsIfNotSet();
+        $treeBuilder = new TreeBuilder('webpack');
+        $webpackNode = $treeBuilder->getRootNode()->addDefaultsIfNotSet();
         $webpackNode->children()
             ->booleanNode('dev_server_enable')
                 ->defaultFalse()
@@ -49,10 +46,8 @@ class Configuration implements ConfigurationInterface
 
     private function formNode()
     {
-        $treeBuilder = new TreeBuilder();
-
-        /** @var ArrayNodeDefinition $node */
-        $node = $treeBuilder->root('form')->addDefaultsIfNotSet();
+        $treeBuilder = new TreeBuilder('form');
+        $node = $treeBuilder->getRootNode()->addDefaultsIfNotSet();
         $node->children()
             ->booleanNode('enable_extension')
             ->defaultTrue();
@@ -62,10 +57,8 @@ class Configuration implements ConfigurationInterface
 
     private function fileNode()
     {
-        $treeBuilder = new TreeBuilder();
-
-        /** @var ArrayNodeDefinition $node */
-        $node = $treeBuilder->root('file')->addDefaultsIfNotSet();
+        $treeBuilder = new TreeBuilder('file');
+        $node = $treeBuilder->getRootNode()->addDefaultsIfNotSet();
         $node->children()
             ->scalarNode('asset_path')
                 ->defaultValue('/uploads')
@@ -76,29 +69,10 @@ class Configuration implements ConfigurationInterface
         return $node;
     }
 
-    private function mailerNode()
-    {
-        $treeBuilder = new TreeBuilder();
-
-        /** @var ArrayNodeDefinition $node */
-        $node = $treeBuilder->root('mailer')->addDefaultsIfNotSet();
-        $node->children()
-            ->scalarNode('from')
-                ->defaultValue('no-reply@6tm.com')
-                ->end()
-            ->scalarNode('from_name')
-                ->defaultFalse()
-                ->end();
-
-        return $node;
-    }
-
     private function redisNode()
     {
-        $treeBuilder = new TreeBuilder();
-
-        /** @var ArrayNodeDefinition $node */
-        $node = $treeBuilder->root('redis')->addDefaultsIfNotSet();
+        $treeBuilder = new TreeBuilder('redis');
+        $node = $treeBuilder->getRootNode()->addDefaultsIfNotSet();
         $node->children()
             ->scalarNode('host')
                 ->defaultValue('127.0.0.1')

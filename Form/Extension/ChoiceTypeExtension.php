@@ -38,12 +38,10 @@ class ChoiceTypeExtension extends AbstractTypeExtension
     }
 
     /**
-     * Returns the name of the type being extended.
-     *
-     * @return string The name of the type being extended
+     * @inheritdoc
      */
-    public function getExtendedType()
+    public static function getExtendedTypes(): iterable
     {
-        return ChoiceType::class;
+        return [ChoiceType::class];
     }
 }

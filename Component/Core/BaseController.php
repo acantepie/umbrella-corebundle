@@ -10,8 +10,8 @@
 namespace Umbrella\CoreBundle\Component\Core;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Monolog\Logger;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\AppProxy\AppMessageBuilder;
 use Umbrella\CoreBundle\Component\DataTable\DataTableBuilder;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
@@ -27,7 +27,7 @@ use Umbrella\CoreBundle\Component\Tree\TreeFactory;
 /**
  * Class BaseController.
  */
-class BaseController extends Controller
+class BaseController extends AbstractController
 {
 
     const TOAST_KEY = 'TOAST';
@@ -100,16 +100,6 @@ class BaseController extends Controller
     {
         $this->em()->remove($elem);
         $this->em()->flush();
-    }
-
-    /**
-     * @deprecated Use $logger property
-     * @return Logger
-     */
-    protected function logger()
-    {
-        @trigger_error('Logger service is now private. Don\'t use this method on symfony > 4.4.');
-        return $this->get('logger');
     }
 
     /**
@@ -274,5 +264,19 @@ class BaseController extends Controller
         if ($target === false) {
             throw $this->createAccessDeniedException($message);
         }
+    }
+
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            array(
+                ToolbarFactory::class,
+                DataTableFactory::class,
+                TreeFactory::class,
+                AppMessageBuilder::class,
+                'translator' => TranslatorInterface::class
+            )
+        );
     }
 }

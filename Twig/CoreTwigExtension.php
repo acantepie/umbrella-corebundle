@@ -12,6 +12,7 @@ namespace Umbrella\CoreBundle\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigTest;
+use Umbrella\CoreBundle\Utils\HtmlUtils;
 use Umbrella\CoreBundle\Utils\StringUtils;
 
 /**
@@ -19,19 +20,21 @@ use Umbrella\CoreBundle\Utils\StringUtils;
  */
 class CoreTwigExtension extends AbstractExtension
 {
-
-
     /**
-     * @return array|\Twig_Filter[]
+     * @inheritdoc
      */
     public function getFilters()
     {
         return array(
             new TwigFilter('to_css', array($this, 'toCss'), array('is_safe' => array('html'))),
             new TwigFilter('to_human_size', array($this, 'toHumanSize'), array('is_safe' => array('html'))),
+            new TwigFilter('icon', array($this, 'renderIcon'), array('is_safe' => array('html'))),
         );
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getTests()
     {
         return [
@@ -69,6 +72,16 @@ class CoreTwigExtension extends AbstractExtension
     public function isInstanceOf($var, $instance)
     {
         return $var instanceof $instance;
+    }
+
+    /**
+     * @param $iconKey
+     * @param string $class
+     * @return string
+     */
+    public function renderIcon($iconKey, $class = "")
+    {
+        return HtmlUtils::render_icon($iconKey, $class);
     }
 }
 

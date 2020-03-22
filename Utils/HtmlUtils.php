@@ -25,4 +25,20 @@ class HtmlUtils
         }
         return $html;
     }
+
+    /**
+     * @param $iconKey
+     * @param $class
+     * @return string
+     */
+    public static function render_icon($iconKey, $class = "")
+    {
+        if (preg_match('/fa-/', $iconKey)) {
+            $iconKey = preg_replace('/fa\ |fa$/', '', $iconKey);
+            return sprintf('<i class="fa %s %s"></i>', $iconKey, $class);
+        }
+
+        // material icon
+        return sprintf('<i class="material-icons %s">%s</i>', $class, $iconKey);
+    }
 }

@@ -273,7 +273,7 @@ class DataTable implements OptionsAwareInterface
         $resolver->setAllowedTypes('dom', 'string');
 
         $resolver->setDefault('container_class', '');
-        $resolver->setDefault('class', 'table-striped table-hover center-v');
+        $resolver->setDefault('class', 'table-striped table-centered');
         $resolver->setDefault('row_class', '');
         $resolver->setDefault('template', '@UmbrellaCore/DataTable/datatable.html.twig');
         $resolver->setDefault('paging', true);
@@ -283,7 +283,7 @@ class DataTable implements OptionsAwareInterface
         $resolver->setDefault('page_length', 25);
         $resolver->setDefault('fixed_header', false);
         $resolver->setDefault('orderable', true);
-        $resolver->setDefault('dom',  "<'table-body'tr><'table-footer'lip>");
+        $resolver->setDefault('dom',  "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'li><'col-sm-12 col-md-7'p>>");
     }
 
     /**

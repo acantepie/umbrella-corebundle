@@ -8,7 +8,7 @@
 <div class="breadcrumb">
 
     {% if icon %}
-        {{ render_icon(icon) }}
+        {{ icon | icon }}
     {% endif %}
     <ol data-count="{{ breadcrumb | length }}">
         {% for item in breadcrumb %}

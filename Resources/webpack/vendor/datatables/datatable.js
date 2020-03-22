@@ -1,7 +1,7 @@
 require('datatables.net');
 
-require('./dataTables.bootstrap');
-require('./dataTables.bootstrap.scss');
+require('datatables.net-bs4');
+require('datatables.net-bs4/css/dataTables.bootstrap4.css');
 
 require('datatables.net-rowreorder');
 require('datatables.net-rowreorder-bs/css/rowReorder.bootstrap.css');

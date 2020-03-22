@@ -102,7 +102,7 @@ message:
     account_updated: Votre compte a bien été mis à jour.
     request_password_success: Si vous avez créé un compte avec cette adresse, un message vous a été envoyé pour réinitialiser votre mot de passe.
     password_resetted: Votre mot de passe a bien été réinitialisé.
-    signin_to_bo: "Merci de vous identifier pour accéder au service:"
+    signin_to_bo: "Merci de vous identifier pour accéder au service."
 
 dateFormater:
     day:

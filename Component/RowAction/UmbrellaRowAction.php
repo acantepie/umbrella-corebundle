@@ -8,6 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\RowAction;
 
+use Umbrella\CoreBundle\Utils\HtmlUtils;
+
 /**
  * Class UmbrellaRowAction
  */
@@ -78,7 +80,7 @@ class UmbrellaRowAction
 
         $html .= '>';
         if ($this->icon) {
-            $html .= "<i class=\"$this->icon\"></i>";
+            $html .= HtmlUtils::render_icon($this->icon);
         } else {
             $html .= $this->label;
         }
@@ -93,7 +95,7 @@ class UmbrellaRowAction
     private function renderHref()
     {
         return $this->xhr
-            ? "data-xhr-href=\"$this->url\""
+            ? "data-xhr-href=\"$this->url\" href"
             : "href=\"$this->url\"";
 
     }

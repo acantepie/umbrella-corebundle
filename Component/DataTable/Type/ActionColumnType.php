@@ -50,7 +50,7 @@ class ActionColumnType extends ColumnType
         $html = '';
         /** @var UmbrellaRowAction $action */
         foreach ($actions as $action) {
-            $html .= $action->render() . '&nbsp;&nbsp;';
+            $html .= $action->render();
         }
         return $html;
     }

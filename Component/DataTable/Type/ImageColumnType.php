@@ -43,16 +43,15 @@ class ImageColumnType extends PropertyColumnType
         $file = $this->accessor->getValue($entity, $options['property_path']);
 
         if (!$file instanceof UmbrellaFile) {
-            return null;
+            return $options['html_empty'];
         }
 
         $attr = array_merge(['title' => $file->name], $options['image_attr']);
-
         $url = $file->getWebPath();
         if (!empty($options['imagine_filter'])) {
             $url = $this->cacheManager->getBrowserPath($url, $options['imagine_filter']);
         }
-        return '<img src="' . $url . '" ' . HtmlUtils::array_to_html_attribute($attr) . '>';
+        return sprintf('<img src="%s" %s>', $url, HtmlUtils::array_to_html_attribute($attr));
     }
 
     /**
@@ -64,9 +63,11 @@ class ImageColumnType extends PropertyColumnType
 
         $resolver->setDefined(array(
             'image_attr',
-            'imagine_filter'
+            'imagine_filter',
+            'html_empty'
         ));
 
+        $resolver->setAllowedTypes('html_empty', 'string');
         $resolver->setAllowedTypes('image_attr', 'array');
         $resolver->setAllowedTypes('imagine_filter', 'string');
 
@@ -74,6 +75,7 @@ class ImageColumnType extends PropertyColumnType
             'width' => 80,
             'height' => 80
         ));
+        $resolver->setDefault('html_empty', '');
         $resolver->setDefault('class', 'text-center');
         $resolver->setDefault('orderable', false);
     }

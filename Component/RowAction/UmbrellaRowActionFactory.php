@@ -83,22 +83,22 @@ class UmbrellaRowActionFactory
 
     public function createEdit($route, array $params = array(), $xhr = true)
     {
-        return $this->createFromRoute($route, $params, 'action.edit', 'fa fa-pencil', '', '', $xhr);
+        return $this->createFromRoute($route, $params, 'action.edit', 'edit', '', '', $xhr);
     }
 
     public function createDelete($route, array $params = array())
     {
-        return $this->createFromRoute($route, $params, 'action.delete', 'fa fa-times', 'text-danger', 'message.delete_confirm');
+        return $this->createFromRoute($route, $params, 'action.delete', 'clear', 'text-danger', 'message.delete_confirm');
     }
 
     public function createShow($route, array $params = array(), $xhr = true)
     {
-        return $this->createFromRoute($route, $params, 'action.show', 'fa fa-eye', '', '', $xhr);
+        return $this->createFromRoute($route, $params, 'action.show', 'eye', '', '', $xhr);
     }
 
     public function createAddChild($route, array $params = array(), $xhr = true)
     {
-        return $this->createFromRoute($route, $params, 'action.add_child', 'fa fa-plus', '', '', $xhr);
+        return $this->createFromRoute($route, $params, 'action.add_child', 'add', '', '', $xhr);
     }
 
 

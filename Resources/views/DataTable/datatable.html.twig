@@ -7,23 +7,19 @@
     {% endblock %}
 
     {% block table %}
-        <div class="table-container {{ container_class }}">
-            <div class="table-responsive">
-                <table class="table {{ class }} js-umbrella-datatable">
-                    <thead>
-                    <tr>
-                        {% for column in columns %}
-                            <th class="{{ column.class }}" {% if column.style %}style="{{ column.style | to_css }}"{% endif %}>
-                                {{ column.renderLabel(datatable.translationPrefix) | raw }}
-                            </th>
-                        {% endfor %}
-                    </tr>
-                    </thead>
-                    <tbody data-spinner="{{ include("@UmbrellaCore/DataTable/datatable_spinner.html.twig") | e ('html') }}">
-                        {% include "@UmbrellaCore/DataTable/datatable_spinner.html.twig" %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <table class="table {{ class }} js-umbrella-datatable">
+            <thead>
+            <tr>
+                {% for column in columns %}
+                    <th class="{{ column.class }}" {% if column.style %}style="{{ column.style | to_css }}"{% endif %}>
+                        {{ column.renderLabel(datatable.translationPrefix) | raw }}
+                    </th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody data-spinner="{{ include("@UmbrellaCore/DataTable/datatable_spinner.html.twig") | e ('html') }}">
+                {% include "@UmbrellaCore/DataTable/datatable_spinner.html.twig" %}
+            </tbody>
+        </table>
     {% endblock %}
 </div>

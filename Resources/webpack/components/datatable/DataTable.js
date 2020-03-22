@@ -1,5 +1,3 @@
-require('./datatable.scss');
-
 const Toolbar = require('../toolbar/Toolbar');
 const Spinner = require('umbrella_core/components/spinner/Spinner');
 

@@ -11,7 +11,7 @@ namespace Umbrella\CoreBundle\Component\DataTable;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\DataTable\Model\Column;
 use Umbrella\CoreBundle\Component\DataTable\Type\ColumnType;
 

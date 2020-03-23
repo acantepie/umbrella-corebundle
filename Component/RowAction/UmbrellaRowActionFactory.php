@@ -9,7 +9,7 @@
 namespace Umbrella\CoreBundle\Component\RowAction;
 
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class UmbrellaRowActionFactory

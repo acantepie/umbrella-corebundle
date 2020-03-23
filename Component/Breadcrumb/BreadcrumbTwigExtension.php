@@ -8,7 +8,7 @@
 
 namespace Umbrella\CoreBundle\Component\Breadcrumb;
 
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

@@ -8,7 +8,7 @@
 
 namespace Umbrella\CoreBundle\Component\Menu\Twig;
 
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Umbrella\CoreBundle\Component\Menu\Helper\MenuHelper;

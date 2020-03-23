@@ -10,11 +10,9 @@ namespace Umbrella\CoreBundle\Component\AppProxy;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use Umbrella\CoreBundle\Component\Menu\Helper\MenuHelper;
-use Umbrella\CoreBundle\Component\Menu\MenuProvider;
-use Umbrella\CoreBundle\Component\Menu\MenuRendererProvider;
 
 /**
  * Class AppMessageBuilder.

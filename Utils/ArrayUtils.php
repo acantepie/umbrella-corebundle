@@ -66,17 +66,6 @@ class ArrayUtils
     }
 
     /**
-     * @param $value
-     *
-     * @return array
-     * @deprecated Use cast (array) instead
-     */
-    public static function to_array($value)
-    {
-        return is_array($value) ? $value : array($value);
-    }
-
-    /**
      * @param $f
      * @param $xs
      * @return array

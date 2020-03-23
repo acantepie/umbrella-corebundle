@@ -9,7 +9,7 @@
 namespace Umbrella\CoreBundle\Component\Menu\Helper;
 
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\Menu\Matcher\MenuMatcherInterface;
 use Umbrella\CoreBundle\Component\Menu\Matcher\MenuRequestMatcher;
 use Umbrella\CoreBundle\Component\Menu\MenuAuthorizationChecker;

@@ -9,9 +9,7 @@
 namespace Umbrella\CoreBundle\Utils;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class SQLUtils.

@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Form\DataTransformer\EntitiesToPropertyTransformer;
 use Umbrella\CoreBundle\Form\DataTransformer\EntityToPropertyTransformer;
 

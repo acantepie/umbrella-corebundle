@@ -12,10 +12,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 // see AsyncEntity2Type to work asynchronously with entity
 
@@ -156,9 +155,6 @@ class Choice2Type extends AbstractType
             'template_html' => null,
 
             'select2_options' => [],
-
-            // deprecated
-            'template' => null
         ));
 
         $resolver->setAllowedTypes('ajax_load_route', ['null', 'string']);
@@ -171,16 +167,6 @@ class Choice2Type extends AbstractType
         $resolver->setAllowedTypes('template_selector', ['null', 'string']);
         $resolver->setAllowedTypes('template_html', ['null', 'string']);
         $resolver->setAllowedTypes('select2_options', ['array']);
-
-        $resolver->setNormalizer('template_selector',  function (Options $options, $value) {
-            if (!empty($options['template'])) {
-                @trigger_error('Options "template" is deprecated use "template_selector" instead.', E_USER_DEPRECATED);
-                return $options['template'];
-            }
-
-            return $value;
-        });
-
     }
 
     /**

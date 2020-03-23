@@ -3,7 +3,7 @@
 
 namespace Umbrella\CoreBundle\Services;
 
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class DateFormater

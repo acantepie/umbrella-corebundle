@@ -40,7 +40,7 @@ class CheckBoxColumnType extends ColumnType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('orderable', false);
+        $resolver->setDefault('order_by', null);
         $resolver->setDefault('class', 'text-center disable-row-click js-select');
         $resolver->setDefault('renderer', [$this, 'render']);
         $resolver->setDefault('label_renderer', [$this, 'renderLabel']);

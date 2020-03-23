@@ -25,14 +25,4 @@ class SearchToolbarType extends ToolbarType
     {
         $builder->add('search', SearchType::class);
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function filter(QueryBuilder $qb, $data)
-    {
-        if ($data['search']) {
-            $qb->andWhere('lower(e.search) LIKE :search')->setParameter('search', '%'.strtolower($data['search']).'%');
-        }
-    }
 }

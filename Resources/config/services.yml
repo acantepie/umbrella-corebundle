@@ -36,7 +36,6 @@ services:
         public: true
     Umbrella\CoreBundle\Component\DataTable\ColumnFactory:
         public: true
-    Umbrella\CoreBundle\Component\DataTable\Model\DataTableQuery:
 
     Umbrella\CoreBundle\Component\DataTable\Twig\DataTableTwigExtension:
 

@@ -1,7 +1,7 @@
 {%- block simple_action -%}
     <a {{ block('url_action') }} class="{{ action.class }} js-umbrella-action" {% if action.confirm %}data-confirm="{{ action.confirm | trans }}"{% endif %} {{ block('attr_action') }}>
-        {% if action.iconClass %}
-            {{ action.iconClass | icon('mr-1') }}
+        {% if action.icon %}
+            {{ action.icon | icon('mr-1') }}
         {% endif %}
         {{ block('label_action') }}
     </a>

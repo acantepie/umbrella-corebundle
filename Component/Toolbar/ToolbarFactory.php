@@ -63,9 +63,6 @@ class ToolbarFactory
         $type->buildForm($formBuilder, $resolvedOptions);
         $toolbar->form = $formBuilder->getForm();
 
-        // build queryClosure
-        $toolbar->queryClosure = array($type, 'filter');
-
         return $toolbar;
     }
 

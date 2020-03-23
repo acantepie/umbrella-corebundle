@@ -9,7 +9,7 @@
 namespace Umbrella\CoreBundle\Component\DataTable\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class BadgeColumnType

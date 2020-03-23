@@ -10,9 +10,9 @@
 namespace Umbrella\CoreBundle\Component\DataTable;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\DataTable\Model\DataTable;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
+use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
 
 /**
  * Class DataTableFactory.
@@ -25,8 +25,9 @@ class DataTableFactory
     private $container;
 
     /**
-     * DataTableFactory constructor.
+     * TODO remove container DI => use registry
      *
+     * DataTableFactory constructor.
      * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
@@ -53,16 +54,14 @@ class DataTableFactory
      */
     public function createBuilder($typeClass = DataTableType::class, array $options = array())
     {
-        $type = $this->createType($typeClass);
-
-        $dt = new DataTable();
-        $resolver = new OptionsResolver();
-        $dt->configureOptions($resolver);
-        $type->configureOptions($resolver);
-        $options = $resolver->resolve($options);
-
-        $builder = new DataTableBuilder($this->container, $options);
-        $type->buildDataTable($builder, $options);
+        $builder = new DataTableBuilder(
+            $this->container->get('doctrine')->getManager(),
+            $this->container->get('router'),
+            $this->container->get(ToolbarFactory::class),
+            $this->container->get(ColumnFactory::class),
+            $this->createType($typeClass),
+            $options
+        );
 
         return $builder;
     }

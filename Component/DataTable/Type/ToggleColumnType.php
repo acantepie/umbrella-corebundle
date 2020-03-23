@@ -7,6 +7,7 @@
  */
 
 namespace Umbrella\CoreBundle\Component\DataTable\Type;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
 

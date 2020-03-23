@@ -8,7 +8,6 @@
 
 namespace Umbrella\CoreBundle\Component\Toolbar\Type;
 
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\Toolbar\ActionsBuilder;
@@ -18,7 +17,6 @@ use Umbrella\CoreBundle\Component\Toolbar\ActionsBuilder;
  */
 abstract class ToolbarType
 {
-
     /**
      * @param array $options
      * @return null
@@ -42,15 +40,6 @@ abstract class ToolbarType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    }
-
-    /**
-     * @param QueryBuilder $qb
-     * @param $data
-     */
-    public function filter(QueryBuilder $qb, $data)
-    {
-
     }
 
     /**

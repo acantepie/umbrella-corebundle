@@ -68,7 +68,7 @@ class Action implements OptionsAwareInterface
     /**
      * @var string
      */
-    public $iconClass;
+    public $icon;
 
     /**
      * @var string
@@ -109,7 +109,7 @@ class Action implements OptionsAwareInterface
         $this->template = ArrayUtils::get($options, 'template');
         $this->class = ArrayUtils::get($options, 'class');
         $this->confirm = ArrayUtils::get($options, 'confirm');
-        $this->iconClass = ArrayUtils::get($options, 'icon_class');
+        $this->icon = ArrayUtils::get($options, 'icon');
         $this->label = ArrayUtils::get($options, 'label', $this->id);
         $this->attributes = ArrayUtils::get($options, 'attr');
     }
@@ -132,7 +132,7 @@ class Action implements OptionsAwareInterface
             'xhr',
             'confirm',
             'class',
-            'icon_class',
+            'icon',
             'attr',
         ));
 

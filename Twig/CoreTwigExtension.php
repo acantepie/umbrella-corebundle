@@ -29,6 +29,7 @@ class CoreTwigExtension extends AbstractExtension
             new TwigFilter('to_css', array($this, 'toCss'), array('is_safe' => array('html'))),
             new TwigFilter('to_human_size', array($this, 'toHumanSize'), array('is_safe' => array('html'))),
             new TwigFilter('icon', array($this, 'renderIcon'), array('is_safe' => array('html'))),
+            new TwigFilter('html_attributes', array($this, 'toHtmlAttribute'), array('is_safe' => array('html'))),
         );
     }
 
@@ -82,6 +83,15 @@ class CoreTwigExtension extends AbstractExtension
     public function renderIcon($iconKey, $class = "")
     {
         return HtmlUtils::render_icon($iconKey, $class);
+    }
+
+    /**
+     * @param $attributes
+     * @return string
+     */
+    public function toHtmlAttribute($attributes)
+    {
+        return HtmlUtils::array_to_html_attribute($attributes);
     }
 }
 

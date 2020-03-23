@@ -8,13 +8,13 @@
 
 namespace Umbrella\CoreBundle\Component\DataTable\Model;
 
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
 use Umbrella\CoreBundle\Component\Toolbar\Model\Toolbar;
-use Umbrella\CoreBundle\Utils\ArrayUtils;
+use Umbrella\CoreBundle\Utils\StringUtils;
 
 /**
  * Class DataTable.
@@ -22,66 +22,11 @@ use Umbrella\CoreBundle\Utils\ArrayUtils;
 class DataTable implements OptionsAwareInterface
 {
     /**
-     * @var string
-     */
-    public $id;
-
-    // Options
-
-    /**
-     * @var string
-     */
-    public $translationPrefix = 'table.';
-
-    /**
-     * @var string
-     */
-    public $containerClass;
-
-    /**
-     * @var string
-     */
-    public $class;
-
-    /**
-     * @var string|callable
-     */
-    public $rowClass;
-
-    /**
-     * @var bool
-     */
-    public $paging;
-
-    /**
-     * @var bool
-     */
-    public $info;
-
-    /**
      * @var array
      */
-    public $lengthMenu;
+    private $options = array();
 
-    /**
-     * @var int
-     */
-    public $pageLength;
-
-    /**
-     * @var bool
-     */
-    public $lengthChange;
-
-    /**
-     * @var bool
-     */
-    public $fixedHeader;
-
-    /**
-     * @var string
-     */
-    public $template;
+    // URLS
 
     /**
      * @var string
@@ -91,47 +36,9 @@ class DataTable implements OptionsAwareInterface
     /**
      * @var string
      */
-    public $rowUrl;
-
-    /**
-     * @var string
-     */
     public $relocateUrl;
 
-    /**
-     * @var bool
-     */
-    public $rowXhr = true;
-
-    /**
-     * @var bool
-     */
-    public $rowXhrSpinner = false;
-
-    /**
-     * @var bool
-     */
-    public $rowTargetBlank = false;
-
-    /**
-     * @var int (s)
-     */
-    public $pollInterval;
-
-    /**
-     * @var string
-     */
-    public $entityName;
-
-    /**
-     * @var \Closure|null
-     */
-    public $queryClosure;
-
-    /**
-     * @var array
-     */
-    public $columns = array();
+    // MODEL
 
     /**
      * @var Toolbar
@@ -139,97 +46,65 @@ class DataTable implements OptionsAwareInterface
     public $toolbar;
 
     /**
-     * @var bool
+     * @var Column[]
      */
-    public $orderable;
+    public $columns = array();
 
     /**
-     * @var string
+     * @var AbstractDataTableSource
      */
-    public $dom;
+    public $source;
 
-    // Model
+    // OTHER
 
     /**
-     * @var DataTableQueryInterface
+     * @var array()
      */
-    public $query;
-
-    /**
-     * @var int
-     */
-    private $draw;
-
-
-    /**
-     * @var Request
-     */
-    private $requestToHandle = null;
-
+    private $query;
 
     /**
      * @param Request $request
      */
     public function handleRequest(Request $request)
     {
-        $this->draw = $request->get('draw');
-        $this->requestToHandle = $request;
-    }
-
-    /**
-     *
-     */
-    public function buildQuery()
-    {
-        $this->query->build($this);
-        if ($this->requestToHandle !== null) {
-            $this->query->handleRequest($this->requestToHandle, $this);
+        if ($this->toolbar) {
+            $this->toolbar->handleRequest($request);
+            $this->query = array_merge($request->query->all(), $this->toolbar->getData());
+        } else {
+            $this->query = $request->query->all();
         }
     }
 
     /**
-     * @return Paginator
-     */
-    public function getResults()
-    {
-        $this->buildQuery();
-        return $this->query->getResults();
-    }
-
-
-    /**
-     * @return array
+     * @return DataTableResult
      */
     public function getApiResults()
     {
-        $fetchedResults = array();
-        $results = $this->getResults();
+        $result = $this->source->search($this->columns, $this->query);
+        $accessor = PropertyAccess::createPropertyAccessor();
 
-        foreach ($results['data'] as $row) {
+        // compute result
+        foreach ($result->data as $row) {
             $fetchedRow = array();
 
             // Add row id data
-            $fetchedRow['DT_RowId'] = PropertyAccess::createPropertyAccessor()->getValue($row, 'id');
+            $fetchedRow['DT_RowId'] = $accessor->getValue($row, 'id');
+
             // Add row class data
-            if (is_string($this->rowClass)) {
-                $fetchedRow['DT_RowClass'] = $this->rowClass;
-            } else if (is_callable($this->rowClass)) {
-                $fetchedRow['DT_RowClass'] = call_user_func($this->rowClass, $row);
+            if (is_string($this->options['row_class'])) {
+                $fetchedRow['DT_RowClass'] = $this->options['row_class'];
+            } else if (is_callable($this->options['row_class'])) {
+                $fetchedRow['DT_RowClass'] = call_user_func($this->options['row_class'], $row);
             }
 
             foreach ($this->columns as $column) {
                 $fetchedRow[] = $column->render($row);
             }
 
-            $fetchedResults[] = $fetchedRow;
+            $result->computedData[] = $fetchedRow;
         }
 
-        return array(
-            'draw' => $this->draw,
-            'recordsTotal' => $results['recordsTotal'], // Total records, before filtering
-            'recordsFiltered' => $results['recordsFiltered'], // Total records, after filtering
-            'data' => $fetchedResults,
-        );
+        return $result;
     }
 
     /**
@@ -237,53 +112,48 @@ class DataTable implements OptionsAwareInterface
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired(array(
-            'entity',
-        ));
+        $resolver
+            ->setDefault('id', 'table_' . StringUtils::random(12))
+            ->setAllowedTypes('id', 'string')
 
-        $resolver->setDefined(array(
-            'id',
-
-            'entity',
-
-            'class',
-            'row_class',
-            'template',
-            'paging',
-            'length_change',
-            'length_menu',
-            'page_length',
-            'fixed_header',
-            'toolbar',
-            'poll_interval',
-            'orderable',
-
-            'dom' // Datatable.js HTML DOM
-        ));
+            ->setDefault('data_class', null)
+            ->setAllowedTypes('data_class', ['string', 'null'])
 
 
-        $resolver->setAllowedTypes('row_class', ['string', 'callable']);
-        $resolver->setAllowedTypes('paging', 'bool');
-        $resolver->setAllowedTypes('length_change', 'bool');
-        $resolver->setAllowedTypes('length_menu', 'array');
-        $resolver->setAllowedTypes('page_length', 'int');
-        $resolver->setAllowedTypes('fixed_header', 'bool');
-        $resolver->setAllowedTypes('toolbar', [Toolbar::class, 'null']);
-        $resolver->setAllowedTypes('poll_interval', ['int', 'null']);
-        $resolver->setAllowedTypes('dom', 'string');
+            ->setDefault('attr', [
+                'class' => 'table table-striped table-centered'
+            ])
+            ->setAllowedTypes('attr', ['array'])
 
-        $resolver->setDefault('container_class', '');
-        $resolver->setDefault('class', 'table-striped table-centered');
-        $resolver->setDefault('row_class', '');
-        $resolver->setDefault('template', '@UmbrellaCore/DataTable/datatable.html.twig');
-        $resolver->setDefault('paging', true);
-        $resolver->setDefault('info', true);
-        $resolver->setDefault('length_change', false);
-        $resolver->setDefault('length_menu', array(25, 50, 100));
-        $resolver->setDefault('page_length', 25);
-        $resolver->setDefault('fixed_header', false);
-        $resolver->setDefault('orderable', true);
-        $resolver->setDefault('dom',  "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'li><'col-sm-12 col-md-7'p>>");
+            ->setDefault('row_class', null)
+            ->setAllowedTypes('row_class', ['null', 'array', 'callable'])
+
+            ->setDefault('paging', true)
+            ->setAllowedTypes('paging', 'bool')
+
+            ->setDefault('length_change', false)
+            ->setAllowedTypes('length_change', 'bool')
+
+            ->setDefault('length_menu', [25, 50, 100])
+            ->setAllowedTypes('length_menu', 'array')
+
+            ->setDefault('page_length', 25)
+            ->setAllowedTypes('page_length', 'int')
+
+            ->setDefault('fixed_header', false)
+            ->setAllowedTypes('fixed_header', 'bool')
+
+            ->setDefault('poll_interval', null)
+            ->setAllowedTypes('poll_interval', ['int', 'null'])
+
+            ->setDefault('orderable', true)
+            ->setAllowedTypes('orderable', 'bool')
+
+            ->setDefault('dom', "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'li><'col-sm-12 col-md-7'p>>")
+            ->setAllowedTypes('dom', 'string')
+
+            ->setDefault('template', '@UmbrellaCore/DataTable/datatable.html.twig')
+            ->setAllowedTypes('template', 'string');
     }
 
     /**
@@ -291,25 +161,117 @@ class DataTable implements OptionsAwareInterface
      */
     public function setOptions(array $options = array())
     {
-        $this->id = ArrayUtils::get($options, 'id', 'table_'.substr(md5(uniqid('', true)), 0, 12));
-        $this->containerClass = ArrayUtils::get($options, 'container_class');
-        $this->class = ArrayUtils::get($options, 'class');
-        $this->rowClass = ArrayUtils::get($options, 'row_class');
-        $this->template = ArrayUtils::get($options, 'template');
-
-        $this->entityName = ArrayUtils::get($options, 'entity');
-
-        $this->paging = ArrayUtils::get($options, 'paging');
-        $this->info = ArrayUtils::get($options, 'info');
-        $this->lengthChange = ArrayUtils::get($options, 'length_change');
-        $this->lengthMenu = ArrayUtils::get($options, 'length_menu');
-        $this->pageLength = ArrayUtils::get($options, 'page_length');
-
-        $this->fixedHeader = ArrayUtils::get($options, 'fixed_header');
-        $this->orderable = ArrayUtils::get($options, 'orderable');
-        $this->toolbar = ArrayUtils::get($options, 'toolbar');
-        $this->pollInterval = ArrayUtils::get($options, 'poll_interval');
-        $this->dom = ArrayUtils::get($options, 'dom');
+        $this->options = $options;
     }
 
+    /**
+     * @return string
+     */
+    public function getTemplate()
+    {
+        return $this->options['template'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getDataClass()
+    {
+        return $this->options['data_class'];
+    }
+
+    /**
+     * @param TranslatorInterface $translator
+     * @return array
+     */
+    public function getViewOptions(TranslatorInterface $translator)
+    {
+        $viewOptions = array();
+        $viewOptions['datatable'] = $this;
+        $viewOptions['id'] = $this->options['id'];
+        $viewOptions['attr'] = $this->options['attr'];
+
+        $viewOptions['columns'] = array();
+        foreach ($this->columns as $column) {
+            $viewOptions['columns'][] = $column->getViewOptions();
+        }
+
+        $jsOptions = array();
+        $jsOptions['serverSide'] = true;
+        $jsOptions['bFilter'] = false;
+        $jsOptions['ajax'] = array(
+            'url' => $this->loadUrl
+        );
+
+        if ($this->options['paging']) {
+            $jsOptions['lengthChange'] = $this->options['length_change'];
+            $jsOptions['pageLength'] = $this->options['page_length'];
+            $jsOptions['lengthMenu'] = $this->options['length_menu'];
+        } else {
+            $jsOptions['paging'] = false;
+        }
+
+        $jsOptions['fixedHeader'] = $this->options['fixed_header'];
+
+        if ($this->relocateUrl) {
+            $jsOptions['rowReorder'] = array(
+                'update' => false,
+                'url' => $this->relocateUrl
+            );
+        }
+
+        $jsOptions['poll_interval'] = $this->options['poll_interval'];
+        $jsOptions['dom'] = $this->options['dom'];
+        $jsOptions['ordering'] = $this->options['orderable'];
+
+        // columns options
+        $jsOptions['columns'] = array();
+        $jsOptions['order'] = array();
+
+        /** @var Column $column */
+        foreach ($this->columns as $idx => $column) {
+
+            if ($column->getDefaultOrder()) {
+                $jsOptions['order'][] = array(
+                    $idx,
+                    strtolower($column->getDefaultOrder())
+                );
+            }
+
+            $jsOptions['columns'][] = $column->getColumnsOptions();
+        }
+
+        $translate = function ($key) use ($translator) {
+            return $translator->trans('datatable.' . $key, [], 'datatable');
+        };
+
+        // translations
+        $jsOptions['language'] = array(
+            'processing' => $translate('processing'),
+            'search' => $translate('search'),
+            'lengthMenu' => $translate('lengthMenu'),
+            'info' => $translate('info'),
+            'infoEmpty' => $translate('infoEmpty'),
+            'infoFiltered' => $translate('infoFiltered'),
+            'infoPostFix' => $translate('infoPostFix'),
+            'loadingRecords' => $translate('loadingRecords'),
+            'zeroRecords' => $translate('zeroRecords'),
+            'emptyTable' => $translate('emptyTable'),
+            'searchPlaceholder' => $translate('searchPlaceholder'),
+            'paginate' => array(
+                'first' => $translate('paginate.first'),
+                'previous' => $translate('paginate.previous'),
+                'next' => $translate('paginate.next'),
+                'last' => $translate('paginate.last'),
+            ),
+            'aria' => array(
+                'sortAscending' => $translate('aria.sortAscending'),
+                'sortDescending' => $translate('aria.sortDescending'),
+            )
+        );
+
+        $viewOptions['js'] = $jsOptions;
+
+        return $viewOptions;
+    }
 }

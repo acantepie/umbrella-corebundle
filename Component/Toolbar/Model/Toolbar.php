@@ -9,7 +9,6 @@
 
 namespace Umbrella\CoreBundle\Component\Toolbar\Model;
 
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactory;
@@ -24,9 +23,6 @@ use Umbrella\CoreBundle\Utils\ArrayUtils;
  */
 class Toolbar implements OptionsAwareInterface
 {
-    const SUBMIT_MANUALLY = 'MANUALLY'; // submit form manually
-    const SUBMIT_ONCHANGE = 'ONCHANGE'; // submit form after a change
-
     /**
      * @var FormFactory
      */
@@ -72,18 +68,21 @@ class Toolbar implements OptionsAwareInterface
     public $actions;
 
     /**
-     * @var \Closure|null
-     */
-    public $queryClosure;
-
-    /**
-     * @param Request      $request
+     * @param Request $request
      */
     final public function handleRequest(Request $request)
     {
         if ($this->form) {
             $this->form->handleRequest($request);
         }
+    }
+
+    /**
+     * @return array
+     */
+    final public function getData()
+    {
+        return $this->form ? $this->form->getData() : [];
     }
 
     /**
@@ -96,7 +95,6 @@ class Toolbar implements OptionsAwareInterface
         $this->formOptions = ArrayUtils::get($options, 'form_options');
         $this->template = ArrayUtils::get($options, 'template');
         $this->class = ArrayUtils::get($options, 'class');
-        $this->submitFrom = ArrayUtils::get($options, 'submit_form');
     }
 
     /**
@@ -105,14 +103,12 @@ class Toolbar implements OptionsAwareInterface
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefined(array(
-            'submit_form',
             'form_options',
             'template',
             'class'
         ));
 
         $resolver->setAllowedTypes('form_options', 'array');
-        $resolver->setAllowedValues('submit_form', [self::SUBMIT_MANUALLY, self::SUBMIT_ONCHANGE]);
 
         $resolver->setDefault('form_options', array(
             'validation_groups' => false,
@@ -122,7 +118,6 @@ class Toolbar implements OptionsAwareInterface
             'method' => 'GET'
         ));
         $resolver->setDefault('template', '@UmbrellaCore/Toolbar/toolbar.html.twig');
-        $resolver->setDefault('submit_form', self::SUBMIT_ONCHANGE);
     }
 
     /* Helper */

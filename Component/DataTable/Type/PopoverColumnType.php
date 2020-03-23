@@ -4,7 +4,6 @@ namespace Umbrella\CoreBundle\Component\DataTable\Type;
 
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Component\DataTable\Type\PropertyColumnType;
 
 /**
  * Class PopoverColumnType

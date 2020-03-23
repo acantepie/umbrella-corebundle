@@ -20,7 +20,7 @@ class AddActionType extends ActionType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('icon_class', 'fa-plus');
+        $resolver->setDefault('icon', 'add');
         $resolver->setDefault('class', 'btn btn-primary');
     }
 }

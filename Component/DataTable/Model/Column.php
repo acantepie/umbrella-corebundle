@@ -8,14 +8,9 @@
 
 namespace Umbrella\CoreBundle\Component\DataTable\Model;
 
-use Symfony\Bridge\Twig\Form\TwigRenderer;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Form\FormRenderer;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
-use Umbrella\CoreBundle\Utils\ArrayUtils;
 
 /**
  * Class Column.
@@ -25,99 +20,22 @@ class Column implements OptionsAwareInterface
     /**
      * @var array
      */
-    public $options;
+    private $options;
 
     /**
-     * @var string
-     */
-    public $id;
-
-    /**
-     * @var string
-     */
-    public $label;
-
-    /**
-     * @var bool
-     */
-    public $orderable;
-
-    /**
-     * @var array
-     */
-    public $orderBy;
-
-    /**
-     * @var string|null
-     */
-    public $order;
-
-    /**
-     * @var string
-     */
-    public $class;
-
-    /**
-     * @var array
-     */
-    public $style;
-
-    /**
-     * @var null|\Closure
-     */
-    public $renderer;
-
-    /**
-     * @var null|\Closure
-     */
-    public $labelRenderer;
-
-    /**
-     * @var bool
-     */
-    public $isSafeHtml;
-
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
-     * Column constructor.
-     * @param TranslatorInterface $translator
-     */
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
-
-    /**
-     * @param $entity
-     *
+     * @param $data
      * @return string
      */
-    public function render($entity)
+    public function render($data)
     {
         $value = null;
-        if (is_callable($this->renderer)) {
-            $value = call_user_func($this->renderer, $entity, $this->options);
+        if (is_callable($this->options['renderer'])) {
+            $value = call_user_func($this->options['renderer'], $data, $this->options);
         } else {
-            $value = (string)$entity;
+            $value = (string)$data;
         }
 
-        return $this->isSafeHtml ? $value : htmlspecialchars($value);
-    }
-
-    /**
-     * @param $translationPrefix
-     * @return string
-     */
-    public function renderLabel($translationPrefix)
-    {
-        if (is_callable($this->labelRenderer)) {
-            return call_user_func($this->labelRenderer, $this->options);
-        }
-        return empty($this->label) ? '' : $this->translator->trans($translationPrefix . $this->label);
+        return $this->options['safe_html'] ? $value : htmlspecialchars($value);
     }
 
     /**
@@ -126,19 +44,6 @@ class Column implements OptionsAwareInterface
     public function setOptions(array $options = array())
     {
         $this->options = $options;
-
-        $this->id = $options['id'];
-        $this->label = ArrayUtils::get($options, 'label', $this->id);
-
-        $this->orderable = ArrayUtils::get($options, 'orderable');
-        $this->orderBy = (array) ArrayUtils::get($options, 'order_by', []);
-
-        $this->order = ArrayUtils::get($options, 'order');
-        $this->class = ArrayUtils::get($options, 'class');
-        $this->style = ArrayUtils::get($options, 'style');
-        $this->renderer = ArrayUtils::get($options, 'renderer');
-        $this->labelRenderer = ArrayUtils::get($options, 'label_renderer');
-        $this->isSafeHtml = ArrayUtils::get($options, 'is_safe_html');
     }
 
     /**
@@ -146,31 +51,75 @@ class Column implements OptionsAwareInterface
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired(array(
-            'id'
-        ));
+        $resolver
+            ->setRequired('id')
+            ->setAllowedTypes('id', 'string')
 
-        $resolver->setDefined(array(
-            'label',
-            'order_by',
-            'orderable',
-            'order',
-            'class',
-            'style',
-            'renderer',
-            'label_renderer',
-            'is_safe_html'
-        ));
+            ->setDefault('label', function (Options $options) {
+                return $options['id'];
+            })
+            ->setAllowedTypes('label',['null', 'string'])
 
-        $resolver->setAllowedTypes('order_by', ['string', 'array']);
-        $resolver->setAllowedTypes('orderable', 'bool');
-        $resolver->setAllowedTypes('renderer', array('null', 'callable'));
-        $resolver->setAllowedTypes('label_renderer', array('null', 'callable'));
-        $resolver->setAllowedTypes('style', 'array');
-        $resolver->setAllowedTypes('is_safe_html', 'bool');
-        $resolver->setAllowedValues('order', ['ASC', 'DESC']);
+            ->setDefault('label_prefix', 'table.')
+            ->setAllowedTypes('label_prefix', ['null', 'string'])
 
-        $resolver->setDefault('orderable', false);
-        $resolver->setDefault('is_safe_html', true);
+            ->setDefault('translation_domain', 'messages')
+            ->setAllowedTypes('translation_domain', ['null', 'string'])
+
+            ->setDefault('default_order', null)
+            ->setAllowedValues('default_order', [null, 'ASC', 'DESC'])
+
+            ->setDefault('order_by', null)
+            ->setAllowedTypes('order_by',['null', 'string', 'array'])
+
+            ->setDefault('safe_html', true)
+            ->setAllowedTypes('safe_html', 'bool')
+
+            ->setDefault('class', null)
+            ->setAllowedTypes('class', ['null', 'string'])
+
+            ->setDefault('width', null)
+            ->setAllowedTypes('width', ['null', 'string']);
+    }
+
+    /**
+     * @return array
+     */
+    public function getViewOptions()
+    {
+        return array(
+            'label' => $this->options['label'],
+            'label_prefix' => $this->options['label_prefix'],
+            'translation_domain' => $this->options['translation_domain'],
+            'class' => $this->options['class'],
+            'width' => $this->options['width']
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getColumnsOptions()
+    {
+        return array(
+            'orderable' => $this->options['order_by'] !== null,
+            'className' => $this->options['class']
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultOrder()
+    {
+        return $this->options['default_order'];
+    }
+
+    /**
+     * @return array
+     */
+    public function getOrderBy()
+    {
+        return (array) $this->options['order_by'];
     }
 }

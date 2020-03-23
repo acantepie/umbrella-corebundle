@@ -77,6 +77,6 @@ class ImageColumnType extends PropertyColumnType
         ));
         $resolver->setDefault('html_empty', '');
         $resolver->setDefault('class', 'text-center');
-        $resolver->setDefault('orderable', false);
+        $resolver->setDefault('order_by', null);
     }
 }

@@ -6,7 +6,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
-use Umbrella\CoreBundle\Component\DataTable\Model\DataTableQueryInterface;
 use Umbrella\CoreBundle\Component\DataTable\Type\ColumnType;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\Toolbar\Type\ActionType;
@@ -49,7 +48,6 @@ class UmbrellaCoreExtension extends Extension
         $def->addMethodCall('loadConfig', [$config['redis']]);
 
         $container->registerForAutoconfiguration(DataTableType::class)->addTag('umbrella.datatable.type');
-        $container->registerForAutoconfiguration(DataTableQueryInterface::class)->addTag('umbrella.datatable.query');
         $container->registerForAutoconfiguration(ToolbarType::class)->addTag('umbrella.toolbar.type');
         $container->registerForAutoconfiguration(TreeType::class)->addTag('umbrella.tree.type');
         $container->registerForAutoconfiguration(ColumnType::class)->addTag('umbrella.column.type');

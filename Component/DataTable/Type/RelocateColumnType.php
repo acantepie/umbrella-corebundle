@@ -9,7 +9,6 @@
 namespace Umbrella\CoreBundle\Component\DataTable\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * Class SequenceColumn.
@@ -35,11 +34,9 @@ class RelocateColumnType extends PropertyColumnType
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
-        $resolver->setDefault('orderable', false);
+        $resolver->setDefault('order_by', null);
         $resolver->setDefault('order', 'ASC');
-        $resolver->setDefault('style', array(
-            'width' => '10px'
-        ));
+        $resolver->setDefault('width', '10px');
         $resolver->setDefault('renderer', [$this, 'render']);
         $resolver->setDefault('label', '');
     }

@@ -55,13 +55,12 @@ class PropertyColumnType extends ColumnType
             'property_path',
         ));
         $resolver->setAllowedTypes('property_path', 'string');
-        $resolver->setDefault('renderer', [$this, 'render']);
-        $resolver->setDefault('orderable', true);
         $resolver->setDefault('property_path', function (Options $options) {
             return $options['id'];
         });
         $resolver->setDefault('order_by', function (Options $options) {
             return $options['property_path'];
         });
+        $resolver->setDefault('renderer', [$this, 'render']);
     }
 }

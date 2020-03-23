@@ -69,9 +69,7 @@ class ActionColumnType extends ColumnType
         $resolver->setAllowedTypes('action_builder', array('null', 'callable'));
 
         $resolver->setDefault('class', 'disable-row-click text-right');
-        $resolver->setDefault('style', array(
-            'width' => '80px'
-        ));
+        $resolver->setDefault('width', '80px');
         $resolver->setDefault('label', '');
         $resolver->setDefault('renderer', [$this, 'render']);
     }

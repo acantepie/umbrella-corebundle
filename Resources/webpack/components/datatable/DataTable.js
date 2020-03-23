@@ -10,7 +10,7 @@ class DataTable {
 
     constructor($elt) {
         this.$view = $elt;
-        this.$table = this.$view.find('.js-umbrella-datatable');
+        this.$table = this.$view.find('table');
         this.$toolbarAction = this.$view.find('.js-umbrella-toolbar .umbrella-actions');
         this.$toolbarForm = this.$view.find('.js-umbrella-toolbar form');
 
@@ -36,7 +36,7 @@ class DataTable {
         if (this.$toolbarForm.length) {
 
             new Toolbar(this.$toolbarForm, {
-                'submitOnChange': this.options['toolbarSubmittedOnChange'] === true
+                'submitOnChange': true
             });
 
             this.$toolbarForm.on('tb:submit', () => {

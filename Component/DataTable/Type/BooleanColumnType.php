@@ -2,19 +2,36 @@
 /**
  * Created by PhpStorm.
  * User: acantepie
- * Date: 20/05/17
- * Time: 09:45.
+ * Date: 05/04/18
+ * Time: 15:33
  */
 
 namespace Umbrella\CoreBundle\Component\DataTable\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Umbrella\CoreBundle\Utils\HtmlUtils;
 
 /**
- * Class BooleanColumnType.
+ * Class EnableColumnType
  */
 class BooleanColumnType extends PropertyColumnType
 {
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * EnableColumnType constructor.
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(TranslatorInterface $translator)
+    {
+        parent::__construct();
+        $this->translator = $translator;
+    }
+
     /**
      * @param $entity
      * @param array $options
@@ -24,26 +41,43 @@ class BooleanColumnType extends PropertyColumnType
     {
         switch ($this->accessor->getValue($entity, $options['property_path'])) {
             case true:
-                return $options['true'];
+                return sprintf(
+                    '<span class="badge badge-feather-success">%s %s</span>',
+                    HtmlUtils::render_icon($options['yes_icon'], 'mr-1'),
+                    $this->translator->trans($options['yes_value'])
+                );
 
             case false:
-                return $options['false'];
-
+                return sprintf(
+                    '<span class="badge badge-feather-danger">%s %s</span>',
+                    HtmlUtils::render_icon($options['no_icon'], 'mr-1'),
+                    $this->translator->trans($options['no_value'])
+                );
             default:
-                return $options['null'];
+                return '';
         }
     }
 
     /**
-     * @inheritdoc
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
-        $resolver->setDefaults(array(
-            'true' => '<i class="fa fa-check text-success"></i>',
-            'false' => '<i class="fa fa-ban text-danger"></i>',
-            'null' => ''
-        ));
+
+        $resolver
+            ->setDefault('yes_value', 'common.yes')
+            ->setAllowedTypes('yes_value', 'string')
+
+            ->setDefault('no_value', 'common.no')
+            ->setAllowedTypes('no_value', 'string')
+
+            ->setDefault('yes_icon', 'check')
+            ->setAllowedTypes('yes_icon', 'string')
+
+            ->setDefault('no_icon', 'cancel')
+            ->setAllowedTypes('no_icon', 'string');
     }
+
+
 }

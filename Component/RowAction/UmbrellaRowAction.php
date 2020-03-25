@@ -8,8 +8,6 @@
 
 namespace Umbrella\CoreBundle\Component\RowAction;
 
-use Umbrella\CoreBundle\Utils\HtmlUtils;
-
 /**
  * Class UmbrellaRowAction
  */
@@ -21,84 +19,243 @@ class UmbrellaRowAction
     /**
      * @var string
      */
-    public $icon;
+    private $icon;
 
     /**
      * @var string
      */
-    public $class;
+    private $class;
 
     /**
      * @var string
      */
-    public $url;
+    private $route;
+
+    /**
+     * @var array
+     */
+    private $routeParams = array();
 
     /**
      * @var string
      */
-    public $label;
+    private $url;
 
     /**
      * @var string
      */
-    public $confirm;
+    private $title;
 
     /**
-     * @var bool
+     * @var string
      */
-    public $spinner = false;
+    private $confirm;
 
     /**
      * @var boolean
      */
-    public $xhr;
+    private $xhr;
 
     /**
      * @var string
      */
-    public $target;
+    private $target;
 
     /**
      * @return string
      */
-    public function render()
+    public function getIcon()
     {
-        $html = '';
+        return $this->icon;
+    }
 
-        $html .= "<a class=\"row-action $this->class\" {$this->renderHref()} title=\"$this->label\"";
-        if (!empty($this->confirm)) {
-            $html .= " data-confirm=\"$this->confirm\"";
-        }
-
-        if ($this->spinner === true) {
-            $html .= " data-spinner=\"true\"";
-        }
-
-        if (!empty($this->target)) {
-            $html .= "target=\"$this->target\"";
-        }
-
-        $html .= '>';
-        if ($this->icon) {
-            $html .= HtmlUtils::render_icon($this->icon);
-        } else {
-            $html .= $this->label;
-        }
-
-        $html .= "</a>";
-        return $html;
+    /**
+     * @param string $icon
+     * @return UmbrellaRowAction
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+        return $this;
     }
 
     /**
      * @return string
      */
-    private function renderHref()
+    public function getClass()
     {
-        return $this->xhr
-            ? "data-xhr-href=\"$this->url\" href"
-            : "href=\"$this->url\"";
-
+        return $this->class;
     }
+
+    /**
+     * @param string $class
+     * @return UmbrellaRowAction
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRoute()
+    {
+        return $this->route;
+    }
+
+    /**
+     * @param $route
+     * @param array $routeParams
+     * @return $this
+     */
+    public function setRoute($route, array $routeParams = array())
+    {
+        $this->route = $route;
+        $this->routeParams = $routeParams;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRouteParams()
+    {
+        return $this->routeParams;
+    }
+
+    /**
+     * @param array $routeParams
+     * @return UmbrellaRowAction
+     */
+    public function setRouteParams(array $routeParams)
+    {
+        $this->routeParams = $routeParams;
+        return $this;
+    }
+
+    public function hasRouteParam($key)
+    {
+        return array_key_exists($key, $this->routeParams);
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function addRouteParam($key, $value)
+    {
+        $this->routeParams[$key] = $value;
+        return $this;
+    }
+
+    /**
+     * @param $key
+     * @return $this
+     */
+    public function removeRouteParam($key)
+    {
+        if ($this->hasRouteParam($key)) {
+            unset($this->routeParams[$key]);
+        }
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     * @return UmbrellaRowAction
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     * @return UmbrellaRowAction
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConfirm()
+    {
+        return $this->confirm;
+    }
+
+    /**
+     * @param string $confirm
+     * @return UmbrellaRowAction
+     */
+    public function setConfirm($confirm)
+    {
+        $this->confirm = $confirm;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isXhr()
+    {
+        return $this->xhr;
+    }
+
+    /**
+     * @param bool $xhr
+     * @return UmbrellaRowAction
+     */
+    public function setXhr($xhr)
+    {
+        $this->xhr = $xhr;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTarget()
+    {
+        return $this->target;
+    }
+
+    /**
+     * @param string $target
+     * @return UmbrellaRowAction
+     */
+    public function setTarget($target)
+    {
+        $this->target = $target;
+        return $this;
+    }
+
+
+
+
 
 
 }

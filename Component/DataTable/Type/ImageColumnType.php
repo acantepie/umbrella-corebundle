@@ -61,22 +61,20 @@ class ImageColumnType extends PropertyColumnType
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefined(array(
-            'image_attr',
-            'imagine_filter',
-            'html_empty'
-        ));
+        $resolver
+            ->setDefault('image_attr', array(
+                'width' => 80,
+                'height' => 80
+            ))
+            ->setAllowedTypes('image_attr', 'array')
 
-        $resolver->setAllowedTypes('html_empty', 'string');
-        $resolver->setAllowedTypes('image_attr', 'array');
-        $resolver->setAllowedTypes('imagine_filter', 'string');
+            ->setDefault('html_empty', '')
+            ->setAllowedTypes('html_empty', 'string')
 
-        $resolver->setDefault('image_attr',  array(
-            'width' => 80,
-            'height' => 80
-        ));
-        $resolver->setDefault('html_empty', '');
-        $resolver->setDefault('class', 'text-center');
-        $resolver->setDefault('order_by', null);
+            ->setDefault('imagine_filter', null)
+            ->setAllowedTypes('imagine_filter', ['null', 'string'])
+
+            ->setDefault('class', 'text-center')
+            ->setDefault('order_by', null);
     }
 }

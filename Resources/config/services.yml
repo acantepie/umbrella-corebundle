@@ -39,11 +39,10 @@ services:
 
     Umbrella\CoreBundle\Component\DataTable\Twig\DataTableTwigExtension:
 
-    Umbrella\CoreBundle\Component\DataTable\Type\DateDiffColumnType:
-    Umbrella\CoreBundle\Component\DataTable\Type\ToggleColumnType:
     Umbrella\CoreBundle\Component\DataTable\Type\ActionColumnType:
     Umbrella\CoreBundle\Component\DataTable\Type\BadgeColumnType:
-    Umbrella\CoreBundle\Component\DataTable\Type\EnableColumnType:
+    Umbrella\CoreBundle\Component\DataTable\Type\ActiveColumnType:
+    Umbrella\CoreBundle\Component\DataTable\Type\BooleanColumnType:
     Umbrella\CoreBundle\Component\DataTable\Type\ImageColumnType:
         $cacheManager: "@liip_imagine.cache.manager"
 
@@ -71,8 +70,7 @@ services:
     Umbrella\CoreBundle\Component\DateTime\DateTimeExtension:
 
     # Other
-    Umbrella\CoreBundle\Component\RowAction\UmbrellaRowActionFactory:
-        public: true
+    Umbrella\CoreBundle\Component\RowAction\UmbrellaRowActionRenderer:
 
     # ---- Umbrella ----#
 

@@ -68,28 +68,20 @@ class ManyColumnType extends ColumnType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefined(array(
-            'one_path',
+        $resolver
+            ->setDefault('many_path', function (Options $options) {
+                return $options['id'];
+            })
+            ->setAllowedTypes('many_path', 'string')
 
-        ));
+            ->setDefault('one_path', null)
+            ->setAllowedTypes('one_path', ['null', 'string'])
 
-        $resolver->setRequired(array(
-            'many_path',
-            'one_renderer'
-        ));
+            ->setDefault('one_renderer', [$this, 'renderOne'])
+            ->setAllowedTypes('one_renderer', 'callable')
 
-        $resolver->setAllowedTypes('many_path', 'string');
-        $resolver->setAllowedTypes('one_path', 'string');
-        $resolver->setAllowedTypes('one_renderer', 'callable');
-
-        $resolver->setDefault('renderer', [$this, 'render']);
-        $resolver->setDefault('one_renderer', [$this, 'renderOne']);
-
-        $resolver->setDefault('many_path', function (Options $options) {
-            return $options['id'];
-        });
+            ->setDefault('renderer', [$this, 'render']);
     }
-
 
 
 }

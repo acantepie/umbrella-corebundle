@@ -43,10 +43,8 @@ class DateColumnType extends PropertyColumnType
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefined(array(
-            'format',
-        ));
-        $resolver->setAllowedTypes('format', 'string');
-        $resolver->setDefault('format', 'd/m/Y');
+        $resolver
+            ->setDefault('format', 'd/m/Y')
+            ->setAllowedTypes('format', 'string');
     }
 }

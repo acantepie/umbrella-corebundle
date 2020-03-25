@@ -13,7 +13,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Environment;
 use Umbrella\CoreBundle\Component\Toolbar\Model\Toolbar;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
-use Umbrella\CoreBundle\Component\RowAction\UmbrellaRowActionFactory;
 use Umbrella\CoreBundle\Component\Tree\Entity\BaseTreeEntity;
 use Umbrella\CoreBundle\Utils\ArrayUtils;
 
@@ -26,11 +25,6 @@ class Tree implements OptionsAwareInterface
      * @var ContainerInterface
      */
     private $container;
-
-    /**
-     * @var UmbrellaRowActionFactory
-     */
-    private $rowActionFactory;
 
     /**
      * @var Environment
@@ -138,7 +132,6 @@ class Tree implements OptionsAwareInterface
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->rowActionFactory = $container->get(UmbrellaRowActionFactory::class);
         $this->query = new TreeQuery($container->get('doctrine.orm.entity_manager'));
         $this->twig = $container->get('twig');
     }
@@ -179,15 +172,14 @@ class Tree implements OptionsAwareInterface
     {
         return (string) $entity;
     }
+
     /**
      * @param $entity
      * @return array|mixed
      */
     protected function getActions($entity)
     {
-        if (is_callable($this->actionBuilder)) {
-            return call_user_func($this->actionBuilder, $this, $this->rowActionFactory, $entity);
-        }
+        // TODO
         return array();
     }
 

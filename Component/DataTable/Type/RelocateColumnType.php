@@ -9,6 +9,7 @@
 namespace Umbrella\CoreBundle\Component\DataTable\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Utils\HtmlUtils;
 
 /**
  * Class SequenceColumn.
@@ -24,8 +25,7 @@ class RelocateColumnType extends PropertyColumnType
     public function render($entity, array $options)
     {
         $value =  (string) $this->accessor->getValue($entity, $options['property_path']);
-        return '<span data-sequence="' . $value . '"><i class="material-icons">drag_handle</i></span>';
-
+        return sprintf('<span data-sequence="%d">%s</span>', $value, HtmlUtils::render_icon($options['icon']));
     }
 
     /**
@@ -34,10 +34,13 @@ class RelocateColumnType extends PropertyColumnType
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
-        $resolver->setDefault('order_by', null);
-        $resolver->setDefault('order', 'ASC');
-        $resolver->setDefault('width', '10px');
-        $resolver->setDefault('renderer', [$this, 'render']);
-        $resolver->setDefault('label', '');
+        $resolver
+            ->setDefault('icon', 'menu')
+            ->setAllowedTypes('icon', 'string')
+            ->setDefault('order_by', null)
+            ->setDefault('order', 'ASC')
+            ->setDefault('width', '10px')
+            ->setDefault('renderer', [$this, 'render'])
+            ->setDefault('label', '');
     }
 }

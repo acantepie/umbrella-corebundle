@@ -28,7 +28,9 @@ class PropertyColumnType extends ColumnType
      */
     public function __construct()
     {
-        $this->accessor = PropertyAccess::createPropertyAccessor();
+        $this->accessor = PropertyAccess::createPropertyAccessorBuilder()
+            ->disableExceptionOnInvalidPropertyPath()
+            ->getPropertyAccessor();
     }
 
     /**
@@ -38,12 +40,7 @@ class PropertyColumnType extends ColumnType
      */
     public function render($entity, array $options)
     {
-        try {
-            return (string) $this->accessor->getValue($entity, $options['property_path']);
-        }
-        catch (\Exception $ex) {
-            return "";
-        }
+        return (string)$this->accessor->getValue($entity, $options['property_path']);
     }
 
     /**
@@ -51,16 +48,16 @@ class PropertyColumnType extends ColumnType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired(array(
-            'property_path',
-        ));
-        $resolver->setAllowedTypes('property_path', 'string');
-        $resolver->setDefault('property_path', function (Options $options) {
-            return $options['id'];
-        });
-        $resolver->setDefault('order_by', function (Options $options) {
-            return $options['property_path'];
-        });
-        $resolver->setDefault('renderer', [$this, 'render']);
+        $resolver
+            ->setDefault('property_path', function (Options $options) {
+                return $options['id'];
+            })
+            ->setAllowedTypes('property_path', 'string')
+
+            ->setDefault('order_by', function (Options $options) {
+                return $options['property_path'];
+            })
+
+            ->setDefault('renderer', [$this, 'render']);
     }
 }

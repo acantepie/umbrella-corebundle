@@ -9,8 +9,8 @@
 namespace Umbrella\CoreBundle\Component\DataTable\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Component\RowAction\UmbrellaRowAction;
-use Umbrella\CoreBundle\Component\RowAction\UmbrellaRowActionFactory;
+use Umbrella\CoreBundle\Component\RowAction\UmbrellaRowActionBuilder;
+use Umbrella\CoreBundle\Component\RowAction\UmbrellaRowActionRenderer;
 
 /**
  * Class ActionColumn.
@@ -18,17 +18,17 @@ use Umbrella\CoreBundle\Component\RowAction\UmbrellaRowActionFactory;
 class ActionColumnType extends ColumnType
 {
     /**
-     * @var UmbrellaRowActionFactory
+     * @var UmbrellaRowActionRenderer
      */
-    protected $rowActionFactory;
+    protected $renderer;
 
     /**
      * ActionColumnType constructor.
-     * @param UmbrellaRowActionFactory $rowActionFactory
+     * @param UmbrellaRowActionRenderer $renderer
      */
-    public function __construct(UmbrellaRowActionFactory $rowActionFactory)
+    public function __construct(UmbrellaRowActionRenderer $renderer)
     {
-        $this->rowActionFactory = $rowActionFactory;
+        $this->renderer = $renderer;
     }
 
     /**
@@ -38,19 +38,14 @@ class ActionColumnType extends ColumnType
      */
     public function render($entity, array $options)
     {
-        $actions = array();
+        $builder = new UmbrellaRowActionBuilder();
         if (is_callable($options['action_builder'])) {
-            $actions = call_user_func($options['action_builder'], $this->rowActionFactory, $entity);
-        }
-
-        if (!$actions) {
-            return '';
+            call_user_func($options['action_builder'], $builder, $entity);
         }
 
         $html = '';
-        /** @var UmbrellaRowAction $action */
-        foreach ($actions as $action) {
-            $html .= $action->render();
+        foreach ($builder->getActions() as $action) {
+            $html .= $this->renderer->render($action);
         }
         return $html;
     }
@@ -62,15 +57,13 @@ class ActionColumnType extends ColumnType
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefined(array(
-            'action_builder'
-        ));
+        $resolver
+            ->setDefault('action_builder', null)
+            ->setAllowedTypes('action_builder', array('null', 'callable'))
 
-        $resolver->setAllowedTypes('action_builder', array('null', 'callable'));
-
-        $resolver->setDefault('class', 'disable-row-click text-right');
-        $resolver->setDefault('width', '80px');
-        $resolver->setDefault('label', '');
-        $resolver->setDefault('renderer', [$this, 'render']);
+            ->setDefault('class', 'disable-row-click text-right')
+            ->setDefault('width', '100px')
+            ->setDefault('label', '')
+            ->setDefault('renderer', [$this, 'render']);
     }
 }

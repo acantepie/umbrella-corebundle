@@ -9,8 +9,7 @@
 
 namespace Umbrella\CoreBundle\Component\Menu;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Umbrella\AdminBundle\Menu\SidebarMenu;
+use Symfony\Component\Routing\RouterInterface;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
 
 /**
@@ -21,48 +20,35 @@ class MenuProvider
     /**
      * @var array
      */
-    private $menus = array();
+    private $menuFactories = array();
 
     /**
      * @var array
      */
-    private $cachedMenus = array();
+    private $menus = array();
 
     /**
-     * @var MenuBuilder
+     * @var RouterInterface
      */
-    private $builder;
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private $router;
 
     /**
      * MenuProvider constructor.
-     *
-     * @param ContainerInterface $container
-     * @param MenuBuilder        $builder
+     * @param RouterInterface $router
      */
-    public function __construct(ContainerInterface $container, MenuBuilder $builder)
+    public function __construct(RouterInterface $router)
     {
-        $this->container = $container;
-        $this->builder = $builder;
+        $this->router = $router;
     }
 
     /**
      * @param $alias
-     * @param $id
+     * @param $factory
      * @param $method
      */
-    public function register($alias, $id, $method)
+    public function register($alias, $factory, $method)
     {
-        // alias already registered
-        if ($id == SidebarMenu::class && array_key_exists($alias, $this->menus)) {
-            return;
-        }
-
-        $this->menus[$alias] = [$id, $method];
+        $this->menuFactories[$alias] = [$factory, $method];
     }
 
     /**
@@ -72,20 +58,24 @@ class MenuProvider
      */
     public function get($name)
     {
-        if (!isset($this->menus[$name])) {
+        if (!isset($this->menuFactories[$name])) {
             throw new \InvalidArgumentException(sprintf('The menu "%s" is not defined.', $name));
         }
 
-        if (!is_array($this->menus[$name]) || 2 !== count($this->menus[$name])) {
-            throw new \InvalidArgumentException(sprintf('The service definition for menu "%s" is invalid. It should be an array (serviceId, method)', $name));
+        if (!array_key_exists($name, $this->menus)) {
+            list($factory, $method) = $this->menuFactories[$name];
+            $this->menus[$name] = $factory->$method($this->createBuilder());
         }
 
-        if (!array_key_exists($name, $this->cachedMenus)) {
-            list($id, $method) = $this->menus[$name];
-            $this->cachedMenus[$name] = $this->container->get($id)->$method($this->builder);
-        }
+        return $this->menus[$name];
+    }
 
-        return $this->cachedMenus[$name];
+    /**
+     * @return MenuBuilder
+     */
+    private function createBuilder()
+    {
+        return new MenuBuilder($this->router);
     }
 
     /**

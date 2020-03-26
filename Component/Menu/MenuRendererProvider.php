@@ -8,8 +8,6 @@
 
 namespace Umbrella\CoreBundle\Component\Menu;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Umbrella\AdminBundle\Renderer\SideBarMenuRenderer;
 use Umbrella\CoreBundle\Component\Menu\Renderer\MenuRendererInterface;
 
 /**
@@ -20,48 +18,28 @@ class MenuRendererProvider
     /**
      * @var array
      */
-    private $renderersId = array();
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * MenuRendererProvider constructor.
-     *
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
+    private $renderers = array();
 
     /**
      * @param $alias
-     * @param $id
+     * @param MenuRendererInterface $renderer
      */
-    public function register($alias, $id)
+    public function register($alias, MenuRendererInterface $renderer)
     {
-        // alias already registered
-        if ($id == SideBarMenuRenderer::class && array_key_exists($alias, $this->renderersId)) {
-            return;
-        }
-
-        $this->renderersId[$alias] = $id;
+        $this->renderers[$alias] = $renderer;
     }
 
     /**
      * @param $name
-     * @return object|MenuRendererInterface
+     * @return MenuRendererInterface
      */
     public function get($name)
     {
-        if (!isset($this->renderersId[$name])) {
+        if (!isset($this->renderers[$name])) {
             throw new \InvalidArgumentException(sprintf('The menu renderer "%s" is not defined.', $name));
         }
 
-        return $this->container->get($this->renderersId[$name]);
+        return $this->renderers[$name];
     }
 
     /**

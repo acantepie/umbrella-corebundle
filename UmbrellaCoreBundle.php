@@ -20,7 +20,6 @@ class UmbrellaCoreBundle extends Bundle
     {
         parent::build($container);
         $container->addCompilerPass(new MenuPass());
-        $container->addCompilerPass(new MenuRendererPass());
         $container->addCompilerPass(new UmbrellaComponentPass());
     }
 }

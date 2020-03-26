@@ -11,16 +11,17 @@ namespace Umbrella\CoreBundle\Component\Toolbar\Type;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class AddActionType
+ * Class AddButtonActionType
  */
-class AddActionType extends ActionType
+class AddButtonActionType extends ActionType
 {
     /**
      * @inheritdoc
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('icon', 'add');
-        $resolver->setDefault('class', 'btn btn-primary');
+        $resolver
+            ->setDefault('icon', 'add')
+            ->setDefault('class', 'btn btn-primary');
     }
 }

@@ -8,9 +8,7 @@
 
 namespace Umbrella\CoreBundle\Component\Toolbar;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Routing\RouterInterface;
 use Umbrella\CoreBundle\Component\Toolbar\Model\Action;
 use Umbrella\CoreBundle\Component\Toolbar\Type\ActionType;
 
@@ -20,24 +18,17 @@ use Umbrella\CoreBundle\Component\Toolbar\Type\ActionType;
 class ActionFactory
 {
     /**
-     * @var ContainerInterface
+     * @var ActionType[]
      */
-    private $container;
+    private $actionTypes = array();
 
     /**
-     * @var RouterInterface
+     * @param $id
+     * @param ActionType $actionType
      */
-    private $router;
-
-    /**
-     * DataTableFactory constructor.
-     *
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
+    public function registerActionType($id, ActionType $actionType)
     {
-        $this->container = $container;
-        $this->router = $container->get('router');
+        $this->actionTypes[$id] = $actionType;
     }
 
     /**
@@ -49,7 +40,7 @@ class ActionFactory
     public function create($typeClass, array $options = array())
     {
         $type = $this->createType($typeClass);
-        $action = new Action($this->router);
+        $action = new Action();
 
         $resolver = new OptionsResolver();
         $action->configureOptions($resolver);
@@ -71,8 +62,8 @@ class ActionFactory
             throw new \InvalidArgumentException("Class '$typeClass' must extends ActionType class.");
         }
 
-        if ($this->container->has($typeClass)) {
-            return $this->container->get($typeClass);
+        if (array_key_exists($typeClass, $this->actionTypes)) {
+            return $this->actionTypes[$typeClass];
         } else {
             return new $typeClass();
         }

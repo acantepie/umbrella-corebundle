@@ -37,7 +37,6 @@ services:
         public: true
     Umbrella\CoreBundle\Component\DataTable\ColumnFactory:
         public: true
-
     Umbrella\CoreBundle\Component\DataTable\Twig\DataTableTwigExtension:
 
     Umbrella\CoreBundle\Component\DataTable\Type\ActionColumnType:
@@ -58,8 +57,6 @@ services:
     Umbrella\CoreBundle\Component\Toolbar\ActionFactory:
         public: true
     Umbrella\CoreBundle\Component\Toolbar\Twig\ToolbarTwigExtension:
-
-    Umbrella\CoreBundle\Component\Toolbar\Type\DropdownActionType:
 
     # Webpack
     Umbrella\CoreBundle\Component\Webpack\Twig\WebpackTwigExtension:

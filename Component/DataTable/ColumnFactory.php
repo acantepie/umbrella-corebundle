@@ -9,7 +9,6 @@
 
 namespace Umbrella\CoreBundle\Component\DataTable;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\DataTable\Model\Column;
 use Umbrella\CoreBundle\Component\DataTable\Type\ColumnType;
@@ -20,18 +19,17 @@ use Umbrella\CoreBundle\Component\DataTable\Type\ColumnType;
 class ColumnFactory
 {
     /**
-     * @var ContainerInterface
+     * @var ColumnType[]
      */
-    private $container;
+    private $columnTypes = array();
 
     /**
-     * DataTableFactory constructor.
-     *
-     * @param ContainerInterface $container
+     * @param $id
+     * @param ColumnType $columnType
      */
-    public function __construct(ContainerInterface $container)
+    public function registerColumnType($id, ColumnType $columnType)
     {
-        $this->container = $container;
+        $this->columnTypes[$id] = $columnType;
     }
 
     /**
@@ -65,8 +63,8 @@ class ColumnFactory
             throw new \InvalidArgumentException("Class '$typeClass' must extends ColumnType class.");
         }
 
-        if ($this->container->has($typeClass)) {
-            return $this->container->get($typeClass);
+        if (array_key_exists($typeClass, $this->columnTypes)) {
+            return $this->columnTypes[$typeClass];
         } else {
             return new $typeClass();
         }

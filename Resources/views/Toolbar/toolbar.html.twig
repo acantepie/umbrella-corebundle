@@ -1,4 +1,4 @@
-<div class="js-umbrella-toolbar toolbar {{ class }}">
+<div class="js-umbrella-toolbar toolbar">
 
     {% if form %}
         <form class="form-inline" enctype="multipart/form-data" data-mount="Form" method="{{ form.vars.method }}">
@@ -11,7 +11,7 @@
     {% if actions %}
         <div class="umbrella-actions">
             {% for action in actions %}
-                {% include action.template %}
+                {{ render_action(action) }}
             {% endfor %}
         </div>
     {% endif %}

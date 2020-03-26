@@ -245,11 +245,7 @@ class DataTableBuilder
 
         // resolve urls
         $table->loadUrl = $this->loadUrl;
-
-        // override some default options
-        if ($this->relocateUrl) {
-            $table->relocateUrl = $this->relocateUrl;
-        }
+        $table->relocateUrl = $this->relocateUrl;
 
         return $table;
     }

@@ -48,9 +48,9 @@ class UmbrellaCoreExtension extends Extension
         $def->addMethodCall('loadConfig', [$config['redis']]);
 
         $container->registerForAutoconfiguration(DataTableType::class)->addTag('umbrella.datatable.type');
+        $container->registerForAutoconfiguration(ColumnType::class)->addTag('umbrella.column.type');
         $container->registerForAutoconfiguration(ToolbarType::class)->addTag('umbrella.toolbar.type');
         $container->registerForAutoconfiguration(TreeType::class)->addTag('umbrella.tree.type');
-        $container->registerForAutoconfiguration(ColumnType::class)->addTag('umbrella.column.type');
         $container->registerForAutoconfiguration(ActionType::class)->addTag('umbrella.action.type');
     }
 }

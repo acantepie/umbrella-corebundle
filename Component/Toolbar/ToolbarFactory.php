@@ -9,9 +9,7 @@
 
 namespace Umbrella\CoreBundle\Component\Toolbar;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormFactoryInterface;
 use Umbrella\CoreBundle\Component\Toolbar\Model\Toolbar;
 use Umbrella\CoreBundle\Component\Toolbar\Type\ToolbarType;
 
@@ -21,18 +19,38 @@ use Umbrella\CoreBundle\Component\Toolbar\Type\ToolbarType;
 class ToolbarFactory
 {
     /**
-     * @var ContainerInterface
+     * @var FormFactoryInterface
      */
-    protected $container;
+   private $formFactory;
 
     /**
-     * DataTableFactory constructor.
-     *
-     * @param ContainerInterface $container
+     * @var ActionFactory
      */
-    public function __construct(ContainerInterface $container)
+   private $actionFactory;
+
+    /**
+     * @var ToolbarType[]
+     */
+   private $toolbarTypes = array();
+
+    /**
+     * ToolbarFactory constructor.
+     * @param FormFactoryInterface $formFactory
+     * @param ActionFactory $actionFactory
+     */
+    public function __construct(FormFactoryInterface $formFactory, ActionFactory $actionFactory)
     {
-        $this->container = $container;
+        $this->formFactory = $formFactory;
+        $this->actionFactory = $actionFactory;
+    }
+
+    /**
+     * @param $id
+     * @param ToolbarType $toolbarType
+     */
+    public function registerToolbarType($id, ToolbarType $toolbarType)
+    {
+        $this->toolbarTypes[$id] = $toolbarType;
     }
 
     /**
@@ -43,29 +61,19 @@ class ToolbarFactory
      */
     public function create($typeClass, array $options = array())
     {
-        $type = $this->createType($typeClass);
-        $toolbar = new Toolbar();
-
-        $resolver = new OptionsResolver();
-        $toolbar->configureOptions($resolver);
-        $type->configureOptions($resolver);
-        $resolvedOptions = $resolver->resolve($options);
-        $toolbar->setOptions($resolvedOptions);
-
-        // build Actions
-        $actionsBuilder = new ActionsBuilder($this->container);
-        $type->buildActions($actionsBuilder, $resolvedOptions);
-        $toolbar->actions = $actionsBuilder->getActions();
-
-        // build form
-        $formFactory = $this->container->get('form.factory');
-        $formBuilder = $formFactory->createBuilder(FormType::class, $type->defaultData($resolvedOptions), $resolvedOptions['form_options']);
-        $type->buildForm($formBuilder, $resolvedOptions);
-        $toolbar->form = $formBuilder->getForm();
-
-        return $toolbar;
+        return $this->createBuilder($typeClass, $options)->getToolbar();
     }
 
+    /**
+     * @param string $typeClass
+     * @param array  $options
+     *
+     * @return ToolbarBuilder
+     */
+    public function createBuilder($typeClass = ToolbarType::class, array $options = array())
+    {
+        return new ToolbarBuilder($this->formFactory, $this->actionFactory, $this->createType($typeClass), $options);
+    }
 
     /**
      * @param $typeClass
@@ -77,8 +85,8 @@ class ToolbarFactory
             throw new \InvalidArgumentException("Class '$typeClass' must extends ToolbarType class.");
         }
 
-        if ($this->container->has($typeClass)) {
-            return $this->container->get($typeClass);
+        if (array_key_exists($typeClass, $this->toolbarTypes)) {
+            return $this->toolbarTypes[$typeClass];
         } else {
             return new $typeClass();
         }

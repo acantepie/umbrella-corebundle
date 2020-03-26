@@ -9,14 +9,10 @@
 
 namespace Umbrella\CoreBundle\Component\Toolbar\Model;
 
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
-use Umbrella\CoreBundle\Utils\ArrayUtils;
 
 /**
  * Class Toolbar.
@@ -24,36 +20,9 @@ use Umbrella\CoreBundle\Utils\ArrayUtils;
 class Toolbar implements OptionsAwareInterface
 {
     /**
-     * @var FormFactory
-     */
-    protected $formFactory;
-
-    /**
-     * @var null|array
-     */
-    protected $formOptions;
-
-    // options
-
-    /**
      * @var array
      */
-    public $options;
-
-    /**
-     * @var string
-     */
-    public $template;
-
-    /**
-     * @var string
-     */
-    public $class;
-
-    /**
-     * @var string
-     */
-    public $submitFrom;
+    private $options;
 
     // Model
 
@@ -82,51 +51,56 @@ class Toolbar implements OptionsAwareInterface
      */
     final public function getData()
     {
-        return $this->form ? $this->form->getData() : [];
+        return $this->form ? (array) $this->form->getData() : [];
     }
 
     /**
-     * @param array $options
+     * @inheritdoc
      */
     public function setOptions(array $options = array())
     {
         $this->options = $options;
-        
-        $this->formOptions = ArrayUtils::get($options, 'form_options');
-        $this->template = ArrayUtils::get($options, 'template');
-        $this->class = ArrayUtils::get($options, 'class');
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * @inheritdoc
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefined(array(
-            'form_options',
-            'template',
-            'class'
-        ));
+        $resolver
+            ->setDefault('form_options', array(
+                'validation_groups' => false,
+                'csrf_protection' => false,
+                'label' => false,
+                'required' => false,
+                'label_class' => 'hidden',
+                'group_class' => 'col-md-12',
+                'method' => 'GET'
+            ))
+            ->setAllowedTypes('form_options', 'array')
 
-        $resolver->setAllowedTypes('form_options', 'array');
+            ->setDefault('template', '@UmbrellaCore/Toolbar/toolbar.html.twig')
+            ->setAllowedTypes('template', 'string')
 
-        $resolver->setDefault('form_options', array(
-            'validation_groups' => false,
-            'csrf_protection' => false,
-            'label_class' => 'hidden',
-            'group_class' => 'col-md-12',
-            'method' => 'GET'
-        ));
-        $resolver->setDefault('template', '@UmbrellaCore/Toolbar/toolbar.html.twig');
+            ->setDefault('form_data', null);
     }
 
-    /* Helper */
+    /**
+     * @return string
+     */
+    public function getTemplate()
+    {
+        return $this->options['template'];
+    }
 
     /**
-     * @return FormBuilderInterface
+     * @return array
      */
-    final protected function createFormBuilder()
+    public function getViewOptions()
     {
-        return $this->formFactory->createNamedBuilder('toolbar', FormType::class, null, $this->formOptions);
+        return array(
+            'form' => $this->form ? $this->form->createView() : null,
+            'actions' => $this->actions
+        );
     }
 }

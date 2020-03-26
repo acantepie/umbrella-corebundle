@@ -8,10 +8,9 @@
  */
 namespace Umbrella\CoreBundle\Component\Toolbar\Model;
 
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Routing\RouterInterface;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
-use Umbrella\CoreBundle\Utils\ArrayUtils;
 
 /**
  * Class Action
@@ -19,130 +18,77 @@ use Umbrella\CoreBundle\Utils\ArrayUtils;
 class Action implements OptionsAwareInterface
 {
     /**
-     * @var RouterInterface
-     */
-    private $router;
-
-    // options
-
-    /**
      * @var array
      */
-    public $options;
+    private $options;
+
 
     /**
-     * @var string
-     */
-    public $id;
-
-    /**
-     * @var string
-     */
-    public $template;
-
-    /**
-     * @var string
-     */
-    public $label;
-
-    /**
-     * @var string
-     */
-    public $url;
-
-    /**
-     * @var boolean
-     */
-    public $xhr;
-
-    /**
-     * @var string
-     */
-    public $class;
-
-    /**
-     * @var string
-     */
-    public $confirm;
-
-    /**
-     * @var string
-     */
-    public $icon;
-
-    /**
-     * @var string
-     */
-    public $translationPrefix = 'action.';
-
-    /**
-     * @var null|array
-     */
-    public $attributes;
-
-    /**
-     * Action constructor.
-     * @param RouterInterface $router
-     */
-    public function __construct(RouterInterface $router)
-    {
-        $this->router = $router;
-    }
-
-    /**
-     * @param array $options
+     * @inheritdoc
      */
     public function setOptions(array $options = array())
     {
         $this->options = $options;
-
-        $this->id = $options['id'];
-
-        $this->url = ArrayUtils::get($options, 'url');
-
-        $route = ArrayUtils::get($options, 'route');
-        if (empty($this->url) && !empty($route)) {
-            $this->url = $this->router->generate($route, $options['route_params']);
-        }
-
-        $this->xhr = ArrayUtils::get($options, 'xhr');
-        $this->template = ArrayUtils::get($options, 'template');
-        $this->class = ArrayUtils::get($options, 'class');
-        $this->confirm = ArrayUtils::get($options, 'confirm');
-        $this->icon = ArrayUtils::get($options, 'icon');
-        $this->label = ArrayUtils::get($options, 'label', $this->id);
-        $this->attributes = ArrayUtils::get($options, 'attr');
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * @inheritdoc
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired(array(
-            'id',
-        ));
+        $resolver
+            ->setRequired('id')
+            ->setAllowedTypes('id', 'string')
 
-        $resolver->setDefined(array(
-            'label',
-            'template',
-            'route',
-            'route_params',
-            'url',
-            'xhr',
-            'confirm',
-            'class',
-            'icon',
-            'attr',
-        ));
+            ->setDefault('label', function (Options $options) {
+                return $options['id'];
+            })
+            ->setAllowedTypes('label', 'string')
 
-        $resolver->setAllowedTypes('xhr', 'boolean');
-        $resolver->setAllowedTypes('attr', 'array');
-        $resolver->setAllowedTypes('route_params', 'array');
+            ->setDefault('label_prefix', 'action.')
+            ->setAllowedTypes('label_prefix', ['null', 'string'])
 
-        $resolver->setDefault('route_params', array());
-        $resolver->setDefault('xhr', true);
-        $resolver->setDefault('template', '@UmbrellaCore/Toolbar/Action/action.html.twig');
-        $resolver->setDefault('attr', array());
+            ->setDefault('translation_domain', 'messages')
+            ->setAllowedTypes('translation_domain', ['null', 'string'])
+
+            ->setDefault('template', '@UmbrellaCore/Toolbar/Action/action.html.twig')
+            ->setAllowedTypes('template', 'string')
+
+            ->setDefault('xhr', true)
+            ->setAllowedTypes('xhr', 'bool')
+
+            ->setDefault('route', null)
+            ->setAllowedTypes('route', ['null', 'string'])
+
+            ->setDefault('route_params', [])
+            ->setAllowedTypes('route_params', 'array')
+
+            ->setDefault('url', null)
+            ->setAllowedTypes('url', ['string', 'null'])
+
+            ->setDefault('confirm', null)
+            ->setAllowedTypes('confirm', ['null', 'string'])
+
+            ->setDefault('class', null)
+            ->setAllowedTypes('class', ['null', 'string'])
+
+            ->setDefault('icon', null)
+            ->setAllowedTypes('class', ['null', 'string']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getTemplate()
+    {
+        return $this->options['template'];
+    }
+
+    /**
+     * @return array
+     */
+    public function getViewOptions()
+    {
+        return $this->options;
     }
 }

@@ -8,9 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\Toolbar\Type;
 
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Component\Toolbar\ActionsBuilder;
+use Umbrella\CoreBundle\Component\Toolbar\ToolbarBuilder;
 
 /**
  * Class ToolbarType
@@ -18,27 +17,10 @@ use Umbrella\CoreBundle\Component\Toolbar\ActionsBuilder;
 abstract class ToolbarType
 {
     /**
-     * @param array $options
-     * @return null
-     */
-    public function defaultData(array $options)
-    {
-        return null;
-    }
-
-    /**
-     * @param ActionsBuilder $builder
+     * @param ToolbarBuilder $builder
      * @param array $options
      */
-    public function buildActions(ActionsBuilder $builder, array $options)
-    {
-    }
-
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildToolbar(ToolbarBuilder $builder, array $options)
     {
     }
 

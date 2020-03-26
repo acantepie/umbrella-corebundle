@@ -1,26 +1,27 @@
 {%- block simple_action -%}
-    <a {{ block('url_action') }} class="{{ action.class }} js-umbrella-action" {% if action.confirm %}data-confirm="{{ action.confirm | trans }}"{% endif %} {{ block('attr_action') }}>
-        {% if action.icon %}
-            {{ action.icon | icon('mr-1') }}
+    <a {{ block('url_action') }} class="{{ class }} js-umbrella-action" {% if confirm %}data-confirm="{{ confirm | trans }}"{% endif %} >
+        {% if icon %}
+            {{ icon | icon('mr-1') }}
         {% endif %}
         {{ block('label_action') }}
     </a>
 {%- endblock -%}
 
 {%- block url_action -%}
-    {% if action.url is not empty %}
-        {% if action.xhr %}data-xhr-href="{{ action.url }}" href{% else %}href="{{ action.url }}"{% endif %}
+    {% if route is not empty %}
+        {% set url = path(route, route_params) %}
+    {% else %}
+        {% set url = url %}
     {% endif %}
-{%- endblock -%}
-
-{%- block attr_action -%}
-    {% for key,value in action.attributes %}
-        {{ key }}="{{ value }}"
-    {% endfor %}
+    {% if xhr %}data-xhr-href="{{ url }}" href{% else %}href="{{ url }}"{% endif %}
 {%- endblock -%}
 
 {%- block label_action -%}
-    {% if action.label is not empty %}
-        {{ (action.translationPrefix ~ action.label) | trans }}
+    {% if label is not empty %}
+        {% if translation_domain %}
+            {{ (label_prefix ~ label) | trans([], translation_domain) | raw }}
+        {% else %}
+            {{ (label_prefix ~ label) | raw }}
+        {% endif %}
     {% endif %}
 {%- endblock -%}

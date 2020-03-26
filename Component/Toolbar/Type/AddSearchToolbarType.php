@@ -2,31 +2,34 @@
 /**
  * Created by PhpStorm.
  * User: acantepie
- * Date: 28/05/17
- * Time: 14:06.
+ * Date: 26/03/20
+ * Time: 23:13
  */
 
 namespace Umbrella\CoreBundle\Component\Toolbar\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Component\Toolbar\ActionsBuilder;
+use Umbrella\CoreBundle\Component\Toolbar\ToolbarBuilder;
+use Umbrella\CoreBundle\Form\SearchType;
 
 /**
  * Class AddSearchToolbar
  */
-class AddSearchToolbarType extends SearchToolbarType
+class AddSearchToolbarType extends ToolbarType
 {
     /**
      * @inheritdoc
      */
-    public function buildActions(ActionsBuilder $builder, array $options)
+    public function buildToolbar(ToolbarBuilder $builder, array $options)
     {
-        $builder->add('add', AddActionType::class, array(
+        $builder->addAction('add', AddButtonActionType::class, array(
             'label' => $options['add_label'],
             'route' => $options['add_route'],
             'xhr' => $options['add_xhr'],
             'route_params' => $options['add_route_params']
         ));
+
+        $builder->addFilter('search', SearchType::class);
     }
 
     /**
@@ -36,15 +39,18 @@ class AddSearchToolbarType extends SearchToolbarType
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefaults(array(
-            'add_xhr' => true,
-            'add_route_params' => array()
-        ));
+        $resolver
+            ->setDefault('add_xhr', true)
+            ->setAllowedTypes('add_xhr', 'bool')
 
-        $resolver->setRequired(array(
-            'add_label',
-            'add_route',
-        ));
+            ->setDefault('add_label', 'add_action')
+            ->setAllowedTypes('add_label','string')
+
+            ->setRequired('add_route')
+            ->setAllowedTypes('add_route', 'string')
+
+            ->setDefault('add_route_params', [])
+            ->setAllowedTypes('add_route_params','array');
 
     }
 }

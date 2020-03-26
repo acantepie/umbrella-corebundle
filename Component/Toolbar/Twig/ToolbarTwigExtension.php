@@ -11,6 +11,7 @@ namespace Umbrella\CoreBundle\Component\Toolbar\Twig;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
+use Umbrella\CoreBundle\Component\Toolbar\Model\Action;
 use Umbrella\CoreBundle\Component\Toolbar\Model\Toolbar;
 
 /**
@@ -29,6 +30,10 @@ class ToolbarTwigExtension extends AbstractExtension
                 'is_safe' => array('html'),
                 'needs_environment' => true,
             )),
+            new TwigFunction('render_action', array($this, 'renderAction'), array(
+                'is_safe' => array('html'),
+                'needs_environment' => true,
+            )),
         );
     }
 
@@ -39,13 +44,16 @@ class ToolbarTwigExtension extends AbstractExtension
      */
     public function render(Environment $twig, Toolbar $toolbar)
     {
+        return $twig->render($toolbar->getTemplate(), $toolbar->getViewOptions());
+    }
 
-        $options = array();
-        $options['toolbar'] = $toolbar;
-        $options['form'] = $toolbar->form ? $toolbar->form ->createView() : null;
-        $options['actions'] = $toolbar->actions;
-        $options['class'] = $toolbar->class;
-
-        return $twig->render($toolbar->template, $options);
+    /**
+     * @param Environment $twig
+     * @param Action $action
+     * @return string
+     */
+    public function renderAction(Environment $twig, Action $action)
+    {
+        return $twig->render($action->getTemplate(), $action->getViewOptions());
     }
 }

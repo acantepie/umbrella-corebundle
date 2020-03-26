@@ -11,7 +11,6 @@ namespace Umbrella\CoreBundle\Component\DataTable;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\DataTable\Model\Column;
 use Umbrella\CoreBundle\Component\DataTable\Type\ColumnType;
 
@@ -26,11 +25,6 @@ class ColumnFactory
     private $container;
 
     /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
      * DataTableFactory constructor.
      *
      * @param ContainerInterface $container
@@ -38,7 +32,6 @@ class ColumnFactory
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->translator = $container->get('translator');
     }
 
     /**
@@ -50,7 +43,7 @@ class ColumnFactory
     public function create($typeClass, array $options = array())
     {
         $type = $this->createType($typeClass);
-        $column = new Column($this->translator);
+        $column = new Column();
 
         $resolver = new OptionsResolver();
         $column->configureOptions($resolver);

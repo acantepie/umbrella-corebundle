@@ -18,6 +18,7 @@ services:
         $tokenStorage: "@security.token_storage"
         $language: "@security.expression_language"
         $trustResolver: "@security.authentication.trust_resolver"
+        $authChecker: "@security.authorization_checker"
         $roleHierarchy: "@security.role_hierarchy"
     Umbrella\CoreBundle\Component\Menu\MenuBuilder:
     Umbrella\CoreBundle\Component\Menu\Helper\MenuHelper:

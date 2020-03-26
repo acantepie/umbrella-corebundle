@@ -11,6 +11,7 @@ namespace Umbrella\CoreBundle\Component\Menu;
 use Sensio\Bundle\FrameworkExtraBundle\EventListener\SecurityListener;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\ExpressionLanguage;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Umbrella\CoreBundle\Component\Menu\Model\MenuNode;
@@ -37,6 +38,11 @@ class MenuAuthorizationChecker
     private $trustResolver;
 
     /**
+     * @var AuthorizationCheckerInterface
+     */
+    private $authChecker;
+
+    /**
      * @var RoleHierarchyInterface
      */
     private $roleHierarchy;
@@ -51,13 +57,15 @@ class MenuAuthorizationChecker
      * @param TokenStorageInterface $tokenStorage
      * @param ExpressionLanguage $language
      * @param AuthenticationTrustResolverInterface $trustResolver
+     * @param AuthorizationCheckerInterface $authChecker
      * @param RoleHierarchyInterface|null $roleHierarchy
      */
-    public function __construct(TokenStorageInterface $tokenStorage, ExpressionLanguage $language,  AuthenticationTrustResolverInterface $trustResolver, RoleHierarchyInterface $roleHierarchy = null)
+    public function __construct(TokenStorageInterface $tokenStorage, ExpressionLanguage $language,  AuthenticationTrustResolverInterface $trustResolver, AuthorizationCheckerInterface $authChecker, RoleHierarchyInterface $roleHierarchy = null)
     {
         $this->tokenStorage = $tokenStorage;
         $this->language = $language;
         $this->trustResolver = $trustResolver;
+        $this->authChecker = $authChecker;
         $this->roleHierarchy = $roleHierarchy;
         $this->cache = new \SplObjectStorage();
     }
@@ -123,7 +131,9 @@ class MenuAuthorizationChecker
             'token' => $token,
             'user' => $token->getUser(),
             'roles' => array_map(function ($role) { return $role->getRole(); }, $roles),
-            'trust_resolver' => $this->trustResolver
+            'trust_resolver' => $this->trustResolver,
+            // needed for the is_granted expression function
+            'auth_checker' => $this->authChecker,
         );
 
         return $variables;

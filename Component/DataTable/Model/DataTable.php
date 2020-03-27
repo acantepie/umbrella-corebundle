@@ -101,6 +101,8 @@ class DataTable implements OptionsAwareInterface
         $result = $this->source->search($this->columns, $this->query);
         $accessor = PropertyAccess::createPropertyAccessor();
 
+        $computedData = array();
+
         // compute result
         foreach ($result->data as $row) {
             $fetchedRow = array();
@@ -119,8 +121,10 @@ class DataTable implements OptionsAwareInterface
                 $fetchedRow[] = $column->render($row);
             }
 
-            $result->computedData[] = $fetchedRow;
+            $computedData[] = $fetchedRow;
         }
+
+        $result->data = $computedData;
 
         return $result;
     }

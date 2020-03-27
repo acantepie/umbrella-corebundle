@@ -29,12 +29,7 @@ class DataTableResult implements \JsonSerializable
     public $data;
 
     /**
-     * @var array
-     */
-    public $computedData = array();
-
-    /**
-     *
+     * @inheritdoc
      */
     public function jsonSerialize()
     {
@@ -42,7 +37,7 @@ class DataTableResult implements \JsonSerializable
             'draw' => $this->draw,
             'recordsTotal' => $this->count, // Total records, before filtering
             'recordsFiltered' => $this->count, // Total records, after filtering
-            'data' => $this->computedData,
+            'data' => $this->data,
         );
     }
 }

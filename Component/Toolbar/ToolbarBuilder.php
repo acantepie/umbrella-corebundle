@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Component\Source\SourceModifier;
 use Umbrella\CoreBundle\Component\Toolbar\Model\Action;
 use Umbrella\CoreBundle\Component\Toolbar\Model\Toolbar;
 use Umbrella\CoreBundle\Component\Toolbar\Type\ToolbarType;
@@ -50,6 +51,11 @@ class ToolbarBuilder
      * @var array
      */
     private $actions = array();
+
+    /**
+     * @var SourceModifier[]
+     */
+    private $sourceModifiers = array();
 
     /**
      * ToolbarBuilder constructor.
@@ -194,6 +200,25 @@ class ToolbarBuilder
         $this->actions[$id]['resolved'] = $this->actionFactory->create($action['class'], $action['options']);
     }
 
+    // Source modifier
+
+    /**
+     * @param $callback
+     * @param int $priority
+     */
+    public function addSourceModifier($callback , $priority = 0)
+    {
+        $this->sourceModifiers[] = new SourceModifier($callback, $priority);
+    }
+
+    /**
+     *
+     */
+    public function clearSourceModifiers()
+    {
+        $this->sourceModifiers = [];
+    }
+
     /**
      * @return Toolbar
      */
@@ -219,6 +244,9 @@ class ToolbarBuilder
 
         // resolve form
         $toolbar->form = $this->formBuilder->getForm();
+
+        // resolve source modifiers
+        $toolbar->sourceModifiers = $this->sourceModifiers;
 
         return $toolbar;
     }

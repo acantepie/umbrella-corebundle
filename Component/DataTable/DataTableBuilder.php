@@ -18,6 +18,7 @@ use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTableSource;
 use Umbrella\CoreBundle\Component\DataTable\Model\EntityDataTableSource;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\DataTable\Type\PropertyColumnType;
+use Umbrella\CoreBundle\Component\Source\SourceModifier;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
 
 /**
@@ -84,6 +85,11 @@ class DataTableBuilder
      * @var AbstractDataTableSource
      */
     private $source;
+
+    /**
+     * @var SourceModifier[]
+     */
+    private $sourceModifiers = array();
 
     /**
      * DataTableBuilder constructor.
@@ -212,6 +218,23 @@ class DataTableBuilder
     }
 
     /**
+     * @param $callback
+     * @param int $priority
+     */
+    public function addSourceModifier($callback , $priority = 0)
+    {
+        $this->sourceModifiers[] = new SourceModifier($callback, $priority);
+    }
+
+    /**
+     *
+     */
+    public function clearSourceModifiers()
+    {
+        $this->sourceModifiers = [];
+    }
+
+    /**
      * @return DataTable
      */
     public function getTable()
@@ -242,6 +265,10 @@ class DataTableBuilder
         if (null === $table->source) {
             throw new \RuntimeException("No source configured for datatable, call setSource() to configure one");
         }
+
+        // resolve source modifiers
+        $toolbarSourceModifiers = $table->toolbar ? $table->toolbar->sourceModifiers : [];
+        $table->source->setModifiers(array_merge($this->sourceModifiers, $toolbarSourceModifiers));
 
         // resolve urls
         $table->loadUrl = $this->loadUrl;

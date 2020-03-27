@@ -49,9 +49,7 @@ class EntityDataTableSource extends AbstractDataTableSource
             ->select('e')
             ->from($this->entityClass, 'e');
 
-//        foreach ($this->modifiers as $modifier) {
-//            $modifier->modify($qb, $query);
-//        }
+        $this->resolveModifier($qb, $query);
 
         // pagination
         if (isset($query['start'])) {

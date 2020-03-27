@@ -8,25 +8,39 @@
 
 namespace Umbrella\CoreBundle\Component\DataTable\Model;
 
+use Umbrella\CoreBundle\Component\Source\SourceModifier;
+
 /**
  * Class AbstractDataTableSource
  */
 abstract class AbstractDataTableSource
 {
     /**
-     * @var array
+     * @var SourceModifier[]
      */
     protected $modifiers = array();
 
     /**
-     * TODO : manage priority
-     *
-     * @param callable $modifier
-     * @param $priority
+     * @param array $modifiers
      */
-    public function addModifier(callable $modifier, $priority = 0)
+    public function setModifiers(array $modifiers)
     {
-        $this->modifiers[] = $modifier;
+        $this->modifiers = $modifiers;
+    }
+
+    /**
+     * @param null $parameter
+     * @param null $_
+     */
+    protected function resolveModifier($parameter = null, $_ = null)
+    {
+        uasort($this->modifiers, function (SourceModifier $a, SourceModifier $b) {
+            return $a->compare($b);
+        });
+
+        foreach ($this->modifiers as $modifier) {
+            call_user_func($modifier->getCallback(), $parameter, $_);
+        }
     }
 
     /**
@@ -35,4 +49,7 @@ abstract class AbstractDataTableSource
      * @return DataTableResult
      */
     public abstract function search(array $columns, array $query);
+
+
+
 }

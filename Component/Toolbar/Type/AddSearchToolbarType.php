@@ -8,6 +8,7 @@
 
 namespace Umbrella\CoreBundle\Component\Toolbar\Type;
 
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarBuilder;
 use Umbrella\CoreBundle\Form\SearchType;
@@ -30,6 +31,13 @@ class AddSearchToolbarType extends ToolbarType
         ));
 
         $builder->addFilter('search', SearchType::class);
+
+        $builder->addSourceModifier(function(QueryBuilder $qb, array $data) {
+            if (isset($data['form']['search'])) {
+                $qb->andWhere('lower(e.search) LIKE :search');
+                $qb->setParameter('search', '%' . strtolower($data['form']['search']) . '%');
+            }
+        });
     }
 
     /**

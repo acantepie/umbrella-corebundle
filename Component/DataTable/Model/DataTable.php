@@ -63,16 +63,34 @@ class DataTable implements OptionsAwareInterface
     private $query;
 
     /**
+     * @var boolean
+     */
+    private $isCallback = false;
+
+    /**
      * @param Request $request
      */
     public function handleRequest(Request $request)
     {
-        if ($this->toolbar) {
-            $this->toolbar->handleRequest($request);
-            $this->query = array_merge($request->query->all(), $this->toolbar->getData());
-        } else {
-            $this->query = $request->query->all();
+        $queryData = $request->query->all();
+
+        if ($request->isXmlHttpRequest() && $request->isMethod('GET') && isset($queryData['draw'])) {
+            $this->isCallback = true;
+            if ($this->toolbar) {
+                $this->toolbar->handleRequest($request);
+                $this->query = array_merge($queryData, $this->toolbar->getData());
+            } else {
+                $this->query = $queryData;
+            }
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCallback()
+    {
+        return $this->isCallback;
     }
 
     /**

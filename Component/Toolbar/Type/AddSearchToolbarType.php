@@ -51,7 +51,7 @@ class AddSearchToolbarType extends ToolbarType
             ->setDefault('add_xhr', true)
             ->setAllowedTypes('add_xhr', 'bool')
 
-            ->setDefault('add_label', 'add_action')
+            ->setDefault('add_label', 'add')
             ->setAllowedTypes('add_label','string')
 
             ->setRequired('add_route')

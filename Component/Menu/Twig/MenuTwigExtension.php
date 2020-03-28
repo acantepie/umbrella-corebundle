@@ -8,10 +8,9 @@
 
 namespace Umbrella\CoreBundle\Component\Menu\Twig;
 
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-use Umbrella\CoreBundle\Component\Menu\Helper\MenuHelper;
+use Umbrella\CoreBundle\Component\Menu\MenuHelper;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
 use Umbrella\CoreBundle\Component\Menu\Model\MenuNode;
 
@@ -26,19 +25,12 @@ class MenuTwigExtension extends AbstractExtension
     private $helper;
 
     /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
      * MenuTwigExtension constructor.
      * @param MenuHelper $helper
-     * @param TranslatorInterface $translator
      */
-    public function __construct(MenuHelper $helper, TranslatorInterface $translator)
+    public function __construct(MenuHelper $helper)
     {
         $this->helper = $helper;
-        $this->translator = $translator;
     }
 
     /**

@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
-use Umbrella\CoreBundle\Component\Menu\Helper\MenuHelper;
+use Umbrella\CoreBundle\Component\Menu\MenuHelper;
 
 /**
  * Class AppMessageBuilder.

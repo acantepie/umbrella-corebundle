@@ -9,7 +9,7 @@
 
 namespace Umbrella\CoreBundle\Component\Menu;
 
-use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
 use Umbrella\CoreBundle\Component\Menu\Model\MenuNode;
 
@@ -19,108 +19,44 @@ use Umbrella\CoreBundle\Component\Menu\Model\MenuNode;
 class MenuBuilder
 {
     /**
-     * @var RouterInterface
+     * @var array
      */
-    protected $router;
+    protected $nodes = array();
 
     /**
      * @var Menu
      */
-    protected $menu;
+    protected $resolvedMenu = null;
 
     /**
-     * MenuBuilder constructor.
-     * @param RouterInterface $router
-     */
-    public function __construct(RouterInterface $router)
-    {
-        $this->router = $router;
-        $this->menu = new Menu();
-    }
-
-    /**
-     * @return MenuNode
-     */
-    public function createRootNode()
-    {
-        $node = new MenuNode();
-        $node->type = MenuNode::TYPE_ROOT;
-
-        $this->menu->root = $node;
-        return $node;
-    }
-
-    /**
+     * @param $id
      * @param array $options
-     *
-     * @return MenuNode
      */
-    public function createHeaderNode(array $options = array())
+    public function addNode($id, array $options = array())
     {
-        $node = new MenuNode();
-        $node->type = MenuNode::TYPE_HEADER;
-
-        if (isset($options['label'])) {
-            $node->label = $options['label'];
-        }
-
-        if (isset($options['security'])) {
-            $node->securityExpression = $options['security'];
-        }
-
-        return $node;
+        $this->nodes[$id] = $options;
     }
 
     /**
+     * @param $id
      * @param array $options
-     *
-     * @return MenuNode
+     * @param MenuNode $parentNode
      */
-    public function createPageNode(array $options = array())
+    private function resolveNode($id, array $options, MenuNode $parentNode)
     {
+        $options['id'] = $id;
+
         $node = new MenuNode();
-        $node->type = MenuNode::TYPE_PAGE;
 
-        if (isset($options['label'])) {
-            $node->label = $options['label'];
+        $resolver = new OptionsResolver();
+        $node->configureOptions($resolver);
+        $resolvedOptions = $resolver->resolve($options);
+        $node->setOptions($resolvedOptions);
+        $parentNode->addChild($id, $node);
+
+        foreach ($resolvedOptions['children'] as $id => $childOptions) {
+            $this->resolveNode($id, $childOptions, $node);
         }
-
-        if (isset($options['translate'])) {
-            $node->translate = $options['translate'];
-        }
-
-        if (isset($options['icon'])) {
-            $node->icon = $options['icon'];
-        }
-
-        if (isset($options['security'])) {
-            $node->securityExpression = $options['security'];
-        }
-
-        if (isset($options['action'])) {
-            $action = $options['action'];
-
-            if (is_array($action)) {
-                if (isset($action['target'])) {
-                    $node->target = $action['target'];
-                }
-
-                if (isset($action['url'])) {
-                    $node->url = $action['url'];
-                }
-
-                if (isset($action['route'])) {
-                    $node->route = $action['route'];
-                    $node->routeParams = (isset($action['params']) && is_array($action['params'])) ? $action['params'] : array();
-                    $node->url = $this->router->generate($node->route, $node->routeParams);
-                }
-            } else {
-                $node->route = $action;
-                $node->url = $this->router->generate($node->route);
-            }
-        }
-
-        return $node;
     }
 
     /**
@@ -128,6 +64,18 @@ class MenuBuilder
      */
     public function getMenu()
     {
-       return $this->menu;
+        if (null === $this->resolvedMenu) {
+            $this->resolvedMenu = new Menu();
+
+            $rootNode = new MenuNode();
+            $rootNode->type = MenuNode::TYPE_ROOT;
+            $this->resolvedMenu->root = $rootNode;
+
+            foreach ($this->nodes as $id => $nodeOptions) {
+                $this->resolveNode($id, $nodeOptions, $rootNode);
+            }
+        }
+
+        return $this->resolvedMenu;
     }
 }

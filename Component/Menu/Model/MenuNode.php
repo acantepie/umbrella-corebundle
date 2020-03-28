@@ -9,17 +9,18 @@
 
 namespace Umbrella\CoreBundle\Component\Menu\Model;
 
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Model\OptionsAwareInterface;
+
 /**
  * Class MenuNode.
  */
-class MenuNode implements \IteratorAggregate, \Countable
+class MenuNode implements \IteratorAggregate, \Countable, OptionsAwareInterface
 {
-    const TYPE_ROOT = 'ROOT';
-    const TYPE_HEADER = 'HEADER';
-    const TYPE_PAGE = 'PAGE';
-
-    const DFT_URL = '#';
-    const DFT_TARGET = '_self';
+    const TYPE_ROOT = 'root';
+    const TYPE_TITLE = 'title';
+    const TYPE_NODE = 'node';
 
     /**
      * @var string
@@ -47,32 +48,19 @@ class MenuNode implements \IteratorAggregate, \Countable
     public $label;
 
     /**
-     * @var bool
+     * @var string
      */
-    public $translate = true;
+    public $labelPrefix;
 
     /**
      * @var string
      */
-    public $url = self::DFT_URL;
+    public $translationDomain;
 
     /**
      * @var string
      */
-    public $target = self::DFT_TARGET;
-
-    /**
-     * @var string
-     */
-    public $securityExpression = null;
-
-    /**
-     * whether the item is current. null means unknown
-     * @var boolean|null
-     */
-    public $isCurrent = null;
-
-    /* Keep route and routeParams options for url matcher */
+    public $url;
 
     /**
      * @var string
@@ -83,6 +71,80 @@ class MenuNode implements \IteratorAggregate, \Countable
      * @var array
      */
     public $routeParams = array();
+
+    /**
+     * @var string
+     */
+    public $target;
+
+    /**
+     * @var string
+     */
+    public $security;
+
+    /**
+     * whether the item is current. null means unknown
+     * @var boolean|null
+     */
+    public $isCurrent = null;
+
+    /**
+     * @param array $options
+     */
+    public function setOptions(array $options = array())
+    {
+        $this->type = $options['type'];
+        $this->label = $options['label'];
+        $this->labelPrefix = $options['label_prefix'];
+        $this->translationDomain = $options['translation_domain'];
+        $this->icon = $options['icon'];
+        $this->security = $options['security'];
+        $this->url = $options['url'];
+        $this->route = $options['route'];
+        $this->routeParams = $options['route_params'];
+    }
+
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver
+            ->setRequired('id')
+            ->setAllowedTypes('id', 'string')
+
+            ->setDefault('type', MenuNode::TYPE_NODE)
+            ->setAllowedValues('type', [MenuNode::TYPE_TITLE, MenuNode::TYPE_NODE])
+
+            ->setDefault('label', function (Options $options) {
+                return $options['id'];
+            })
+            ->setAllowedTypes('label','string')
+
+            ->setDefault('label_prefix', 'menu.')
+            ->setAllowedTypes('label_prefix', ['null', 'string'])
+
+            ->setDefault('translation_domain', 'messages')
+            ->setAllowedTypes('translation_domain', ['null', 'string'])
+
+            ->setDefault('icon', null)
+            ->setAllowedTypes('icon', ['null', 'string'])
+
+            ->setDefault('security', null)
+            ->setAllowedTypes('security', ['null', 'string'])
+
+            ->setDefault('url', null)
+            ->setAllowedTypes('url', ['null', 'string'])
+
+            ->setDefault('route', null)
+            ->setAllowedTypes('route', ['null', 'string'])
+
+            ->setDefault('route_params', [])
+            ->setAllowedTypes('route_params', ['array'])
+
+            ->setDefault('children', [])
+            ->setAllowedTypes('children', ['array']);
+    }
 
     /**
      * @param bool $current
@@ -101,18 +163,18 @@ class MenuNode implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @param $name
+     * @param $id
      * @param MenuNode $child
      * @return $this
      */
-    public function addChild($name, MenuNode $child)
+    public function addChild($id, MenuNode $child)
     {
-        if (array_key_exists($name, $this->children)) {
-            throw new \InvalidArgumentException('Cannot use this node name, name is already used by sibling.');
+        if (array_key_exists($id, $this->children)) {
+            throw new \InvalidArgumentException(sprintf('Cannot use "%s" node id, id is already used by sibling.', $id));
         }
 
         $child->parent = $this;
-        $this->children[$name] = $child;
+        $this->children[$id] = $child;
 
         return $this;
     }
@@ -139,5 +201,21 @@ class MenuNode implements \IteratorAggregate, \Countable
     public function count()
     {
         return count($this->children);
+    }
+
+    /**
+     * @return array
+     */
+    public function getBreadcrumbView()
+    {
+        return array(
+            'label' => $this->label,
+            'label_prefix' => $this->labelPrefix,
+            'translation_domain' => $this->translationDomain,
+            'url' => $this->url,
+            'icon' => $this->icon,
+            'route' => $this->route,
+            'route_params' => $this->routeParams,
+        );
     }
 }

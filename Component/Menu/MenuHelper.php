@@ -6,17 +6,14 @@
  * Time: 16:58.
  */
 
-namespace Umbrella\CoreBundle\Component\Menu\Helper;
+namespace Umbrella\CoreBundle\Component\Menu;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\Menu\Matcher\MenuMatcherInterface;
 use Umbrella\CoreBundle\Component\Menu\Matcher\MenuRequestMatcher;
-use Umbrella\CoreBundle\Component\Menu\MenuAuthorizationChecker;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
 use Umbrella\CoreBundle\Component\Menu\Model\MenuNode;
-use Umbrella\CoreBundle\Component\Menu\MenuProvider;
-use Umbrella\CoreBundle\Component\Menu\MenuRendererProvider;
 use Umbrella\CoreBundle\Component\Menu\Renderer\MenuRendererInterface;
 
 /**
@@ -132,16 +129,9 @@ class MenuHelper
         $node = $this->getCurrentNodeFromNode($menu->root);
 
         $bc = array();
-
         while ($node !== null) {
             if ($node->type !== MenuNode::TYPE_ROOT) {
-                $bc[] = array(
-                    'label' => $node->translate
-                        ? $this->translator->trans($menu->translationPrefix . $node->label)
-                        : $node->label,
-                    'url' => $node->url == MenuNode::DFT_URL ? null : $node->url,
-                    'icon' => $node->icon,
-                );
+                $bc[] = $node->getBreadcrumbView();
             }
             $node = $node->parent;
         }

@@ -9,7 +9,6 @@
 
 namespace Umbrella\CoreBundle\Component\Menu;
 
-use Symfony\Component\Routing\RouterInterface;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
 
 /**
@@ -26,20 +25,6 @@ class MenuProvider
      * @var array
      */
     private $menus = array();
-
-    /**
-     * @var RouterInterface
-     */
-    private $router;
-
-    /**
-     * MenuProvider constructor.
-     * @param RouterInterface $router
-     */
-    public function __construct(RouterInterface $router)
-    {
-        $this->router = $router;
-    }
 
     /**
      * @param $alias
@@ -64,18 +49,10 @@ class MenuProvider
 
         if (!array_key_exists($name, $this->menus)) {
             list($factory, $method) = $this->menuFactories[$name];
-            $this->menus[$name] = $factory->$method($this->createBuilder());
+            $this->menus[$name] = $factory->$method(new MenuBuilder());
         }
 
         return $this->menus[$name];
-    }
-
-    /**
-     * @return MenuBuilder
-     */
-    private function createBuilder()
-    {
-        return new MenuBuilder($this->router);
     }
 
     /**

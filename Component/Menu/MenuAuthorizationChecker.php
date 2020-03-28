@@ -87,7 +87,7 @@ class MenuAuthorizationChecker
         }
 
         // no securityExpression => look at children
-        if (empty($node->securityExpression)) {
+        if (empty($node->security)) {
 
             // no children => granted
             if (!$node->hasChildren()) {
@@ -109,7 +109,7 @@ class MenuAuthorizationChecker
             return false;
         }
 
-        $granted = $this->language->evaluate($node->securityExpression, $this->getVariables());
+        $granted = $this->language->evaluate($node->security, $this->getVariables());
         $this->cache[$node] = $granted;
         return $granted;
     }

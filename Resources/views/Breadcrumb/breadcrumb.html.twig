@@ -1,24 +1,42 @@
 {% set icon = null %}
+
 {% for item in breadcrumb %}
-    {% if item.icon is defined and item.icon is not null %}
+    {% if item.icon %}
         {% set icon = item.icon %}
     {% endif %}
 {% endfor %}
 
 <div class="breadcrumb">
-
-    {% if icon %}
-        {{ icon | icon }}
-    {% endif %}
+    {{ icon | icon }}
     <ol data-count="{{ breadcrumb | length }}">
+
         {% for item in breadcrumb %}
-            {% set url = item.url | default(null) %}
-            {% set has_url = not loop.last and url %}
-            <li class="{{ loop.last ? 'active' }}">
-                {% if has_url %}<a href="{{ url }}">{% endif %}
-                    {{ item.label }}
-                    {% if has_url %}</a>{% endif %}
-            </li>
+            {% if item.url %}
+                {% set url = item.url %}
+            {% elseif item.route %}
+                {% set url = path(item.route, item.route_params) %}
+            {% else %}
+                {% set url = null %}
+            {% endif %}
+
+            {% if item.label is not empty %}
+                {% if item.translation_domain %}
+                    {% set label = (item.label_prefix ~ item.label) | trans([], item.translation_domain) | raw %}
+                {% else %}
+                    {% set label = (item.label_prefix ~ item.label) | raw %}
+                {% endif %}
+            {% else %}
+                {% set label = null %}
+            {% endif %}
+
+            {% if loop.last %}
+                <li class="active">{{ label }}</li>
+            {% elseif url %}
+                <li><a href="{{ url }}">{{ label }}</a></li>
+            {% else %}
+                <li>{{ label }}</li>
+            {% endif %}
+
         {% endfor %}
     </ol>
 

@@ -1,6 +1,6 @@
-const Utils = require('umbrella_core/utils/Utils.js');
+import Utils from "umbrella_core/utils/Utils";
 
-class FileUpload {
+export default class FileUpload {
 
     constructor($elt) {
         this.$view = $elt;
@@ -62,5 +62,3 @@ class FileUpload {
     }
 
 }
-
-module.exports = FileUpload;

@@ -1,6 +1,6 @@
-let MessageHandler = require('./MessageHandler');
+import MessageHandler from "umbrella_core/components/appproxy/MessageHandler";
 
-class Api {
+export default class Api {
 
     static ajax(method, url, data, successCb, errorCb, completeCb) {
         let options = {
@@ -57,5 +57,3 @@ class Api {
         }
     };
 }
-
-module.exports = Api;

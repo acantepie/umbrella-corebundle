@@ -1,14 +1,15 @@
-const DatePicker = require('./DatePicker');
-const DateTimePicker = require('./DateTimePicker');
-const Fileupload = require('./FileUpload');
-const Select2 = require('./Select2');
-const AsyncSelect2 = require('./AsyncSelect2');
-const Collection = require('./Collection');
-const Interval = require('./Interval');
+import KernelComponent from "umbrella_core/core/KernelComponent";
+import DatePicker from "umbrella_core/components/form/DatePicker";
+import DateTimePicker from "umbrella_core/components/form/DateTimePicker";
+import Select2 from "umbrella_core/components/form/Select2";
+import AsyncSelect2 from "umbrella_core/components/form/AsyncSelect2";
+import FileUpload from "umbrella_core/components/form/FileUpload";
+import Collection from "umbrella_core/components/form/Collection";
 
-class Form {
+export default class Form extends KernelComponent {
 
     constructor($elt) {
+        super();
         this.$view = $elt;
         this.init();
     }
@@ -49,17 +50,11 @@ class Form {
         }
 
         this.$view.find('.js-umbrella-fileupload').each((i, e) => {
-            new Fileupload($(e));
+            new FileUpload($(e));
         });
 
         this.$view.find('.js-umbrella-collection').each((i, e) => {
             new Collection($(e));
         });
-
-        this.$view.find('.js-interval').each((i, e) => {
-            new Interval($(e));
-        });
     }
 }
-
-module.exports = Form;

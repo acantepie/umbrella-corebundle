@@ -1,13 +1,16 @@
-const Toolbar = require('../toolbar/Toolbar');
+import KernelComponent from "umbrella_core/core/KernelComponent";
+import Toolbar from "umbrella_core/components/toolbar/Toolbar";
 
 /**
  * Custom event :
  * draw:before
  * draw:done
  */
-class DataTable {
+export default class DataTable extends KernelComponent {
 
     constructor($elt) {
+        super();
+
         this.$view = $elt;
         this.$table = this.$view.find('table');
         this.$toolbarAction = this.$view.find('.js-umbrella-toolbar .umbrella-actions');
@@ -201,5 +204,3 @@ class DataTable {
         }
     }
 }
-
-module.exports = DataTable;

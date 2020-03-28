@@ -1,6 +1,6 @@
-const Utils = require('umbrella_core/utils/Utils.js');
+import Utils from "umbrella_core/utils/Utils";
 
-class Select2 {
+export default class Select2 {
 
     constructor($elt) {
         this.$view = $elt;
@@ -80,5 +80,3 @@ class Select2 {
         this.$view.show();
     }
 }
-
-module.exports = Select2;

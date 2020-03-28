@@ -1,4 +1,4 @@
-class DateTimePicker {
+export default class DateTimePicker {
 
     constructor($elt) {
         this.$view = $elt;
@@ -6,7 +6,9 @@ class DateTimePicker {
             format: this.$view.data('format') ? this.$view.data('format') : null,
             locale: 'fr',
             sideBySide: true,
-            keepOpen: false,
+            keepOpen: true,
+            // inline: true,
+            // debug: true,
             toolbarPlacement: 'bottom',
             showClear: this.$view.data('show-clear') ? this.$view.data('show-clear') : false ,
             icons: {
@@ -37,5 +39,3 @@ class DateTimePicker {
         this.$view.datetimepicker(this.options);
     }
 }
-
-module.exports = DateTimePicker;

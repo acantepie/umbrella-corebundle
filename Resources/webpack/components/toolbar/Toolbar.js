@@ -3,7 +3,7 @@
  * Custom event :
  * tb:submit
  */
-class Toolbar {
+export default class Toolbar {
 
     constructor($elt, options = {}) {
         this.$view = $elt;
@@ -21,7 +21,7 @@ class Toolbar {
 
         if (this.options['submitOnChange'] === true) { // reload on change
 
-            this.$view.on('change', 'select, input[type=checkbox], input[type=radio], .js-interval, .js-datepicker', () => {
+            this.$view.on('change', 'select, input[type=checkbox], input[type=radio], .js-datepicker', () => {
                 this.$view.trigger('submit');
             });
 
@@ -50,5 +50,3 @@ class Toolbar {
         this.options = {...defaultOptions, ...this.options};
     }
 }
-
-module.exports = Toolbar;

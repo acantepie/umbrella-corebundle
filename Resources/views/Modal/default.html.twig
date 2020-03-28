@@ -1,5 +1,5 @@
-<div class="modal fade js-umbrella-modal {% block modal_class %}{{ class | default('') }}{% endblock %}">
-    <div class="modal-dialog fade-simple {% block modal_inner_class %}{{ inner_class | default('modal-lg') }}{% endblock %}">
+<div class="modal js-umbrella-modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog {% block modal_class %}modal-lg{% endblock %}">
         <div class="modal-content">
 
             {% block modal_header %}

@@ -1,6 +1,6 @@
-require('./confirmModal.scss');
+import './confirmModal.scss';
 
-class ConfirmModal {
+export default class ConfirmModal {
 
     static template = '<div class="modal confirm-modal fade" id="confirm-modal" tabindex="-1">' +
         '<div class="modal-dialog modal-dialog-centered" role="document">' +
@@ -55,5 +55,3 @@ class ConfirmModal {
         this.$modal.modal('hide');
     }
 }
-
-module.exports = ConfirmModal;

@@ -1,4 +1,4 @@
-class AsyncSelect2 {
+export default class AsyncSelect2 {
 
     constructor($view) {
         this.$view = $view;
@@ -136,5 +136,3 @@ class AsyncSelect2 {
         this.$view.show();
     }
 }
-
-module.exports = AsyncSelect2;

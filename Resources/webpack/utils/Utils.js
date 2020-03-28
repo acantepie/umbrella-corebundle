@@ -1,4 +1,4 @@
-class Utils {
+export default class Utils {
 
     static bytes_to_size(bytes) {
         let sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -13,5 +13,3 @@ class Utils {
         return txt.value;
     }
 }
-
-module.exports = Utils;

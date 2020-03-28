@@ -20,6 +20,7 @@ class SearchType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'widget' => 'single_text',
             'label' => false,
             'input_suffix' => '<i class="fa fa-search"></i>',
             'required' => false,

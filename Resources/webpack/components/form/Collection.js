@@ -1,6 +1,6 @@
-require('./Collection.scss');
+import './Collection.scss';
 
-class Collection {
+export default class Collection {
 
     constructor($elt) {
         this.$view = $elt;
@@ -85,5 +85,3 @@ class Collection {
         }
     }
 }
-
-module.exports = Collection;

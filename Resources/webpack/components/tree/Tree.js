@@ -1,8 +1,11 @@
-require('./tree.scss');
+import KernelComponent from "umbrella_core/core/KernelComponent";
+import './tree.scss';
 
-class Tree {
+export default class Tree extends KernelComponent {
 
     constructor($elt) {
+        super();
+
         this.$view = $elt;
         this.options = $elt.data('options') || {};
 
@@ -85,5 +88,3 @@ class Tree {
     }
 
 }
-
-module.exports = Tree;

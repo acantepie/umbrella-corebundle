@@ -1,9 +1,0 @@
-{% block interval_widget %}
-{% apply spaceless %}
-    {% set type = type|default('text') %}
-    {% set attr = attr|merge({class: (attr.class|default('') ~ ' js-interval')|trim}) -%}
-    <div class="input-group">
-        {{ block('form_widget_simple') }}
-    </div>
-{% endapply %}
-{% endblock %}

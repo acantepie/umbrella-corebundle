@@ -1,6 +1,4 @@
-const Spinner = require('umbrella_core/components/spinner/Spinner');
-
-class Bindings {
+export default class Bindings {
 
     constructor($elt) {
         this.$elt = $elt;
@@ -18,7 +16,6 @@ class Bindings {
             const once = $target.data('once');
             const url = $target.data('xhr-href');
             const confirm = $target.data('confirm');
-            const spinner = $target.data('spinner');
 
             if (once && $target.data('clicked')) {
                 return false;
@@ -26,15 +23,11 @@ class Bindings {
             $target.data('clicked', true);
 
             if (confirm) {
-                const modal = new ConfirmModal(confirm, () => {
-                    spinner ? this.spinAndGET(url) : Api.GET(url);
-                });
+                const modal = new ConfirmModal(confirm, () => { Api.GET(url); });
                 modal.show();
             } else {
-                spinner ? this.spinAndGET(url) : Api.GET(url);
+                Api.GET(url);
             }
-
-
 
             return false;
         });
@@ -96,13 +89,4 @@ class Bindings {
             });
         }
     }
-
-    spinAndGET(url) {
-        Spinner.displaySpinner();
-        Api.GET(url, null, null, null, () => {
-            Spinner.hideSpinner();
-        });
-    }
 }
-
-module.exports = Bindings;

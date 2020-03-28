@@ -1,5 +1,4 @@
-
-class MessageHandler {
+export default class MessageHandler {
 
     static handlers = {
 
@@ -93,5 +92,3 @@ class MessageHandler {
         }
     }
 }
-
-module.exports = MessageHandler;

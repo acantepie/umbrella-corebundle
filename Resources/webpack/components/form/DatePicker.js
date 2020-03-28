@@ -1,4 +1,4 @@
-class DatePicker {
+export default class DatePicker {
 
     constructor($elt) {
         this.$view = $elt;
@@ -14,5 +14,3 @@ class DatePicker {
         this.$view.datepicker(this.options);
     }
 }
-
-module.exports = DatePicker;

@@ -29,9 +29,10 @@ class DataTable implements OptionsAwareInterface
     // URLS
 
     /**
+     * Let empty to submit on current url
      * @var string
      */
-    public $loadUrl;
+    public $loadUrl = '';
 
     /**
      * @var string
@@ -74,8 +75,12 @@ class DataTable implements OptionsAwareInterface
     {
         $queryData = $request->query->all();
 
-        if ($request->isXmlHttpRequest() && $request->isMethod('GET') && isset($queryData['draw'])) {
-            $this->isCallback = true;
+        $this->isCallback = $request->isXmlHttpRequest()
+            && $request->isMethod('GET')
+            && isset($queryData['_dtid'])
+            && $queryData['_dtid'] == $this->options['id'];
+
+        if ($this->isCallback) {
             if ($this->toolbar) {
                 $this->toolbar->handleRequest($request);
                 $this->query = array_merge($queryData, $this->toolbar->getData());
@@ -229,6 +234,9 @@ class DataTable implements OptionsAwareInterface
         $jsOptions['bFilter'] = false;
         $jsOptions['ajax'] = array(
             'url' => $this->loadUrl
+        );
+        $jsOptions['ajax_data'] = array(
+            '_dtid' => $this->options['id']
         );
 
         if ($this->options['paging']) {

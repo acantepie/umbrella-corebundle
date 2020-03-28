@@ -133,8 +133,7 @@ class DataTable {
             // avoid sending unused params
             delete d['columns'];
             delete d['search'];
-
-            return {...d, ...this.toolbarData()};
+            return {...d,...this.options['ajax_data'], ...this.toolbarData()};
         };
         this.options['preDrawCallback'] = (settings) => {
             this.$view.trigger('draw:before');

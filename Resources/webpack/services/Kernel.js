@@ -44,6 +44,16 @@ class Kernel {
     mountComponents($view) {
         const self = this;
 
+        // FIXME
+        if ($view.data('mount')) {
+
+            if ($view.data('component'))
+                return null;
+
+            let component = self.createComponent($view);
+            $view.data('component', component);
+        }
+
         $view.find('[data-mount]').each(function (idx, node) {
 
             let $node = $(node);

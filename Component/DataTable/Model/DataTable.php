@@ -99,7 +99,9 @@ class DataTable implements OptionsAwareInterface
     public function getApiResults()
     {
         $result = $this->source->search($this->columns, $this->query);
-        $accessor = PropertyAccess::createPropertyAccessor();
+        $accessor = PropertyAccess::createPropertyAccessorBuilder()
+            ->disableExceptionOnInvalidPropertyPath()
+            ->getPropertyAccessor();
 
         $computedData = array();
 
@@ -107,10 +109,14 @@ class DataTable implements OptionsAwareInterface
         foreach ($result->data as $row) {
             $fetchedRow = array();
 
-            // Add row id data
-            $fetchedRow['DT_RowId'] = $accessor->getValue($row, 'id');
+            $id = is_array($row)
+                ? $accessor->getValue($row, '[id]')
+                : $accessor->getValue($row, 'id');
 
-            // Add row class data
+            // Add row id data
+            $fetchedRow['DT_RowAttr'] = array('data-id' => $id);
+
+            // Add row class
             if (is_string($this->options['row_class'])) {
                 $fetchedRow['DT_RowClass'] = $this->options['row_class'];
             } else if (is_callable($this->options['row_class'])) {

@@ -1,5 +1,4 @@
 const Toolbar = require('../toolbar/Toolbar');
-const Spinner = require('umbrella_core/components/spinner/Spinner');
 
 /**
  * Custom event :
@@ -97,40 +96,6 @@ class DataTable {
             });
         }
 
-        // row click
-        if (this.options['rowClick']) {
-            this.table.on('click', 'tbody tr td:not(.disable-row-click)', (e) => {
-                let $tr = $(e.currentTarget).closest('tr');
-                let id = $tr.attr('id');
-
-                let url = this.options['rowClick']['url'].replace('123456789', id);
-                let xhr = this.options['rowClick']['xhr'];
-
-                if (!id) {
-                    return;
-                }
-
-                if (xhr) {
-                    if (this.options['rowClick']['spinner']) {
-                        Spinner.displaySpinner();
-                        Api.GET(url, null, null, null, () => {
-                            Spinner.hideSpinner();
-                        });
-                    } else {
-                        Api.GET(url);
-                    }
-                    return;
-                }
-
-                if (this.options['rowClick']['target_blank']) {
-                    window.open(url, '_blank');
-                    return;
-                }
-
-                window.location = url;
-            });
-        }
-
         // row select
         this.table.on('change', 'thead tr th.js-select input[type=checkbox]', (e) => {
             let $target = $(e.currentTarget);
@@ -204,8 +169,8 @@ class DataTable {
 
     selectedRowsIdParams() {
         let ids = [];
-        this.$table.find('tbody tr.selected').each((e, elt) => {
-            ids.push($(elt).attr('id'));
+        this.$table.find('tbody tr.selected[data-id]').each((e, elt) => {
+            ids.push($(elt).data('id'));
         });
         return {'ids': ids};
     }

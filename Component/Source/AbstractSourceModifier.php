@@ -9,15 +9,10 @@
 namespace Umbrella\CoreBundle\Component\Source;
 
 /**
- * Class SourceModifier
+ * Class AbstractSourceModifier
  */
-class SourceModifier
+abstract class AbstractSourceModifier
 {
-    /**
-     * @var callable
-     */
-    private $callback;
-
     /**
      * @var int
      */
@@ -25,22 +20,18 @@ class SourceModifier
 
     /**
      * SourceModifier constructor.
-     * @param callable $callback
      * @param int $priority
      */
-    public function __construct(callable $callback, $priority = 0)
+    public function __construct($priority = 0)
     {
-        $this->callback = $callback;
         $this->priority = $priority;
     }
 
     /**
-     * @return callable
+     * @param array $args
+     * @return mixed
      */
-    public function getCallback()
-    {
-        return $this->callback;
-    }
+    abstract public function modify(array $args);
 
     /**
      * @return int
@@ -51,10 +42,10 @@ class SourceModifier
     }
 
     /**
-     * @param SourceModifier $modifier
+     * @param CallbackSourceModifier $modifier
      * @return int
      */
-    public function compare(SourceModifier $modifier)
+    public function compare(CallbackSourceModifier $modifier)
     {
         if ($this->priority == $modifier->getPriority()) {
             return 0;

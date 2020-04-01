@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Component\Source\SourceModifier;
+use Umbrella\CoreBundle\Component\Source\AbstractSourceModifier;
 use Umbrella\CoreBundle\Component\Toolbar\Model\Action;
 use Umbrella\CoreBundle\Component\Toolbar\Model\Toolbar;
 use Umbrella\CoreBundle\Component\Toolbar\Type\ToolbarType;
@@ -53,7 +53,7 @@ class ToolbarBuilder
     private $actions = array();
 
     /**
-     * @var SourceModifier[]
+     * @var AbstractSourceModifier[]
      */
     private $sourceModifiers = array();
 
@@ -203,12 +203,11 @@ class ToolbarBuilder
     // Source modifier
 
     /**
-     * @param $callback
-     * @param int $priority
+     * @param AbstractSourceModifier $modifier
      */
-    public function addSourceModifier($callback , $priority = 0)
+    public function addSourceModifier(AbstractSourceModifier $modifier)
     {
-        $this->sourceModifiers[] = new SourceModifier($callback, $priority);
+        $this->sourceModifiers[] = $modifier;
     }
 
     /**

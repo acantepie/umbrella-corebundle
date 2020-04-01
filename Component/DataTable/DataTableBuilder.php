@@ -18,7 +18,7 @@ use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTableSource;
 use Umbrella\CoreBundle\Component\DataTable\Model\EntityDataTableSource;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\DataTable\Type\PropertyColumnType;
-use Umbrella\CoreBundle\Component\Source\SourceModifier;
+use Umbrella\CoreBundle\Component\Source\AbstractSourceModifier;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
 
 /**
@@ -87,7 +87,7 @@ class DataTableBuilder
     private $source;
 
     /**
-     * @var SourceModifier[]
+     * @var AbstractSourceModifier[]
      */
     private $sourceModifiers = array();
 
@@ -218,12 +218,11 @@ class DataTableBuilder
     }
 
     /**
-     * @param $callback
-     * @param int $priority
+     * @param AbstractSourceModifier $modifier
      */
-    public function addSourceModifier($callback , $priority = 0)
+    public function addSourceModifier(AbstractSourceModifier $modifier)
     {
-        $this->sourceModifiers[] = new SourceModifier($callback, $priority);
+        $this->sourceModifiers[] = $modifier;
     }
 
     /**
@@ -253,7 +252,7 @@ class DataTableBuilder
         if ($this->toolbarClass) {
             $table->toolbar = $this->toolbarFactory->create($this->toolbarClass, $this->toolbarOptions);
         } else {
-            $table->toolbar = $this->toolbarFactory->createFromCallback([$this->type, 'buildToolbar']);
+            $table->toolbar = $this->toolbarFactory->createFromCallback([$this->type, 'buildToolbar'], $resolvedOptions['toolbar']);
         }
 
         // resolve columns

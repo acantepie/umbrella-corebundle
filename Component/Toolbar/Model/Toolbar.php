@@ -12,7 +12,7 @@ namespace Umbrella\CoreBundle\Component\Toolbar\Model;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Component\Source\SourceModifier;
+use Umbrella\CoreBundle\Component\Source\CallbackSourceModifier;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
 
 /**
@@ -38,7 +38,7 @@ class Toolbar implements OptionsAwareInterface
     public $actions;
 
     /**
-     * @var SourceModifier[]
+     * @var CallbackSourceModifier[]
      */
     public $sourceModifiers;
 

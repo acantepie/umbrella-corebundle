@@ -8,7 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\DataTable\Model;
 
-use Umbrella\CoreBundle\Component\Source\SourceModifier;
+use Umbrella\CoreBundle\Component\Source\AbstractSourceModifier;
+use Umbrella\CoreBundle\Component\Source\CallbackSourceModifier;
 
 /**
  * Class AbstractDataTableSource
@@ -16,12 +17,12 @@ use Umbrella\CoreBundle\Component\Source\SourceModifier;
 abstract class AbstractDataTableSource
 {
     /**
-     * @var SourceModifier[]
+     * @var AbstractSourceModifier[]
      */
     protected $modifiers = array();
 
     /**
-     * @param array $modifiers
+     * @param AbstractSourceModifier[] $modifiers
      */
     public function setModifiers(array $modifiers)
     {
@@ -29,17 +30,16 @@ abstract class AbstractDataTableSource
     }
 
     /**
-     * @param null $parameter
-     * @param null $_
+     * @param array $args
      */
-    protected function resolveModifier($parameter = null, $_ = null)
+    protected function resolveModifier(array $args)
     {
-        uasort($this->modifiers, function (SourceModifier $a, SourceModifier $b) {
+        uasort($this->modifiers, function (CallbackSourceModifier $a, CallbackSourceModifier $b) {
             return $a->compare($b);
         });
 
         foreach ($this->modifiers as $modifier) {
-            call_user_func($modifier->getCallback(), $parameter, $_);
+            $modifier->modify($args);
         }
     }
 

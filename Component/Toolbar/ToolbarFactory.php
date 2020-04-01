@@ -11,6 +11,7 @@ namespace Umbrella\CoreBundle\Component\Toolbar;
 
 use Symfony\Component\Form\FormFactoryInterface;
 use Umbrella\CoreBundle\Component\Toolbar\Model\Toolbar;
+use Umbrella\CoreBundle\Component\Toolbar\Type\CallbackToolbarType;
 use Umbrella\CoreBundle\Component\Toolbar\Type\ToolbarType;
 
 /**
@@ -73,6 +74,16 @@ class ToolbarFactory
     public function createBuilder($typeClass = ToolbarType::class, array $options = array())
     {
         return new ToolbarBuilder($this->formFactory, $this->actionFactory, $this->createType($typeClass), $options);
+    }
+
+    /**
+     * @param callable $callback
+     * @param array $options
+     * @return Toolbar
+     */
+    public function createFromCallback(callable  $callback, array $options = array())
+    {
+        return (new ToolbarBuilder($this->formFactory, $this->actionFactory, new CallbackToolbarType($callback), $options))->getToolbar();
     }
 
     /**

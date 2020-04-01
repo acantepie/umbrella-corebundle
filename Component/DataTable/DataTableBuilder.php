@@ -252,6 +252,8 @@ class DataTableBuilder
         // resolve toolbar
         if ($this->toolbarClass) {
             $table->toolbar = $this->toolbarFactory->create($this->toolbarClass, $this->toolbarOptions);
+        } else {
+            $table->toolbar = $this->toolbarFactory->createFromCallback([$this->type, 'buildToolbar']);
         }
 
         // resolve columns

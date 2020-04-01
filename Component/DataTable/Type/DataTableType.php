@@ -11,12 +11,22 @@ namespace Umbrella\CoreBundle\Component\DataTable\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\DataTable\DataTableBuilder;
+use Umbrella\CoreBundle\Component\Toolbar\ToolbarBuilder;
+use Umbrella\CoreBundle\Component\Toolbar\Type\ToolbarType;
 
 /**
  * Class DataTableType.
  */
-abstract class DataTableType
+class DataTableType extends ToolbarType
 {
+    /**
+     * @param ToolbarBuilder $builder
+     * @param array $options
+     */
+    public function buildToolbar(ToolbarBuilder $builder, array $options = array())
+    {
+    }
+
     /**
      * @param DataTableBuilder $builder
      * @param array            $options

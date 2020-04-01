@@ -14,7 +14,7 @@ use Umbrella\CoreBundle\Component\Toolbar\ToolbarBuilder;
 /**
  * Class ToolbarType
  */
-abstract class ToolbarType
+class ToolbarType
 {
     /**
      * @param ToolbarBuilder $builder

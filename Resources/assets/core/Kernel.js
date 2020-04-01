@@ -15,6 +15,21 @@ export default class Kernel {
         }
     }
 
+    // TODO - FIXME
+    getComponent(cssId) {
+        const $view = $('#' + cssId);
+
+        if ($view.length === 0) {
+            return null;
+        }
+
+        if (!$view.data('component')) { // not mount
+            return null;
+        }
+
+        return $view.data('component');
+    }
+
     mountComponent(id, $view) {
         if ($view.data('component')) { // already mount
             return;

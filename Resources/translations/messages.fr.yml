@@ -45,11 +45,6 @@ action:
     mark_all_as_seen: Tous marquer comme lus
     see_more: Voir plus
 
-toastr:
-    entity_updated: L'élément a bien été mis à jour.
-    entity_added: L'élément a bien été crée.
-    entity_deleted: L'élément a été supprimé.
-
 form:
     header:
         identity: Identité
@@ -67,7 +62,7 @@ form:
         roles: Roles
         avatar: Avatar
         your_email: Votre email
-        active: Activer
+        active: Actif
 
     placeholder:
         search: Rechercher ...

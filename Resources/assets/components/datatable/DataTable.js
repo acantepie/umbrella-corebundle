@@ -169,7 +169,7 @@ export default class DataTable extends KernelComponent {
 
     toolbarData() {
         return this.$toolbarForm.length
-            ? this.$toolbarForm.serializeObject()
+            ? this.$toolbarForm.serializeFormToJson()
             : [];
     }
 

@@ -2,7 +2,7 @@
  * @see https://stackoverflow.com/questions/5392344/sending-multipart-formdata-with-jquery-ajax
  */
 (function($) {
-    $.fn.serializeFiles = function() {
+    $.fn.serializeFormToFormData = function() {
         var $obj = $(this);
         /* ADD FILE TO PARAM AJAX */
         var formData = new FormData();

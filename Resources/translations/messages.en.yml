@@ -45,11 +45,6 @@ action:
   mark_all_as_seen: Mark all as seen
   see_more: See more
 
-toastr:
-  entity_updated: Element has been updated.
-  entity_added: lement has been created.
-  entity_deleted: Element has been deleted.
-
 form:
   header:
     identity: Identity

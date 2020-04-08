@@ -2,7 +2,7 @@
  * @see https://stackoverflow.com/questions/1184624/convert-form-data-to-javascript-object-with-jquery
  */
 (function($){
-    $.fn.serializeObject = function(options){
+    $.fn.serializeFormToJson = function(options){
 
         var self = this,
             json = {},
@@ -15,7 +15,7 @@
                 "named":    /^[a-zA-Z0-9_]+$/
             };
 
-        var opts = $.extend( {}, $.fn.serializeObject.defaults, options );
+        var opts = $.extend( {}, $.fn.serializeFormToJson.defaults, options );
 
 
         this.build = function(base, key, value){
@@ -73,7 +73,7 @@
         return json;
     };
 
-    $.fn.serializeObject.defaults = {
+    $.fn.serializeFormToJson.defaults = {
         empty: true,
     };
 })(jQuery);

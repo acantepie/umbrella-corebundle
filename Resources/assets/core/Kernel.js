@@ -1,7 +1,6 @@
 import KernelComponent from "umbrella_core/core/KernelComponent";
 import KernelAjaxHandler from "umbrella_core/core/KernelAjaxHandler";
 import AjaxUtils from "umbrella_core/utils/AjaxUtils";
-import ConfirmModal from "umbrella_core/components/confirmModal/ConfirmModal";
 
 export default class Kernel {
 
@@ -54,8 +53,11 @@ export default class Kernel {
 
         const confirm = $link.data('confirm');
         if (confirm) {
-            new ConfirmModal(confirm, () => {
-                AjaxUtils.get(options);
+            $.confirm({
+                'text': confirm,
+                'confirm' : () => {
+                    AjaxUtils.get(options);
+                }
             });
         } else {
             AjaxUtils.get(options);
@@ -63,7 +65,7 @@ export default class Kernel {
     }
 
     handleAjaxForm($form) {
-        let formData = $form.serializeFiles();
+        let formData = $form.serializeFormToFormData();
 
         if (this.$submitButton !== undefined && this.$submitButton.name) {
             formData.append(this.$submitButton.name, this.$submitButton.value);

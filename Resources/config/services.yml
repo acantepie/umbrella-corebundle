@@ -23,8 +23,8 @@ services:
     # Breadcrumb
     Umbrella\CoreBundle\Component\Breadcrumb\BreadcrumbTwigExtension:
 
-    # App proxy
-    Umbrella\CoreBundle\Component\AppProxy\AppMessageBuilder:
+    # JsResponse
+    Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder:
         public: true
 
     # DataTable

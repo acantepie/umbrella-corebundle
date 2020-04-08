@@ -12,11 +12,11 @@ namespace Umbrella\CoreBundle\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Umbrella\CoreBundle\Component\AppProxy\AppMessageBuilder;
 use Umbrella\CoreBundle\Component\DataTable\DataTableBuilder;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\DataTable\DataTableFactory;
 use Umbrella\CoreBundle\Component\DataTable\Model\DataTable;
+use Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder;
 use Umbrella\CoreBundle\Component\Menu\MenuHelper;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
 use Umbrella\CoreBundle\Component\Toolbar\Model\Toolbar;
@@ -103,11 +103,11 @@ abstract class BaseController extends AbstractController
     }
 
     /**
-     * @return AppMessageBuilder
+     * @return JsResponseBuilder
      */
-    protected function appMessageBuilder()
+    protected function jsResponseBuilder()
     {
-        return $this->get(AppMessageBuilder::class);
+        return $this->get(JsResponseBuilder::class);
     }
 
     /**
@@ -274,7 +274,7 @@ abstract class BaseController extends AbstractController
                 ToolbarFactory::class,
                 DataTableFactory::class,
                 TreeFactory::class,
-                AppMessageBuilder::class,
+                JsResponseBuilder::class,
                 'translator' => TranslatorInterface::class
             )
         );

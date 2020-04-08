@@ -6,19 +6,34 @@
  * Time: 01:46.
  */
 
-namespace Umbrella\CoreBundle\Component\AppProxy;
+namespace Umbrella\CoreBundle\Component\JsResponse;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use Umbrella\CoreBundle\Component\Menu\MenuHelper;
 
 /**
- * Class AppMessageBuilder.
+ * Class JsResponseBuilder
  */
-class AppMessageBuilder
+class JsResponseBuilder
 {
+
+    const TOAST = 'toast';
+    const EXECUTE_JS = 'execute_js';
+    const REDIRECT = 'redirect';
+    const RELOAD = 'reload';
+
+    const UPDATE_HTML = 'update';
+    const REMOVE_HTML = 'remove';
+
+    const OPEN_MODAL = 'open_modal';
+    const CLOSE_MODAL = 'close_modal';
+
+    const RELOAD_TREE = 'reload_tree';
+    const RELOAD_TABLE = 'reload_table';
+    const RELOAD_MENU = 'reload_menu';
+    
     /**
      * @var array
      */
@@ -60,6 +75,19 @@ class AppMessageBuilder
         $this->menuHelper = $menuHelper;
     }
 
+
+    /**
+     * @param $action
+     * @param array $params
+     *
+     * @return JsResponseBuilder
+     */
+    public function add($action, $params = array())
+    {
+        $this->messages[] = new JsMessage($action, $params);
+        return $this;
+    }
+
     /**
      * Clear all messages.
      * @return $this
@@ -71,18 +99,48 @@ class AppMessageBuilder
     }
 
     /**
-     * @return array
+     *
      */
-    public function getMessages()
+    private function orderActions()
     {
-        return $this->messages;
+        uasort($this->messages, function (JsMessage $a, JsMessage $b) {
+            return $a->compare($b);
+        });
     }
+
+    /**
+     * @return JsResponse
+     */
+    public function getResponse()
+    {
+        $this->orderActions();
+        return new JsResponse($this->messages);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getIterator()
+    {
+        $this->orderActions();
+        return new \ArrayIterator($this->messages);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function count()
+    {
+        return count($this->messages);
+    }
+
+
 
     // Misc actions
 
     public function toast($id, array $parameters = array(), $level = 'success')
     {
-        return $this->add(AppMessage::TOAST, array(
+        return $this->add(self::TOAST, array(
             'value' => $this->translator->trans($id, $parameters),
             'level' => $level,
         ));
@@ -115,19 +173,19 @@ class AppMessageBuilder
 
     public function redirect($url)
     {
-        return $this->add(AppMessage::REDIRECT, array(
+        return $this->add(self::REDIRECT, array(
             'value' => $url,
         ));
     }
 
     public function reload()
     {
-        return $this->add(AppMessage::RELOAD);
+        return $this->add(self::RELOAD);
     }
 
     public function execute($js)
     {
-        return $this->add(AppMessage::EXECUTE_JS, array(
+        return $this->add(self::EXECUTE_JS, array(
             'value' => $js,
         ));
     }
@@ -136,7 +194,7 @@ class AppMessageBuilder
 
     public function update($css_selector, $html)
     {
-        return $this->addHtmlMessage(AppMessage::UPDATE_HTML, $html, $css_selector);
+        return $this->addHtmlMessage(self::UPDATE_HTML, $html, $css_selector);
     }
 
     public function updateView($css_selector, $template, array $context = array())
@@ -146,7 +204,7 @@ class AppMessageBuilder
 
     public function remove($css_selector)
     {
-        return $this->addHtmlMessage(AppMessage::REMOVE_HTML, null, $css_selector);
+        return $this->addHtmlMessage(self::REMOVE_HTML, null, $css_selector);
     }
 
 
@@ -154,7 +212,7 @@ class AppMessageBuilder
 
     public function openModal($html)
     {
-        return $this->addHtmlMessage(AppMessage::OPEN_MODAL, $html);
+        return $this->addHtmlMessage(self::OPEN_MODAL, $html);
     }
 
     public function openModalView($template, array $context = array())
@@ -164,14 +222,14 @@ class AppMessageBuilder
 
     public function closeModal()
     {
-        return $this->addHtmlMessage(AppMessage::CLOSE_MODAL);
+        return $this->addHtmlMessage(self::CLOSE_MODAL);
     }
 
     // Components actions
 
     public function reloadTable($id)
     {
-        return $this->add(AppMessage::RELOAD_TABLE, array(
+        return $this->add(self::RELOAD_TABLE, array(
             'id' => $id,
         ));
     }
@@ -185,7 +243,7 @@ class AppMessageBuilder
 
     public function reloadTree($id)
     {
-        return $this->add(AppMessage::RELOAD_TREE, array(
+        return $this->add(self::RELOAD_TREE, array(
             'id' => $id,
         ));
     }
@@ -194,24 +252,11 @@ class AppMessageBuilder
     // Utils
 
     /**
-     * @param $action
-     * @param array $params
-     *
-     * @return AppMessageBuilder
-     */
-    private function add($action, $params = array())
-    {
-        $this->messages[] = new AppMessage($action, $params);
-
-        return $this;
-    }
-
-    /**
      * @param $type
      * @param $html
      * @param $css_selector
      *
-     * @return AppMessageBuilder
+     * @return JsResponseBuilder
      */
     private function addHtmlMessage($type, $html = null, $css_selector = null)
     {
@@ -219,13 +264,5 @@ class AppMessageBuilder
             'value' => $html,
             'selector' => $css_selector,
         ));
-    }
-
-    /**
-     * @return JsonResponse
-     */
-    public function getResponse()
-    {
-        return new JsonResponse($this->messages);
     }
 }

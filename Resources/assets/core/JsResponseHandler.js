@@ -1,4 +1,6 @@
-export default class MessageHandler {
+import KernelAjaxHandler from "umbrella_core/core/KernelAjaxHandler";
+
+export default class JsResponseHandler extends KernelAjaxHandler {
 
     static handlers = {
 
@@ -83,10 +85,29 @@ export default class MessageHandler {
 
     };
 
-    static handle(message) {
-        let handler = MessageHandler.handlers[message.action];
+    handleSuccess(response) {
+        if (Array.isArray(response)) {
+            for (const message of response) {
+                this.handleMessage(message);
+            }
+        } else {
+            console.error('JsResponseHandler : invalid response, expected json array.');
+        }
+    }
+
+    handleError(requestObject, error, errorThrown)
+    {
+        if (requestObject.status === 401) {
+            toastr.warning("Vous n'etes plus connecté. Veuillez rafraichir la page pour vous authentifier");
+        } else {
+            toastr.error('Une erreur est survenue');
+        }
+    }
+
+    handleMessage(message) {
+        let handler = JsResponseHandler.handlers[message.action];
         if (!handler) {
-            console.error('App message handler : no handler found for message ', message);
+            console.warning('JsResponseHandler : invalid action ' + message.action);
         } else {
             handler(message.params);
         }

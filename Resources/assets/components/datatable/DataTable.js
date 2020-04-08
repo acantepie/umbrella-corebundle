@@ -1,5 +1,6 @@
 import KernelComponent from "umbrella_core/core/KernelComponent";
 import Toolbar from "umbrella_core/components/toolbar/Toolbar";
+import AjaxUtils from "umbrella_core/utils/AjaxUtils";
 
 /**
  * Custom event :
@@ -57,7 +58,10 @@ export default class DataTable extends KernelComponent {
 
                 // do ajax call and send extra params
                 if ($target.data('xhr-href')) {
-                    Api.GET($target.data('xhr-href'), this.table.ajax.params());
+                    AjaxUtils.get({
+                        url: $target.data('xhr-href'),
+                        data: this.table.ajax.params()
+                    });
                 } else {
                     window.location.href = $target.attr('href') + '?' + $.param(this.table.ajax.params());
                 }
@@ -72,7 +76,10 @@ export default class DataTable extends KernelComponent {
 
                 // do ajax call and send extra params
                 if ($target.data('xhr-href')) {
-                    Api.GET($target.data('xhr-href'), this.selectedRowsIdParams());
+                    AjaxUtils.get({
+                        url: $target.data('xhr-href'),
+                        data: this.selectedRowsIdParams()
+                    });
                 } else {
                     window.location.href = $target.attr('href') + '?' + $.param(this.selectedRowsIdParams());
                 }
@@ -94,7 +101,12 @@ export default class DataTable extends KernelComponent {
 
                 let ajax_url = this.options['rowReorder']['url'];
                 if (ajax_url) {
-                    Api.GET(ajax_url, {'change_set' : changeSet});
+                    AjaxUtils.get({
+                        url :ajax_url,
+                        data: {
+                            'change_set' : changeSet
+                        }
+                    });
                 }
             });
         }

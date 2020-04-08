@@ -1,11 +1,86 @@
 import KernelComponent from "umbrella_core/core/KernelComponent";
+import KernelAjaxHandler from "umbrella_core/core/KernelAjaxHandler";
+import AjaxUtils from "umbrella_core/utils/AjaxUtils";
+import ConfirmModal from "umbrella_core/components/confirmModal/ConfirmModal";
 
 export default class Kernel {
 
     constructor() {
+        this.$container = $('html');
         this.registry = {};
+        this.ajaxHandlers = {};
     }
 
+    init() {
+        this.bind();
+        this.mountComponents(this.$container);
+    }
+
+
+    bind() {
+        this.$container.on('click', '[data-xhr-href]', (e) => {
+            e.preventDefault();
+            this.handleAjaxLink($(e.currentTarget));
+        });
+
+        // bind xhr form
+        this.$container.on('submit', 'form[data-xhr-action]', (e) => {
+            e.preventDefault();
+            this.handleAjaxForm($(e.currentTarget));
+        });
+
+        // bind xhr buttons
+        this.$container.on('click', ':submit', (e) => {
+            this.$submitButton = e.currentTarget;
+        });
+
+        // bind bootstrap tooltips
+        if ($.tooltip) {
+            this.$container.find('[data-toggle="tooltip"]').tooltip();
+        }
+
+        // bind popover
+        if ($.popover) {
+            $('[data-toggle="popover"]').popover({
+                container: 'body'
+            });
+        }
+    }
+
+    handleAjaxLink($link) {
+        const options = {
+            url: $link.data('xhr-href')
+        };
+
+        const confirm = $link.data('confirm');
+        if (confirm) {
+            new ConfirmModal(confirm, () => {
+                AjaxUtils.get(options);
+            });
+        } else {
+            AjaxUtils.get(options);
+        }
+    }
+
+    handleAjaxForm($form) {
+        let formData = $form.serializeFiles();
+
+        if (this.$submitButton !== undefined && this.$submitButton.name) {
+            formData.append(this.$submitButton.name, this.$submitButton.value);
+        }
+
+        const options = {
+            url: $form.data('xhr-action'),
+            method: $form.attr('method'),
+            data: formData
+        };
+
+        AjaxUtils.ajax(options);
+    }
+
+
+
+    // --- Component
 
     registerComponent(id, definition) {
         if (!definition instanceof KernelComponent) {
@@ -51,7 +126,17 @@ export default class Kernel {
         });
     }
 
-    listDefinition() {
-        console.log(this.registry);
+    // --- Ajax handler
+
+    registerAjaxHandler(id, definition) {
+        if (!definition instanceof KernelAjaxHandler) {
+            console.error(`Can'register ajax handler ${id}, he must extends KernelAjaxHandler`);
+        } else {
+            this.ajaxHandlers[id] = new definition();
+        }
+    }
+
+    getAjaxHandler(id) {
+        return id in this.ajaxHandlers ? this.ajaxHandlers[id] : null;
     }
 }

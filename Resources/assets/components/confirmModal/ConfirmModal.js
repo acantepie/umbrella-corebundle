@@ -16,6 +16,7 @@ export default class ConfirmModal {
         this.onHide = onHide;
 
         this.$modal = null;
+        this.show();
     }
 
     show() {

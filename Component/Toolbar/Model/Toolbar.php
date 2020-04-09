@@ -79,8 +79,6 @@ class Toolbar implements OptionsAwareInterface
                 'csrf_protection' => false,
                 'label' => false,
                 'required' => false,
-                'label_class' => 'hidden',
-                'group_class' => 'col-md-12',
                 'method' => 'GET'
             ))
             ->setAllowedTypes('form_options', 'array')

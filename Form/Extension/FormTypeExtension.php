@@ -10,7 +10,6 @@ namespace Umbrella\CoreBundle\Form\Extension;
 
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,9 +26,8 @@ class FormTypeExtension extends AbstractTypeExtension
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $this->setView($view, $form, 'label_class', 'col-md-3');
-        $this->setView($view, $form, 'group_class', 'col-md-8');
-        $this->setView($view, $form, 'row_class', '');
+        $this->setView($view, $form, 'label_class', $options['label_class']);
+        $this->setView($view, $form, 'group_class', $options['group_class']);
 
         if ($view->vars['label'] !== false) {
             if (empty($view->vars['label'])) {
@@ -40,13 +38,6 @@ class FormTypeExtension extends AbstractTypeExtension
                 $view->vars['label'] = $options['label_prefix'] . $view->vars['label'];
             }
         }
-
-        if (isset($options['help'])) {
-            $view->vars['help'] = $options['help'];
-        }
-        if (isset($options['help_class'])) {
-            $view->vars['help_class'] = $options['help_class'];
-        }
         if (isset($options['header'])) {
             $view->vars['header'] = $options['header'];
         }
@@ -55,35 +46,29 @@ class FormTypeExtension extends AbstractTypeExtension
         $view->vars['input_suffix'] = $options['input_suffix'];
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $this->setAttribute($builder, $options, 'label_class');
-        $this->setAttribute($builder, $options, 'group_class');
-        $this->setAttribute($builder, $options, 'row_class');
-    }
-
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefined(array(
-            'label_class',
-            'group_class',
-            'row_class',
-            'help',
-            'help_class',
-            'header',
-            'input_prefix',
-            'input_suffix'
-        ));
+        $resolver
+            ->setDefault('label_class', 'col-sm-2')
+            ->setAllowedTypes('label_class', ['string', 'null'])
 
-        $resolver->setDefault('label_prefix', 'form.label.');
-        $resolver->setDefault('input_prefix', null);
-        $resolver->setDefault('input_suffix', null);
+            ->setDefault('group_class', 'col-sm-10')
+            ->setAllowedTypes('group_class', ['string', 'null'])
 
-        $resolver->setAllowedTypes('input_prefix', ['string', 'null']);
-        $resolver->setAllowedTypes('input_suffix', ['string', 'null']);
+            ->setDefault('label_prefix', 'form.label.')
+            ->setAllowedTypes('label_prefix', ['null', 'string'])
+
+            ->setDefault('header', null)
+            ->setAllowedTypes('header', ['null', 'string'])
+
+            ->setDefault('input_prefix', null)
+            ->setAllowedTypes('input_prefix', ['null', 'string'])
+
+            ->setDefault('input_suffix', null)
+            ->setAllowedTypes('input_suffix', ['null', 'string']);
     }
 
     /**
@@ -97,31 +82,17 @@ class FormTypeExtension extends AbstractTypeExtension
     /* Helper */
 
     /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     * @param $optionName
-     */
-    protected function setAttribute(FormBuilderInterface $builder, array $options, $optionName)
-    {
-        if (isset($options[$optionName])) {
-            $builder->setAttribute($optionName, $options[$optionName]);
-        }
-    }
-
-    /**
-     * @param FormView      $view
+     * @param FormView $view
      * @param FormInterface $form
      * @param $attributeName
-     * @param $defaultValue
+     * @param $attributeValue
      */
-    protected function setView(FormView $view, FormInterface $form, $attributeName, $defaultValue)
+    protected function setView(FormView $view, FormInterface $form, $attributeName, $attributeValue)
     {
-        if ($form->getConfig()->hasAttribute($attributeName)) { // if attribute is defined -> set it to view
-            $view->vars[$attributeName] = $form->getConfig()->getAttribute($attributeName);
+        if ($attributeValue !== null) {
+            $view->vars[$attributeName] = $attributeValue;
         } elseif ($form->getRoot()->getConfig()->hasAttribute($attributeName)) { // else if root has attribute defined -> set it to view
             $view->vars[$attributeName] = $form->getRoot()->getConfig()->getAttribute($attributeName);
-        } else { // else set default value to view
-            $view->vars[$attributeName] = $defaultValue;
         }
     }
 }

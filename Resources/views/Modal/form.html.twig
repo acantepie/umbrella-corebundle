@@ -1,11 +1,7 @@
 {% extends "@UmbrellaCore/Modal/default.html.twig" %}
 
 {% block modal_body %}
-    <form class="form-label-right"
-          enctype="multipart/form-data"
-          method="POST"
-          data-mount="Form"
-          data-xhr-action="{{ action | default(app.request.uri) }}">
+    <form enctype="multipart/form-data" method="POST" data-mount="Form" data-xhr-action="{{ action | default(app.request.uri) }}">
 
         <div class="modal-body {% block modal_body_class %}{% endblock %}">
             {% block modal_content %}

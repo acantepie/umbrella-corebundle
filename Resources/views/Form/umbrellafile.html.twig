@@ -8,7 +8,7 @@
 
         <div class="input-group">
             {# Use readonly class to allow required attribute #}
-            {{ form_widget(form.text, { 'attr' : { 'class' : 'js-umbrella-text readonly' }}) }}
+            {{ form_widget(form.text, { 'attr' : { 'class' : 'js-umbrella-text', 'readonly' : true }}) }}
 
             <div class="input-group-append">
                 {% if allow_delete %}

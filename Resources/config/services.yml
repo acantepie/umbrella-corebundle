@@ -41,11 +41,6 @@ services:
     Umbrella\CoreBundle\Component\DataTable\Type\ImageColumnType:
         $cacheManager: "@liip_imagine.cache.manager"
 
-    # Tree
-    Umbrella\CoreBundle\Component\Tree\TreeFactory:
-        public: true
-    Umbrella\CoreBundle\Component\Tree\Twig\TreeTwigExtension:
-
     # Toolbar
     Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory:
         public: true

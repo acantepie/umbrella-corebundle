@@ -10,7 +10,6 @@ use Umbrella\CoreBundle\Component\DataTable\Type\ColumnType;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\Toolbar\Type\ActionType;
 use Umbrella\CoreBundle\Component\Toolbar\Type\ToolbarType;
-use Umbrella\CoreBundle\Component\Tree\Type\TreeType;
 use Umbrella\CoreBundle\Component\Webpack\Twig\WebpackTwigExtension;
 use Umbrella\CoreBundle\Services\UmbrellaFileUploader;
 use Umbrella\CoreBundle\Services\UmbrellaRedis;
@@ -50,7 +49,6 @@ class UmbrellaCoreExtension extends Extension
         $container->registerForAutoconfiguration(DataTableType::class)->addTag('umbrella.datatable.type');
         $container->registerForAutoconfiguration(ColumnType::class)->addTag('umbrella.column.type');
         $container->registerForAutoconfiguration(ToolbarType::class)->addTag('umbrella.toolbar.type');
-        $container->registerForAutoconfiguration(TreeType::class)->addTag('umbrella.tree.type');
         $container->registerForAutoconfiguration(ActionType::class)->addTag('umbrella.action.type');
     }
 }

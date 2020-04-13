@@ -21,8 +21,6 @@ use Umbrella\CoreBundle\Component\Menu\MenuHelper;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
 use Umbrella\CoreBundle\Component\Toolbar\Model\Toolbar;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
-use Umbrella\CoreBundle\Component\Tree\Model\Tree;
-use Umbrella\CoreBundle\Component\Tree\TreeFactory;
 
 /**
  * Class BaseController.
@@ -119,17 +117,6 @@ abstract class BaseController extends AbstractController
     protected function createToolbar($type, array $options = array())
     {
         return $this->get(ToolbarFactory::class)->create($type, $options);
-    }
-
-    /**
-     * @param $type
-     * @param array $options
-     *
-     * @return Tree
-     */
-    protected function createTree($type, array $options = array())
-    {
-        return $this->get(TreeFactory::class)->create($type, $options);
     }
 
     /**
@@ -273,7 +260,6 @@ abstract class BaseController extends AbstractController
             array(
                 ToolbarFactory::class,
                 DataTableFactory::class,
-                TreeFactory::class,
                 JsResponseBuilder::class,
                 'translator' => TranslatorInterface::class
             )

@@ -12,9 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
 use Umbrella\CoreBundle\Component\Toolbar\Model\Toolbar;
-use Umbrella\CoreBundle\Utils\StringUtils;
 
 /**
  * Class DataTable.
@@ -25,6 +25,11 @@ class DataTable implements OptionsAwareInterface
      * @var array
      */
     private $options = array();
+
+    /**
+     * @var null|DataTableType
+     */
+    private $innerType = null;
 
     // URLS
 
@@ -141,12 +146,31 @@ class DataTable implements OptionsAwareInterface
     }
 
     /**
+     * @param DataTableType $innerType
+     */
+    public function setInnerType(DataTableType $innerType)
+    {
+        $this->innerType = $innerType;
+    }
+
+    /**
+     * Return default id depending of innertype class @see AnnotationClassLoader.php /  getDefaultRouteName
+     * @return string
+     */
+    private function getDefaultId()
+    {
+        $ns = preg_replace('/Type$/', '', get_class($this->innerType));
+        $name = str_replace('\\', '_', $ns);
+        return \function_exists('mb_strtolower') && preg_match('//u', $name) ? mb_strtolower($name, 'UTF-8') : strtolower($name);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefault('id', 'table_' . StringUtils::random(12))
+            ->setDefault('id', $this->getDefaultId())
             ->setAllowedTypes('id', 'string')
 
             ->setDefault('data_class', null)

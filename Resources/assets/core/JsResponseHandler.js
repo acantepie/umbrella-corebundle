@@ -56,20 +56,18 @@ export default class JsResponseHandler extends KernelAjaxHandler {
         },
 
         reload_table(params) {
-            let component = Kernel.getComponent(params.id);
-            if (component){
+            const components = params.ids.length > 0 ? Kernel.findComponentsByCssIds(params.ids) : Kernel.findComponents('DataTable');
+            console.log(components.length + ' datatable(s) reloaded');
+            for (let component of components) {
                 component.reload(false);
-            } else {
-                console.warn('No component found with id ' + params.id);
             }
         },
 
         reload_tree(params) {
-            let component = Kernel.getComponent(params.id);
-            if (component){
+            const components = params.ids.length > 0 ? Kernel.findComponentsByCssIds(params.ids) : Kernel.findComponents('Tree');
+            console.log(components.length + ' tree(s) reloaded');
+            for (let component of components) {
                 component.reload();
-            } else {
-                console.warn('No component found with id ' + params.id);
             }
         },
 

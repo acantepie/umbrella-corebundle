@@ -92,10 +92,32 @@ export default class Kernel {
         }
     }
 
-    // TODO - FIXME
-    getComponent(cssId) {
-        const $view = $('#' + cssId);
+    allComponents() {
+        return this.findComponentsByCssSelector('[data-mount]');
+    }
 
+    findComponents(id) {
+        return this.findComponentsByCssSelector('[data-mount=' + id + ']');
+    }
+
+    findComponentsByCssIds(ids = []) {
+        const cssIds = ids.map(id => '#' + id);
+        const cssSelector = cssIds.join(', ');
+        return this.findComponentsByCssSelector(cssSelector);
+    }
+
+    findComponentsByCssSelector(cssSelector) {
+        let components = [];
+        $(cssSelector).each((i, e) => {
+            const component = this.findComponentByView($(e));
+            if (null !== component) {
+                components.push(component);
+            }
+        });
+        return components;
+    }
+
+    findComponentByView($view) {
         if ($view.length === 0) {
             return null;
         }

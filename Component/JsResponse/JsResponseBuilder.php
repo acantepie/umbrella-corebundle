@@ -227,10 +227,10 @@ class JsResponseBuilder
 
     // Components actions
 
-    public function reloadTable($id)
+    public function reloadTable($ids = null)
     {
         return $this->add(self::RELOAD_TABLE, array(
-            'id' => $id,
+            'ids' => (array) $ids,
         ));
     }
 

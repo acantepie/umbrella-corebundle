@@ -20,6 +20,7 @@ use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\DataTable\Type\PropertyColumnType;
 use Umbrella\CoreBundle\Component\Source\AbstractSourceModifier;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
+use Umbrella\CoreBundle\Utils\StringUtils;
 
 /**
  * Class DataTableBuilder.
@@ -239,6 +240,7 @@ class DataTableBuilder
     public function getTable()
     {
         $table = new DataTable();
+        $table->setInnerType($this->type);
 
         // resolve options
         $resolver = new OptionsResolver();

@@ -134,7 +134,7 @@ export default class Kernel {
             return;
         }
 
-        if (!id in this.registry) {
+        if (!(id in this.registry)) {
             console.error(`Can't find component ${id} on registry. Maybe you forget ro register it ?`);
             return;
         }

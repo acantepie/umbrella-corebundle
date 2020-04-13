@@ -11,19 +11,19 @@
     <ol data-count="{{ breadcrumb | length }}">
 
         {% for item in breadcrumb %}
-            {% if item.url %}
+            {% if item.url is defined and item.url %}
                 {% set url = item.url %}
-            {% elseif item.route %}
+            {% elseif item.route is defined and item.route %}
                 {% set url = path(item.route, item.route_params) %}
             {% else %}
                 {% set url = null %}
             {% endif %}
 
             {% if item.label is not empty %}
-                {% if item.translation_domain %}
-                    {% set label = (item.label_prefix ~ item.label) | trans([], item.translation_domain) | raw %}
+                {% if item.translation_domain is defined and item.translation_domain %}
+                    {% set label = (item.label_prefix | default('') ~ item.label) | trans([], item.translation_domain) | raw %}
                 {% else %}
-                    {% set label = (item.label_prefix ~ item.label) | raw %}
+                    {% set label = (item.label_prefix | default('') ~ item.label) | raw %}
                 {% endif %}
             {% else %}
                 {% set label = null %}

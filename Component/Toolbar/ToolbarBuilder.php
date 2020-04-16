@@ -11,11 +11,9 @@ namespace Umbrella\CoreBundle\Component\Toolbar;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Component\Source\AbstractSourceModifier;
 use Umbrella\CoreBundle\Component\Toolbar\Model\Action;
 use Umbrella\CoreBundle\Component\Toolbar\Model\Toolbar;
-use Umbrella\CoreBundle\Component\Toolbar\Type\ToolbarType;
+use Umbrella\CoreBundle\Component\Toolbar\Type\ToolbarAwareTypeInterface;
 
 /**
  * Class ToolbarBuilder
@@ -38,14 +36,9 @@ class ToolbarBuilder
     private $actionFactory;
 
     /**
-     * @var ToolbarType
+     * @var ToolbarAwareTypeInterface
      */
-    private $type;
-
-    /**
-     * @var array
-     */
-    private $options = array();
+    private $awareType;
 
     /**
      * @var array
@@ -53,23 +46,16 @@ class ToolbarBuilder
     private $actions = array();
 
     /**
-     * @var AbstractSourceModifier[]
-     */
-    private $sourceModifiers = array();
-
-    /**
      * ToolbarBuilder constructor.
      * @param FormFactoryInterface $formFactory
      * @param ActionFactory $actionFactory
-     * @param ToolbarType $type
-     * @param array $options
+     * @param ToolbarAwareTypeInterface $awareType
      */
-    public function __construct(FormFactoryInterface $formFactory, ActionFactory $actionFactory, ToolbarType $type, array $options)
+    public function __construct(FormFactoryInterface $formFactory, ActionFactory $actionFactory, ToolbarAwareTypeInterface $awareType)
     {
         $this->formFactory = $formFactory;
         $this->actionFactory = $actionFactory;
-        $this->type = $type;
-        $this->options = $options;
+        $this->awareType = $awareType;
     }
 
     // Inherit from filter builder
@@ -200,39 +186,18 @@ class ToolbarBuilder
         $this->actions[$id]['resolved'] = $this->actionFactory->create($action['class'], $action['options']);
     }
 
-    // Source modifier
-
     /**
-     * @param AbstractSourceModifier $modifier
-     */
-    public function addSourceModifier(AbstractSourceModifier $modifier)
-    {
-        $this->sourceModifiers[] = $modifier;
-    }
-
-    /**
-     *
-     */
-    public function clearSourceModifiers()
-    {
-        $this->sourceModifiers = [];
-    }
-
-    /**
+     * @param array $resolvedOptions
      * @return Toolbar
      */
-    public function getToolbar()
+    public function getToolbar(array $resolvedOptions = array())
     {
         $toolbar = new Toolbar();
 
-        // resolve options
-        $resolver = new OptionsResolver();
-        $toolbar->configureOptions($resolver);
-        $this->type->configureOptions($resolver);
-        $resolvedOptions = $resolver->resolve($this->options);
+        // options are already resolved at this point
 
-        $this->formBuilder = $this->formFactory->createBuilder(FormType::class, $resolvedOptions['form_data'], $resolvedOptions['form_options']);
-        $this->type->buildToolbar($this, $resolvedOptions);
+        $this->formBuilder = $this->formFactory->createBuilder(FormType::class, $resolvedOptions['toolbar_form_data'], $resolvedOptions['toolbar_form_options']);
+        $this->awareType->buildToolbar($this, $resolvedOptions);
         $toolbar->setOptions($resolvedOptions);
 
         // resolve actions
@@ -243,9 +208,6 @@ class ToolbarBuilder
 
         // resolve form
         $toolbar->form = $this->formBuilder->getForm();
-
-        // resolve source modifiers
-        $toolbar->sourceModifiers = $this->sourceModifiers;
 
         return $toolbar;
     }

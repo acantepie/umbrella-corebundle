@@ -12,7 +12,6 @@ namespace Umbrella\CoreBundle\Component\Toolbar\Model;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Component\Source\CallbackSourceModifier;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
 
 /**
@@ -36,11 +35,6 @@ class Toolbar implements OptionsAwareInterface
      * @var array
      */
     public $actions;
-
-    /**
-     * @var CallbackSourceModifier[]
-     */
-    public $sourceModifiers;
 
     /**
      * @param Request $request
@@ -74,7 +68,7 @@ class Toolbar implements OptionsAwareInterface
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefault('form_options', array(
+            ->setDefault('toolbar_form_options', array(
                 'validation_groups' => false,
                 'csrf_protection' => false,
                 'label' => false,
@@ -83,12 +77,12 @@ class Toolbar implements OptionsAwareInterface
                 'group_class' => 'col-sm-12',
                 'method' => 'GET'
             ))
-            ->setAllowedTypes('form_options', 'array')
+            ->setAllowedTypes('toolbar_form_options', 'array')
 
-            ->setDefault('template', '@UmbrellaCore/Toolbar/toolbar.html.twig')
-            ->setAllowedTypes('template', 'string')
+            ->setDefault('toolbar_template', '@UmbrellaCore/Toolbar/toolbar.html.twig')
+            ->setAllowedTypes('toolbar_template', 'string')
 
-            ->setDefault('form_data', null);
+            ->setDefault('toolbar_form_data', null);
     }
 
     /**
@@ -96,7 +90,7 @@ class Toolbar implements OptionsAwareInterface
      */
     public function getTemplate()
     {
-        return $this->options['template'];
+        return $this->options['toolbar_template'];
     }
 
     /**

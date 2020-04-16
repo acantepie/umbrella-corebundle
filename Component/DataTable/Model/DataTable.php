@@ -176,9 +176,6 @@ class DataTable implements OptionsAwareInterface
             ->setDefault('data_class', null)
             ->setAllowedTypes('data_class', ['string', 'null'])
 
-            ->setDefault('toolbar', [])
-            ->setAllowedTypes('toolbar', ['array'])
-
             ->setDefault('attr', [
                 'class' => 'table table-striped table-centered'
             ])
@@ -213,6 +210,10 @@ class DataTable implements OptionsAwareInterface
 
             ->setDefault('template', '@UmbrellaCore/DataTable/datatable.html.twig')
             ->setAllowedTypes('template', 'string');
+
+        // fixme
+        $toolbar = new Toolbar();
+        $toolbar->configureOptions($resolver);
     }
 
     /**

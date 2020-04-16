@@ -29,7 +29,6 @@ class UmbrellaComponentPass implements CompilerPassInterface
     {
         $this->storeTaggedServiceToRegistry($container, ColumnFactory::class, 'umbrella.column.type', 'registerColumnType');
         $this->storeTaggedServiceToRegistry($container, DataTableFactory::class, 'umbrella.datatable.type', 'registerDataTableType');
-        $this->storeTaggedServiceToRegistry($container, ToolbarFactory::class, 'umbrella.toolbar.type', 'registerToolbarType');
         $this->storeTaggedServiceToRegistry($container, ActionFactory::class, 'umbrella.action.type', 'registerActionType');
     }
 

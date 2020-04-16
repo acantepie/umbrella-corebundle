@@ -11,8 +11,7 @@ namespace Umbrella\CoreBundle\Component\Toolbar;
 
 use Symfony\Component\Form\FormFactoryInterface;
 use Umbrella\CoreBundle\Component\Toolbar\Model\Toolbar;
-use Umbrella\CoreBundle\Component\Toolbar\Type\CallbackToolbarType;
-use Umbrella\CoreBundle\Component\Toolbar\Type\ToolbarType;
+use Umbrella\CoreBundle\Component\Toolbar\Type\ToolbarAwareTypeInterface;
 
 /**
  * Class ToolbarFactory.
@@ -30,11 +29,6 @@ class ToolbarFactory
    private $actionFactory;
 
     /**
-     * @var ToolbarType[]
-     */
-   private $toolbarTypes = array();
-
-    /**
      * ToolbarFactory constructor.
      * @param FormFactoryInterface $formFactory
      * @param ActionFactory $actionFactory
@@ -46,60 +40,21 @@ class ToolbarFactory
     }
 
     /**
-     * @param $id
-     * @param ToolbarType $toolbarType
-     */
-    public function registerToolbarType($id, ToolbarType $toolbarType)
-    {
-        $this->toolbarTypes[$id] = $toolbarType;
-    }
-
-    /**
-     * @param $typeClass
+     * @param ToolbarAwareTypeInterface $awareType
      * @param array $options
-     *
      * @return Toolbar
      */
-    public function create($typeClass, array $options = array())
+    public function create(ToolbarAwareTypeInterface $awareType, array $options = array())
     {
-        return $this->createBuilder($typeClass, $options)->getToolbar();
+        return $this->createBuilder($awareType)->getToolbar($options);
     }
 
     /**
-     * @param string $typeClass
-     * @param array  $options
-     *
+     * @param ToolbarAwareTypeInterface $awareType
      * @return ToolbarBuilder
      */
-    public function createBuilder($typeClass = ToolbarType::class, array $options = array())
+    public function createBuilder(ToolbarAwareTypeInterface $awareType)
     {
-        return new ToolbarBuilder($this->formFactory, $this->actionFactory, $this->createType($typeClass), $options);
-    }
-
-    /**
-     * @param callable $callback
-     * @param array $options
-     * @return Toolbar
-     */
-    public function createFromCallback(callable  $callback, array $options = array())
-    {
-        return (new ToolbarBuilder($this->formFactory, $this->actionFactory, new CallbackToolbarType($callback), $options))->getToolbar();
-    }
-
-    /**
-     * @param $typeClass
-     * @return ToolbarType
-     */
-    private function createType($typeClass)
-    {
-        if ($typeClass !== ToolbarType::class && !is_subclass_of($typeClass, ToolbarType::class)) {
-            throw new \InvalidArgumentException("Class '$typeClass' must extends ToolbarType class.");
-        }
-
-        if (array_key_exists($typeClass, $this->toolbarTypes)) {
-            return $this->toolbarTypes[$typeClass];
-        } else {
-            return new $typeClass();
-        }
+        return new ToolbarBuilder($this->formFactory, $this->actionFactory, $awareType);
     }
 }

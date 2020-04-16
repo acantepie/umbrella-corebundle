@@ -19,8 +19,8 @@ use Umbrella\CoreBundle\Component\DataTable\Model\EntityDataTableSource;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\DataTable\Type\PropertyColumnType;
 use Umbrella\CoreBundle\Component\Source\AbstractSourceModifier;
+use Umbrella\CoreBundle\Component\Toolbar\Model\Toolbar;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
-use Umbrella\CoreBundle\Utils\StringUtils;
 
 /**
  * Class DataTableBuilder.
@@ -66,16 +66,6 @@ class DataTableBuilder
      * @var boolean
      */
     private $relocateUrl;
-
-    /**
-     * @var string
-     */
-    private $toolbarClass;
-
-    /**
-     * @var array
-     */
-    private $toolbarOptions = array();
 
     /**
      * @var array
@@ -193,16 +183,6 @@ class DataTableBuilder
     }
 
     /**
-     * @param $class
-     * @param array $options
-     */
-    public function setToolbar($class, array $options = array())
-    {
-        $this->toolbarClass = $class;
-        $this->toolbarOptions = $options;
-    }
-
-    /**
      * @param AbstractDataTableSource $source
      */
     public function setSource(AbstractDataTableSource $source)
@@ -247,15 +227,12 @@ class DataTableBuilder
         $table->configureOptions($resolver);
         $this->type->configureOptions($resolver);
         $resolvedOptions = $resolver->resolve($this->options);
+
         $this->type->buildDataTable($this, $resolvedOptions);
         $table->setOptions($resolvedOptions);
 
         // resolve toolbar
-        if ($this->toolbarClass) {
-            $table->toolbar = $this->toolbarFactory->create($this->toolbarClass, $this->toolbarOptions);
-        } else {
-            $table->toolbar = $this->toolbarFactory->createFromCallback([$this->type, 'buildToolbar'], $resolvedOptions['toolbar']);
-        }
+        $table->toolbar = $this->toolbarFactory->create($this->type, $resolvedOptions);
 
         // resolve columns
         $this->resolveColumns();
@@ -270,8 +247,7 @@ class DataTableBuilder
         }
 
         // resolve source modifiers
-        $toolbarSourceModifiers = $table->toolbar ? $table->toolbar->sourceModifiers : [];
-        $table->source->setModifiers(array_merge($this->sourceModifiers, $toolbarSourceModifiers));
+        $table->source->setModifiers($this->sourceModifiers);
 
         // resolve urls
         $table->loadUrl = $this->loadUrl;

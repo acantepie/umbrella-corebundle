@@ -46,7 +46,7 @@ class UmbrellaRowActionBuilder
     {
         return $this->create()
             ->setRoute($route, $routeParams)
-            ->setIcon('edit')
+            ->setIcon('mdi mdi-pencil')
             ->setTitle('action.edit')
             ->setXhr(true);
     }
@@ -60,7 +60,7 @@ class UmbrellaRowActionBuilder
     {
         return $this->create()
             ->setRoute($route, $routeParams)
-            ->setIcon('delete')
+            ->setIcon('mdi mdi-delete')
             ->setTitle('action.delete')
             ->setClass('text-danger')
             ->setConfirm('message.delete_confirm')

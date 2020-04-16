@@ -6,6 +6,7 @@ namespace Umbrella\CoreBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Utils\HtmlUtils;
 
 /**
  * Class SearchType
@@ -22,7 +23,7 @@ class SearchType extends AbstractType
         $resolver->setDefaults(array(
             'widget' => 'single_text',
             'label' => false,
-            'input_suffix' => '<i class="fa fa-search"></i>',
+            'input_suffix' => HtmlUtils::render_icon('mdi mdi-magnify'),
             'required' => false,
             'attr' => array(
                 'placeholder' => 'form.placeholder.search'

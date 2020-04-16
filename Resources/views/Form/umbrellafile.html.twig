@@ -13,12 +13,12 @@
             <div class="input-group-append">
                 {% if allow_delete %}
                     <button class="btn btn-default js-umbrella-remove umbrella-remove" type="button">
-                        <i class="material-icons">close</i>
+                        {{ 'mdi mdi-close' | icon }}
                     </button>
                 {% endif %}
                 {% if form.vars.entity and form.vars.entity.webPath is not empty %}
                     <button onclick="window.open('{{ asset(form.vars.entity.webPath) }}'); return false" class="btn btn-default js-umbrella-download umbrella-download">
-                        <i class="material-icons">cloud_download</i>
+                        {{ 'mdi mdi-download' | icon }}
                     </button>
                 {% endif %}
                 <button class="btn btn-secondary js-umbrella-browse umbrella-browse" type="button">

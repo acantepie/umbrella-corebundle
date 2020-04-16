@@ -134,7 +134,7 @@ export default class DataTable extends KernelComponent {
 
             let html = '<tr>';
             html += '<td class="text-danger text-center" colspan="100%">';
-            html += '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Impossible de charger les données';
+            html += '<i class="mdi mdi-alert-circle-outline" aria-hidden="true"></i> Impossible de charger les données';
             html += '</td>';
             html += '</tr>';
 

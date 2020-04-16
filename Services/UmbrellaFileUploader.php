@@ -10,7 +10,6 @@
 namespace Umbrella\CoreBundle\Services;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Umbrella\CoreBundle\Entity\UmbrellaFile;
 
 /**
@@ -19,9 +18,9 @@ use Umbrella\CoreBundle\Entity\UmbrellaFile;
 class UmbrellaFileUploader
 {
     /**
-     * @var KernelInterface
+     * @var string
      */
-    private $kernel;
+    private $absoluteAssetPath;
 
     /**
      * @var string
@@ -35,19 +34,13 @@ class UmbrellaFileUploader
 
     /**
      * UmbrellaFileUploader constructor.
-     * @param KernelInterface $kernel
+     * @param $publicPath
+     * @param $assetPath
      */
-    public function __construct(KernelInterface $kernel)
+    public function __construct($publicPath, $assetPath)
     {
-        $this->kernel = $kernel;
-    }
-
-    /* Call by Bundle configurator */
-
-    public function loadConfig(array $config)
-    {
-        $this->absoluteWebPath = sprintf('%s/../%s/', $this->kernel->getRootDir(),  trim($config['web_path'], '/'));
-        $this->assetPath = sprintf('%s/', trim($config['asset_path'], '/'));
+        $this->assetPath = sprintf('%s/', trim($assetPath, '/'));
+        $this->absoluteAssetPath = sprintf('%s/%s', rtrim($publicPath, '/'), $this->assetPath);
     }
 
     /**
@@ -102,10 +95,9 @@ class UmbrellaFileUploader
     }
 
     /**
-     * Create Umbrella file from path
-     *
-     * @param UploadedFile $file
-     * @param bool $upload
+     * @param $path
+     * @param null $filename
+     * @param bool $move
      * @return UmbrellaFile
      */
     public function createUmbrellaFileFromPath($path, $filename = null, $move = true)

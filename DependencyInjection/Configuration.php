@@ -22,7 +22,6 @@ class Configuration implements ConfigurationInterface
             ->getRootNode()
             ->append($this->webpackNode())
             ->append($this->formNode())
-            ->append($this->fileNode())
             ->append($this->redisNode());
         return $treeBuilder;
     }
@@ -52,20 +51,6 @@ class Configuration implements ConfigurationInterface
             ->booleanNode('enable_extension')
             ->defaultTrue();
 
-        return $node;
-    }
-
-    private function fileNode()
-    {
-        $treeBuilder = new TreeBuilder('file');
-        $node = $treeBuilder->getRootNode()->addDefaultsIfNotSet();
-        $node->children()
-            ->scalarNode('asset_path')
-                ->defaultValue('/uploads')
-                ->end()
-            ->scalarNode('web_path')
-                ->defaultValue('/web')
-                ->end();
         return $node;
     }
 

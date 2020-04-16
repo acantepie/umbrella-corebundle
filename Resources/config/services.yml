@@ -75,6 +75,10 @@ services:
     # Services
     Umbrella\CoreBundle\Services\UmbrellaFileUploader:
         public: true
+        bind:
+            $publicPath: "%kernel.project_dir%/public"
+            $assetPath: "/umbrella-file"
+
     Umbrella\CoreBundle\Services\SearchHandler:
         public: true
     Umbrella\CoreBundle\Services\UmbrellaRedis:

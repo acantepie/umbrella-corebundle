@@ -76,13 +76,12 @@ class CoreTwigExtension extends AbstractExtension
     }
 
     /**
-     * @param $iconKey
      * @param string $class
      * @return string
      */
-    public function renderIcon($iconKey, $class = "")
+    public function renderIcon($class )
     {
-        return HtmlUtils::render_icon($iconKey, $class);
+        return HtmlUtils::render_icon($class);
     }
 
     /**

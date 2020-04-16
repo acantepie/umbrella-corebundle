@@ -10,7 +10,6 @@ use Umbrella\CoreBundle\Component\DataTable\Type\ColumnType;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\Toolbar\Type\ActionType;
 use Umbrella\CoreBundle\Component\Webpack\Twig\WebpackTwigExtension;
-use Umbrella\CoreBundle\Services\UmbrellaFileUploader;
 use Umbrella\CoreBundle\Services\UmbrellaRedis;
 
 /**
@@ -38,9 +37,6 @@ class UmbrellaCoreExtension extends Extension
 
         $def = $container->getDefinition(WebpackTwigExtension::class);
         $def->addMethodCall('loadConfig', [$config['webpack']]);
-
-        $def = $container->getDefinition(UmbrellaFileUploader::class);
-        $def->addMethodCall('loadConfig', [$config['file']]);
 
         $def = $container->getDefinition(UmbrellaRedis::class);
         $def->addMethodCall('loadConfig', [$config['redis']]);

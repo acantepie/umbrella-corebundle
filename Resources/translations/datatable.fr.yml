@@ -13,8 +13,8 @@ datatable:
     emptyTable:     "Aucun résultat"
     paginate:
         first:      "Premier"
-        previous:   '<i class="fa fa-caret-left"></i>'
-        next:       '<i class="fa fa-caret-right"></i>'
+        previous:   '<i class="mdi mdi-chevron-left"></i>'
+        next:       '<i class="mdi mdi-chevron-right"></i>'
         last:       "Dernier"
     aria:
         sortAscending:  ": trier la colonne par ordre croissant"

@@ -113,7 +113,6 @@ class Choice2Type extends AbstractType
         // select2 Options
         $jsSelect2Options = $options['select2_options'];
         $jsSelect2Options['language'] = $options['language'];
-        $jsSelect2Options['theme'] = $options['theme'];
 
         $jsSelect2Options['placeholder'] = empty($options['placeholder'])
             ? $options['placeholder']
@@ -147,7 +146,6 @@ class Choice2Type extends AbstractType
             'ajax_load_params' => [],
 
             'language' => 'fr',
-            'theme' => 'bootstrap',
             'min_search_length' => 0,
             'width' => 'auto',
 

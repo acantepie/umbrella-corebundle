@@ -15,7 +15,7 @@ use Umbrella\CoreBundle\Component\Toolbar\Action\Action;
 use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
 
 /**
- * Class DataTableTwigExtension.
+ * Class ToolbarTwigExtension.
  */
 class ToolbarTwigExtension extends AbstractExtension
 {

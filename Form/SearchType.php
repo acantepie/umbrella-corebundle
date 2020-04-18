@@ -21,7 +21,6 @@ class SearchType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'widget' => 'single_text',
             'label' => false,
             'input_suffix' => HtmlUtils::render_icon('mdi mdi-magnify'),
             'required' => false,

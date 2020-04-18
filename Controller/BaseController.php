@@ -12,13 +12,12 @@ namespace Umbrella\CoreBundle\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Umbrella\CoreBundle\Component\DataTable\DataTableBuilder;
-use Umbrella\CoreBundle\Component\DataTable\DataTableType;
-use Umbrella\CoreBundle\Component\DataTable\DataTableFactory;
-use Umbrella\CoreBundle\Component\DataTable\DataTable;
 use Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder;
 use Umbrella\CoreBundle\Component\Menu\MenuHelper;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
+use Umbrella\CoreBundle\Component\Table\Model\Table;
+use Umbrella\CoreBundle\Component\Table\TableBuilder;
+use Umbrella\CoreBundle\Component\Table\TableFactory;
 use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
 
@@ -123,22 +122,22 @@ abstract class BaseController extends AbstractController
      * @param $type
      * @param array $options
      *
-     * @return DataTable
+     * @return Table
      */
     protected function createTable($type, array $options = array())
     {
-        return $this->get(DataTableFactory::class)->create($type, $options);
+        return $this->get(TableFactory::class)->create($type, $options);
     }
 
     /**
      * @param array $options
      * @param string $type
      *
-     * @return DataTableBuilder
+     * @return TableBuilder
      */
-    protected function createTableBuilder(array $options = array(), $type = DataTableType::class)
+    protected function createTableBuilder(array $options = array(), $type = Table::class)
     {
-        return $this->get(DataTableFactory::class)->createBuilder($type, $options);
+        return $this->get(TableFactory::class)->createBuilder($type, $options);
     }
 
     /**
@@ -259,7 +258,7 @@ abstract class BaseController extends AbstractController
             parent::getSubscribedServices(),
             array(
                 ToolbarFactory::class,
-                DataTableFactory::class,
+                TableFactory::class,
                 JsResponseBuilder::class,
                 'translator' => TranslatorInterface::class
             )

@@ -21,7 +21,6 @@ class Configuration implements ConfigurationInterface
         $treeBuilder
             ->getRootNode()
             ->append($this->webpackNode())
-            ->append($this->formNode())
             ->append($this->redisNode());
         return $treeBuilder;
     }
@@ -41,17 +40,6 @@ class Configuration implements ConfigurationInterface
                 ->defaultValue(9000)
                 ->end();
         return $webpackNode;
-    }
-
-    private function formNode()
-    {
-        $treeBuilder = new TreeBuilder('form');
-        $node = $treeBuilder->getRootNode()->addDefaultsIfNotSet();
-        $node->children()
-            ->booleanNode('enable_extension')
-            ->defaultTrue();
-
-        return $node;
     }
 
     private function redisNode()

@@ -6,8 +6,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
-use Umbrella\CoreBundle\Component\Column\ColumnType;
-use Umbrella\CoreBundle\Component\DataTable\DataTableType;
+use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
+use Umbrella\CoreBundle\Component\Table\Type\TableType;
 use Umbrella\CoreBundle\Component\Toolbar\Action\ActionType;
 use Umbrella\CoreBundle\Extension\WebpackTwigExtension;
 use Umbrella\CoreBundle\Services\UmbrellaRedis;
@@ -29,11 +29,7 @@ class UmbrellaCoreExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
-
-        // load form extension only if enable
-        if ($config['form']['enable_extension'] === true) {
-            $loader->load('form_extension.yml');
-        }
+        $loader->load('form_extension.yml');
 
         $def = $container->getDefinition(WebpackTwigExtension::class);
         $def->addMethodCall('loadConfig', [$config['webpack']]);
@@ -41,7 +37,7 @@ class UmbrellaCoreExtension extends Extension
         $def = $container->getDefinition(UmbrellaRedis::class);
         $def->addMethodCall('loadConfig', [$config['redis']]);
 
-        $container->registerForAutoconfiguration(DataTableType::class)->addTag('umbrella.datatable.type');
+        $container->registerForAutoconfiguration(TableType::class)->addTag('umbrella.table.type');
         $container->registerForAutoconfiguration(ColumnType::class)->addTag('umbrella.column.type');
         $container->registerForAutoconfiguration(ActionType::class)->addTag('umbrella.action.type');
     }

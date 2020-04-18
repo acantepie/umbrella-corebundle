@@ -27,20 +27,20 @@ services:
     Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder:
         public: true
 
-    # DataTable
-    Umbrella\CoreBundle\Component\DataTable\DataTableFactory:
+    # Table
+    Umbrella\CoreBundle\Component\Table\TableFactory:
         public: true
-    Umbrella\CoreBundle\Component\DataTable\ColumnFactory:
-        public: true
-    Umbrella\CoreBundle\Component\DataTable\Extension\DataTableTwigExtension:
+    Umbrella\CoreBundle\Component\Table\Extension\TableTwigExtension:
 
     # Column
-    Umbrella\CoreBundle\Component\Column\ActionColumnType:
-    Umbrella\CoreBundle\Component\Column\BadgeColumnType:
-    Umbrella\CoreBundle\Component\Column\ActiveColumnType:
-    Umbrella\CoreBundle\Component\Column\BooleanColumnType:
-    Umbrella\CoreBundle\Component\Column\ImageColumnType:
+    Umbrella\CoreBundle\Component\Column\Type\ActionColumnType:
+    Umbrella\CoreBundle\Component\Column\Type\BadgeColumnType:
+    Umbrella\CoreBundle\Component\Column\Type\ActiveColumnType:
+    Umbrella\CoreBundle\Component\Column\Type\BooleanColumnType:
+    Umbrella\CoreBundle\Component\Column\Type\ImageColumnType:
         $cacheManager: "@liip_imagine.cache.manager"
+    Umbrella\CoreBundle\Component\Column\ColumnFactory:
+        public: true
 
     # Toolbar
     Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory:

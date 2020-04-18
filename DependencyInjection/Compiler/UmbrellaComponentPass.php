@@ -11,10 +11,9 @@ namespace Umbrella\CoreBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use Umbrella\CoreBundle\Component\DataTable\ColumnFactory;
-use Umbrella\CoreBundle\Component\DataTable\DataTableFactory;
+use Umbrella\CoreBundle\Component\Column\ColumnFactory;
+use Umbrella\CoreBundle\Component\Table\TableFactory;
 use Umbrella\CoreBundle\Component\Toolbar\ActionFactory;
-use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
 
 /**
  * Class DataTablePass
@@ -28,7 +27,7 @@ class UmbrellaComponentPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         $this->storeTaggedServiceToRegistry($container, ColumnFactory::class, 'umbrella.column.type', 'registerColumnType');
-        $this->storeTaggedServiceToRegistry($container, DataTableFactory::class, 'umbrella.datatable.type', 'registerDataTableType');
+        $this->storeTaggedServiceToRegistry($container, TableFactory::class, 'umbrella.table.type', 'registerTableType');
         $this->storeTaggedServiceToRegistry($container, ActionFactory::class, 'umbrella.action.type', 'registerActionType');
     }
 

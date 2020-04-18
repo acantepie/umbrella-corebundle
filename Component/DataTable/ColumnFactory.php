@@ -10,8 +10,8 @@
 namespace Umbrella\CoreBundle\Component\DataTable;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Component\DataTable\Model\Column;
-use Umbrella\CoreBundle\Component\DataTable\Type\ColumnType;
+use Umbrella\CoreBundle\Component\Column\Column;
+use Umbrella\CoreBundle\Component\Column\ColumnType;
 
 /**
  * Class ColumnFactory.

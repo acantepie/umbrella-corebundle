@@ -12,14 +12,11 @@ namespace Umbrella\CoreBundle\Component\DataTable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
-use Umbrella\CoreBundle\Component\DataTable\Model\Column;
-use Umbrella\CoreBundle\Component\DataTable\Model\DataTable;
-use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTableSource;
-use Umbrella\CoreBundle\Component\DataTable\Model\EntityDataTableSource;
-use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
-use Umbrella\CoreBundle\Component\DataTable\Type\PropertyColumnType;
+use Umbrella\CoreBundle\Component\Column\Column;
+use Umbrella\CoreBundle\Component\Column\PropertyColumnType;
+use Umbrella\CoreBundle\Component\DataTable\Source\AbstractDataTableSource;
+use Umbrella\CoreBundle\Component\DataTable\Source\EntityDataTableSource;
 use Umbrella\CoreBundle\Component\Source\AbstractSourceModifier;
-use Umbrella\CoreBundle\Component\Toolbar\Model\Toolbar;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
 
 /**

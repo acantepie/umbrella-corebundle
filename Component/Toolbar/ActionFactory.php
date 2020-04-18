@@ -9,8 +9,8 @@
 namespace Umbrella\CoreBundle\Component\Toolbar;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Component\Toolbar\Model\Action;
-use Umbrella\CoreBundle\Component\Toolbar\Type\ActionType;
+use Umbrella\CoreBundle\Component\Toolbar\Action\Action;
+use Umbrella\CoreBundle\Component\Toolbar\Action\ActionType;
 
 /**
  * Class ActionFactory

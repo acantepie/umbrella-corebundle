@@ -6,10 +6,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
-use Umbrella\CoreBundle\Component\DataTable\Type\ColumnType;
-use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
+use Umbrella\CoreBundle\Component\Column\ColumnType;
+use Umbrella\CoreBundle\Component\DataTable\DataTableType;
 use Umbrella\CoreBundle\Component\Toolbar\Type\ActionType;
-use Umbrella\CoreBundle\Component\Webpack\Twig\WebpackTwigExtension;
+use Umbrella\CoreBundle\Extension\WebpackTwigExtension;
 use Umbrella\CoreBundle\Services\UmbrellaRedis;
 
 /**

@@ -5,6 +5,7 @@ services:
         public: false
 
     # ---- Component ---- #
+
     # Menu
     Umbrella\CoreBundle\Component\Menu\MenuProvider:
         public: true
@@ -18,10 +19,9 @@ services:
         $roleHierarchy: "@security.role_hierarchy"
     Umbrella\CoreBundle\Component\Menu\MenuHelper:
         public: true
-    Umbrella\CoreBundle\Component\Menu\Twig\MenuTwigExtension:
+    Umbrella\CoreBundle\Component\Menu\Extension\MenuTwigExtension:
+    Umbrella\CoreBundle\Component\Menu\Extension\BreadcrumbTwigExtension:
 
-    # Breadcrumb
-    Umbrella\CoreBundle\Component\Breadcrumb\BreadcrumbTwigExtension:
 
     # JsResponse
     Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder:
@@ -32,13 +32,14 @@ services:
         public: true
     Umbrella\CoreBundle\Component\DataTable\ColumnFactory:
         public: true
-    Umbrella\CoreBundle\Component\DataTable\Twig\DataTableTwigExtension:
+    Umbrella\CoreBundle\Component\DataTable\Extension\DataTableTwigExtension:
 
-    Umbrella\CoreBundle\Component\DataTable\Type\ActionColumnType:
-    Umbrella\CoreBundle\Component\DataTable\Type\BadgeColumnType:
-    Umbrella\CoreBundle\Component\DataTable\Type\ActiveColumnType:
-    Umbrella\CoreBundle\Component\DataTable\Type\BooleanColumnType:
-    Umbrella\CoreBundle\Component\DataTable\Type\ImageColumnType:
+    # Column
+    Umbrella\CoreBundle\Component\Column\ActionColumnType:
+    Umbrella\CoreBundle\Component\Column\BadgeColumnType:
+    Umbrella\CoreBundle\Component\Column\ActiveColumnType:
+    Umbrella\CoreBundle\Component\Column\BooleanColumnType:
+    Umbrella\CoreBundle\Component\Column\ImageColumnType:
         $cacheManager: "@liip_imagine.cache.manager"
 
     # Toolbar
@@ -46,10 +47,7 @@ services:
         public: true
     Umbrella\CoreBundle\Component\Toolbar\ActionFactory:
         public: true
-    Umbrella\CoreBundle\Component\Toolbar\Twig\ToolbarTwigExtension:
-
-    # Webpack
-    Umbrella\CoreBundle\Component\Webpack\Twig\WebpackTwigExtension:
+    Umbrella\CoreBundle\Component\Toolbar\Extension\ToolbarTwigExtension:
 
     # DateTime
     Umbrella\CoreBundle\Component\DateTime\DateTimeHelper:
@@ -57,7 +55,7 @@ services:
     Umbrella\CoreBundle\Component\DateTime\DateTimeFormatter:
     Umbrella\CoreBundle\Component\DateTime\DateTimeExtension:
 
-    # Other
+    # Row Action
     Umbrella\CoreBundle\Component\RowAction\UmbrellaRowActionRenderer:
 
     # ---- Umbrella ----#
@@ -65,8 +63,9 @@ services:
     #Command
     Umbrella\CoreBundle\Command\IndexEntityCommand:
 
-    #Twig
-    Umbrella\CoreBundle\Twig\CoreTwigExtension:
+    #Extension
+    Umbrella\CoreBundle\Extension\CoreTwigExtension:
+    Umbrella\CoreBundle\Extension\WebpackTwigExtension:
 
     #Form
     Umbrella\CoreBundle\Form\:

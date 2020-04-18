@@ -11,8 +11,6 @@ namespace Umbrella\CoreBundle\Component\DataTable;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Umbrella\CoreBundle\Component\DataTable\Model\DataTable;
-use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
 
 /**

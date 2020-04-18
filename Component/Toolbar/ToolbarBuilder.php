@@ -11,9 +11,7 @@ namespace Umbrella\CoreBundle\Component\Toolbar;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
-use Umbrella\CoreBundle\Component\Toolbar\Model\Action;
-use Umbrella\CoreBundle\Component\Toolbar\Model\Toolbar;
-use Umbrella\CoreBundle\Component\Toolbar\Type\ToolbarAwareTypeInterface;
+use Umbrella\CoreBundle\Component\Toolbar\Action\Action;
 
 /**
  * Class ToolbarBuilder

@@ -10,8 +10,6 @@
 namespace Umbrella\CoreBundle\Component\Toolbar;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Umbrella\CoreBundle\Component\Toolbar\Model\Toolbar;
-use Umbrella\CoreBundle\Component\Toolbar\Type\ToolbarAwareTypeInterface;
 
 /**
  * Class ToolbarFactory.

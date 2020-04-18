@@ -11,7 +11,6 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Form\DataTransformer\EntitiesToPropertyTransformer;
 use Umbrella\CoreBundle\Form\DataTransformer\EntityToPropertyTransformer;
@@ -85,13 +84,7 @@ class AsyncEntity2Type extends AbstractType
         // select2 Options
         $jsSelect2Options = $options['select2_options'];
 
-        $jsSelect2Options['scroll'] = $options['scroll'];
-        $jsSelect2Options['cache'] = $options['theme'];
-        $jsSelect2Options['scroll'] = $options['scroll'];
-        $jsSelect2Options['cache'] = $options['theme'];
         $jsSelect2Options['language'] = $options['language'];
-        $jsSelect2Options['theme'] = $options['theme'];
-
         $jsSelect2Options['placeholder'] = empty($options['placeholder'])
             ? $options['placeholder']
             : $this->translator->trans($options['placeholder']);
@@ -112,8 +105,8 @@ class AsyncEntity2Type extends AbstractType
         $jsOptions['ajax_cache_timeout'] = $options['cache_timeout'];
         $jsOptions['ajax_delay'] = $options['delay'];
 
-        if (!empty($options['ajax_load_route'])) {
-            $jsOptions['ajax_url'] = $this->router->generate($options['ajax_load_route'], $options['ajax_load_params']);
+        if (!empty($options['route'])) {
+            $jsOptions['ajax_url'] = $this->router->generate($options['route'], $options['route_params']);
         }
 
         $jsOptions['select2'] = $jsSelect2Options;
@@ -134,8 +127,8 @@ class AsyncEntity2Type extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-                'ajax_load_route' => null,
-                'ajax_load_params' => [],
+                'route' => null,
+                'route_params' => [],
 
                 'class' => null,
                 'data_class' => null,
@@ -156,7 +149,6 @@ class AsyncEntity2Type extends AbstractType
 
                 //s2 options
                 'language' => 'fr',
-                'theme' => 'bootstrap',
                 'min_search_length' => 1,
                 'page_limit' => 10,
                 'width' => 'auto',

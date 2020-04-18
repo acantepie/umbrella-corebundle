@@ -1,3 +1,5 @@
+import Utils from "umbrella_core/utils/Utils";
+
 export default class AsyncSelect2 {
 
     constructor($view) {

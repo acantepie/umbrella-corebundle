@@ -46,28 +46,6 @@ export default class Select2 {
 
             };
         }
-
-        // ajax loading
-        if (this.options['ajax_url']) {
-            this.s2_options['ajax'] = {
-                url: this.options['ajax_url'],
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {q: params.term, page: params.page}
-                },
-                processResults: function (data, params) {
-                    let more = data.more || false;
-                    return {
-                        results: data.items,
-                        pagination: {
-                            more: more
-                        }
-                    }
-                },
-                cache: true
-            }
-        }
     }
 
     open() {

@@ -127,6 +127,10 @@ class Choice2Type extends AbstractType
         $jsOptions['template_selector'] = $options['template_selector'];
         $jsOptions['template_html'] = $options['template_html'];
 
+        if (!empty($options['route'])) {
+            $jsOptions['ajax_url'] = $this->router->generate($options['route'], $options['route_params']);
+        }
+
         $jsOptions['select2'] = $jsSelect2Options;
 
         return $jsOptions;
@@ -138,8 +142,8 @@ class Choice2Type extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'ajax_load_route' => null,
-            'ajax_load_params' => [],
+            'route' => null,
+            'route_params' => [],
 
             'language' => 'fr',
             'min_search_length' => 0,
@@ -150,6 +154,9 @@ class Choice2Type extends AbstractType
 
             'select2_options' => [],
         ));
+
+        $resolver->setAllowedTypes('route', ['null', 'string']);
+        $resolver->setAllowedTypes('route_params', 'array');
 
         $resolver->setAllowedTypes('min_search_length', 'int');
         $resolver->setAllowedTypes('language', 'string');

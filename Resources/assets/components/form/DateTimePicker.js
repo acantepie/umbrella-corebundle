@@ -12,15 +12,15 @@ export default class DateTimePicker {
             toolbarPlacement: 'bottom',
             showClear: this.$view.data('show-clear') ? this.$view.data('show-clear') : false ,
             icons: {
-                time: 'fa fa-clock-o',
-                date: 'fa fa-calendar',
-                up: 'fa fa-chevron-up',
-                down: 'fa fa-chevron-down',
+                time: 'mdi mdi-clock-outline',
+                date: 'mdi mdi-calendar',
+                up: ' mdi mdi-chevron-up',
+                down: ' mdi mdi-chevron-down',
                 previous: 'content-prev',
                 next: 'content-next',
-                today: 'fa fa-screenshot',
-                clear: 'fa fa-trash',
-                close: 'fa fa-remove'
+                today: 'mdi mdi-check',
+                clear: 'mdi mdi-close',
+                close: 'mdi mdi-close'
             }
         };
 

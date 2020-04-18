@@ -21,9 +21,9 @@ export default class FileUpload {
     init() {
 
         if (this.$inputEntity.val()) {
-            this.$removeBtn.show();
+            this.$removeBtn.removeClass('d-none');
         } else {
-            this.$removeBtn.hide();
+            this.$removeBtn.addClass('d-none');
         }
     }
 
@@ -45,7 +45,7 @@ export default class FileUpload {
         this.$inputFile.replaceWith(this.$inputFile.val('').clone(true));
         this.$inputFile = this.$view.find('input[type="file"]');
         this.$inputDelete.prop('checked', true);
-        this.$downloadBtn.hide();
+        this.$downloadBtn.addClass('d-none');
         this.refresh();
     }
 
@@ -54,10 +54,10 @@ export default class FileUpload {
         if (files.length > 0) {
             let file = files[0];
             this.$inputTxt.val(file.name + ' (' + Utils.bytes_to_size(file.size) + ')');
-            this.$removeBtn.show();
+            this.$removeBtn.removeClass('d-none');
         } else {
             this.$inputTxt.val('');
-            this.$removeBtn.hide();
+            this.$removeBtn.addClass('d-none');
         }
     }
 

@@ -7,20 +7,25 @@
         </div>
 
         <div class="input-group">
-            {# Use readonly class to allow required attribute #}
-            {{ form_widget(form.text, { 'attr' : { 'class' : 'js-umbrella-text', 'readonly' : true }}) }}
+            <div class="input-container">
+                {# Use readonly class to allow required attribute #}
+                {{ form_widget(form.text, { 'attr' : { 'class' : 'js-umbrella-text', 'readonly' : true }}) }}
+
+                <div class="action-container">
+                    {% if allow_delete %}
+                        <span class="js-umbrella-remove umbrella-remove hide" type="button">
+                            {{ 'mdi mdi-close' | icon }}
+                        </span>
+                    {% endif %}
+                    {% if form.vars.entity and form.vars.entity.webPath is not empty %}
+                        <span onclick="window.open('{{ asset(form.vars.entity.webPath) }}'); return false" class="js-umbrella-download umbrella-download">
+                            {{ 'mdi mdi-download' | icon }}
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
 
             <div class="input-group-append">
-                {% if allow_delete %}
-                    <button class="btn btn-default js-umbrella-remove umbrella-remove" type="button">
-                        {{ 'mdi mdi-close' | icon }}
-                    </button>
-                {% endif %}
-                {% if form.vars.entity and form.vars.entity.webPath is not empty %}
-                    <button onclick="window.open('{{ asset(form.vars.entity.webPath) }}'); return false" class="btn btn-default js-umbrella-download umbrella-download">
-                        {{ 'mdi mdi-download' | icon }}
-                    </button>
-                {% endif %}
                 <button class="btn btn-secondary js-umbrella-browse umbrella-browse" type="button">
                     <span>
                     {% if form.vars.browse_html %}

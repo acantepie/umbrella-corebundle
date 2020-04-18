@@ -15,12 +15,6 @@ export default class Form extends KernelComponent {
     }
 
     init() {
-
-        if (jQuery().minicolors) {
-            this.$view.find('.js-colorpicker').minicolors({
-                theme: 'bootstrap'
-            });
-        }
         if (jQuery().datepicker) {
             this.$view.find('.js-datepicker').each((i, e) => {
                 new DatePicker($(e));
@@ -39,9 +33,7 @@ export default class Form extends KernelComponent {
 
         if (jQuery().select2) {
             this.$view.find('.js-select2').each((i, e) => {
-                if ($(e).parents(".togglable-entity2").length == 0) {
-                    new Select2($(e));
-                }
+                new Select2($(e));
             });
 
             this.$view.find('.js-async-select2').each((i, e) => {

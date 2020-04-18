@@ -1,4 +1,5 @@
-import './Collection.scss';
+import dragula from 'dragula';
+import Form from "umbrella_core/components/form/Form";
 
 export default class Collection {
 
@@ -8,31 +9,16 @@ export default class Collection {
         this.prototype = this.$view.data('prototype');
         this.prototype_name = this.$view.data('prototype-name');
         this.index = this.$view.data('index');
-        this.max_number = this.$view.data('max-number');
+        this.maxLength = this.$view.data('maxLength');
 
-        this.init();
+        this.toggleAdd();
         this.bind();
-    }
-
-    init() {
-        // redefine index with use max idx foreach element
-        let maxIdx = 0;
-        this.$view.find(".js-row").each((d, e) => {
-            let v = parseInt($(e).attr("data-idx"));
-            if (v > maxIdx)
-                maxIdx = v;
-        });
-        this.index = maxIdx;
     }
 
     bind() {
         // bind add row
         this.$view.on('click', '.js-add-row', (e) => {
-            // avoid default action
             e.preventDefault();
-            e.stopPropagation();
-
-
             this.index += 1;
             const regexp = new RegExp(this.prototype_name, "g");
             const $newRow = $(this.prototype.replace(regexp, this.index));
@@ -44,24 +30,16 @@ export default class Collection {
             new Form($newRow);
             Kernel.mountComponents($newRow);
 
-            if (this.max_number && this.$view.find('tbody tr').length >= this.max_number) {
-                this.$view.find(".js-add-row").hide();
-            }
-
+            this.toggleAdd();
             this.$view.trigger('form:row:add', [$newRow]);
         });
 
         // bind delete row
         this.$view.on('click', '.js-del-row', (e) => {
-            // avoid default action
             e.preventDefault();
-            e.stopPropagation();
 
             $(e.currentTarget).closest('tr').remove();
-
-            if (this.max_number && this.$view.find('tbody tr').length < this.max_number) {
-                this.$view.find(".js-add-row").show();
-            }
+            this.toggleAdd();
 
             this.$view.trigger('form:row:del');
         });
@@ -77,11 +55,23 @@ export default class Collection {
 
         // sorting
         if (this.$view.data('sortable')) {
-            this.$view.find('tbody').sortable({
-                handle: ".js-sort-handler",
-                forcePlaceholderSize: true,
-                helper: "clone"
+            dragula({
+                containers: [this.$view.find('tbody')[0]],
+                moves: function(el, source, handle, sibling) {
+                    return  handle.classList.contains('js-sort-handle') || handle.parentNode.classList.contains('js-sort-handle');
+                },
+                mirrorContainer: this.$view.find('tbody')[0]
             });
+        }
+    }
+
+    count() {
+        return this.$view.find('tbody tr').length;
+    }
+
+    toggleAdd() {
+        if (this.maxLength > 0) {
+            this.$view.find('.js-add-row').toggleClass('d-none', this.count() >= this.maxLength);
         }
     }
 }

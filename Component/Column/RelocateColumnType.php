@@ -35,7 +35,7 @@ class RelocateColumnType extends PropertyColumnType
     {
         parent::configureOptions($resolver);
         $resolver
-            ->setDefault('icon', 'menu')
+            ->setDefault('icon', 'mdi mdi-menu')
             ->setAllowedTypes('icon', 'string')
             ->setDefault('order_by', null)
             ->setDefault('order', 'ASC')

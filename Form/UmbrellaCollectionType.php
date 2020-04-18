@@ -27,8 +27,7 @@ class UmbrellaCollectionType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['sortable'] = $options['sortable'];
-        $view->vars['vertical'] = $options['vertical'];
-        $view->vars['max_number'] = $options['max_number'];
+        $view->vars['max_length'] = $options['max_length'];
     }
 
     /**
@@ -42,13 +41,13 @@ class UmbrellaCollectionType extends AbstractType
             'by_reference' => false,
             'sortable' => false,
             'error_bubbling' => false,
-            'max_number' => null,
+            'max_length' => null,
             'constraints' => [
                 new Valid(),
-            ],
-            'vertical' => false,
+            ]
         ));
 
+        $resolver->setAllowedTypes('max_length', ['int', 'null']);
         $resolver->setAllowedTypes('sortable', 'boolean');
     }
 

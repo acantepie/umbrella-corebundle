@@ -3,10 +3,10 @@
 
     {% set attr = attr|merge({
         'data-index': form | length,
-        'data-max-number' : form.vars.max_number,
         'data-sortable' : form.vars.sortable ? 'true' : 'false',
         'data-prototype': block('umbrellacollection_prototype_widget'),
         'data-prototype-name' : prototype is defined ? prototype.vars.name : null,
+        'data-max-length' : form.vars.max_length,
         'class': attr.class | default('') ~ ' js-umbrella-collection umbrella-collection'
     }) %}
 
@@ -18,9 +18,8 @@
             {% endfor %}
         {% endif %}
 
-        <table class="table table-bordered table-condensed">
-            {% if form.vars.vertical == false %}
-                <thead>
+        <table class="table">
+            <thead>
                 <tr>
                     {% if form.vars.sortable %}
                         <th></th>
@@ -39,20 +38,26 @@
                     {% endfor %}
                     <th></th>
                 </tr>
-                </thead>
-            {% endif %}
+            </thead>
             <tbody>
                 {% for rows in form %}
                     {{ block('umbrellacollection_item_widget') }}
                 {% endfor %}
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="100%">
+                        {% if form.vars.allow_add %}
+                            <a class="js-add-row btn btn-secondary btn-sm" href="#">
+                                <i class="mdi mdi-plus mr-1"></i> {{ 'action.add_row' | trans }}
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tfoot>
         </table>
 
-        {% if form.vars.allow_add %}
-            <a class="js-add-row btn btn-default btn-flat" href="#">
-                <i class="mdi mdi-plus mr-1"></i> {{ 'action.add_row' | trans }}
-            </a>
-        {% endif %}
+
     </div>
 {% endapply %}
 {% endblock %}
@@ -72,31 +77,22 @@
         {% set fieldNum = 1 %}
 
         {% if form.vars.sortable %}
-            <td class="js-sort-handler sort-handler">
-                <i class="mdi mdi-sort text-primary" aria-hidden="true"></i>
+            <td class="js-sort-handle sort-handle">
+                <i class="mdi mdi-menu text-primary" aria-hidden="true"></i>
             </td>
         {% endif %}
 
-        {% if form.vars.vertical %}
-            <th>
-                {% for row in rows %}
-                    {{ form_row(row) }}
-                    {% set fieldNum = fieldNum + 1 %}
-                {% endfor %}
-            </th>
-        {% else %}
-            {% for row in rows %}
-                {% if 'hidden' in row.vars.block_prefixes %}
+        {% for row in rows %}
+            {% if 'hidden' in row.vars.block_prefixes %}
+                {{ form_widget(row) }}
+            {% else %}
+                <td class="field{{ fieldNum }}">
                     {{ form_widget(row) }}
-                {% else %}
-                    <td class="field{{ fieldNum }}">
-                        {{ form_widget(row) }}
-                        {{ form_errors(row) }}
-                    </td>
-                {% endif %}
-                {% set fieldNum = fieldNum + 1 %}
-            {% endfor %}
-        {% endif %}
+                    {{ form_errors(row) }}
+                </td>
+            {% endif %}
+            {% set fieldNum = fieldNum + 1 %}
+        {% endfor %}
 
         {% if form.vars.allow_delete %}
             <td class="field{{ fieldNum }} text-center">

@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Umbrella\CoreBundle\Component\Column\ColumnType;
 use Umbrella\CoreBundle\Component\DataTable\DataTableType;
-use Umbrella\CoreBundle\Component\Toolbar\Type\ActionType;
+use Umbrella\CoreBundle\Component\Toolbar\Action\ActionType;
 use Umbrella\CoreBundle\Extension\WebpackTwigExtension;
 use Umbrella\CoreBundle\Services\UmbrellaRedis;
 

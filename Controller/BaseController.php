@@ -11,6 +11,7 @@ namespace Umbrella\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder;
 use Umbrella\CoreBundle\Component\Menu\MenuHelper;
@@ -18,6 +19,8 @@ use Umbrella\CoreBundle\Component\Menu\Model\Menu;
 use Umbrella\CoreBundle\Component\Table\Model\Table;
 use Umbrella\CoreBundle\Component\Table\TableBuilder;
 use Umbrella\CoreBundle\Component\Table\TableFactory;
+use Umbrella\CoreBundle\Component\Toast\Toast;
+use Umbrella\CoreBundle\Component\Toast\ToastFactory;
 use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
 
@@ -26,12 +29,7 @@ use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
  */
 abstract class BaseController extends AbstractController
 {
-
-    const TOAST_KEY = 'TOAST';
-    const TOAST_INFO = 'info';
-    const TOAST_SUCCESS = 'success';
-    const TOAST_WARNING = 'warning';
-    const TOAST_ERROR = 'error';
+    const BAG_TOAST = 'toast';
 
     /**
      * @param $id
@@ -158,64 +156,49 @@ abstract class BaseController extends AbstractController
     }
 
     /**
-     * @param $id
-     * @param array $params
+     * @param $transId
+     * @param array $transParams
      */
-    protected function toastInfo($id, array $params = array())
+    protected function toastInfo($transId, array $transParams = array())
     {
-        $this->toast($id, $params, self::TOAST_INFO);
+        return $this->addBagToast($this->get(ToastFactory::class)->createInfo($transId, $transParams));
     }
 
     /**
-     * @param $id
-     * @param array $params
+     * @param $transId
+     * @param array $transParams
      */
-    protected function toastSuccess($id, array $params = array())
+    protected function toastSuccess($transId, array $transParams = array())
     {
-        $this->toast($id, $params, self::TOAST_SUCCESS);
+        return $this->addBagToast($this->get(ToastFactory::class)->createSuccess($transId, $transParams));
     }
 
     /**
-     * @param $id
-     * @param array $params
+     * @param $transId
+     * @param array $transParams
      */
-    protected function toastWarning($id, array $params = array())
+    protected function toastWarning($transId, array $transParams = array())
     {
-        $this->toast($id, $params, self::TOAST_WARNING);
+        return $this->addBagToast($this->get(ToastFactory::class)->createWarning($transId, $transParams));
     }
 
     /**
-     * @param $id
-     * @param array $params
+     * @param $transId
+     * @param array $transParams
      */
-    protected function toastError($id, array $params = array())
+    protected function toastError($transId, array $transParams = array())
     {
-        $this->toast($id, $params, self::TOAST_ERROR);
+        return $this->addBagToast($this->get(ToastFactory::class)->createError($transId, $transParams));
     }
 
     /**
-     * @param $id
-     * @param array $params
-     * @param string $level
+     * @param Toast $toast
      */
-    protected function toast($id, array $params = array(), $level = self::TOAST_INFO)
+    protected function addBagToast(Toast $toast)
     {
-        $this->toastMsg($this->trans($id, $params), $level);
-    }
-
-    /**
-     * @param $id
-     * @param array $params
-     * @param string $level
-     */
-    protected function toastMsg($msg, $level = self::TOAST_INFO)
-    {
-        $toasts = $this->get('session')->getFlashBag()->get(self::TOAST_KEY);
-        $toasts[] = array(
-            'type' => $level,
-            'message' => $msg
-        );
-        $this->get('session')->getFlashBag()->set(self::TOAST_KEY, $toasts);
+        /** @var Session $session */
+        $session = $this->get('session');
+        $session->getFlashBag()->add(self::BAG_TOAST, $toast);
     }
 
     /**
@@ -257,6 +240,7 @@ abstract class BaseController extends AbstractController
         return array_merge(
             parent::getSubscribedServices(),
             array(
+                ToastFactory::class,
                 ToolbarFactory::class,
                 TableFactory::class,
                 JsResponseBuilder::class,

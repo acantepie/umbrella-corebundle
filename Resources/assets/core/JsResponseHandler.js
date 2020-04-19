@@ -17,7 +17,7 @@ export default class JsResponseHandler extends KernelAjaxHandler {
         },
 
         toast(params) {
-            toastr[params.level](params.value);
+            $.toast(params);
         },
 
         open_modal(params) {
@@ -96,9 +96,15 @@ export default class JsResponseHandler extends KernelAjaxHandler {
     handleError(requestObject, error, errorThrown)
     {
         if (requestObject.status === 401) {
-            toastr.warning("Vous n'etes plus connecté. Veuillez rafraichir la page pour vous authentifier");
+            $.toast({
+                icon: 'warning',
+                text: "Vous n'etes plus connecté. Veuillez rafraichir la page pour vous authentifier"
+            });
         } else {
-            toastr.error('Une erreur est survenue');
+            $.toast({
+                icon: 'error',
+                text: "Une erreur est survenue"
+            });
         }
     }
 

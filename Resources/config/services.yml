@@ -49,6 +49,10 @@ services:
         public: true
     Umbrella\CoreBundle\Component\Toolbar\Extension\ToolbarTwigExtension:
 
+    # Toast
+    Umbrella\CoreBundle\Component\Toast\ToastFactory:
+        public: true
+
     # DateTime
     Umbrella\CoreBundle\Component\DateTime\DateTimeHelper:
         public: true

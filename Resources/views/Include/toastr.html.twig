@@ -1,5 +1,5 @@
 <div hidden="hidden">
-    {% for toast in app.session.flashbag.get('TOAST') %}
-        <div data-toggle="toastr" data-type="{{ toast.type }}">{{ toast.message }}</div>
+    {% for toast in app.session.flashbag.get('toast') %}
+        <div data-toggle="toast" data-options="{{ toast.getViewOptions() | json_encode() }}"></div>
     {% endfor %}
 </div>

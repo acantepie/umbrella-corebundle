@@ -9,9 +9,10 @@
 namespace Umbrella\CoreBundle\Component\JsResponse;
 
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use Umbrella\CoreBundle\Component\Menu\MenuHelper;
+use Umbrella\CoreBundle\Component\Toast\Toast;
+use Umbrella\CoreBundle\Component\Toast\ToastFactory;
 
 /**
  * Class JsResponseBuilder
@@ -45,11 +46,6 @@ class JsResponseBuilder
     private $router;
 
     /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
      * @var Environment
      */
     private $twig;
@@ -60,21 +56,24 @@ class JsResponseBuilder
     private $menuHelper;
 
     /**
-     * AppMessageBuilder constructor.
-     *
+     * @var ToastFactory
+     */
+    private $toastFactory;
+
+    /**
+     * JsResponseBuilder constructor.
      * @param RouterInterface $router
-     * @param TranslatorInterface $translator
      * @param Environment $twig
      * @param MenuHelper $menuHelper
+     * @param ToastFactory $toastFactory
      */
-    public function __construct(RouterInterface $router, TranslatorInterface $translator, Environment $twig, MenuHelper $menuHelper)
+    public function __construct(RouterInterface $router, Environment $twig, MenuHelper $menuHelper, ToastFactory $toastFactory)
     {
         $this->router = $router;
-        $this->translator = $translator;
         $this->twig = $twig;
         $this->menuHelper = $menuHelper;
+        $this->toastFactory = $toastFactory;
     }
-
 
     /**
      * @param $action
@@ -138,32 +137,29 @@ class JsResponseBuilder
 
     // Misc actions
 
-    public function toast($id, array $parameters = array(), $level = 'success')
+    public function toast(Toast $toast)
     {
-        return $this->add(self::TOAST, array(
-            'value' => $this->translator->trans($id, $parameters),
-            'level' => $level,
-        ));
+        return $this->add(self::TOAST, $toast->getViewOptions());
     }
 
-    public function toastInfo($id, array $params = array())
+    public function toastInfo($transId, array $transParams = array())
     {
-        return $this->toast($id, $params, 'info');
+        return $this->toast($this->toastFactory->createInfo($transId, $transParams));
     }
 
-    public function toastSuccess($id, array $params = array())
+    public function toastSuccess($transId, array $transParams = array())
     {
-        return $this->toast($id, $params, 'success');
+        return $this->toast($this->toastFactory->createSuccess($transId, $transParams));
     }
 
-    public function toastWarning($id, array $params = array())
+    public function toastWarning($transId, array $transParams = array())
     {
-        return $this->toast($id, $params, 'warning');
+        return $this->toast($this->toastFactory->createWarning($transId, $transParams));
     }
 
-    public function toastError($id, array $params = array())
+    public function toastError($transId, array $transParams = array())
     {
-        return $this->toast($id, $params, 'error');
+        return $this->toast($this->toastFactory->createError($transId, $transParams));
     }
 
     public function redirectToRoute($route, array $params = array())

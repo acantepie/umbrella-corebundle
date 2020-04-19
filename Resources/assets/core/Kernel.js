@@ -44,6 +44,13 @@ export default class Kernel {
                 container: 'body'
             });
         }
+
+        // bind toast
+        if ($.toast) {
+            $('[data-toggle="toast"]').each((i, e) => {
+                $.toast($(e).data('options'));
+            })
+        }
     }
 
     handleAjaxLink($link) {

@@ -42,15 +42,15 @@ class BooleanColumnType extends PropertyColumnType
         switch ($this->accessor->getValue($entity, $options['property_path'])) {
             case true:
                 return sprintf(
-                    '<span class="badge badge-feather-success">%s %s</span>',
-                    HtmlUtils::render_icon($options['yes_icon'], 'mr-1'),
+                    '<span class="badge badge-success">%s %s</span>',
+                    HtmlUtils::render_icon($options['yes_icon']),
                     $this->translator->trans($options['yes_value'])
                 );
 
             case false:
                 return sprintf(
-                    '<span class="badge badge-feather-danger">%s %s</span>',
-                    HtmlUtils::render_icon($options['no_icon'], 'mr-1'),
+                    '<span class="badge badge-danger">%s %s</span>',
+                    HtmlUtils::render_icon($options['no_icon']),
                     $this->translator->trans($options['no_value'])
                 );
             default:
@@ -72,10 +72,10 @@ class BooleanColumnType extends PropertyColumnType
             ->setDefault('no_value', 'common.no')
             ->setAllowedTypes('no_value', 'string')
 
-            ->setDefault('yes_icon', 'check')
+            ->setDefault('yes_icon', 'mdi mdi-check mr-1')
             ->setAllowedTypes('yes_icon', 'string')
 
-            ->setDefault('no_icon', 'cancel')
+            ->setDefault('no_icon', 'mdi mdi-cancel mr-1')
             ->setAllowedTypes('no_icon', 'string');
     }
 

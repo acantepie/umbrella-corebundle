@@ -17,23 +17,12 @@ use Symfony\Component\PropertyAccess\Exception\UnexpectedTypeException;
 class DateColumnType extends PropertyColumnType
 {
     /**
-     * @param $entity
-     * @param array $options
-     * @return mixed|string
+     * @inheritdoc
      */
     public function render($entity, array $options)
     {
-        try {
-            $value = $this->accessor->getValue($entity, $options['property_path']);
-        } catch (UnexpectedTypeException $e) {
-            $value = null;
-        }
-
-        if ($value instanceof \DateTime) {
-            return $value->format($options['format']);
-        } else {
-            return $value;
-        }
+        $value = $this->accessor->getValue($entity, $options['property_path']);
+        return $value instanceof \DateTime ? $value->format($options['format']) : $value;
     }
 
     /**

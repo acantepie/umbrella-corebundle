@@ -19,7 +19,7 @@ export default class DataTable extends KernelComponent {
 
         this.table = null;
 
-        this.options = $elt.data('options')||{};
+        this.options = $elt.data('options') || {};
 
         this.init();
         this.bind();
@@ -57,9 +57,9 @@ export default class DataTable extends KernelComponent {
                 e.stopPropagation();
 
                 // do ajax call and send extra params
-                if ($target.data('xhr-href')) {
+                if ($target.data('xhr')) {
                     AjaxUtils.get({
-                        url: $target.data('xhr-href'),
+                        url: $target.data('xhr'),
                         data: this.table.ajax.params()
                     });
                 } else {
@@ -75,9 +75,9 @@ export default class DataTable extends KernelComponent {
                 e.stopPropagation();
 
                 // do ajax call and send extra params
-                if ($target.data('xhr-href')) {
+                if ($target.data('xhr')) {
                     AjaxUtils.get({
-                        url: $target.data('xhr-href'),
+                        url: $target.data('xhr'),
                         data: this.selectedRowsIdParams()
                     });
                 } else {
@@ -86,6 +86,16 @@ export default class DataTable extends KernelComponent {
             });
         }
 
+        // row toggle
+        this.$table.on('change', '.js-toggle-widget input[type=checkbox]', (e) => {
+            const $e = $(e.currentTarget);
+            if ($e.is(':checked')) {
+                AjaxUtils.get({url : $e.data('yes-url')});
+            } else {
+                AjaxUtils.get({url : $e.data('no-url')});
+            }
+        });
+
         // row re-order
         if (this.options['rowReorder']) {
             this.table.on('row-reorder', (e, diff, edit) => {
@@ -93,18 +103,18 @@ export default class DataTable extends KernelComponent {
                 for (let i = 0, ien = diff.length; i < ien; i++) {
                     let id = this.table.row(diff[i].node).id();
                     changeSet.push({
-                        'id' : id,
-                        'old_sequence' : $(diff[i].oldData).data('sequence'),
-                        'new_sequence' : $(diff[i].newData).data('sequence')
+                        'id': id,
+                        'old_sequence': $(diff[i].oldData).data('sequence'),
+                        'new_sequence': $(diff[i].newData).data('sequence')
                     });
                 }
 
                 let ajax_url = this.options['rowReorder']['url'];
                 if (ajax_url) {
                     AjaxUtils.get({
-                        url :ajax_url,
+                        url: ajax_url,
                         data: {
-                            'change_set' : changeSet
+                            'change_set': changeSet
                         }
                     });
                 }
@@ -148,7 +158,7 @@ export default class DataTable extends KernelComponent {
             // avoid sending unused params
             delete d['columns'];
             delete d['search'];
-            return {...d,...this.options['ajax_data'], ...this.toolbarData()};
+            return {...d, ...this.options['ajax_data'], ...this.toolbarData()};
         };
         this.options['preDrawCallback'] = (settings) => {
             this.$view.trigger('draw:before');

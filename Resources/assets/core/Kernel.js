@@ -17,20 +17,15 @@ export default class Kernel {
 
 
     bind() {
-        this.$container.on('click', '[data-xhr-href]', (e) => {
+        this.$container.on('click', '[data-xhr]:not(form)', (e) => {
             e.preventDefault();
-            this.handleAjaxLink($(e.currentTarget));
+            this.handleXhr($(e.currentTarget));
         });
 
         // bind xhr form
-        this.$container.on('submit', 'form[data-xhr-action]', (e) => {
+        this.$container.on('submit', 'form[data-xhr]', (e) => {
             e.preventDefault();
-            this.handleAjaxForm($(e.currentTarget));
-        });
-
-        // bind xhr buttons
-        this.$container.on('click', ':submit', (e) => {
-            this.$submitButton = e.currentTarget;
+            this.handleFormXhr($(e.currentTarget));
         });
 
         // bind bootstrap tooltips
@@ -53,12 +48,12 @@ export default class Kernel {
         }
     }
 
-    handleAjaxLink($link) {
+    handleXhr($e) {
         const options = {
-            url: $link.data('xhr-href')
+            url: $e.data('xhr')
         };
 
-        const confirm = $link.data('confirm');
+        const confirm = $e.data('confirm');
         if (confirm) {
             $.confirm({
                 'text': confirm,
@@ -71,15 +66,11 @@ export default class Kernel {
         }
     }
 
-    handleAjaxForm($form) {
+    handleFormXhr($form) {
         let formData = $form.serializeFormToFormData();
 
-        if (this.$submitButton !== undefined && this.$submitButton.name) {
-            formData.append(this.$submitButton.name, this.$submitButton.value);
-        }
-
         const options = {
-            url: $form.data('xhr-action'),
+            url: $form.data('xhr'),
             method: $form.attr('method'),
             data: formData
         };

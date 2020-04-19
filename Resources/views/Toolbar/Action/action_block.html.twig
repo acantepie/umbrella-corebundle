@@ -13,7 +13,7 @@
     {% else %}
         {% set url = url %}
     {% endif %}
-    {% if xhr %}data-xhr-href="{{ url }}" href{% else %}href="{{ url }}"{% endif %}
+    {% if xhr %}data-xhr="{{ url }}" href{% else %}href="{{ url }}"{% endif %}
 {%- endblock -%}
 
 {%- block label_action -%}

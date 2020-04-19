@@ -74,7 +74,7 @@ table:
     name: Nom
     email: Email
     username: Login
-    state: Etat
+    active: Actif
     groups: Groupes
     title: Titre
     roles: Roles

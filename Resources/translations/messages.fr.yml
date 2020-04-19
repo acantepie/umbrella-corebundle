@@ -11,6 +11,7 @@ common:
     settings: Configuration
     enable: Activé
     disabled: Désactivé
+    welcome: Bienvenue
 
 action:
     add: Ajouter

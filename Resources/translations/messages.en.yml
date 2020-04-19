@@ -11,6 +11,7 @@ common:
   settings: Settings
   enable: Enable
   disabled: Disable
+  welcome: Welcome
 
 action:
   add: Add

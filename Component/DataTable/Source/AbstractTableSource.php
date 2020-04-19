@@ -6,7 +6,7 @@
  * Time: 18:45
  */
 
-namespace Umbrella\CoreBundle\Component\Table\Source;
+namespace Umbrella\CoreBundle\Component\DataTable\Source;
 
 /**
  * Class AbstractDataTableSource

@@ -16,9 +16,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder;
 use Umbrella\CoreBundle\Component\Menu\MenuHelper;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
-use Umbrella\CoreBundle\Component\Table\Model\Table;
-use Umbrella\CoreBundle\Component\Table\TableBuilder;
-use Umbrella\CoreBundle\Component\Table\TableFactory;
+use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTable;
+use Umbrella\CoreBundle\Component\DataTable\DataTableBuilder;
+use Umbrella\CoreBundle\Component\DataTable\DataTableFactory;
 use Umbrella\CoreBundle\Component\Toast\Toast;
 use Umbrella\CoreBundle\Component\Toast\ToastFactory;
 use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
@@ -120,22 +120,22 @@ abstract class BaseController extends AbstractController
      * @param $type
      * @param array $options
      *
-     * @return Table
+     * @return AbstractDataTable
      */
     protected function createTable($type, array $options = array())
     {
-        return $this->get(TableFactory::class)->create($type, $options);
+        return $this->get(DataTableFactory::class)->create($type, $options);
     }
 
     /**
      * @param array $options
      * @param string $type
      *
-     * @return TableBuilder
+     * @return DataTableBuilder
      */
-    protected function createTableBuilder(array $options = array(), $type = Table::class)
+    protected function createTableBuilder(array $options = array(), $type = AbstractDataTable::class)
     {
-        return $this->get(TableFactory::class)->createBuilder($type, $options);
+        return $this->get(DataTableFactory::class)->createBuilder($type, $options);
     }
 
     /**
@@ -242,7 +242,7 @@ abstract class BaseController extends AbstractController
             array(
                 ToastFactory::class,
                 ToolbarFactory::class,
-                TableFactory::class,
+                DataTableFactory::class,
                 JsResponseBuilder::class,
                 'translator' => TranslatorInterface::class
             )

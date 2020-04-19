@@ -7,26 +7,28 @@
  * Time: 18:55.
  */
 
-namespace Umbrella\CoreBundle\Component\Table;
+namespace Umbrella\CoreBundle\Component\DataTable;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
-use Umbrella\CoreBundle\Component\Table\Type\TableType;
+use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
+use Umbrella\CoreBundle\Component\DataTable\Model\DataTable;
 use Umbrella\CoreBundle\Component\Column\Column;
 use Umbrella\CoreBundle\Component\Column\ColumnFactory;
-use Umbrella\CoreBundle\Component\Column\PropertyColumnType;
-use Umbrella\CoreBundle\Component\Table\Model\Table;
-use Umbrella\CoreBundle\Component\Table\Source\AbstractSourceModifier;
-use Umbrella\CoreBundle\Component\Table\Source\AbstractTableSource;
-use Umbrella\CoreBundle\Component\Table\Source\EntityDataTableSource;
+use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTable;
+use Umbrella\CoreBundle\Component\DataTable\Source\AbstractSourceModifier;
+use Umbrella\CoreBundle\Component\DataTable\Source\AbstractTableSource;
+use Umbrella\CoreBundle\Component\DataTable\Source\EntityDataTableSource;
+use Umbrella\CoreBundle\Component\DataTable\Source\EntityTreeTableSource;
+use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
 use Umbrella\CoreBundle\Utils\ComponentUtils;
 
 /**
  * Class TableBuilder.
  */
-class TableBuilder
+class DataTableBuilder
 {
     /**
      * @var EntityManagerInterface
@@ -49,7 +51,7 @@ class TableBuilder
     private $columnFactory;
 
     /**
-     * @var TableType
+     * @var DataTableType
      */
     private $type;
 
@@ -119,7 +121,7 @@ class TableBuilder
      *
      * @return $this
      */
-    public function add($id, $columnClass = PropertyColumnType::class, array $options = array())
+    public function add($id, $columnClass = ColumnType::class, array $options = array())
     {
         $this->columns[$id] = array(
             'class' => $columnClass,
@@ -208,17 +210,11 @@ class TableBuilder
     }
 
     /**
-     * @return Table
+     * @return AbstractDataTable
      */
     public function getTable()
     {
-        $componentClass = $this->type->componentClass();
-        if (!is_subclass_of($componentClass,  Table::class)) {
-            throw new \RuntimeException(sprintf('Invalid class %s, component must extends Table class', $componentClass));
-        }
-
-        /** @var Table $table */
-        $table = new $componentClass(ComponentUtils::typeClassToId(get_class($this->type)));
+        $table = new DataTable(ComponentUtils::typeClassToId(get_class($this->type)));
 
         // resolve options
         $resolver = new OptionsResolver();
@@ -239,7 +235,13 @@ class TableBuilder
         }
 
         // resolve source
-        $source = $this->source ? $this->source : new EntityDataTableSource($this->em);
+        if ($this->source === null) {
+            $source = $resolvedOptions['tree']
+                ? new EntityTreeTableSource($this->em) // default source for tree data
+                : new EntityDataTableSource($this->em); // default source for regular data
+        } else {
+            $source = $this->source;
+        }
         $source->setModifiers($this->sourceModifiers);
         $table->setSource($source);
 

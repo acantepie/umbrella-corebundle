@@ -27,11 +27,11 @@ services:
     Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder:
         public: true
 
-    # Table
-    Umbrella\CoreBundle\Component\Table\TableFactory:
+    # DataTable
+    Umbrella\CoreBundle\Component\DataTable\DataTableFactory:
         public: true
-    Umbrella\CoreBundle\Component\Table\Extension\TableTwigExtension:
-    Umbrella\CoreBundle\Component\Table\RowAction\RowActionRenderer:
+    Umbrella\CoreBundle\Component\DataTable\Extension\DataTableTwigExtension:
+    Umbrella\CoreBundle\Component\DataTable\RowAction\RowActionRenderer:
 
     # Column
     Umbrella\CoreBundle\Component\Column\Type\ToggleColumnType:
@@ -60,7 +60,6 @@ services:
         public: true
     Umbrella\CoreBundle\Component\DateTime\DateTimeFormatter:
     Umbrella\CoreBundle\Component\DateTime\DateTimeExtension:
-
 
     # ---- Umbrella ----#
 

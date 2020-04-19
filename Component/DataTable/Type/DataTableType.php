@@ -1,23 +1,24 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: acantepie
- * Date: 18/04/20
- * Time: 23:35
+ * Date: 18/05/17
+ * Time: 18:43.
  */
-namespace Umbrella\CoreBundle\Component\Table\Type;
+
+namespace Umbrella\CoreBundle\Component\DataTable\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Component\Table\TableBuilder;
+use Umbrella\CoreBundle\Component\DataTable\DataTableBuilder;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarAwareTypeInterface;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarBuilder;
 
 /**
- * Class TableType
+ * Class DataTableType.
  */
-abstract class TableType implements ToolbarAwareTypeInterface
+class DataTableType implements ToolbarAwareTypeInterface
 {
-
     /**
      * @param ToolbarBuilder $builder
      * @param array $options
@@ -31,7 +32,7 @@ abstract class TableType implements ToolbarAwareTypeInterface
      * @param $builder
      * @param array $options
      */
-    public function buildTable(TableBuilder $builder, array $options = array())
+    public function buildTable(DataTableBuilder $builder, array $options = array())
     {
 
     }
@@ -43,12 +44,5 @@ abstract class TableType implements ToolbarAwareTypeInterface
     {
 
     }
-
-    /**
-     * @return string
-     */
-    public abstract function componentClass();
-
-
 
 }

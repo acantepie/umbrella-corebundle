@@ -6,7 +6,7 @@
  * Time: 00:57
  */
 
-namespace Umbrella\CoreBundle\Component\Table\Source;
+namespace Umbrella\CoreBundle\Component\DataTable\Source;
 
 use Doctrine\ORM\QueryBuilder;
 

@@ -6,7 +6,7 @@
  * Time: 20:07
  */
 
-namespace Umbrella\CoreBundle\Component\Table\RowAction;
+namespace Umbrella\CoreBundle\Component\DataTable\RowAction;
 
 /**
  * Class RowAction

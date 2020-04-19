@@ -1,5 +1,5 @@
 import KernelComponent from "umbrella_core/core/KernelComponent";
-import Toolbar from "umbrella_core/components/toolbar/Toolbar";
+import Toolbar from "umbrella_core/components/Toolbar";
 import AjaxUtils from "umbrella_core/utils/AjaxUtils";
 
 /**
@@ -168,6 +168,11 @@ export default class DataTable extends KernelComponent {
 
             // tooltip
             this.$view.find('[data-toggle="tooltip"]').tooltip();
+
+            // treegrid
+            if (this.options['tree']) {
+                this.$table.treegrid();
+            }
 
             // popover
             this.$table.find('[data-toggle=popover]').popover({

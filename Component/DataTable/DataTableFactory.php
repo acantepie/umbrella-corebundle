@@ -7,19 +7,19 @@
  * Time: 18:51.
  */
 
-namespace Umbrella\CoreBundle\Component\Table;
+namespace Umbrella\CoreBundle\Component\DataTable;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Umbrella\CoreBundle\Component\Table\Type\TableType;
+use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\Column\ColumnFactory;
-use Umbrella\CoreBundle\Component\Table\Model\Table;
+use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTable;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
 
 /**
  * Class TableFactory.
  */
-class TableFactory
+class DataTableFactory
 {
     /**
      * @var EntityManagerInterface
@@ -42,9 +42,9 @@ class TableFactory
     private $columnFactory;
 
     /**
-     * @var TableType[]
+     * @var DataTableType[]
      */
-    private $tableTypes = array();
+    private $dataTableTypes = array();
 
     /**
      * TableFactory constructor.
@@ -63,18 +63,18 @@ class TableFactory
 
     /**
      * @param $id
-     * @param TableType $dataTableType
+     * @param DataTableType $dataTableType
      */
-    public function registerTableType($id, TableType $dataTableType)
+    public function registerDataTableType($id, DataTableType $dataTableType)
     {
-        $this->tableTypes[$id] = $dataTableType;
+        $this->dataTableTypes[$id] = $dataTableType;
     }
 
     /**
      * @param $typeClass
      * @param array $options
      *
-     * @return Table
+     * @return AbstractDataTable
      */
     public function create($typeClass, array $options = array())
     {
@@ -85,26 +85,26 @@ class TableFactory
      * @param string $typeClass
      * @param array  $options
      *
-     * @return TableBuilder
+     * @return DataTableBuilder
      */
-    public function createBuilder($typeClass = TableType::class, array $options = array())
+    public function createBuilder($typeClass = DataTableType::class, array $options = array())
     {
-        return new TableBuilder($this->em, $this->router, $this->toolbarFactory, $this->columnFactory, $this->createType($typeClass), $options);
+        return new DataTableBuilder($this->em, $this->router, $this->toolbarFactory, $this->columnFactory, $this->createType($typeClass), $options);
     }
 
     /**
      * @param $typeClass
      *
-     * @return TableType
+     * @return DataTableType
      */
     private function createType($typeClass)
     {
-        if ($typeClass !== TableType::class && !is_subclass_of($typeClass, TableType::class)) {
-            throw new \InvalidArgumentException(sprintf("Class '%s' must extends %s class.", $typeClass, TableType::class));
+        if ($typeClass !== DataTableType::class && !is_subclass_of($typeClass, DataTableType::class)) {
+            throw new \InvalidArgumentException(sprintf("Class '%s' must extends %s class.", $typeClass, DataTableType::class));
         }
 
-        if (array_key_exists($typeClass, $this->tableTypes)) {
-            return $this->tableTypes[$typeClass];
+        if (array_key_exists($typeClass, $this->dataTableTypes)) {
+            return $this->dataTableTypes[$typeClass];
         } else {
             return new $typeClass();
         }

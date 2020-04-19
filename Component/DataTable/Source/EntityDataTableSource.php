@@ -6,16 +6,16 @@
  * Time: 18:45
  */
 
-namespace Umbrella\CoreBundle\Component\Table\Source;
+namespace Umbrella\CoreBundle\Component\DataTable\Source;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Umbrella\CoreBundle\Component\Column\Column;
-use Umbrella\CoreBundle\Component\Table\Model\DataTableResult;
+use Umbrella\CoreBundle\Component\DataTable\Model\DataTableResult;
 use Umbrella\CoreBundle\Utils\ArrayUtils;
 
 /**
- * Class DataTableSource
+ * Class EntityDataTableSource
  */
 class EntityDataTableSource extends AbstractTableSource
 {

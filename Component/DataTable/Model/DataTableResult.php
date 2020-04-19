@@ -6,10 +6,10 @@
  * Time: 19:32
  */
 
-namespace Umbrella\CoreBundle\Component\Table\Model;
+namespace Umbrella\CoreBundle\Component\DataTable\Model;
 
 /**
- * Class DataTableResult
+ * Class TableResult
  */
 class DataTableResult implements \JsonSerializable
 {

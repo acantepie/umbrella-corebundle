@@ -9,8 +9,8 @@
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Component\Table\RowAction\RowActionBuilder;
-use Umbrella\CoreBundle\Component\Table\RowAction\RowActionRenderer;
+use Umbrella\CoreBundle\Component\DataTable\RowAction\RowActionBuilder;
+use Umbrella\CoreBundle\Component\DataTable\RowAction\RowActionRenderer;
 
 /**
  * Class ActionColumn.

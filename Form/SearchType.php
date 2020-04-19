@@ -22,7 +22,6 @@ class SearchType extends AbstractType
     {
         $resolver->setDefaults(array(
             'label' => false,
-            'input_suffix_text' => HtmlUtils::render_icon('mdi mdi-magnify'),
             'required' => false,
             'attr' => array(
                 'placeholder' => 'form.placeholder.search'

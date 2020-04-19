@@ -6,9 +6,10 @@
  * Time: 12:46.
  */
 
-namespace Umbrella\CoreBundle\Component\Table\Model;
+namespace Umbrella\CoreBundle\Component\DataTable\Model;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -18,7 +19,7 @@ use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
 /**
  * Class DataTable.
  */
-class DataTable extends Table
+class DataTable extends AbstractDataTable
 {
     /**
      * @var array()
@@ -110,15 +111,33 @@ class DataTable extends Table
             ->setDefault('data_class', null)
             ->setAllowedTypes('data_class', ['string', 'null'])
 
-            ->setDefault('attr', [
-                'class' => 'table table-striped table-centered'
-            ])
+            ->setDefault('attr', function (Options $options) {
+                return [
+                    'class' => $options['tree'] ? 'table table-centered' : 'table table-striped table-centered'
+                ];
+            })
             ->setAllowedTypes('attr', ['array'])
 
-            ->setDefault('row_class', null)
+            ->setDefault('row_class', function (Options $options) {
+                if ($options['tree']) {
+                    $accessor = PropertyAccess::createPropertyAccessor();
+                    return function ($entity) use($accessor) {
+                        $class = sprintf('treegrid-%s', $accessor->getValue($entity, 'id'));
+                        $parent = $accessor->getValue($entity, 'parent');
+                        if ($parent) {
+                            $class .= sprintf(' treegrid-parent-%s', $accessor->getValue($parent, 'id'));
+                        }
+                        return $class;
+                    };
+                } else {
+                    return null;
+                }
+            })
             ->setAllowedTypes('row_class', ['null', 'array', 'callable'])
 
-            ->setDefault('paging', true)
+            ->setDefault('paging', function (Options $options) {
+                return !$options['tree'];
+            })
             ->setAllowedTypes('paging', 'bool')
 
             ->setDefault('length_change', false)
@@ -136,14 +155,19 @@ class DataTable extends Table
             ->setDefault('poll_interval', null)
             ->setAllowedTypes('poll_interval', ['int', 'null'])
 
-            ->setDefault('orderable', true)
+            ->setDefault('orderable', function (Options $options) {
+                return !$options['tree'];
+            })
             ->setAllowedTypes('orderable', 'bool')
 
-            ->setDefault('dom', "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'li><'col-sm-12 col-md-7'p>>")
-            ->setAllowedTypes('dom', 'string')
+            ->setDefault('tree', false)
+            ->setAllowedTypes('tree', 'bool')
 
-            ->setDefault('template', '@UmbrellaCore/Table/datatable.html.twig')
-            ->setAllowedTypes('template', 'string');
+            ->setDefault('template', '@UmbrellaCore/DataTable/datatable.html.twig')
+            ->setAllowedTypes('template', 'string')
+
+            ->setDefault('dom', "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'li><'col-sm-12 col-md-7'p>>")
+            ->setAllowedTypes('dom', 'string');
 
         // fixme
         $toolbar = new Toolbar();
@@ -165,9 +189,11 @@ class DataTable extends Table
     public function getViewOptions(TranslatorInterface $translator)
     {
         $viewOptions = array();
-        $viewOptions['datatable'] = $this;
+        $viewOptions['table'] = $this;
         $viewOptions['id'] = $this->options['id'];
         $viewOptions['attr'] = $this->options['attr'];
+        $viewOptions['component'] = 'DataTable';
+        $viewOptions['container_class'] = 'umbrella-datatable-container';
 
         $viewOptions['columns'] = array();
         foreach ($this->columns as $column) {
@@ -175,6 +201,7 @@ class DataTable extends Table
         }
 
         $jsOptions = array();
+        $jsOptions['tree'] = $this->options['tree'];
         $jsOptions['serverSide'] = true;
         $jsOptions['bFilter'] = false;
         $jsOptions['ajax'] = array(

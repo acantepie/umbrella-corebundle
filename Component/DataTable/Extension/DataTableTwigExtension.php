@@ -6,18 +6,18 @@
  * Time: 18:46.
  */
 
-namespace Umbrella\CoreBundle\Component\Table\Extension;
+namespace Umbrella\CoreBundle\Component\DataTable\Extension;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-use Umbrella\CoreBundle\Component\Table\Model\Table;
+use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTable;
 
 /**
  * Class DataTableTwigExtension.
  */
-class TableTwigExtension extends AbstractExtension
+class DataTableTwigExtension extends AbstractExtension
 {
     /**
      * @var TranslatorInterface
@@ -48,11 +48,11 @@ class TableTwigExtension extends AbstractExtension
 
     /**
      * @param Environment $twig
-     * @param Table $table
+     * @param AbstractDataTable $table
      *
      * @return string
      */
-    public function render(Environment $twig, Table $table)
+    public function render(Environment $twig, AbstractDataTable $table)
     {
         return $twig->render($table->getTemplate(), $table->getViewOptions($this->translator));
     }

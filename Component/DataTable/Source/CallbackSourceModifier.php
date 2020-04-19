@@ -6,7 +6,7 @@
  * Time: 22:44
  */
 
-namespace Umbrella\CoreBundle\Component\Table\Source;
+namespace Umbrella\CoreBundle\Component\DataTable\Source;
 
 /**
  * Class CallbackSourceModifier

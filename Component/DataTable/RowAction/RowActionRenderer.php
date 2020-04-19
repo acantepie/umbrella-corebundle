@@ -6,7 +6,7 @@
  * Time: 22:32
  */
 
-namespace Umbrella\CoreBundle\Component\Table\RowAction;
+namespace Umbrella\CoreBundle\Component\DataTable\RowAction;
 
 use Twig\Environment;
 

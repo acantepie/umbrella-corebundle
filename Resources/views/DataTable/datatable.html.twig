@@ -1,8 +1,8 @@
-<div class="umbrella-datatable-container" id="{{ id }}" data-mount="DataTable" data-options="{{ js|json_encode() }}">
+<div class="{{ container_class }}" id="{{ id }}" data-mount="{{ component }}" data-options="{{ js|json_encode() }}">
 
     {% block toolbar %}
-        {% if datatable.toolbar %}
-            {{ render_toolbar(datatable.toolbar) }}
+        {% if table.toolbar %}
+            {{ render_toolbar(table.toolbar) }}
         {% endif %}
     {% endblock %}
 
@@ -23,8 +23,8 @@
                 {% endfor %}
             </tr>
             </thead>
-            <tbody data-spinner="{{ include("@UmbrellaCore/Table/datatable_spinner.html.twig") | e ('html') }}">
-                {% include "@UmbrellaCore/Table/datatable_spinner.html.twig" %}
+            <tbody data-spinner="{{ include("@UmbrellaCore/DataTable/datatable_spinner.html.twig") | e ('html') }}">
+                {% include "@UmbrellaCore/DataTable/datatable_spinner.html.twig" %}
             </tbody>
         </table>
     {% endblock %}

@@ -6,20 +6,20 @@
  * Time: 23:50
  */
 
-namespace Umbrella\CoreBundle\Component\Table\Model;
+namespace Umbrella\CoreBundle\Component\DataTable\Model;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\Column\Column;
-use Umbrella\CoreBundle\Component\Table\Source\AbstractTableSource;
+use Umbrella\CoreBundle\Component\DataTable\Source\AbstractTableSource;
 use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
 
 /**
  * Class Table
  */
-abstract class Table implements OptionsAwareInterface
+abstract class AbstractDataTable implements OptionsAwareInterface
 {
     /**
      * @var string

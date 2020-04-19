@@ -10,37 +10,32 @@
         'class': attr.class | default('') ~ ' js-umbrella-collection umbrella-collection'
     }) %}
 
+    {% set compound = prototype is defined and prototype.vars.compound and 'umbrellafile' not in prototype.vars.block_prefixes %}
+
     <div {{ block('widget_container_attributes') }}>
 
-        {% if prototypes|default is iterable %}
-            {% for key, prototype in prototypes %}
-                <input type="hidden" data-form-prototype="{{ key }}" value="{{ block('umbrellacollection_prototype_widget') |e }}" />
-            {% endfor %}
-        {% endif %}
+        <table class="table mb-0">
 
-        <table class="table">
-            <thead>
-                <tr>
-                    {% if form.vars.sortable %}
-                        <th></th>
-                    {% endif %}
-
-                    {% set labels = prototype is defined
-                        ? prototype
-                        : form[0] is defined ? form[0] : []  %}
-
-                    {% for child in labels %}
-                        {% if 'hidden' not in child.vars.block_prefixes %}
-                            <th class="{{ child.vars.required ? 'required' }}">
-                                <span>{{ child.vars.label | trans }}</span>
-                            </th>
+            {% if compound %}
+                <thead>
+                    <tr>
+                        {% if form.vars.sortable %}
+                            <th></th>
                         {% endif %}
-                    {% endfor %}
-                    <th></th>
-                </tr>
-            </thead>
+
+                        {% for col_form in prototype %}
+                            {% if 'hidden' not in col_form.vars.block_prefixes %}
+                                <th class="{{ col_form.vars.required ? 'required' }}">
+                                    <span>{{ col_form.vars.label | trans }}</span>
+                                </th>
+                            {% endif %}
+                        {% endfor %}
+                        <th></th>
+                    </tr>
+                </thead>
+            {% endif %}
             <tbody>
-                {% for rows in form %}
+                {% for entry_form in form %}
                     {{ block('umbrellacollection_item_widget') }}
                 {% endfor %}
             </tbody>
@@ -65,7 +60,7 @@
 {% block umbrellacollection_prototype_widget %}
 {% apply spaceless %}
     {% if prototype is defined %}
-        {%  set rows = prototype %}
+        {%  set entry_form = prototype %}
         {{ block('umbrellacollection_item_widget') }}
     {% endif %}
 {% endapply %}
@@ -73,8 +68,7 @@
 
 {% block umbrellacollection_item_widget %}
 {% apply spaceless %}
-    <tr class="js-row" data-idx="{{ rows.vars.name }}">
-        {% set fieldNum = 1 %}
+    <tr class="js-row" data-idx="{{ entry_form.vars.name }}">
 
         {% if form.vars.sortable %}
             <td class="js-sort-handle sort-handle">
@@ -82,23 +76,33 @@
             </td>
         {% endif %}
 
-        {% for row in rows %}
-            {% if 'hidden' in row.vars.block_prefixes %}
-                {{ form_widget(row) }}
-            {% else %}
-                <td class="field{{ fieldNum }}">
-                    {{ form_widget(row) }}
-                    {{ form_errors(row) }}
-                </td>
-            {% endif %}
-            {% set fieldNum = fieldNum + 1 %}
-        {% endfor %}
+        {% set compound = entry_form.vars.compound and 'umbrellafile' not in entry_form.vars.block_prefixes %}
+
+        {% if compound %}
+            {% for col_form in entry_form %}
+                {{ block('umbrellacollection_item_col') }}
+            {% endfor %}
+        {% else %}
+            {% set col_form = entry_form %}
+            {{ block('umbrellacollection_item_col') }}
+        {% endif %}
 
         {% if form.vars.allow_delete %}
-            <td class="field{{ fieldNum }} text-center">
+            <td class="text-center">
                 <a class="js-del-row" href="#"><i class="mdi mdi-delete text-danger"></i></a>
             </td>
         {% endif %}
     </tr>
 {% endapply %}
+{% endblock %}
+
+{% block umbrellacollection_item_col %}
+    {% if 'hidden' in col_form.vars.block_prefixes %}
+        {{ form_widget(col_form) }}
+    {% else %}
+        <td>
+            {{ form_widget(col_form) }}
+            {{ form_errors(col_form) }}
+        </td>
+    {% endif %}
 {% endblock %}

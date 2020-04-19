@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -73,9 +74,27 @@ class FormTypeExtension extends AbstractTypeExtension
 
             ->setDefault('input_prefix', null)
             ->setAllowedTypes('input_prefix', ['null', 'string'])
+            ->setNormalizer('input_prefix', function (Options $options, $value) {
+                if ($options['input_prefix_text']) {
+                    return sprintf('<span class="input-group-text">%s</span>', $options['input_prefix_text']);
+                }
+                return $value;
+            })
 
             ->setDefault('input_suffix', null)
-            ->setAllowedTypes('input_suffix', ['null', 'string']);
+            ->setAllowedTypes('input_suffix', ['null', 'string'])
+            ->setNormalizer('input_suffix', function (Options $options, $value) {
+                if ($options['input_suffix_text']) {
+                    return sprintf('<span class="input-group-text">%s</span>', $options['input_suffix_text']);
+                }
+                return $value;
+            })
+
+            ->setDefault('input_prefix_text', null)
+            ->setAllowedTypes('input_prefix_text', ['null', 'string'])
+
+            ->setDefault('input_suffix_text', null)
+            ->setAllowedTypes('input_suffix_text', ['null', 'string']);
     }
 
     /**

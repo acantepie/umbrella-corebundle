@@ -28,6 +28,7 @@ class UmbrellaCollectionType extends AbstractType
     {
         $view->vars['sortable'] = $options['sortable'];
         $view->vars['max_length'] = $options['max_length'];
+        $view->vars['collection_compound'] = false;
     }
 
     /**

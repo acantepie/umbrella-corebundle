@@ -68,25 +68,40 @@ class DataTable extends AbstractDataTable
             ->getPropertyAccessor();
 
         $computedData = array();
+        $computedIds = array();
 
         // compute result
         foreach ($result->data as $row) {
             $fetchedRow = array();
 
-            $id = is_array($row)
-                ? $accessor->getValue($row, '[id]')
-                : $accessor->getValue($row, 'id');
+            $id = $accessor->getValue($row, $this->options['id_path']);
+            $computedIds[] = $id;
 
             // Add row id data
             $fetchedRow['DT_RowAttr'] = array('data-id' => $id);
 
             // Add row class
+            $fetchedRow['DT_RowClass'] = '';
             if (is_string($this->options['row_class'])) {
                 $fetchedRow['DT_RowClass'] = $this->options['row_class'];
             } else if (is_callable($this->options['row_class'])) {
                 $fetchedRow['DT_RowClass'] = call_user_func($this->options['row_class'], $row);
             }
 
+            // Add row treegrid- class
+            if ($this->options['tree']) {
+                $fetchedRow['DT_RowClass'] .= sprintf('treegrid-%s', $id);
+
+                $parent = $accessor->getValue($row, $this->options['parent_path']);
+                if ($parent) {
+                    $parentId = $accessor->getValue($parent, $this->options['id_path']);
+                    if (in_array($parentId, $computedIds)) {
+                        $fetchedRow['DT_RowClass'] .= sprintf(' treegrid-parent-%s', $parentId);
+                    }
+                }
+            }
+
+            // Add column render
             foreach ($this->columns as $column) {
                 $fetchedRow[] = $column->render($row);
             }
@@ -108,6 +123,15 @@ class DataTable extends AbstractDataTable
             ->setDefault('id', $this->defaultId)
             ->setAllowedTypes('id', 'string')
 
+            ->setDefault('id_path', 'id')
+            ->setAllowedTypes('id_path', 'string')
+
+            ->setDefault('parent_path', 'parent')
+            ->setAllowedTypes('parent_path', 'string')
+
+            ->setDefault('id', $this->defaultId)
+            ->setAllowedTypes('id', 'string')
+
             ->setDefault('data_class', null)
             ->setAllowedTypes('data_class', ['string', 'null'])
 
@@ -118,21 +142,7 @@ class DataTable extends AbstractDataTable
             })
             ->setAllowedTypes('attr', ['array'])
 
-            ->setDefault('row_class', function (Options $options) {
-                if ($options['tree']) {
-                    $accessor = PropertyAccess::createPropertyAccessor();
-                    return function ($entity) use($accessor) {
-                        $class = sprintf('treegrid-%s', $accessor->getValue($entity, 'id'));
-                        $parent = $accessor->getValue($entity, 'parent');
-                        if ($parent) {
-                            $class .= sprintf(' treegrid-parent-%s', $accessor->getValue($parent, 'id'));
-                        }
-                        return $class;
-                    };
-                } else {
-                    return null;
-                }
-            })
+            ->setDefault('row_class', null)
             ->setAllowedTypes('row_class', ['null', 'array', 'callable'])
 
             ->setDefault('paging', function (Options $options) {

@@ -55,7 +55,7 @@ class ArrayUtils
      *
      * @return array
      */
-    public static function values_as_keys(array  &$array)
+    public static function values_as_keys(array  $array)
     {
         $result = array();
         foreach ($array as $value) {

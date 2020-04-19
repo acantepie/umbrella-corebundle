@@ -1,0 +1,3 @@
+{% block umbrellatitle_row -%}
+    <h4 class="header-title">{{ translation_domain is same as(false) ? label : label|trans(label_translation_parameters, translation_domain) }}</h4>
+{%- endblock %}

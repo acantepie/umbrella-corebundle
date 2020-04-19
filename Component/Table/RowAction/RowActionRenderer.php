@@ -6,14 +6,14 @@
  * Time: 22:32
  */
 
-namespace Umbrella\CoreBundle\Component\RowAction;
+namespace Umbrella\CoreBundle\Component\Table\RowAction;
 
 use Twig\Environment;
 
 /**
- * Class UmbrellaRowActionRenderer
+ * Class RowActionRenderer
  */
-class UmbrellaRowActionRenderer
+class RowActionRenderer
 {
     /**
      * @var Environment
@@ -30,10 +30,10 @@ class UmbrellaRowActionRenderer
     }
 
     /**
-     * @param UmbrellaRowAction $rowAction
+     * @param RowAction $rowAction
      * @return mixed
      */
-    public function render(UmbrellaRowAction $rowAction)
+    public function render(RowAction $rowAction)
     {
         return $this->twig->render('@UmbrellaCore/RowAction/row_action.html.twig', array(
             'action' => $rowAction

@@ -6,12 +6,12 @@
  * Time: 20:07
  */
 
-namespace Umbrella\CoreBundle\Component\RowAction;
+namespace Umbrella\CoreBundle\Component\Table\RowAction;
 
 /**
- * Class UmbrellaRowAction
+ * Class RowAction
  */
-class UmbrellaRowAction
+class RowAction
 {
     const TARGET_SELF = '_self';
     const TARGET_BLANK = '_blank';
@@ -24,7 +24,7 @@ class UmbrellaRowAction
     /**
      * @var string
      */
-    private $class;
+    private $class = 'action-icon';
 
     /**
      * @var string
@@ -71,7 +71,7 @@ class UmbrellaRowAction
 
     /**
      * @param string $icon
-     * @return UmbrellaRowAction
+     * @return RowAction
      */
     public function setIcon($icon)
     {
@@ -89,7 +89,7 @@ class UmbrellaRowAction
 
     /**
      * @param string $class
-     * @return UmbrellaRowAction
+     * @return RowAction
      */
     public function setClass($class)
     {
@@ -127,7 +127,7 @@ class UmbrellaRowAction
 
     /**
      * @param array $routeParams
-     * @return UmbrellaRowAction
+     * @return RowAction
      */
     public function setRouteParams(array $routeParams)
     {
@@ -173,7 +173,7 @@ class UmbrellaRowAction
 
     /**
      * @param string $url
-     * @return UmbrellaRowAction
+     * @return RowAction
      */
     public function setUrl($url)
     {
@@ -191,7 +191,7 @@ class UmbrellaRowAction
 
     /**
      * @param string $title
-     * @return UmbrellaRowAction
+     * @return RowAction
      */
     public function setTitle($title)
     {
@@ -209,7 +209,7 @@ class UmbrellaRowAction
 
     /**
      * @param string $confirm
-     * @return UmbrellaRowAction
+     * @return RowAction
      */
     public function setConfirm($confirm)
     {
@@ -227,7 +227,7 @@ class UmbrellaRowAction
 
     /**
      * @param bool $xhr
-     * @return UmbrellaRowAction
+     * @return RowAction
      */
     public function setXhr($xhr)
     {
@@ -245,7 +245,7 @@ class UmbrellaRowAction
 
     /**
      * @param string $target
-     * @return UmbrellaRowAction
+     * @return RowAction
      */
     public function setTarget($target)
     {

@@ -1,6 +1,6 @@
 {% set url = action.route ? path(action.route, action.routeParams) : action.url %}
 
-<a class="row-action {{ action.class }}"
+<a class="{{ action.class }}"
         {% if action.xhr %}data-xhr-href="{{ url }}" href{% else %}href="{{ url }}"{% endif %}
         {% if action.confirm %}data-confirm="{{ action.confirm | trans }}"{% endif %}
         {% if action.target %}target="{{ action.target }}"{% endif %}

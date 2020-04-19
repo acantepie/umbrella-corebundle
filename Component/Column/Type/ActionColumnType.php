@@ -9,8 +9,8 @@
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Component\RowAction\UmbrellaRowActionBuilder;
-use Umbrella\CoreBundle\Component\RowAction\UmbrellaRowActionRenderer;
+use Umbrella\CoreBundle\Component\Table\RowAction\RowActionBuilder;
+use Umbrella\CoreBundle\Component\Table\RowAction\RowActionRenderer;
 
 /**
  * Class ActionColumn.
@@ -18,15 +18,15 @@ use Umbrella\CoreBundle\Component\RowAction\UmbrellaRowActionRenderer;
 class ActionColumnType extends ColumnType
 {
     /**
-     * @var UmbrellaRowActionRenderer
+     * @var RowActionRenderer
      */
     protected $renderer;
 
     /**
      * ActionColumnType constructor.
-     * @param UmbrellaRowActionRenderer $renderer
+     * @param RowActionRenderer $renderer
      */
-    public function __construct(UmbrellaRowActionRenderer $renderer)
+    public function __construct(RowActionRenderer $renderer)
     {
         $this->renderer = $renderer;
     }
@@ -38,7 +38,7 @@ class ActionColumnType extends ColumnType
      */
     public function render($entity, array $options)
     {
-        $builder = new UmbrellaRowActionBuilder();
+        $builder = new RowActionBuilder();
         if (is_callable($options['action_builder'])) {
             call_user_func($options['action_builder'], $builder, $entity);
         }

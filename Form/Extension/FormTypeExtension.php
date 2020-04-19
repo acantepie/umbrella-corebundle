@@ -40,9 +40,6 @@ class FormTypeExtension extends AbstractTypeExtension
                 $view->vars['label'] = $options['label_prefix'] . $view->vars['label'];
             }
         }
-        if (isset($options['header'])) {
-            $view->vars['header'] = $options['header'];
-        }
 
         $view->vars['input_prefix'] = $options['input_prefix'];
         $view->vars['input_suffix'] = $options['input_suffix'];
@@ -68,9 +65,6 @@ class FormTypeExtension extends AbstractTypeExtension
 
             ->setDefault('label_prefix', 'form.label.')
             ->setAllowedTypes('label_prefix', ['null', 'string'])
-
-            ->setDefault('header', null)
-            ->setAllowedTypes('header', ['null', 'string'])
 
             ->setDefault('input_prefix', null)
             ->setAllowedTypes('input_prefix', ['null', 'string'])

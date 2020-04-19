@@ -73,7 +73,7 @@ class Action implements OptionsAwareInterface
             ->setAllowedTypes('class', ['null', 'string'])
 
             ->setDefault('icon', null)
-            ->setAllowedTypes('class', ['null', 'string']);
+            ->setAllowedTypes('icon', ['null', 'string']);
     }
 
     /**

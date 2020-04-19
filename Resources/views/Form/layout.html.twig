@@ -4,6 +4,7 @@
 {% use "@UmbrellaCore/Form/umbrellacollection.html.twig" %}
 {% use "@UmbrellaCore/Form/accordion.html.twig" %}
 {% use "@UmbrellaCore/Form/async_entity2.html.twig" %}
+{% use "@UmbrellaCore/Form/umbrellatitle.html.twig" %}
 
 {% block form_group_class -%}
 {{ group_class }}
@@ -12,19 +13,6 @@
 {% block form_label_class -%}
 {{ label_class }}
 {%- endblock form_label_class %}
-
-{%- block form_header -%}
-    {% if header is defined and header is not none and header != false %}
-        <div class="title-divider">
-            <h5>{{ header | trans }}</h5>
-        </div>
-    {% endif %}
-{%- endblock form_header -%}
-
-{% block checkbox_row -%}
-    {{- block('form_header') -}}
-    {{ parent() }}
-{%- endblock checkbox_row %}
 
 {%- block choice_widget_options -%}
     {% for group_label, choice in options %}
@@ -38,11 +26,6 @@
         {%- endif -%}
     {% endfor %}
 {%- endblock choice_widget_options -%}
-
-{% block form_row -%}
-    {{- block('form_header') -}}
-    {{ parent() }}
-{%- endblock form_row %}
 
 {% block form_widget_simple -%}
     {% if input_prefix or input_suffix %}

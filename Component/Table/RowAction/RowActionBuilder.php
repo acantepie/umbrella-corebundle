@@ -6,12 +6,12 @@
  * Time: 21:15
  */
 
-namespace Umbrella\CoreBundle\Component\RowAction;
+namespace Umbrella\CoreBundle\Component\Table\RowAction;
 
 /**
- * Class UmbrellaRowActionBuilder
+ * Class RowActionBuilder
  */
-class UmbrellaRowActionBuilder
+class RowActionBuilder
 {
     /**
      * @var array
@@ -19,11 +19,11 @@ class UmbrellaRowActionBuilder
     private $actions = [];
 
     /**
-     * @return UmbrellaRowAction
+     * @return RowAction
      */
     public function create()
     {
-        $action = new UmbrellaRowAction();
+        $action = new RowAction();
         $this->actions[] = $action;
         return $action;
     }
@@ -40,7 +40,7 @@ class UmbrellaRowActionBuilder
     /**
      * @param $route
      * @param $routeParams
-     * @return UmbrellaRowAction
+     * @return RowAction
      */
     public function createEdit($route, array $routeParams = array())
     {
@@ -54,7 +54,7 @@ class UmbrellaRowActionBuilder
     /**
      * @param $route
      * @param $routeParams
-     * @return UmbrellaRowAction
+     * @return RowAction
      */
     public function createDelete($route, array $routeParams = array())
     {
@@ -62,7 +62,6 @@ class UmbrellaRowActionBuilder
             ->setRoute($route, $routeParams)
             ->setIcon('mdi mdi-delete')
             ->setTitle('action.delete')
-            ->setClass('text-danger')
             ->setConfirm('message.delete_confirm')
             ->setXhr(true);
     }
@@ -70,7 +69,7 @@ class UmbrellaRowActionBuilder
     /**
      * @param $route
      * @param $routeParams
-     * @return UmbrellaRowAction
+     * @return RowAction
      */
     public function createShow($route, array $routeParams = array())
     {
@@ -84,7 +83,7 @@ class UmbrellaRowActionBuilder
     /**
      * @param $route
      * @param array $routeParams
-     * @return UmbrellaRowAction
+     * @return RowAction
      */
     public function createAddChild($route, array $routeParams = array())
     {

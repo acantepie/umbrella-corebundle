@@ -31,6 +31,7 @@ services:
     Umbrella\CoreBundle\Component\Table\TableFactory:
         public: true
     Umbrella\CoreBundle\Component\Table\Extension\TableTwigExtension:
+    Umbrella\CoreBundle\Component\Table\RowAction\RowActionRenderer:
 
     # Column
     Umbrella\CoreBundle\Component\Column\Type\ActionColumnType:
@@ -59,8 +60,6 @@ services:
     Umbrella\CoreBundle\Component\DateTime\DateTimeFormatter:
     Umbrella\CoreBundle\Component\DateTime\DateTimeExtension:
 
-    # Row Action
-    Umbrella\CoreBundle\Component\RowAction\UmbrellaRowActionRenderer:
 
     # ---- Umbrella ----#
 

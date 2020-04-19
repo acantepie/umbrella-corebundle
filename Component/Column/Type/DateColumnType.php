@@ -9,7 +9,6 @@
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PropertyAccess\Exception\UnexpectedTypeException;
 
 /**
  * Class DateColumnType.

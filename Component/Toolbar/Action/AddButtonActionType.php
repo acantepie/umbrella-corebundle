@@ -21,7 +21,7 @@ class AddButtonActionType extends ActionType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefault('icon', 'mdi mdi-plus')
+            ->setDefault('icon', 'mdi mdi-plus mr-1')
             ->setDefault('class', 'btn btn-primary');
     }
 }

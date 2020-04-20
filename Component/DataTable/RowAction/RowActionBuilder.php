@@ -75,7 +75,7 @@ class RowActionBuilder
     {
         return $this->create()
             ->setRoute($route, $routeParams)
-            ->setIcon('eye')
+            ->setIcon('mdi mdi-eye')
             ->setTitle('action.show')
             ->setXhr(true);
     }
@@ -85,12 +85,12 @@ class RowActionBuilder
      * @param array $routeParams
      * @return RowAction
      */
-    public function createAddChild($route, array $routeParams = array())
+    public function createAdd($route, array $routeParams = array())
     {
         return $this->create()
             ->setRoute($route, $routeParams)
-            ->setTitle('action.add_child')
-            ->setIcon('add')
+            ->setIcon('mdi mdi-filter-variant-plus')
+            ->setTitle('action.add')
             ->setXhr(true);
     }
 

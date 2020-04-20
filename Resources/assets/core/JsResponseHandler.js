@@ -63,14 +63,6 @@ export default class JsResponseHandler extends KernelAjaxHandler {
             }
         },
 
-        reload_tree(params) {
-            const components = params.ids.length > 0 ? Kernel.findComponentsByCssIds(params.ids) : Kernel.findComponents('Tree');
-            console.log(components.length + ' tree(s) reloaded');
-            for (let component of components) {
-                component.reload();
-            }
-        },
-
         update(params) {
             const $node = $(params.selector);
             $node.html(params.value);

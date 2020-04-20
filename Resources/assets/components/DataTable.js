@@ -171,7 +171,10 @@ export default class DataTable extends KernelComponent {
 
             // treegrid
             if (this.options['tree']) {
-                this.$table.treegrid();
+                this.$table.treegrid({
+                    'treeColumn' : this.options['tree_column'],
+                    'initialState': this.options['tree_state']
+                });
             }
 
             // popover

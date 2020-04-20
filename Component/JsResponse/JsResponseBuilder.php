@@ -31,7 +31,6 @@ class JsResponseBuilder
     const OPEN_MODAL = 'open_modal';
     const CLOSE_MODAL = 'close_modal';
 
-    const RELOAD_TREE = 'reload_tree';
     const RELOAD_TABLE = 'reload_table';
     const RELOAD_MENU = 'reload_menu';
     
@@ -235,13 +234,6 @@ class JsResponseBuilder
         $menu = $this->menuHelper->getMenu($id);
         $html = $this->menuHelper->getRenderer($id)->render($menu);
         return $this->update($container_selector, $html);
-    }
-
-    public function reloadTree($id)
-    {
-        return $this->add(self::RELOAD_TREE, array(
-            'id' => $id,
-        ));
     }
 
 

@@ -173,6 +173,12 @@ class DataTable extends AbstractDataTable
             ->setDefault('tree', false)
             ->setAllowedTypes('tree', 'bool')
 
+            ->setDefault('tree_column', 0)
+            ->setAllowedTypes('tree_column', ['integer'])
+
+            ->setDefault('tree_state', 'expanded')
+            ->setAllowedValues('tree_state', ['expanded', 'collapsed'])
+
             ->setDefault('template', '@UmbrellaCore/DataTable/datatable.html.twig')
             ->setAllowedTypes('template', 'string')
 
@@ -212,6 +218,9 @@ class DataTable extends AbstractDataTable
 
         $jsOptions = array();
         $jsOptions['tree'] = $this->options['tree'];
+        $jsOptions['tree_column'] = $this->options['tree_column'];
+        $jsOptions['tree_state'] = $this->options['tree_state'];
+
         $jsOptions['serverSide'] = true;
         $jsOptions['bFilter'] = false;
         $jsOptions['ajax'] = array(

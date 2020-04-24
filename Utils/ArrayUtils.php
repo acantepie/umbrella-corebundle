@@ -77,4 +77,49 @@ class ArrayUtils
         }
         return $out;
     }
+
+    /**
+     * Convert
+     * [
+     *  a => [
+     *      b => 1,
+     *      c => 2
+     *  ]
+     * ]
+     * to
+     * [
+     *  a.b => 1,
+     *  a.c => 2
+     * ]
+     *
+     * @param array $nested
+     * @param string $baseNs
+     * @param array $stopRules
+     * @return array
+     */
+    public static function remap_nested_array(array $nested, $baseNs = '', $stopRules = [])
+    {
+        $r = [];
+        self::map_recursive_nested_array($nested, $baseNs, $stopRules, $r);
+        return $r;
+    }
+
+    /**
+     * @param $a
+     * @param string $currentNs
+     * @param array $stopRules
+     * @param array $result
+     */
+    private static function map_recursive_nested_array($a, $currentNs = '', array $stopRules = [], array &$result)
+    {
+        if (is_array($a) && !in_array($currentNs, $stopRules)) {
+            foreach ($a as $key => $value) {
+                $ns = empty($currentNs) ? $key : sprintf('%s.%s', $currentNs, $key);
+                self::map_recursive_nested_array($value, $ns, $stopRules, $result);
+            }
+
+        } else {
+            $result[$currentNs] = $a;
+        }
+    }
 }

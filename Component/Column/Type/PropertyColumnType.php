@@ -28,9 +28,7 @@ class PropertyColumnType extends ColumnType
      */
     public function __construct()
     {
-        $this->accessor = PropertyAccess::createPropertyAccessorBuilder()
-            ->disableExceptionOnInvalidPropertyPath()
-            ->getPropertyAccessor();
+        $this->accessor = PropertyAccess::createPropertyAccessor();
     }
 
     /**

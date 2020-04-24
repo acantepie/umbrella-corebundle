@@ -96,7 +96,8 @@ message:
     entity_added: L'élément a bien été crée.
     entity_deleted: L'élément a été supprimé.
     account_updated: Votre compte a bien été mis à jour.
-    request_password_success: Si vous avez créé un compte avec cette adresse, un message vous a été envoyé pour réinitialiser votre mot de passe.
+    check_your_email: Vérifier vos emails
+    request_password_success: Un email a été envoyé à <b>%email%</b>. Vérifier votre boite mail et cliquer sur le lien de réinitialisation du mot de passe.
     password_resetted: Votre mot de passe a bien été réinitialisé.
     signin_to_bo: "Merci de vous identifier pour accéder au service."
 

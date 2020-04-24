@@ -6,8 +6,6 @@ namespace Umbrella\CoreBundle\Services;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Umbrella\CoreBundle\Utils\SQLUtils;
-use Umbrella\UserBundle\Entity\User;
-use Umbrella\UserBundle\Entity\UserGroup;
 
 /**
  * Class EntityIndexer
@@ -47,7 +45,7 @@ class EntityIndexer
     {
         $entitiesClass = $this->em->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
         foreach ($entitiesClass as $entityClass) {
-            if ($this->searchHandler->isSearchable($entityClass) && $entityClass !== User::class && $entityClass !== UserGroup::class) {
+            if ($this->searchHandler->isSearchable($entityClass)) {
                 try {
                     $this->indexEntity($entityClass);
                 } catch (\Exception $ex) {

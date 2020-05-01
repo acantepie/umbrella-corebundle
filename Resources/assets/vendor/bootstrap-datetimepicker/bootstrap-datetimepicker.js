@@ -1,1 +1,0 @@
-require('eonasdan-bootstrap-datetimepicker');

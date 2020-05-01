@@ -1,15 +1,13 @@
-import KernelComponent from "umbrella_core/core/KernelComponent";
-import DatePicker from "umbrella_core/components/form/DatePicker";
-import DateTimePicker from "umbrella_core/components/form/DateTimePicker";
-import Select2 from "umbrella_core/components/form/Select2";
-import AsyncSelect2 from "umbrella_core/components/form/AsyncSelect2";
-import FileUpload from "umbrella_core/components/form/FileUpload";
-import Collection from "umbrella_core/components/form/Collection";
+import DatePicker from "./DatePicker";
+import DateTimePicker from "./DateTimePicker";
+import Select2 from "./Select2";
+import AsyncSelect2 from "./AsyncSelect2";
+import FileUpload from "./FileUpload";
+import Collection from "./Collection";
 
-export default class Form extends KernelComponent {
+export default class Form {
 
     constructor($elt) {
-        super();
         this.$view = $elt;
         this.init();
     }

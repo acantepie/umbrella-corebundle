@@ -1,5 +1,4 @@
-import KernelComponent from "umbrella_core/core/KernelComponent";
-import KernelAjaxHandler from "umbrella_core/core/KernelAjaxHandler";
+import KernelAjaxHandler from "./KernelAjaxHandler";
 import AjaxUtils from "umbrella_core/utils/AjaxUtils";
 
 export default class Kernel {
@@ -83,11 +82,7 @@ export default class Kernel {
     // --- Component
 
     registerComponent(id, definition) {
-        if (!definition instanceof KernelComponent) {
-            console.error(`Can'register component ${id}, he must extends KernelComponent`);
-        } else {
-            this.registry[id] = definition;
-        }
+        this.registry[id] = definition;
     }
 
     allComponents() {

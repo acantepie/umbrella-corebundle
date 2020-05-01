@@ -1,5 +1,5 @@
 import dragula from 'dragula';
-import Form from "umbrella_core/components/form/Form";
+import Form from "./Form";
 
 export default class Collection {
 

@@ -1,9 +1,16 @@
 import Utils from "umbrella_core/utils/Utils";
+import Component from "umbrella_core/core/Component";
 
-export default class Select2 {
+export default class Select2 extends Component {
 
-    constructor($elt) {
-        this.$view = $elt;
+    constructor($view) {
+        super($view);
+
+        if ($.select2) {
+            console.error("Can't use Select2, select2 plugin not loaded");
+            return;
+        }
+
         this.init();
     }
 

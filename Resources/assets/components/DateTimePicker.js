@@ -1,7 +1,15 @@
-export default class DateTimePicker {
+import Component from "umbrella_core/core/Component";
 
-    constructor($elt) {
-        this.$view = $elt;
+export default class DateTimePicker extends Component {
+
+    constructor($view) {
+        super($view);
+
+        if ($.datetimepicker) {
+            console.error("Can't use AsyncSelect2, datetimepicker plugin not loaded");
+            return;
+        }
+
         this.options = {
             format: this.$view.data('format') ? this.$view.data('format') : null,
             locale: 'fr',
@@ -10,7 +18,7 @@ export default class DateTimePicker {
             // inline: true,
             // debug: true,
             toolbarPlacement: 'bottom',
-            showClear: this.$view.data('show-clear') ? this.$view.data('show-clear') : false ,
+            showClear: this.$view.data('show-clear') ? this.$view.data('show-clear') : false,
             icons: {
                 time: 'mdi mdi-clock-outline',
                 date: 'mdi mdi-calendar',

@@ -1,6 +1,39 @@
 export default class AjaxUtils {
 
-    static ajax(options = {}, ajaxHandlerIds = ['jsresponse']) {
+    static handleLink($view) {
+        const options = {
+            url: $view.data('xhr')
+        };
+
+        const confirm = $view.data('confirm');
+        if (confirm) {
+            $.confirm({
+                'text': confirm,
+                'confirm': () => {
+                    AjaxUtils.get(options);
+                }
+            });
+        } else {
+            AjaxUtils.get(options);
+        }
+    }
+
+    static handleForm($view) {
+        let formData = $view.serializeFormToFormData();
+
+        const options = {
+            url: $view.data('xhr'),
+            method: $view.attr('method'),
+            data: formData
+        };
+
+        AjaxUtils.request(options);
+    }
+
+    static request(options = {}, handler = null) {
+        if (handler === null) {
+            handler = app.getAjaxHandler();
+        }
 
         const defaultOptions = {};
         options = {...defaultOptions, ...options};
@@ -10,56 +43,19 @@ export default class AjaxUtils {
             options['processData'] = false;
         }
 
-        let handlers = [];
-        for (let handlerId of ajaxHandlerIds) {
-            const handler = Kernel.getAjaxHandler(handlerId);
-            if (handler) {
-                handlers.push(handler);
-            }
-        }
-
-
-        const defaultSuccessCb = options['success'];
-        options['success'] = (response) => {
-            for(let handler of handlers) {
-                handler.handleSuccess(response);
-            }
-            if (defaultSuccessCb) {
-                defaultSuccessCb(response);
-            }
-        };
-
-        const defaultErrorCb = options['error'];
-        options['error'] = (requestObject, error, errorThrown) => {
-            for(let handler of handlers) {
-                handler.handleError(requestObject, error, errorThrown);
-            }
-            if (defaultErrorCb) {
-                defaultErrorCb(requestObject, error, errorThrown);
-            }
-        };
-
-        const defaultCompleteCb = options['complete'];
-        options['complete'] = () => {
-            for(let handler of handlers) {
-                handler.handleComplete();
-            }
-
-            if (defaultCompleteCb) {
-                defaultCompleteCb();
-            }
-        };
-
+        options['success'] = (response) => handler.success(response); // keep ctx hack
+        options['error'] = (requestObject, error, errorThrown) => handler.error(requestObject, error, errorThrown);  // keep ctx hack
+        options['complete'] = () => handler.complete();  // keep ctx hack
         return $.ajax(options);
     }
 
-    static get(options = {}) {
+    static get(options = {}, handler = null) {
         options['method'] = 'get';
-        return AjaxUtils.ajax(options);
+        return AjaxUtils.request(options, handler);
     }
 
-    static post(options = {}) {
+    static post(options = {}, handler = null) {
         options['method'] = 'post';
-        return AjaxUtils.ajax(options);
+        return AjaxUtils.request(options, handler);
     }
 }

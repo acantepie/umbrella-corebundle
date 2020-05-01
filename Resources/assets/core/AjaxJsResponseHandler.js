@@ -1,8 +1,8 @@
-import KernelAjaxHandler from "umbrella_core/core/KernelAjaxHandler";
+import AjaxHandler from "umbrella_core/core/AjaxHandler";
 
-export default class JsResponseHandler extends KernelAjaxHandler {
+export default class AjaxJsResponseHandler extends AjaxHandler {
 
-    static handlers = {
+    static actions = {
 
         execute_js(params) {
             eval(params.value);
@@ -26,13 +26,13 @@ export default class JsResponseHandler extends KernelAjaxHandler {
 
             if ($opened_modal.length) {
                 $opened_modal.html($modal.find('.modal-dialog'));
-                Kernel.mountComponents($opened_modal);
+                app.mount($opened_modal);
 
             } else {
 
                 // HACK : bs 4 modal doesn't execute script
                 $modal.on('shown.bs.modal', (e) => {
-                    Kernel.mountComponents($(e.target));
+                    app.mount($(e.target));
                     const $scripts = $(e.target).find('script');
                     $.each($scripts, (i, s) => {
                        eval($(s).html());
@@ -56,17 +56,26 @@ export default class JsResponseHandler extends KernelAjaxHandler {
         },
 
         reload_table(params) {
-            const components = params.ids.length > 0 ? Kernel.findComponentsByCssIds(params.ids) : Kernel.findComponents('DataTable');
-            console.log(components.length + ' datatable(s) reloaded');
-            for (let component of components) {
-                component.reload(false);
+            let selector = '';
+            if (params.ids && params.ids.length > 0) {
+                selector = params.ids.map((id) => '#' + id).join(', ');
+            } else {
+                selector = '[data-mount=DataTable]';
+            }
+            AjaxJsResponseHandler.actions.component_call(selector, 'reload');
+        },
+
+
+        component_call(selector, method, args = []) {
+            for (let component of app.getComponents(selector)) {
+                component[method](...args);
             }
         },
 
         update(params) {
-            const $node = $(params.selector);
-            $node.html(params.value);
-            Kernel.mountComponents($node);
+            const $view = $(params.selector);
+            $view.html(params.value);
+            app.mount($view);
         },
 
         remove(params) {
@@ -75,17 +84,17 @@ export default class JsResponseHandler extends KernelAjaxHandler {
 
     };
 
-    handleSuccess(response) {
+    success(response) {
         if (Array.isArray(response)) {
             for (const message of response) {
-                this.handleMessage(message);
+                this.doAction(message);
             }
         } else {
             console.error('JsResponseHandler : invalid response, expected json array.');
         }
     }
 
-    handleError(requestObject, error, errorThrown)
+    error(requestObject, error, errorThrown)
     {
         if (requestObject.status === 401) {
             $.toast({
@@ -100,12 +109,12 @@ export default class JsResponseHandler extends KernelAjaxHandler {
         }
     }
 
-    handleMessage(message) {
-        let handler = JsResponseHandler.handlers[message.action];
-        if (!handler) {
-            console.warning('JsResponseHandler : invalid action ' + message.action);
+    doAction(message) {
+        const action = AjaxJsResponseHandler.actions[message.action];
+        if (!action) {
+            console.error('AjaxHandler : invalid action ' + message.action);
         } else {
-            handler(message.params);
+            action(message.params);
         }
     }
 }

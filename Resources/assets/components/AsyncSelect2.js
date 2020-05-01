@@ -1,9 +1,16 @@
 import Utils from "umbrella_core/utils/Utils";
+import Component from "umbrella_core/core/Component";
 
-export default class AsyncSelect2 {
+export default class AsyncSelect2 extends Component {
 
     constructor($view) {
-        this.$view = $view;
+        super($view);
+
+        if ($.select2) {
+            console.error("Can't use AsyncSelect2, select2 plugin not loaded");
+            return;
+        }
+
         this.init();
     }
 
@@ -89,7 +96,6 @@ export default class AsyncSelect2 {
                 return response;
             }
         };
-
 
 
         if (this.options['render_html']) {

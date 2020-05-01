@@ -1,22 +1,24 @@
 import Toolbar from "./Toolbar";
 import AjaxUtils from "umbrella_core/utils/AjaxUtils";
+import Component from "umbrella_core/core/Component";
 
 /**
  * Custom event :
  * draw:before
  * draw:done
  */
-export default class DataTable {
+export default class DataTable extends Component {
 
-    constructor($elt) {
-        this.$view = $elt;
+    constructor($view) {
+        super($view);
+
         this.$table = this.$view.find('table');
         this.$toolbarAction = this.$view.find('.js-umbrella-toolbar .umbrella-actions');
         this.$toolbarForm = this.$view.find('.js-umbrella-toolbar form');
 
         this.table = null;
 
-        this.options = $elt.data('options') || {};
+        this.options = $view.data('options') || {};
 
         this.init();
         this.bind();
@@ -87,9 +89,9 @@ export default class DataTable {
         this.$table.on('change', '.js-toggle-widget input[type=checkbox]', (e) => {
             const $e = $(e.currentTarget);
             if ($e.is(':checked')) {
-                AjaxUtils.get({url : $e.data('yes-url')});
+                AjaxUtils.get({url: $e.data('yes-url')});
             } else {
-                AjaxUtils.get({url : $e.data('no-url')});
+                AjaxUtils.get({url: $e.data('no-url')});
             }
         });
 
@@ -169,7 +171,7 @@ export default class DataTable {
             // treegrid
             if (this.options['tree']) {
                 this.$table.treegrid({
-                    'treeColumn' : this.options['tree_column'],
+                    'treeColumn': this.options['tree_column'],
                     'initialState': this.options['tree_state']
                 });
             }

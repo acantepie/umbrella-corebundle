@@ -1,9 +1,10 @@
 import Utils from "umbrella_core/utils/Utils";
+import Component from "umbrella_core/core/Component";
 
-export default class FileUpload {
+export default class FileUpload extends Component {
 
-    constructor($elt) {
-        this.$view = $elt;
+    constructor($view) {
+        super($view);
 
         this.$inputFile = this.$view.find('input.js-umbrella-file');
         this.$inputEntity = this.$view.find('input.js-umbrella-entity');

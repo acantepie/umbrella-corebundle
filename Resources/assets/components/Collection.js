@@ -1,10 +1,10 @@
 import dragula from 'dragula';
-import Form from "./Form";
+import Component from "umbrella_core/core/Component";
 
-export default class Collection {
+export default class Collection extends Component {
 
-    constructor($elt) {
-        this.$view = $elt;
+    constructor($view) {
+        super($view);
 
         this.prototype = this.$view.data('prototype');
         this.prototype_name = this.$view.data('prototype-name');
@@ -27,8 +27,7 @@ export default class Collection {
             this.$view.find('tbody').first().append($newRow);
 
             // bind row
-            new Form($newRow);
-            Kernel.mountComponents($newRow);
+            app.mount($newRow);
 
             this.toggleAdd();
             this.$view.trigger('form:row:add', [$newRow]);
@@ -57,8 +56,8 @@ export default class Collection {
         if (this.$view.data('sortable')) {
             dragula({
                 containers: [this.$view.find('tbody')[0]],
-                moves: function(el, source, handle, sibling) {
-                    return  handle.classList.contains('js-sort-handle') || handle.parentNode.classList.contains('js-sort-handle');
+                moves: function (el, source, handle, sibling) {
+                    return handle.classList.contains('js-sort-handle') || handle.parentNode.classList.contains('js-sort-handle');
                 },
                 mirrorContainer: this.$view.find('tbody')[0]
             });

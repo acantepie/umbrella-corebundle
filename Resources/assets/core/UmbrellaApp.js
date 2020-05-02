@@ -1,5 +1,6 @@
 import Component from "umbrella_core/core/Component";
 import Bind from "umbrella_core/core/Bind";
+import AjaxHandler from "umbrella_core/core/AjaxHandler";
 
 export default class UmbrellaApp {
 
@@ -49,15 +50,27 @@ export default class UmbrellaApp {
 
     // *** Ajax handlers *** //
 
-    useAjaxHandler(handlerName, handlerClass) {
-        this.ajaxHandlerRegistry[handlerName] = handlerClass;
+    useAjaxHandler(handlerName, handler) {
+        if (!(handler instanceof AjaxHandler)) {
+            console.error(`Can't use handler ${handler.constructor.name}, he must extends AjaxHandler class`);
+            return;
+        }
+
+        this.ajaxHandlerRegistry[handlerName] = handler;
     }
 
-    getAjaxHandler(handlerName = 'default') {
+    getAjaxHandler(handlerName = null) {
+        if (!handlerName) {
+            handlerName = 'default';
+        }
+
         if (!(handlerName in this.ajaxHandlerRegistry)) {
             throw `No ajax handler registered with name ${handlerName}`;
         }
-        return new this.ajaxHandlerRegistry[handlerName]();
+
+
+
+        return this.ajaxHandlerRegistry[handlerName];
     }
 
     // *** Bind *** //

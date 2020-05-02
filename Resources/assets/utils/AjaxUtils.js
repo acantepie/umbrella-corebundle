@@ -1,33 +1,27 @@
+import ConfirmModal from "umbrella_core/plugins/ConfirmModal";
+import Spinner from "umbrella_core/plugins/Spinner";
+
 export default class AjaxUtils {
 
     static handleLink($view) {
         const options = {
-            url: $view.data('xhr')
+            url: $view.data('xhr'),
+            confirm: $view.data('confirm') || false,
+            spinner: $view.data('spinner') || false,
+            method: 'get'
         };
-
-        const confirm = $view.data('confirm');
-        if (confirm) {
-            $.confirm({
-                'text': confirm,
-                'confirm': () => {
-                    AjaxUtils.get(options);
-                }
-            });
-        } else {
-            AjaxUtils.get(options);
-        }
+        return this.request(options);
     }
 
     static handleForm($view) {
-        let formData = $view.serializeFormToFormData();
-
         const options = {
             url: $view.data('xhr'),
-            method: $view.attr('method'),
-            data: formData
+            confirm: $view.data('confirm') || false,
+            spinner: $view.data('spinner') || false,
+            method: $view.attr('method') || 'post',
+            data: $view.serializeFormToFormData()
         };
-
-        AjaxUtils.request(options);
+        return this.request(options);
     }
 
     static request(options = {}, handler = null) {
@@ -35,18 +29,37 @@ export default class AjaxUtils {
             handler = app.getAjaxHandler();
         }
 
-        const defaultOptions = {};
-        options = {...defaultOptions, ...options};
-
         if ('data' in options && options['data'] instanceof FormData) {
             options['contentType'] = false;
             options['processData'] = false;
         }
 
-        options['success'] = (response) => handler.success(response); // keep ctx hack
-        options['error'] = (requestObject, error, errorThrown) => handler.error(requestObject, error, errorThrown);  // keep ctx hack
-        options['complete'] = () => handler.complete();  // keep ctx hack
-        return $.ajax(options);
+        if ('spinner' in options && false !== options['spinner']) {
+            Spinner.show({text: options['spinner']});
+        }
+
+        options['success'] = (response) => {
+            handler.success(response);
+        };
+        options['error'] = (requestObject, error, errorThrown) => {
+            handler.error(requestObject, error, errorThrown);
+        };
+        options['complete'] = () => {
+            console.log('hide');
+            Spinner.hide();
+            handler.complete();
+        };
+
+        if ('confirm' in options && false !== options['confirm']) {
+            ConfirmModal.show({
+                'text': options['confirm'],
+                'confirm': () => $.ajax(options)
+            });
+        } else {
+            return $.ajax(options);
+        }
+
+
     }
 
     static get(options = {}, handler = null) {

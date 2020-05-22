@@ -28,7 +28,7 @@ abstract class AbstractSourceModifier
     }
 
     /**
-     * @param array $args
+     * @param  array $args
      * @return mixed
      */
     abstract public function modify(array $args);
@@ -42,7 +42,7 @@ abstract class AbstractSourceModifier
     }
 
     /**
-     * @param CallbackSourceModifier $modifier
+     * @param  CallbackSourceModifier $modifier
      * @return int
      */
     public function compare(CallbackSourceModifier $modifier)
@@ -52,5 +52,4 @@ abstract class AbstractSourceModifier
         }
         return ($this->priority < $modifier->getPriority()) ? -1 : 1;
     }
-
 }

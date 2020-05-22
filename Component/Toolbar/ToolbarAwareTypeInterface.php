@@ -16,7 +16,7 @@ interface ToolbarAwareTypeInterface
 {
     /**
      * @param ToolbarBuilder $builder
-     * @param array $options
+     * @param array          $options
      */
     public function buildToolbar(ToolbarBuilder $builder, array $options);
 }

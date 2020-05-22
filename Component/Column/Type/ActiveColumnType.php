@@ -25,5 +25,4 @@ class ActiveColumnType extends BooleanColumnType
             ->setDefault('yes_value', 'common.enable')
             ->setDefault('no_value', 'common.disabled');
     }
-
 }

@@ -9,8 +9,8 @@
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class ManyColumnType
@@ -32,7 +32,7 @@ class ManyColumnType extends ColumnType
 
     /**
      * @param $entity
-     * @param array $options
+     * @param  array  $options
      * @return string
      */
     public function render($entity, array $options)
@@ -42,7 +42,7 @@ class ManyColumnType extends ColumnType
             throw new \InvalidArgumentException("Attribute {$options['many_path']} must be iterable.");
         }
 
-        $html = "";
+        $html = '';
         foreach ($many as $one) {
             $html .= call_user_func($options['one_renderer'], $one, $options);
         }
@@ -51,7 +51,7 @@ class ManyColumnType extends ColumnType
 
     /**
      * @param $one
-     * @param array $options
+     * @param  array  $options
      * @return string
      */
     public function renderOne($one, array $options)
@@ -82,6 +82,4 @@ class ManyColumnType extends ColumnType
 
             ->setDefault('renderer', [$this, 'render']);
     }
-
-
 }

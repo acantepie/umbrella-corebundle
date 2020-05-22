@@ -7,6 +7,7 @@
  */
 
 namespace Umbrella\CoreBundle\Annotation;
+
 use Doctrine\Common\Annotations\Annotation\Target;
 
 /**
@@ -17,5 +18,4 @@ use Doctrine\Common\Annotations\Annotation\Target;
  */
 class SearchableField
 {
-
 }

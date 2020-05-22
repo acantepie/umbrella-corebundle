@@ -19,17 +19,17 @@ class ToolbarFactory
     /**
      * @var FormFactoryInterface
      */
-   private $formFactory;
+    private $formFactory;
 
     /**
      * @var ActionFactory
      */
-   private $actionFactory;
+    private $actionFactory;
 
     /**
      * ToolbarFactory constructor.
      * @param FormFactoryInterface $formFactory
-     * @param ActionFactory $actionFactory
+     * @param ActionFactory        $actionFactory
      */
     public function __construct(FormFactoryInterface $formFactory, ActionFactory $actionFactory)
     {
@@ -38,17 +38,17 @@ class ToolbarFactory
     }
 
     /**
-     * @param ToolbarAwareTypeInterface $awareType
-     * @param array $options
+     * @param  ToolbarAwareTypeInterface $awareType
+     * @param  array                     $options
      * @return Toolbar
      */
-    public function create(ToolbarAwareTypeInterface $awareType, array $options = array())
+    public function create(ToolbarAwareTypeInterface $awareType, array $options = [])
     {
         return $this->createBuilder($awareType)->getToolbar($options);
     }
 
     /**
-     * @param ToolbarAwareTypeInterface $awareType
+     * @param  ToolbarAwareTypeInterface $awareType
      * @return ToolbarBuilder
      */
     public function createBuilder(ToolbarAwareTypeInterface $awareType)

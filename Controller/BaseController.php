@@ -10,19 +10,19 @@
 namespace Umbrella\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder;
+use Umbrella\CoreBundle\Component\Toast\Toast;
 use Umbrella\CoreBundle\Component\Menu\MenuHelper;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
-use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTable;
+use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Umbrella\CoreBundle\Component\Toast\ToastFactory;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
 use Umbrella\CoreBundle\Component\DataTable\DataTableBuilder;
 use Umbrella\CoreBundle\Component\DataTable\DataTableFactory;
-use Umbrella\CoreBundle\Component\Toast\Toast;
-use Umbrella\CoreBundle\Component\Toast\ToastFactory;
-use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
-use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
+use Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTable;
 
 /**
  * Class BaseController.
@@ -30,6 +30,20 @@ use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
 abstract class BaseController extends AbstractController
 {
     const BAG_TOAST = 'toast';
+
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                ToastFactory::class,
+                ToolbarFactory::class,
+                DataTableFactory::class,
+                JsResponseBuilder::class,
+                'translator' => TranslatorInterface::class
+            ]
+        );
+    }
 
     /**
      * @param $id
@@ -39,7 +53,7 @@ abstract class BaseController extends AbstractController
      *
      * @return string
      */
-    protected function trans($id, array $parameters = array(), $domain = null, $locale = null)
+    protected function trans($id, array $parameters = [], $domain = null, $locale = null)
     {
         return $this->get('translator')->trans($id, $parameters, $domain, $locale);
     }
@@ -53,15 +67,14 @@ abstract class BaseController extends AbstractController
      *
      * @return string
      */
-    protected function transChoice($id, $number, array $parameters = array(), $domain = null, $locale = null)
+    protected function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null)
     {
         return $this->get('translator')->transChoice($id, $number, $parameters, $domain, $locale);
     }
 
-
     /**
      * @param $className
-     * @param null $persistentManagerName
+     * @param  null                                          $persistentManagerName
      * @return \Doctrine\Common\Persistence\ObjectRepository
      */
     protected function getRepository($className, $persistentManagerName = null)
@@ -111,7 +124,7 @@ abstract class BaseController extends AbstractController
      *
      * @return Toolbar
      */
-    protected function createToolbar($type, array $options = array())
+    protected function createToolbar($type, array $options = [])
     {
         return $this->get(ToolbarFactory::class)->create($type, $options);
     }
@@ -122,18 +135,18 @@ abstract class BaseController extends AbstractController
      *
      * @return AbstractDataTable
      */
-    protected function createTable($type, array $options = array())
+    protected function createTable($type, array $options = [])
     {
         return $this->get(DataTableFactory::class)->create($type, $options);
     }
 
     /**
-     * @param array $options
+     * @param array  $options
      * @param string $type
      *
      * @return DataTableBuilder
      */
-    protected function createTableBuilder(array $options = array(), $type = AbstractDataTable::class)
+    protected function createTableBuilder(array $options = [], $type = AbstractDataTable::class)
     {
         return $this->get(DataTableFactory::class)->createBuilder($type, $options);
     }
@@ -159,7 +172,7 @@ abstract class BaseController extends AbstractController
      * @param $transId
      * @param array $transParams
      */
-    protected function toastInfo($transId, array $transParams = array())
+    protected function toastInfo($transId, array $transParams = [])
     {
         return $this->addBagToast($this->get(ToastFactory::class)->createInfo($transId, $transParams));
     }
@@ -168,7 +181,7 @@ abstract class BaseController extends AbstractController
      * @param $transId
      * @param array $transParams
      */
-    protected function toastSuccess($transId, array $transParams = array())
+    protected function toastSuccess($transId, array $transParams = [])
     {
         return $this->addBagToast($this->get(ToastFactory::class)->createSuccess($transId, $transParams));
     }
@@ -177,7 +190,7 @@ abstract class BaseController extends AbstractController
      * @param $transId
      * @param array $transParams
      */
-    protected function toastWarning($transId, array $transParams = array())
+    protected function toastWarning($transId, array $transParams = [])
     {
         return $this->addBagToast($this->get(ToastFactory::class)->createWarning($transId, $transParams));
     }
@@ -186,7 +199,7 @@ abstract class BaseController extends AbstractController
      * @param $transId
      * @param array $transParams
      */
-    protected function toastError($transId, array $transParams = array())
+    protected function toastError($transId, array $transParams = [])
     {
         return $this->addBagToast($this->get(ToastFactory::class)->createError($transId, $transParams));
     }
@@ -233,19 +246,5 @@ abstract class BaseController extends AbstractController
         if ($target === false) {
             throw $this->createAccessDeniedException($message);
         }
-    }
-
-    public static function getSubscribedServices()
-    {
-        return array_merge(
-            parent::getSubscribedServices(),
-            array(
-                ToastFactory::class,
-                ToolbarFactory::class,
-                DataTableFactory::class,
-                JsResponseBuilder::class,
-                'translator' => TranslatorInterface::class
-            )
-        );
     }
 }

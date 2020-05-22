@@ -8,10 +8,9 @@
 
 namespace Umbrella\CoreBundle\Listener;
 
-
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder;
 
 /**
@@ -19,7 +18,6 @@ use Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder;
  */
 class UmbrellaViewResponseListener implements EventSubscriberInterface
 {
-
     /**
      * @param ViewEvent $event
      */
@@ -36,8 +34,8 @@ class UmbrellaViewResponseListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
-            KernelEvents::VIEW => array('onKernelView', 40),
-        );
+        return [
+            KernelEvents::VIEW => ['onKernelView', 40],
+        ];
     }
 }

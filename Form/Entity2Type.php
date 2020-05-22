@@ -15,7 +15,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
  */
 class Entity2Type extends Choice2Type
 {
-
     /**
      * {@inheritdoc}
      */

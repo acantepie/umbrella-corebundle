@@ -9,37 +9,36 @@
 namespace Umbrella\CoreBundle\Component\Toolbar\Extension;
 
 use Twig\Environment;
-use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-use Umbrella\CoreBundle\Component\Toolbar\Action\Action;
+use Twig\Extension\AbstractExtension;
 use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
+use Umbrella\CoreBundle\Component\Toolbar\Action\Action;
 
 /**
  * Class ToolbarTwigExtension.
  */
 class ToolbarTwigExtension extends AbstractExtension
 {
-
     /**
      * {@inheritdoc}
      */
     public function getFunctions()
     {
-        return array(
-            new TwigFunction('render_toolbar', array($this, 'render'), array(
-                'is_safe' => array('html'),
+        return [
+            new TwigFunction('render_toolbar', [$this, 'render'], [
+                'is_safe' => ['html'],
                 'needs_environment' => true,
-            )),
-            new TwigFunction('render_action', array($this, 'renderAction'), array(
-                'is_safe' => array('html'),
+            ]),
+            new TwigFunction('render_action', [$this, 'renderAction'], [
+                'is_safe' => ['html'],
                 'needs_environment' => true,
-            )),
-        );
+            ]),
+        ];
     }
 
     /**
-     * @param Environment $twig
-     * @param Toolbar $toolbar
+     * @param  Environment $twig
+     * @param  Toolbar     $toolbar
      * @return string
      */
     public function render(Environment $twig, Toolbar $toolbar)
@@ -48,8 +47,8 @@ class ToolbarTwigExtension extends AbstractExtension
     }
 
     /**
-     * @param Environment $twig
-     * @param Action $action
+     * @param  Environment $twig
+     * @param  Action      $action
      * @return string
      */
     public function renderAction(Environment $twig, Action $action)

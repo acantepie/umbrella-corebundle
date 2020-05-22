@@ -33,7 +33,7 @@ class ActionColumnType extends ColumnType
 
     /**
      * @param $entity
-     * @param array $options
+     * @param  array  $options
      * @return string
      */
     public function render($entity, array $options)
@@ -59,7 +59,7 @@ class ActionColumnType extends ColumnType
 
         $resolver
             ->setDefault('action_builder', null)
-            ->setAllowedTypes('action_builder', array('null', 'callable'))
+            ->setAllowedTypes('action_builder', ['null', 'callable'])
 
             ->setDefault('class', 'disable-row-click text-right')
             ->setDefault('width', '100px')

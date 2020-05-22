@@ -20,12 +20,11 @@ class SendSelectedActionType extends ActionType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'attr' => array(
+        $resolver->setDefaults([
+            'attr' => [
                 'data-send' => 'selected'
-            ),
+            ],
             'xhr' => false,
-        ));
+        ]);
     }
-
 }

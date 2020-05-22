@@ -8,10 +8,10 @@
 
 namespace Umbrella\CoreBundle\Component\JsResponse;
 
-use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
-use Umbrella\CoreBundle\Component\Menu\MenuHelper;
+use Symfony\Component\Routing\RouterInterface;
 use Umbrella\CoreBundle\Component\Toast\Toast;
+use Umbrella\CoreBundle\Component\Menu\MenuHelper;
 use Umbrella\CoreBundle\Component\Toast\ToastFactory;
 
 /**
@@ -19,7 +19,6 @@ use Umbrella\CoreBundle\Component\Toast\ToastFactory;
  */
 class JsResponseBuilder
 {
-
     const TOAST = 'toast';
     const EXECUTE_JS = 'execute_js';
     const REDIRECT = 'redirect';
@@ -37,7 +36,7 @@ class JsResponseBuilder
     /**
      * @var array
      */
-    private $messages = array();
+    private $messages = [];
 
     /**
      * @var RouterInterface
@@ -62,9 +61,9 @@ class JsResponseBuilder
     /**
      * JsResponseBuilder constructor.
      * @param RouterInterface $router
-     * @param Environment $twig
-     * @param MenuHelper $menuHelper
-     * @param ToastFactory $toastFactory
+     * @param Environment     $twig
+     * @param MenuHelper      $menuHelper
+     * @param ToastFactory    $toastFactory
      */
     public function __construct(RouterInterface $router, Environment $twig, MenuHelper $menuHelper, ToastFactory $toastFactory)
     {
@@ -80,7 +79,7 @@ class JsResponseBuilder
      *
      * @return JsResponseBuilder
      */
-    public function add($action, $params = array())
+    public function add($action, $params = [])
     {
         $this->messages[] = new JsMessage($action, $params);
         return $this;
@@ -92,18 +91,8 @@ class JsResponseBuilder
      */
     public function clear()
     {
-        $this->messages = array();
+        $this->messages = [];
         return $this;
-    }
-
-    /**
-     *
-     */
-    private function orderActions()
-    {
-        uasort($this->messages, function (JsMessage $a, JsMessage $b) {
-            return $a->compare($b);
-        });
     }
 
     /**
@@ -132,8 +121,6 @@ class JsResponseBuilder
         return count($this->messages);
     }
 
-
-
     // Misc actions
 
     public function toast(Toast $toast)
@@ -141,36 +128,36 @@ class JsResponseBuilder
         return $this->add(self::TOAST, $toast->getViewOptions());
     }
 
-    public function toastInfo($transId, array $transParams = array())
+    public function toastInfo($transId, array $transParams = [])
     {
         return $this->toast($this->toastFactory->createInfo($transId, $transParams));
     }
 
-    public function toastSuccess($transId, array $transParams = array())
+    public function toastSuccess($transId, array $transParams = [])
     {
         return $this->toast($this->toastFactory->createSuccess($transId, $transParams));
     }
 
-    public function toastWarning($transId, array $transParams = array())
+    public function toastWarning($transId, array $transParams = [])
     {
         return $this->toast($this->toastFactory->createWarning($transId, $transParams));
     }
 
-    public function toastError($transId, array $transParams = array())
+    public function toastError($transId, array $transParams = [])
     {
         return $this->toast($this->toastFactory->createError($transId, $transParams));
     }
 
-    public function redirectToRoute($route, array $params = array())
+    public function redirectToRoute($route, array $params = [])
     {
         return $this->redirect($this->router->generate($route, $params));
     }
 
     public function redirect($url)
     {
-        return $this->add(self::REDIRECT, array(
+        return $this->add(self::REDIRECT, [
             'value' => $url,
-        ));
+        ]);
     }
 
     public function reload()
@@ -180,9 +167,9 @@ class JsResponseBuilder
 
     public function execute($js)
     {
-        return $this->add(self::EXECUTE_JS, array(
+        return $this->add(self::EXECUTE_JS, [
             'value' => $js,
-        ));
+        ]);
     }
 
     // Html actions
@@ -192,7 +179,7 @@ class JsResponseBuilder
         return $this->addHtmlMessage(self::UPDATE_HTML, $html, $css_selector);
     }
 
-    public function updateView($css_selector, $template, array $context = array())
+    public function updateView($css_selector, $template, array $context = [])
     {
         return $this->update($css_selector, $this->twig->render($template, $context));
     }
@@ -202,7 +189,6 @@ class JsResponseBuilder
         return $this->addHtmlMessage(self::REMOVE_HTML, null, $css_selector);
     }
 
-
     // Modal actions
 
     public function openModal($html)
@@ -210,7 +196,7 @@ class JsResponseBuilder
         return $this->addHtmlMessage(self::OPEN_MODAL, $html);
     }
 
-    public function openModalView($template, array $context = array())
+    public function openModalView($template, array $context = [])
     {
         return $this->openModal($this->twig->render($template, $context));
     }
@@ -224,9 +210,9 @@ class JsResponseBuilder
 
     public function reloadTable($ids = null)
     {
-        return $this->add(self::RELOAD_TABLE, array(
+        return $this->add(self::RELOAD_TABLE, [
             'ids' => (array) $ids,
-        ));
+        ]);
     }
 
     public function reloadMenu($id, $container_selector = '#aside')
@@ -236,6 +222,12 @@ class JsResponseBuilder
         return $this->update($container_selector, $html);
     }
 
+    private function orderActions()
+    {
+        uasort($this->messages, function (JsMessage $a, JsMessage $b) {
+            return $a->compare($b);
+        });
+    }
 
     // Utils
 
@@ -248,9 +240,9 @@ class JsResponseBuilder
      */
     private function addHtmlMessage($type, $html = null, $css_selector = null)
     {
-        return $this->add($type, array(
+        return $this->add($type, [
             'value' => $html,
             'selector' => $css_selector,
-        ));
+        ]);
     }
 }

@@ -9,8 +9,8 @@
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class PropertyColumnType.
@@ -33,7 +33,7 @@ class PropertyColumnType extends ColumnType
 
     /**
      * @param $entity
-     * @param array $options
+     * @param  array  $options
      * @return string
      */
     public function render($entity, array $options)

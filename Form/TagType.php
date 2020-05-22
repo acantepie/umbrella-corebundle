@@ -8,22 +8,20 @@
 
 namespace Umbrella\CoreBundle\Form;
 
-
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class TagType
  */
 class TagType extends AbstractType
 {
-
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -35,11 +33,11 @@ class TagType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'attr' => array(
+        $resolver->setDefaults([
+            'attr' => [
                 'class' => 'js-umbrella-tag'
-            )
-        ));
+            ]
+        ]);
     }
 
     /**
@@ -49,7 +47,6 @@ class TagType extends AbstractType
     {
         return TextType::class;
     }
-
 }
 
 /**
@@ -61,7 +58,7 @@ class TagTransformer implements DataTransformerInterface
 
     /**
      * Transform array => string
-     * @param array $tags
+     * @param  array  $tags
      * @return string
      */
     public function transform($tags)
@@ -72,7 +69,7 @@ class TagTransformer implements DataTransformerInterface
     /**
      * Transform string => array
      *
-     * @param string $data
+     * @param  string     $data
      * @return array|null
      */
     public function reverseTransform($data)

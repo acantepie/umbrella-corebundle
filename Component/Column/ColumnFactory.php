@@ -20,7 +20,7 @@ class ColumnFactory
     /**
      * @var ColumnType[]
      */
-    private $columnTypes = array();
+    private $columnTypes = [];
 
     /**
      * @param $id
@@ -37,7 +37,7 @@ class ColumnFactory
      *
      * @return Column
      */
-    public function create($typeClass, array $options = array())
+    public function create($typeClass, array $options = [])
     {
         $type = $this->createType($typeClass);
         $column = new Column();
@@ -50,7 +50,6 @@ class ColumnFactory
 
         return $column;
     }
-
 
     /**
      * @param $typeClass

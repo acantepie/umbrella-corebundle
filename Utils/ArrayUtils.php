@@ -57,7 +57,7 @@ class ArrayUtils
      */
     public static function values_as_keys(array  $array)
     {
-        $result = array();
+        $result = [];
         foreach ($array as $value) {
             $result[$value] = $value;
         }
@@ -70,7 +70,8 @@ class ArrayUtils
      * @param $xs
      * @return array
      */
-    public static function array_map_recursive($f, array $xs) {
+    public static function array_map_recursive($f, array $xs)
+    {
         $out = [];
         foreach ($xs as $k => $x) {
             $out[$k] = (is_array($x)) ? self::array_map_recursive($f, $x) : $f($x);
@@ -92,9 +93,9 @@ class ArrayUtils
      *  a.c => 2
      * ]
      *
-     * @param array $nested
-     * @param string $baseNs
-     * @param array $stopRules
+     * @param  array  $nested
+     * @param  string $baseNs
+     * @param  array  $stopRules
      * @return array
      */
     public static function remap_nested_array(array $nested, $baseNs = '', $stopRules = [])
@@ -107,8 +108,8 @@ class ArrayUtils
     /**
      * @param $a
      * @param string $currentNs
-     * @param array $stopRules
-     * @param array $result
+     * @param array  $stopRules
+     * @param array  $result
      */
     private static function map_recursive_nested_array($a, $currentNs = '', array $stopRules = [], array &$result)
     {
@@ -117,7 +118,6 @@ class ArrayUtils
                 $ns = empty($currentNs) ? $key : sprintf('%s.%s', $currentNs, $key);
                 self::map_recursive_nested_array($value, $ns, $stopRules, $result);
             }
-
         } else {
             $result[$currentNs] = $a;
         }

@@ -2,15 +2,15 @@
 
 namespace Umbrella\CoreBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader;
-use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
-use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
-use Umbrella\CoreBundle\Component\Toolbar\Action\ActionType;
-use Umbrella\CoreBundle\Extension\WebpackTwigExtension;
 use Umbrella\CoreBundle\Services\UmbrellaRedis;
+use Symfony\Component\DependencyInjection\Loader;
+use Umbrella\CoreBundle\Extension\WebpackTwigExtension;
+use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Umbrella\CoreBundle\Component\Toolbar\Action\ActionType;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 
 /**
  * This is the class that loads and manages your bundle configuration.

@@ -54,19 +54,17 @@ class SearchHandler
             return false;
         }
 
-        $searches = array();
+        $searches = [];
         foreach ($this->reader->getSearchableProperties($entityClass) as $property => $annotation) {
             $searches[] = (string)$entity->{$property};
         }
 
         foreach ($this->reader->getSearchableMethods($entityClass) as $method => $annotation) {
-            $searches[] = (string) call_user_func(array($entity, $method));
+            $searches[] = (string) call_user_func([$entity, $method]);
         }
 
         $search = implode(' ', $searches);
         $entity->{$searchable->getSearchField()} = $search;
         return true;
     }
-
-
 }

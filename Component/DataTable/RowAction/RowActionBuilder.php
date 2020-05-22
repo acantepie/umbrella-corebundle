@@ -42,7 +42,7 @@ class RowActionBuilder
      * @param $routeParams
      * @return RowAction
      */
-    public function createEdit($route, array $routeParams = array())
+    public function createEdit($route, array $routeParams = [])
     {
         return $this->create()
             ->setRoute($route, $routeParams)
@@ -56,7 +56,7 @@ class RowActionBuilder
      * @param $routeParams
      * @return RowAction
      */
-    public function createDelete($route, array $routeParams = array())
+    public function createDelete($route, array $routeParams = [])
     {
         return $this->create()
             ->setRoute($route, $routeParams)
@@ -71,7 +71,7 @@ class RowActionBuilder
      * @param $routeParams
      * @return RowAction
      */
-    public function createShow($route, array $routeParams = array())
+    public function createShow($route, array $routeParams = [])
     {
         return $this->create()
             ->setRoute($route, $routeParams)
@@ -82,10 +82,10 @@ class RowActionBuilder
 
     /**
      * @param $route
-     * @param array $routeParams
+     * @param  array     $routeParams
      * @return RowAction
      */
-    public function createAdd($route, array $routeParams = array())
+    public function createAdd($route, array $routeParams = [])
     {
         return $this->create()
             ->setRoute($route, $routeParams)

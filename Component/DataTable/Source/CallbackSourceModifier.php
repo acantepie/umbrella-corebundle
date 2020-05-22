@@ -21,7 +21,7 @@ class CallbackSourceModifier extends AbstractSourceModifier
     /**
      * SourceModifier constructor.
      * @param callable $callback
-     * @param int $priority
+     * @param int      $priority
      */
     public function __construct(callable $callback, $priority = 0)
     {
@@ -30,7 +30,7 @@ class CallbackSourceModifier extends AbstractSourceModifier
     }
 
     /**
-     * @param array $args
+     * @param  array $args
      * @return mixed
      */
     public function modify(array $args)

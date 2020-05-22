@@ -15,10 +15,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class BadgeColumnType extends PropertyColumnType
 {
-
     /**
      * @param $entity
-     * @param array $options
+     * @param  array  $options
      * @return string
      */
     public function render($entity, array $options)

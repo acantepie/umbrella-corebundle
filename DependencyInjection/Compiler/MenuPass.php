@@ -2,12 +2,12 @@
 
 namespace Umbrella\CoreBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 use Umbrella\CoreBundle\Component\Menu\MenuProvider;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Umbrella\CoreBundle\Component\Menu\MenuRendererProvider;
 use Umbrella\CoreBundle\Component\Menu\Renderer\MenuRendererInterface;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 /**
  * Class MenuPass
@@ -21,7 +21,6 @@ class MenuPass implements CompilerPassInterface
 
             foreach ($container->findTaggedServiceIds('umbrella.menu.factory') as $id => $tags) {
                 foreach ($tags as $attributes) {
-
                     if (empty($attributes['alias'])) {
                         throw new \InvalidArgumentException(sprintf('The alias is not defined in the "umbrella.menu.factory" tag for the service "%s"', $id));
                     }
@@ -33,7 +32,6 @@ class MenuPass implements CompilerPassInterface
                     $definition->addMethodCall('register', [$attributes['alias'], new Reference($id), $attributes['method']]);
                 }
             }
-
         }
 
         if ($container->hasDefinition(MenuRendererProvider::class)) {
@@ -47,7 +45,6 @@ class MenuPass implements CompilerPassInterface
                 }
 
                 foreach ($tags as $attributes) {
-
                     if (empty($attributes['alias'])) {
                         throw new \InvalidArgumentException(sprintf('The alias is not defined in the "umbrella.menu_renderer" tag for the service "%s"', $id));
                     }
@@ -56,6 +53,5 @@ class MenuPass implements CompilerPassInterface
                 }
             }
         }
-
     }
 }

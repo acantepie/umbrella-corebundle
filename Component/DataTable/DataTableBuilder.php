@@ -10,20 +10,20 @@
 namespace Umbrella\CoreBundle\Component\DataTable;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Utils\ComponentUtils;
 use Symfony\Component\Routing\RouterInterface;
-use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
-use Umbrella\CoreBundle\Component\DataTable\Model\DataTable;
 use Umbrella\CoreBundle\Component\Column\Column;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\Column\ColumnFactory;
+use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
+use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
+use Umbrella\CoreBundle\Component\DataTable\Model\DataTable;
+use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTable;
-use Umbrella\CoreBundle\Component\DataTable\Source\AbstractSourceModifier;
 use Umbrella\CoreBundle\Component\DataTable\Source\AbstractTableSource;
 use Umbrella\CoreBundle\Component\DataTable\Source\EntityDataTableSource;
 use Umbrella\CoreBundle\Component\DataTable\Source\EntityTreeTableSource;
-use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
-use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
-use Umbrella\CoreBundle\Utils\ComponentUtils;
+use Umbrella\CoreBundle\Component\DataTable\Source\AbstractSourceModifier;
 
 /**
  * Class TableBuilder.
@@ -58,7 +58,7 @@ class DataTableBuilder
     /**
      * @var array
      */
-    private $options = array();
+    private $options = [];
 
     /**
      * @var string
@@ -73,7 +73,7 @@ class DataTableBuilder
     /**
      * @var array
      */
-    private $columns = array();
+    private $columns = [];
 
     /**
      * @var AbstractTableSource
@@ -83,15 +83,15 @@ class DataTableBuilder
     /**
      * @var AbstractSourceModifier[]
      */
-    private $sourceModifiers = array();
+    private $sourceModifiers = [];
 
     /**
      * TableBuilder constructor.
      *
      * @param EntityManagerInterface $em
-     * @param RouterInterface $router
-     * @param ToolbarFactory $toolbarFactory
-     * @param ColumnFactory $columnFactory
+     * @param RouterInterface        $router
+     * @param ToolbarFactory         $toolbarFactory
+     * @param ColumnFactory          $columnFactory
      * @param $type
      * @param array $options
      */
@@ -101,9 +101,8 @@ class DataTableBuilder
         ToolbarFactory $toolbarFactory,
         ColumnFactory $columnFactory,
         $type,
-        array $options = array()
-    )
-    {
+        array $options = []
+    ) {
         $this->em = $em;
         $this->router = $router;
         $this->toolbarFactory = $toolbarFactory;
@@ -121,12 +120,12 @@ class DataTableBuilder
      *
      * @return $this
      */
-    public function add($id, $columnClass = ColumnType::class, array $options = array())
+    public function add($id, $columnClass = ColumnType::class, array $options = [])
     {
-        $this->columns[$id] = array(
+        $this->columns[$id] = [
             'class' => $columnClass,
             'options' => $options,
-        );
+        ];
 
         return $this;
     }
@@ -164,14 +163,13 @@ class DataTableBuilder
         }
 
         throw new \Exception(sprintf('The column with id "%s" does not exist.', $id));
-
     }
 
     /**
      * @param $route
      * @param array $params
      */
-    public function setLoadAction($route, array $params = array())
+    public function setLoadAction($route, array $params = [])
     {
         $this->loadUrl = $this->router->generate($route, $params);
     }
@@ -180,7 +178,7 @@ class DataTableBuilder
      * @param $route
      * @param array $params
      */
-    public function setRelocateAction($route, array $params = array())
+    public function setRelocateAction($route, array $params = [])
     {
         $this->relocateUrl = $this->router->generate($route, $params);
     }
@@ -201,9 +199,6 @@ class DataTableBuilder
         $this->sourceModifiers[] = $modifier;
     }
 
-    /**
-     *
-     */
     public function clearSourceModifiers()
     {
         $this->sourceModifiers = [];
@@ -252,9 +247,6 @@ class DataTableBuilder
         return $table;
     }
 
-    /**
-     *
-     */
     protected function resolveColumns()
     {
         foreach ($this->columns as $id => $column) {
@@ -273,5 +265,4 @@ class DataTableBuilder
         $column['options']['id'] = $id;
         $this->columns[$id]['resolved'] = $this->columnFactory->create($column['class'], $column['options']);
     }
-
 }

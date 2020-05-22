@@ -61,7 +61,7 @@ abstract class BaseEntity
     {
         $now = new \DateTime('NOW');
 
-        if (!$this->createdAt){
+        if (!$this->createdAt) {
             $this->createdAt = $now;
         }
 

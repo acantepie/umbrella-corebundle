@@ -9,8 +9,8 @@
 namespace Umbrella\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 /**
  * Class CustomCheckboxType
@@ -22,11 +22,11 @@ class CustomCheckboxType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'label_attr' => array(
+        $resolver->setDefaults([
+            'label_attr' => [
                 'class' => 'checkbox-custom'
-            )
-        ));
+            ]
+        ]);
     }
 
     /**
@@ -36,5 +36,4 @@ class CustomCheckboxType extends AbstractType
     {
         return CheckboxType::class;
     }
-
 }

@@ -8,15 +8,15 @@
 
 namespace Umbrella\CoreBundle\Extension;
 
-use Symfony\Component\Asset\Packages;
-use Symfony\Component\HttpKernel\KernelInterface;
-use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
+use Symfony\Component\Asset\Packages;
+use Twig\Extension\AbstractExtension;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * Class WebpackTwigExtension
  */
-class WebpackTwigExtension  extends AbstractExtension
+class WebpackTwigExtension extends AbstractExtension
 {
 
     /**
@@ -46,7 +46,7 @@ class WebpackTwigExtension  extends AbstractExtension
 
     /**
      * WebpackTwigExtension constructor.
-     * @param Packages $packages
+     * @param Packages        $packages
      * @param KernelInterface $kernel
      */
     public function __construct(Packages $packages, KernelInterface $kernel)
@@ -69,14 +69,14 @@ class WebpackTwigExtension  extends AbstractExtension
      */
     public function getFunctions()
     {
-        return array(
-            new TwigFunction('webpack_asset', array($this, 'getAssetUrl')),
-        );
+        return [
+            new TwigFunction('webpack_asset', [$this, 'getAssetUrl']),
+        ];
     }
 
     /**
      * @param $path
-     * @param null $packageName
+     * @param  null   $packageName
      * @return string
      */
     public function getAssetUrl($path, $packageName = null)

@@ -30,7 +30,7 @@ class Searchable
     public function __construct(array $options)
     {
         if (!isset($options['searchField'])) {
-            throw new \InvalidArgumentException("@Searchable annotation expects searchField attribute");
+            throw new \InvalidArgumentException('@Searchable annotation expects searchField attribute');
         }
 
         $this->searchField = $options['searchField'];
@@ -43,6 +43,4 @@ class Searchable
     {
         return $this->searchField;
     }
-
-
 }

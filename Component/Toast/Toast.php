@@ -70,7 +70,7 @@ class Toast
     }
 
     /**
-     * @param bool $loader
+     * @param  bool  $loader
      * @return Toast
      */
     public function setLoader($loader)
@@ -88,7 +88,7 @@ class Toast
     }
 
     /**
-     * @param bool $allowToastClose
+     * @param  bool  $allowToastClose
      * @return Toast
      */
     public function setAllowToastClose($allowToastClose)
@@ -106,7 +106,7 @@ class Toast
     }
 
     /**
-     * @param int $hideAfter
+     * @param  int   $hideAfter
      * @return Toast
      */
     public function setHideAfter($hideAfter)
@@ -124,7 +124,7 @@ class Toast
     }
 
     /**
-     * @param string $title
+     * @param  string $title
      * @return Toast
      */
     public function setTitle($title)
@@ -142,7 +142,7 @@ class Toast
     }
 
     /**
-     * @param string $text
+     * @param  string $text
      * @return Toast
      */
     public function setText($text)
@@ -160,7 +160,7 @@ class Toast
     }
 
     /**
-     * @param string $type
+     * @param  string $type
      * @return Toast
      */
     public function setType($type)
@@ -178,7 +178,7 @@ class Toast
     }
 
     /**
-     * @param string $position
+     * @param  string $position
      * @return Toast
      */
     public function setPosition($position)
@@ -192,7 +192,7 @@ class Toast
      */
     public function getViewOptions()
     {
-        return array(
+        return [
             'heading' => $this->title,
             'text' => $this->text,
             'position' => $this->position,
@@ -200,10 +200,6 @@ class Toast
             'allowToastClose' => $this->allowToastClose,
             'loader' => $this->loader,
             'hideAfter' => $this->hideAfter
-        );
+        ];
     }
-
-
-
-
 }

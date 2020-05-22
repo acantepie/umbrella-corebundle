@@ -8,10 +8,10 @@
 
 namespace Umbrella\CoreBundle\Component\DataTable\Extension;
 
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
-use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
+use Twig\Extension\AbstractExtension;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTable;
 
 /**
@@ -38,16 +38,16 @@ class DataTableTwigExtension extends AbstractExtension
      */
     public function getFunctions()
     {
-        return array(
-            new TwigFunction('render_table', array($this, 'render'), array(
-                'is_safe' => array('html'),
+        return [
+            new TwigFunction('render_table', [$this, 'render'], [
+                'is_safe' => ['html'],
                 'needs_environment' => true,
-            )),
-        );
+            ]),
+        ];
     }
 
     /**
-     * @param Environment $twig
+     * @param Environment       $twig
      * @param AbstractDataTable $table
      *
      * @return string

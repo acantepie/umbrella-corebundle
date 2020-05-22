@@ -20,12 +20,11 @@ class SendSearchedActionType extends ActionType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'attr' => array(
+        $resolver->setDefaults([
+            'attr' => [
                 'data-send' => 'searched'
-            ),
+            ],
             'xhr' => false,
-        ));
+        ]);
     }
-
 }

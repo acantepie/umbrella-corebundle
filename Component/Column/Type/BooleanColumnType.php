@@ -8,9 +8,9 @@
 
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
+use Umbrella\CoreBundle\Utils\HtmlUtils;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Umbrella\CoreBundle\Utils\HtmlUtils;
 
 /**
  * Class EnableColumnType
@@ -34,7 +34,7 @@ class BooleanColumnType extends PropertyColumnType
 
     /**
      * @param $entity
-     * @param array $options
+     * @param  array  $options
      * @return string
      */
     public function render($entity, array $options)
@@ -78,6 +78,4 @@ class BooleanColumnType extends PropertyColumnType
             ->setDefault('no_icon', 'mdi mdi-cancel mr-1')
             ->setAllowedTypes('no_icon', 'string');
     }
-
-
 }

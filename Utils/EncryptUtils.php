@@ -8,7 +8,6 @@
 
 namespace Umbrella\CoreBundle\Utils;
 
-
 class EncryptUtils
 {
     /**
@@ -23,8 +22,7 @@ class EncryptUtils
         $key = hash('sha256', $secretKey);
         $iv = substr(hash('sha256', $secretIv), 0, 16);
 
-
-        $output = openssl_encrypt($string, "AES-256-CBC", $key, 0, $iv);
+        $output = openssl_encrypt($string, 'AES-256-CBC', $key, 0, $iv);
         return base64_encode($output);
     }
 
@@ -40,6 +38,6 @@ class EncryptUtils
         $key = hash('sha256', $secretKey);
         $iv = substr(hash('sha256', $secretIv), 0, 16);
 
-        return openssl_decrypt(base64_decode($string), "AES-256-CBC", $key, 0, $iv);
+        return openssl_decrypt(base64_decode($string), 'AES-256-CBC', $key, 0, $iv);
     }
 }

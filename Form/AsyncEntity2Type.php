@@ -2,18 +2,18 @@
 
 namespace Umbrella\CoreBundle\Form;
 
-use Doctrine\ORM\EntityManagerInterface;
-
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Umbrella\CoreBundle\Form\DataTransformer\EntitiesToPropertyTransformer;
 use Umbrella\CoreBundle\Form\DataTransformer\EntityToPropertyTransformer;
+use Umbrella\CoreBundle\Form\DataTransformer\EntitiesToPropertyTransformer;
 
 /**
  * Class AsyncEntity2Type
@@ -41,7 +41,7 @@ class AsyncEntity2Type extends AbstractType
     /**
      * AsyncEntity2Type constructor.
      * @param EntityManagerInterface $em
-     * @param RouterInterface $router
+     * @param RouterInterface        $router
      */
     public function __construct(TranslatorInterface $translator, EntityManagerInterface $em, RouterInterface $router)
     {
@@ -94,7 +94,7 @@ class AsyncEntity2Type extends AbstractType
         $jsSelect2Options['width'] = $options['width'];
 
         // js Options
-        $jsOptions = array();
+        $jsOptions = [];
         $jsOptions['template_selector'] = $options['template_selector'];
         $jsOptions['template_html'] = $options['template_html'];
         $jsOptions['render_html'] = $options['render_html'];

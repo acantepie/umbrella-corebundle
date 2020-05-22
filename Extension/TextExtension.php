@@ -15,8 +15,8 @@
  */
 namespace Umbrella\CoreBundle\Extension
 {
-    use Twig\Extension\AbstractExtension;
     use Twig\TwigFilter;
+    use Twig\Extension\AbstractExtension;
 
     /**
      * @author Henrik Bjornskov <hb@peytz.dk>

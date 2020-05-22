@@ -16,7 +16,7 @@ abstract class AbstractTableSource
     /**
      * @var AbstractSourceModifier[]
      */
-    protected $modifiers = array();
+    protected $modifiers = [];
 
     /**
      * @param AbstractSourceModifier[] $modifiers
@@ -25,6 +25,14 @@ abstract class AbstractTableSource
     {
         $this->modifiers = $modifiers;
     }
+
+    /**
+     * @param $dataClass
+     * @param  array                   $columns
+     * @param  array                   $query
+     * @return \JsonSerializable|array
+     */
+    abstract public function search($dataClass, array $columns, array $query);
 
     /**
      * @param array $args
@@ -39,15 +47,4 @@ abstract class AbstractTableSource
             $modifier->modify($args);
         }
     }
-
-    /**
-     * @param $dataClass
-     * @param array $columns
-     * @param array $query
-     * @return \JsonSerializable|array
-     */
-    public abstract function search($dataClass, array $columns, array $query);
-
-
-
 }

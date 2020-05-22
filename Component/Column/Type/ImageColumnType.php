@@ -8,10 +8,10 @@
 
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
+use Umbrella\CoreBundle\Utils\HtmlUtils;
+use Umbrella\CoreBundle\Entity\UmbrellaFile;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Entity\UmbrellaFile;
-use Umbrella\CoreBundle\Utils\HtmlUtils;
 
 /**
  * Class ImageColumnType
@@ -35,7 +35,7 @@ class ImageColumnType extends PropertyColumnType
 
     /**
      * @param $entity
-     * @param array $options
+     * @param  array       $options
      * @return null|string
      */
     public function render($entity, array $options)
@@ -62,10 +62,10 @@ class ImageColumnType extends PropertyColumnType
         parent::configureOptions($resolver);
 
         $resolver
-            ->setDefault('image_attr', array(
+            ->setDefault('image_attr', [
                 'width' => 80,
                 'height' => 80
-            ))
+            ])
             ->setAllowedTypes('image_attr', 'array')
 
             ->setDefault('html_empty', '')

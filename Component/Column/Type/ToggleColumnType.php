@@ -8,10 +8,10 @@
 
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Utils\StringUtils;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class ToggleColumnType
@@ -36,7 +36,7 @@ class ToggleColumnType extends PropertyColumnType
     /**
      * ToggleColumnType constructor.
      * @param TranslatorInterface $translator
-     * @param RouterInterface $router
+     * @param RouterInterface     $router
      */
     public function __construct(TranslatorInterface $translator, RouterInterface $router)
     {
@@ -97,5 +97,4 @@ class ToggleColumnType extends PropertyColumnType
             ->setDefault('route_params', [])
             ->setAllowedTypes('route_params', ['array', 'callable']);
     }
-
 }

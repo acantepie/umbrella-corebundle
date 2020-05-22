@@ -66,16 +66,15 @@ class Menu implements \IteratorAggregate, \Countable
      */
     public function findByRoute($route)
     {
-        $found = $this->_find($this->root, function(MenuNode $node) use($route) {
-           return $node->route == $route;
+        $found = $this->_find($this->root, function (MenuNode $node) use ($route) {
+            return $node->route == $route;
         });
         return $found ? $found : $this->root;
-
     }
 
     /**
-     * @param MenuNode $node
-     * @param callable $finder
+     * @param  MenuNode $node
+     * @param  callable $finder
      * @return MenuNode
      */
     private function _find(MenuNode $node, callable $finder)
@@ -91,6 +90,4 @@ class Menu implements \IteratorAggregate, \Countable
         }
         return null;
     }
-
-
 }

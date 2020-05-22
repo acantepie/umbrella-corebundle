@@ -1,12 +1,10 @@
 <?php
 
-
 namespace Umbrella\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Utils\HtmlUtils;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class SearchType
@@ -14,19 +12,18 @@ use Umbrella\CoreBundle\Utils\HtmlUtils;
  */
 class SearchType extends AbstractType
 {
-
     /**
      * @inheritDoc
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'label' => false,
             'required' => false,
-            'attr' => array(
+            'attr' => [
                 'placeholder' => 'form.placeholder.search'
-            )
-        ));
+            ]
+        ]);
     }
 
     /**
@@ -36,6 +33,4 @@ class SearchType extends AbstractType
     {
         return TextType::class;
     }
-
-
 }

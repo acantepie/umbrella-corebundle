@@ -46,7 +46,7 @@ class SearchableAnnotationReader
     {
         $reflection = new \ReflectionClass($entityClass);
 
-        $result = array();
+        $result = [];
         foreach ($reflection->getProperties() as $property) {
             $annotation = $this->reader->getPropertyAnnotation($property, SearchableField::class);
             if ($annotation !== null) {
@@ -65,7 +65,7 @@ class SearchableAnnotationReader
     {
         $reflection = new \ReflectionClass($entityClass);
 
-        $result = array();
+        $result = [];
         foreach ($reflection->getMethods() as $method) {
             $annotation = $this->reader->getMethodAnnotation($method, SearchableField::class);
             if ($annotation !== null) {
@@ -97,5 +97,4 @@ class SearchableAnnotationReader
             ? null
             : $this->getInheritAnnotation($parentClass, $annotationName);
     }
-
 }

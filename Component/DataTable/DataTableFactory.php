@@ -11,10 +11,10 @@ namespace Umbrella\CoreBundle\Component\DataTable;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\Column\ColumnFactory;
-use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTable;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
+use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
+use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTable;
 
 /**
  * Class TableFactory.
@@ -44,14 +44,14 @@ class DataTableFactory
     /**
      * @var DataTableType[]
      */
-    private $dataTableTypes = array();
+    private $dataTableTypes = [];
 
     /**
      * TableFactory constructor.
      * @param EntityManagerInterface $em
-     * @param RouterInterface $router
-     * @param ToolbarFactory $toolbarFactory
-     * @param ColumnFactory $columnFactory
+     * @param RouterInterface        $router
+     * @param ToolbarFactory         $toolbarFactory
+     * @param ColumnFactory          $columnFactory
      */
     public function __construct(EntityManagerInterface $em, RouterInterface $router, ToolbarFactory $toolbarFactory, ColumnFactory $columnFactory)
     {
@@ -76,7 +76,7 @@ class DataTableFactory
      *
      * @return AbstractDataTable
      */
-    public function create($typeClass, array $options = array())
+    public function create($typeClass, array $options = [])
     {
         return $this->createBuilder($typeClass, $options)->getTable();
     }
@@ -87,7 +87,7 @@ class DataTableFactory
      *
      * @return DataTableBuilder
      */
-    public function createBuilder($typeClass = DataTableType::class, array $options = array())
+    public function createBuilder($typeClass = DataTableType::class, array $options = [])
     {
         return new DataTableBuilder($this->em, $this->router, $this->toolbarFactory, $this->columnFactory, $this->createType($typeClass), $options);
     }

@@ -34,7 +34,7 @@ class RowAction
     /**
      * @var array
      */
-    private $routeParams = array();
+    private $routeParams = [];
 
     /**
      * @var string
@@ -70,7 +70,7 @@ class RowAction
     }
 
     /**
-     * @param string $icon
+     * @param  string    $icon
      * @return RowAction
      */
     public function setIcon($icon)
@@ -88,7 +88,7 @@ class RowAction
     }
 
     /**
-     * @param string $class
+     * @param  string    $class
      * @return RowAction
      */
     public function setClass($class)
@@ -107,10 +107,10 @@ class RowAction
 
     /**
      * @param $route
-     * @param array $routeParams
+     * @param  array $routeParams
      * @return $this
      */
-    public function setRoute($route, array $routeParams = array())
+    public function setRoute($route, array $routeParams = [])
     {
         $this->route = $route;
         $this->routeParams = $routeParams;
@@ -126,7 +126,7 @@ class RowAction
     }
 
     /**
-     * @param array $routeParams
+     * @param  array     $routeParams
      * @return RowAction
      */
     public function setRouteParams(array $routeParams)
@@ -172,7 +172,7 @@ class RowAction
     }
 
     /**
-     * @param string $url
+     * @param  string    $url
      * @return RowAction
      */
     public function setUrl($url)
@@ -190,7 +190,7 @@ class RowAction
     }
 
     /**
-     * @param string $title
+     * @param  string    $title
      * @return RowAction
      */
     public function setTitle($title)
@@ -208,7 +208,7 @@ class RowAction
     }
 
     /**
-     * @param string $confirm
+     * @param  string    $confirm
      * @return RowAction
      */
     public function setConfirm($confirm)
@@ -226,7 +226,7 @@ class RowAction
     }
 
     /**
-     * @param bool $xhr
+     * @param  bool      $xhr
      * @return RowAction
      */
     public function setXhr($xhr)
@@ -244,7 +244,7 @@ class RowAction
     }
 
     /**
-     * @param string $target
+     * @param  string    $target
      * @return RowAction
      */
     public function setTarget($target)
@@ -252,10 +252,4 @@ class RowAction
         $this->target = $target;
         return $this;
     }
-
-
-
-
-
-
 }

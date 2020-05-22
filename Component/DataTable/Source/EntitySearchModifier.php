@@ -16,7 +16,7 @@ use Doctrine\ORM\QueryBuilder;
 class EntitySearchModifier extends AbstractSourceModifier
 {
     /**
-     * @param array $args
+     * @param  array $args
      * @return mixed
      */
     public function modify(array $args)

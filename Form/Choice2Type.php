@@ -8,13 +8,13 @@
 
 namespace Umbrella\CoreBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 // see AsyncEntity2Type to work asynchronously with entity
 
@@ -82,7 +82,7 @@ class Choice2Type extends AbstractType
     /**
      * Choice2Type constructor.
      * @param TranslatorInterface $translator
-     * @param RouterInterface $router
+     * @param RouterInterface     $router
      */
     public function __construct(TranslatorInterface $translator, RouterInterface $router)
     {
@@ -102,38 +102,10 @@ class Choice2Type extends AbstractType
         $view->vars['expanded'] = false;
 
         if (isset($view->vars['attr']['class'])) {
-            $view->vars['attr']['class'] .=  ' js-select2';
+            $view->vars['attr']['class'] .= ' js-select2';
         } else {
             $view->vars['attr']['class'] = 'js-select2';
         }
-    }
-
-    protected function buildJsOptions(FormView $view, FormInterface $form, array $options)
-    {
-        // select2 Options
-        $jsSelect2Options = $options['select2_options'];
-        $jsSelect2Options['language'] = $options['language'];
-
-        $jsSelect2Options['placeholder'] = empty($options['placeholder'])
-            ? $options['placeholder']
-            : $this->translator->trans($options['placeholder']);
-
-        $jsSelect2Options['allowClear'] = $view->vars['required'] !== true; // allow clear if not required
-        $jsSelect2Options['minimumInputLength'] = $options['min_search_length'];
-        $jsSelect2Options['width'] = $options['width'];
-
-        // js Options
-        $jsOptions = array();
-        $jsOptions['template_selector'] = $options['template_selector'];
-        $jsOptions['template_html'] = $options['template_html'];
-
-        if (!empty($options['route'])) {
-            $jsOptions['ajax_url'] = $this->router->generate($options['route'], $options['route_params']);
-        }
-
-        $jsOptions['select2'] = $jsSelect2Options;
-
-        return $jsOptions;
     }
 
     /**
@@ -141,7 +113,7 @@ class Choice2Type extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'route' => null,
             'route_params' => [],
 
@@ -153,7 +125,7 @@ class Choice2Type extends AbstractType
             'template_html' => null,
 
             'select2_options' => [],
-        ));
+        ]);
 
         $resolver->setAllowedTypes('route', ['null', 'string']);
         $resolver->setAllowedTypes('route_params', 'array');
@@ -173,5 +145,33 @@ class Choice2Type extends AbstractType
     public function getParent()
     {
         return ChoiceType::class;
+    }
+
+    protected function buildJsOptions(FormView $view, FormInterface $form, array $options)
+    {
+        // select2 Options
+        $jsSelect2Options = $options['select2_options'];
+        $jsSelect2Options['language'] = $options['language'];
+
+        $jsSelect2Options['placeholder'] = empty($options['placeholder'])
+            ? $options['placeholder']
+            : $this->translator->trans($options['placeholder']);
+
+        $jsSelect2Options['allowClear'] = $view->vars['required'] !== true; // allow clear if not required
+        $jsSelect2Options['minimumInputLength'] = $options['min_search_length'];
+        $jsSelect2Options['width'] = $options['width'];
+
+        // js Options
+        $jsOptions = [];
+        $jsOptions['template_selector'] = $options['template_selector'];
+        $jsOptions['template_html'] = $options['template_html'];
+
+        if (!empty($options['route'])) {
+            $jsOptions['ajax_url'] = $this->router->generate($options['route'], $options['route_params']);
+        }
+
+        $jsOptions['select2'] = $jsSelect2Options;
+
+        return $jsOptions;
     }
 }

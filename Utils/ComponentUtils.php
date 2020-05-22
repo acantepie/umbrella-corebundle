@@ -8,7 +8,6 @@
 
 namespace Umbrella\CoreBundle\Utils;
 
-
 class ComponentUtils
 {
     /**
@@ -21,5 +20,4 @@ class ComponentUtils
         $name = str_replace('\\', '_', $ns);
         return \function_exists('mb_strtolower') && preg_match('//u', $name) ? mb_strtolower($name, 'UTF-8') : strtolower($name);
     }
-
 }

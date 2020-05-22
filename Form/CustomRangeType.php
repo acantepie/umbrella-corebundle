@@ -9,8 +9,8 @@
 namespace Umbrella\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
 
 /**
  * Class CustomCheckboxType
@@ -22,11 +22,11 @@ class CustomRangeType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'attr' => array(
+        $resolver->setDefaults([
+            'attr' => [
                 'class' => 'custom-range'
-            )
-        ));
+            ]
+        ]);
     }
 
     /**
@@ -36,5 +36,4 @@ class CustomRangeType extends AbstractType
     {
         return RangeType::class;
     }
-
 }

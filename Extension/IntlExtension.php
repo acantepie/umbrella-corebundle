@@ -2,12 +2,12 @@
 
 /**
  * @see https://github.com/twigphp/Twig-extensions
- * Deprecated bundle, not use twig v3 
+ * Deprecated bundle, not use twig v3
  */
 namespace Umbrella\CoreBundle\Extension
 {
-    use Twig\Extension\AbstractExtension;
     use Twig\TwigFilter;
+    use Twig\Extension\AbstractExtension;
 
     class IntlExtension extends AbstractExtension
     {

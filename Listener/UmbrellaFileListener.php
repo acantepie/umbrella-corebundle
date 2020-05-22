@@ -9,9 +9,9 @@
 namespace Umbrella\CoreBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Umbrella\CoreBundle\Entity\UmbrellaFile;
 use Umbrella\CoreBundle\Services\UmbrellaFileUploader;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class UmbrellaFileListener
@@ -33,17 +33,16 @@ class UmbrellaFileListener
     }
 
     /**
-     * @param UmbrellaFile $umbrellaFile
+     * @param UmbrellaFile       $umbrellaFile
      * @param LifecycleEventArgs $event
      */
     public function preRemove(UmbrellaFile $umbrellaFile, LifecycleEventArgs $event)
     {
         @unlink($this->uploader->getAbsolutePath($umbrellaFile));
-
     }
 
     /**
-     * @param UmbrellaFile $umbrellaFile
+     * @param UmbrellaFile       $umbrellaFile
      * @param LifecycleEventArgs $event
      */
     public function prePersist(UmbrellaFile $umbrellaFile, LifecycleEventArgs $event)

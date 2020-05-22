@@ -20,7 +20,7 @@ class ActionFactory
     /**
      * @var ActionType[]
      */
-    private $actionTypes = array();
+    private $actionTypes = [];
 
     /**
      * @param $id
@@ -37,7 +37,7 @@ class ActionFactory
      *
      * @return Action
      */
-    public function create($typeClass, array $options = array())
+    public function create($typeClass, array $options = [])
     {
         $type = $this->createType($typeClass);
         $action = new Action();
@@ -50,7 +50,6 @@ class ActionFactory
 
         return $action;
     }
-
 
     /**
      * @param $typeClass

@@ -8,10 +8,10 @@
 
 namespace Umbrella\CoreBundle\Component\Menu\Extension;
 
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
-use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
+use Twig\Extension\AbstractExtension;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class BreadcrumbTwigExtension.
@@ -37,22 +37,20 @@ class BreadcrumbTwigExtension extends AbstractExtension
      */
     public function getFunctions()
     {
-        return array(
-            new TwigFunction('breadcrumb_render', array($this, 'render'), array('needs_environment' => true, 'is_safe' => array('html'))),
-        );
+        return [
+            new TwigFunction('breadcrumb_render', [$this, 'render'], ['needs_environment' => true, 'is_safe' => ['html']]),
+        ];
     }
 
     /**
-     * @param Environment $environment
-     * @param array $bc
+     * @param  Environment $environment
+     * @param  array       $bc
      * @return string
      */
-    public function render(Environment $environment, array $bc = array())
+    public function render(Environment $environment, array $bc = [])
     {
-        return $environment->render('@UmbrellaCore/Breadcrumb/breadcrumb.html.twig', array(
+        return $environment->render('@UmbrellaCore/Breadcrumb/breadcrumb.html.twig', [
             'breadcrumb' => $bc
-        ));
+        ]);
     }
-
-
 }

@@ -43,11 +43,9 @@ class EntityTreeTableSource extends AbstractTableSource
 
         $this->resolveModifier(['qb' => $qb, 'query' => $query]);
 
-
         $result = new DataTableResult();
         $result->data = $qb->getQuery()->getResult();
         $result->count = count($result->data);
         return $result;
-
     }
 }

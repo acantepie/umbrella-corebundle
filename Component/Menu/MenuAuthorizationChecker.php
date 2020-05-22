@@ -8,13 +8,13 @@
 
 namespace Umbrella\CoreBundle\Component\Menu;
 
-use Sensio\Bundle\FrameworkExtraBundle\EventListener\SecurityListener;
-use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Authorization\ExpressionLanguage;
-use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Umbrella\CoreBundle\Component\Menu\Model\MenuNode;
+use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
+use Symfony\Component\Security\Core\Authorization\ExpressionLanguage;
+use Sensio\Bundle\FrameworkExtraBundle\EventListener\SecurityListener;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 
 /**
  * Class MenuAuthorizationChecker
@@ -54,13 +54,13 @@ class MenuAuthorizationChecker
 
     /**
      * MenuAuthorizationChecker constructor.
-     * @param TokenStorageInterface $tokenStorage
-     * @param ExpressionLanguage $language
+     * @param TokenStorageInterface                $tokenStorage
+     * @param ExpressionLanguage                   $language
      * @param AuthenticationTrustResolverInterface $trustResolver
-     * @param AuthorizationCheckerInterface $authChecker
-     * @param RoleHierarchyInterface|null $roleHierarchy
+     * @param AuthorizationCheckerInterface        $authChecker
+     * @param RoleHierarchyInterface|null          $roleHierarchy
      */
-    public function __construct(TokenStorageInterface $tokenStorage, ExpressionLanguage $language,  AuthenticationTrustResolverInterface $trustResolver, AuthorizationCheckerInterface $authChecker, RoleHierarchyInterface $roleHierarchy = null)
+    public function __construct(TokenStorageInterface $tokenStorage, ExpressionLanguage $language, AuthenticationTrustResolverInterface $trustResolver, AuthorizationCheckerInterface $authChecker, RoleHierarchyInterface $roleHierarchy = null)
     {
         $this->tokenStorage = $tokenStorage;
         $this->language = $language;
@@ -71,12 +71,11 @@ class MenuAuthorizationChecker
     }
 
     /**
-     * @param MenuNode $node
+     * @param  MenuNode $node
      * @return bool
      */
     public function isGranted(MenuNode $node)
     {
-
         if ($this->cache->contains($node)) {
             return $this->cache[$node];
         }
@@ -103,7 +102,6 @@ class MenuAuthorizationChecker
                 }
             }
 
-
             // all children are forbidden => not granted
             $this->cache[$node] = false;
             return false;
@@ -127,16 +125,17 @@ class MenuAuthorizationChecker
             $roles = $token->getRoles();
         }
 
-        $variables = array(
+        $variables = [
             'token' => $token,
             'user' => $token->getUser(),
-            'roles' => array_map(function ($role) { return $role->getRole(); }, $roles),
+            'roles' => array_map(function ($role) {
+                return $role->getRole();
+            }, $roles),
             'trust_resolver' => $this->trustResolver,
             // needed for the is_granted expression function
             'auth_checker' => $this->authChecker,
-        );
+        ];
 
         return $variables;
     }
-
 }

@@ -17,15 +17,16 @@ class MathUtils
      * @see Utils.js
      *
      * @param $bytes
-     * @param int $precision
+     * @param  int    $precision
      * @return string
      */
-    public static function bytes_to_size($bytes, $precision = 2) {
+    public static function bytes_to_size($bytes, $precision = 2)
+    {
         if (!$bytes) {
             return 0;
         }
 
-        $units = array('Bytes', 'KB', 'MB', 'GB', 'TB');
+        $units = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
         $bytes = max($bytes, 0);
         $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
         $pow = min($pow, count($units) - 1);
@@ -35,5 +36,4 @@ class MathUtils
 
         return round($bytes, $precision) . ' ' . $units[$pow];
     }
-
 }

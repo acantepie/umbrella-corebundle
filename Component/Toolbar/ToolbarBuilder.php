@@ -8,9 +8,9 @@
 
 namespace Umbrella\CoreBundle\Component\Toolbar;
 
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Umbrella\CoreBundle\Component\Toolbar\Action\Action;
 
 /**
@@ -41,12 +41,12 @@ class ToolbarBuilder
     /**
      * @var array
      */
-    private $actions = array();
+    private $actions = [];
 
     /**
      * ToolbarBuilder constructor.
-     * @param FormFactoryInterface $formFactory
-     * @param ActionFactory $actionFactory
+     * @param FormFactoryInterface      $formFactory
+     * @param ActionFactory             $actionFactory
      * @param ToolbarAwareTypeInterface $awareType
      */
     public function __construct(FormFactoryInterface $formFactory, ActionFactory $actionFactory, ToolbarAwareTypeInterface $awareType)
@@ -60,8 +60,8 @@ class ToolbarBuilder
 
     /**
      * @param $child
-     * @param null $type
-     * @param array $options
+     * @param  null                 $type
+     * @param  array                $options
      * @return FormBuilderInterface
      */
     public function addFilter($child, $type = null, array $options = [])
@@ -112,12 +112,12 @@ class ToolbarBuilder
      *
      * @return $this
      */
-    public function addAction($id, $actionClass, array $options = array())
+    public function addAction($id, $actionClass, array $options = [])
     {
-        $this->actions[$id] = array(
+        $this->actions[$id] = [
             'class' => $actionClass,
             'options' => $options,
-        );
+        ];
 
         return $this;
     }
@@ -159,36 +159,13 @@ class ToolbarBuilder
         }
 
         throw new \Exception(sprintf('The action with id "%s" does not exist.', $id));
-
     }
 
     /**
-     *
-     */
-    protected function resolveActions()
-    {
-        foreach ($this->actions as $id => $action) {
-            if (!isset($action['resolved'])) {
-                $this->resolveAction($id);
-            }
-        }
-    }
-
-    /**
-     * @param $id
-     */
-    protected function resolveAction($id)
-    {
-        $action = $this->actions[$id];
-        $action['options']['id'] = $id;
-        $this->actions[$id]['resolved'] = $this->actionFactory->create($action['class'], $action['options']);
-    }
-
-    /**
-     * @param array $resolvedOptions
+     * @param  array   $resolvedOptions
      * @return Toolbar
      */
-    public function getToolbar(array $resolvedOptions = array())
+    public function getToolbar(array $resolvedOptions = [])
     {
         $toolbar = new Toolbar();
 
@@ -208,5 +185,24 @@ class ToolbarBuilder
         $toolbar->form = $this->formBuilder->getForm();
 
         return $toolbar;
+    }
+
+    protected function resolveActions()
+    {
+        foreach ($this->actions as $id => $action) {
+            if (!isset($action['resolved'])) {
+                $this->resolveAction($id);
+            }
+        }
+    }
+
+    /**
+     * @param $id
+     */
+    protected function resolveAction($id)
+    {
+        $action = $this->actions[$id];
+        $action['options']['id'] = $id;
+        $this->actions[$id]['resolved'] = $this->actionFactory->create($action['class'], $action['options']);
     }
 }

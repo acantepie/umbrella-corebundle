@@ -8,8 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Utils\StringUtils;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class CheckBoxColumnType
@@ -20,7 +20,7 @@ class CheckBoxColumnType extends ColumnType
 
     /**
      * @param $entity
-     * @param array $options
+     * @param  array  $options
      * @return string
      */
     public function render($entity, array $options)

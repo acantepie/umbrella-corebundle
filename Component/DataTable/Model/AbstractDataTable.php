@@ -9,12 +9,12 @@
 namespace Umbrella\CoreBundle\Component\DataTable\Model;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\Column\Column;
-use Umbrella\CoreBundle\Component\DataTable\Source\AbstractTableSource;
 use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Umbrella\CoreBundle\Component\DataTable\Source\AbstractTableSource;
 
 /**
  * Class Table
@@ -29,7 +29,7 @@ abstract class AbstractDataTable implements OptionsAwareInterface
     /**
      * @var array
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * @var Toolbar
@@ -39,7 +39,7 @@ abstract class AbstractDataTable implements OptionsAwareInterface
     /**
      * @var Column[]
      */
-    protected $columns = array();
+    protected $columns = [];
 
     /**
      * @var AbstractTableSource
@@ -65,7 +65,7 @@ abstract class AbstractDataTable implements OptionsAwareInterface
      * Table constructor.
      * @param string $defaultId
      */
-    public final function __construct($defaultId = null)
+    final public function __construct($defaultId = null)
     {
         $this->defaultId = $defaultId;
     }
@@ -129,23 +129,23 @@ abstract class AbstractDataTable implements OptionsAwareInterface
     /**
      * @param Request $request
      */
-    public abstract function handleRequest(Request $request);
+    abstract public function handleRequest(Request $request);
 
     /**
      * @return \JsonSerializable|array
      */
-    public abstract function getApiResults();
+    abstract public function getApiResults();
 
     /**
-     * @param OptionsResolver $resolver
+     * @param  OptionsResolver $resolver
      * @return mixed
      */
-    public abstract function configureOptions(OptionsResolver $resolver);
+    abstract public function configureOptions(OptionsResolver $resolver);
 
     /**
      * @param array $options
      */
-    public function setOptions(array $options = array())
+    public function setOptions(array $options = [])
     {
         $this->options = $options;
     }
@@ -167,12 +167,11 @@ abstract class AbstractDataTable implements OptionsAwareInterface
     }
 
     /**
-     * @param TranslatorInterface $translator
+     * @param  TranslatorInterface $translator
      * @return array
      */
     public function getViewOptions(TranslatorInterface $translator)
     {
         return $this->options;
     }
-
 }

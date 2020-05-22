@@ -4,9 +4,9 @@ namespace Umbrella\CoreBundle\Form\DataTransformer;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 
 /**
  * Data transformer for multiple mode (i.e., multiple = true)
@@ -29,9 +29,9 @@ class EntitiesToPropertyTransformer implements DataTransformerInterface
 
     /**
      * @param EntityManagerInterface $em
-     * @param string $class
-     * @param string|null $textProperty
-     * @param string $primaryKey
+     * @param string                 $class
+     * @param string|null            $textProperty
+     * @param string                 $primaryKey
      */
     public function __construct(EntityManagerInterface $em, $class, $textProperty = null, $primaryKey = 'id')
     {
@@ -45,16 +45,16 @@ class EntitiesToPropertyTransformer implements DataTransformerInterface
     /**
      * Transform initial entities to array
      *
-     * @param mixed $entities
+     * @param  mixed $entities
      * @return array
      */
     public function transform($entities)
     {
         if (empty($entities)) {
-            return array();
+            return [];
         }
 
-        $data = array();
+        $data = [];
 
         foreach ($entities as $entity) {
             $text = is_null($this->textProperty)
@@ -74,13 +74,13 @@ class EntitiesToPropertyTransformer implements DataTransformerInterface
     /**
      * Transform array to a collection of entities
      *
-     * @param array $values
+     * @param  array $values
      * @return array
      */
     public function reverseTransform($values)
     {
         if (!is_array($values) || empty($values)) {
-            return array();
+            return [];
         }
 
         // get multiple entities with one query

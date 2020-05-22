@@ -18,7 +18,7 @@ class MenuRendererProvider
     /**
      * @var array
      */
-    private $renderers = array();
+    private $renderers = [];
 
     /**
      * @param $alias

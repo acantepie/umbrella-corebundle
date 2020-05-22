@@ -9,8 +9,8 @@
 namespace Umbrella\CoreBundle\Component\Toolbar\Action;
 
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class Action
@@ -22,11 +22,10 @@ class Action implements OptionsAwareInterface
      */
     private $options;
 
-
     /**
      * @inheritdoc
      */
-    public function setOptions(array $options = array())
+    public function setOptions(array $options = [])
     {
         $this->options = $options;
     }

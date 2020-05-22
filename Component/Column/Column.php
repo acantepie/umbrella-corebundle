@@ -9,8 +9,8 @@
 namespace Umbrella\CoreBundle\Component\Column;
 
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class Column.
@@ -38,7 +38,7 @@ class Column implements OptionsAwareInterface
     /**
      * @param array $options
      */
-    public function setOptions(array $options = array())
+    public function setOptions(array $options = [])
     {
         $this->options = $options;
     }
@@ -55,7 +55,7 @@ class Column implements OptionsAwareInterface
             ->setDefault('label', function (Options $options) {
                 return $options['id'];
             })
-            ->setAllowedTypes('label',['null', 'string'])
+            ->setAllowedTypes('label', ['null', 'string'])
 
             ->setDefault('label_prefix', 'table.')
             ->setAllowedTypes('label_prefix', ['null', 'string'])
@@ -67,7 +67,7 @@ class Column implements OptionsAwareInterface
             ->setAllowedValues('default_order', [null, 'ASC', 'DESC'])
 
             ->setDefault('order_by', null)
-            ->setAllowedTypes('order_by',['null', 'string', 'array'])
+            ->setAllowedTypes('order_by', ['null', 'string', 'array'])
 
             ->setDefault('class', null)
             ->setAllowedTypes('class', ['null', 'string'])
@@ -81,13 +81,13 @@ class Column implements OptionsAwareInterface
      */
     public function getViewOptions()
     {
-        return array(
+        return [
             'label' => $this->options['label'],
             'label_prefix' => $this->options['label_prefix'],
             'translation_domain' => $this->options['translation_domain'],
             'class' => $this->options['class'],
             'width' => $this->options['width']
-        );
+        ];
     }
 
     /**
@@ -95,10 +95,10 @@ class Column implements OptionsAwareInterface
      */
     public function getColumnsOptions()
     {
-        return array(
+        return [
             'orderable' => $this->options['order_by'] !== null,
             'className' => $this->options['class']
-        );
+        ];
     }
 
     /**

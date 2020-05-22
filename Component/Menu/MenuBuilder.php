@@ -9,8 +9,8 @@
 
 namespace Umbrella\CoreBundle\Component\Menu;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\Menu\Model\MenuNode;
 
 /**
@@ -21,7 +21,7 @@ class MenuBuilder
     /**
      * @var array
      */
-    protected $nodes = array();
+    protected $nodes = [];
 
     /**
      * @var Menu
@@ -32,31 +32,9 @@ class MenuBuilder
      * @param $id
      * @param array $options
      */
-    public function addNode($id, array $options = array())
+    public function addNode($id, array $options = [])
     {
         $this->nodes[$id] = $options;
-    }
-
-    /**
-     * @param $id
-     * @param array $options
-     * @param MenuNode $parentNode
-     */
-    private function resolveNode($id, array $options, MenuNode $parentNode)
-    {
-        $options['id'] = $id;
-
-        $node = new MenuNode();
-
-        $resolver = new OptionsResolver();
-        $node->configureOptions($resolver);
-        $resolvedOptions = $resolver->resolve($options);
-        $node->setOptions($resolvedOptions);
-        $parentNode->addChild($id, $node);
-
-        foreach ($resolvedOptions['children'] as $id => $childOptions) {
-            $this->resolveNode($id, $childOptions, $node);
-        }
     }
 
     /**
@@ -77,5 +55,27 @@ class MenuBuilder
         }
 
         return $this->resolvedMenu;
+    }
+
+    /**
+     * @param $id
+     * @param array    $options
+     * @param MenuNode $parentNode
+     */
+    private function resolveNode($id, array $options, MenuNode $parentNode)
+    {
+        $options['id'] = $id;
+
+        $node = new MenuNode();
+
+        $resolver = new OptionsResolver();
+        $node->configureOptions($resolver);
+        $resolvedOptions = $resolver->resolve($options);
+        $node->setOptions($resolvedOptions);
+        $parentNode->addChild($id, $node);
+
+        foreach ($resolvedOptions['children'] as $id => $childOptions) {
+            $this->resolveNode($id, $childOptions, $node);
+        }
     }
 }

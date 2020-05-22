@@ -30,14 +30,13 @@ class RowActionRenderer
     }
 
     /**
-     * @param RowAction $rowAction
+     * @param  RowAction $rowAction
      * @return mixed
      */
     public function render(RowAction $rowAction)
     {
-        return $this->twig->render('@UmbrellaCore/RowAction/row_action.html.twig', array(
+        return $this->twig->render('@UmbrellaCore/RowAction/row_action.html.twig', [
             'action' => $rowAction
-        ));
+        ]);
     }
-
 }

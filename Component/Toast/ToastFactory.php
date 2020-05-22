@@ -39,10 +39,10 @@ class ToastFactory
 
     /**
      * @param $transId
-     * @param array $transParams
+     * @param  array $transParams
      * @return Toast
      */
-    public function createInfo($transId, array $transParams = array())
+    public function createInfo($transId, array $transParams = [])
     {
         return $this->create()
             ->setType(Toast::INFO)
@@ -51,10 +51,10 @@ class ToastFactory
 
     /**
      * @param $transId
-     * @param array $transParams
+     * @param  array $transParams
      * @return Toast
      */
-    public function createSuccess($transId, array $transParams = array())
+    public function createSuccess($transId, array $transParams = [])
     {
         return $this->create()
             ->setType(Toast::SUCCESS)
@@ -63,10 +63,10 @@ class ToastFactory
 
     /**
      * @param $transId
-     * @param array $transParams
+     * @param  array $transParams
      * @return Toast
      */
-    public function createWarning($transId, array $transParams = array())
+    public function createWarning($transId, array $transParams = [])
     {
         return $this->create()
             ->setType(Toast::WARNING)
@@ -75,14 +75,13 @@ class ToastFactory
 
     /**
      * @param $transId
-     * @param array $transParams
+     * @param  array $transParams
      * @return Toast
      */
-    public function createError($transId, array $transParams = array())
+    public function createError($transId, array $transParams = [])
     {
         return $this->create()
             ->setType(Toast::ERROR)
             ->setText($this->translator->trans($transId, $transParams));
     }
-
 }

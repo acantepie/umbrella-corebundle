@@ -14,7 +14,7 @@ namespace Umbrella\CoreBundle\Utils;
 class HtmlUtils
 {
     /**
-     * @param array $attr
+     * @param  array  $attr
      * @return string
      */
     public static function array_to_html_attribute(array $attr)

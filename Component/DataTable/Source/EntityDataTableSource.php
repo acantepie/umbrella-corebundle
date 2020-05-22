@@ -9,10 +9,10 @@
 namespace Umbrella\CoreBundle\Component\DataTable\Source;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Umbrella\CoreBundle\Utils\ArrayUtils;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Umbrella\CoreBundle\Component\Column\Column;
 use Umbrella\CoreBundle\Component\DataTable\Model\DataTableResult;
-use Umbrella\CoreBundle\Utils\ArrayUtils;
 
 /**
  * Class EntityDataTableSource
@@ -54,7 +54,7 @@ class EntityDataTableSource extends AbstractTableSource
         }
 
         // order by
-        $orders = ArrayUtils::get($query, 'order', array());
+        $orders = ArrayUtils::get($query, 'order', []);
         foreach ($orders as $order) {
             if (!isset($order['column']) || !isset($order['dir'])) {
                 continue; // request valid ?
@@ -89,6 +89,5 @@ class EntityDataTableSource extends AbstractTableSource
         $result->data = $paginator;
 
         return $result;
-
     }
 }

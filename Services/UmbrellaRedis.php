@@ -50,17 +50,6 @@ class UmbrellaRedis
     /**
      * @return \Redis
      */
-    private function openConn()
-    {
-        $connection = new \Redis();
-        $connection->connect($this->host, $this->port);
-        $connection->select($this->db);
-        return $connection;
-    }
-
-    /**
-     * @return \Redis
-     */
     public function getConn()
     {
         if ($this->conn == null) {
@@ -69,5 +58,14 @@ class UmbrellaRedis
         return $this->conn;
     }
 
-
+    /**
+     * @return \Redis
+     */
+    private function openConn()
+    {
+        $connection = new \Redis();
+        $connection->connect($this->host, $this->port);
+        $connection->select($this->db);
+        return $connection;
+    }
 }

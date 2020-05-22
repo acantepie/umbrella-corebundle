@@ -15,13 +15,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ActionType
 {
-
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-
     }
-
 }

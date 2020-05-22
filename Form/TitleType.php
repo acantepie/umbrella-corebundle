@@ -8,7 +8,6 @@
 
 namespace Umbrella\CoreBundle\Form;
 
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,7 +16,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class TitleType extends AbstractType
 {
-
     /**
      * @inheritdoc
      */

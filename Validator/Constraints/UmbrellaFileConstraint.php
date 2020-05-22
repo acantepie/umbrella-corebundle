@@ -2,8 +2,8 @@
 
 namespace Umbrella\CoreBundle\Validator\Constraints;
 
-use Umbrella\CoreBundle\Validator\UmbrellaFileValidator;
 use Symfony\Component\Validator\Constraints\File;
+use Umbrella\CoreBundle\Validator\UmbrellaFileValidator;
 
 /**
  * @Annotation
@@ -20,5 +20,4 @@ class UmbrellaFileConstraint extends File
     {
         return UmbrellaFileValidator::class;
     }
-
 }

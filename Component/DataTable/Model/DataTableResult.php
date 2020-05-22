@@ -33,11 +33,11 @@ class DataTableResult implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return array(
+        return [
             'draw' => $this->draw,
             'recordsTotal' => $this->count, // Total records, before filtering
             'recordsFiltered' => $this->count, // Total records, after filtering
             'data' => $this->data,
-        );
+        ];
     }
 }

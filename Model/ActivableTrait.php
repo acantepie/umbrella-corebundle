@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Umbrella\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -15,5 +14,4 @@ trait ActivableTrait
      * @ORM\Column(name="active", type="boolean", options={"default": TRUE})
      */
     public $active = true;
-
 }

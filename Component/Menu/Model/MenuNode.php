@@ -10,8 +10,8 @@
 namespace Umbrella\CoreBundle\Component\Menu\Model;
 
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class MenuNode.
@@ -35,7 +35,7 @@ class MenuNode implements \IteratorAggregate, \Countable, OptionsAwareInterface
     /**
      * @var array
      */
-    public $children = array();
+    public $children = [];
 
     /**
      * @var string
@@ -70,7 +70,7 @@ class MenuNode implements \IteratorAggregate, \Countable, OptionsAwareInterface
     /**
      * @var array
      */
-    public $routeParams = array();
+    public $routeParams = [];
 
     /**
      * @var string
@@ -91,7 +91,7 @@ class MenuNode implements \IteratorAggregate, \Countable, OptionsAwareInterface
     /**
      * @param array $options
      */
-    public function setOptions(array $options = array())
+    public function setOptions(array $options = [])
     {
         $this->type = $options['type'];
         $this->label = $options['label'];
@@ -119,7 +119,7 @@ class MenuNode implements \IteratorAggregate, \Countable, OptionsAwareInterface
             ->setDefault('label', function (Options $options) {
                 return $options['id'];
             })
-            ->setAllowedTypes('label','string')
+            ->setAllowedTypes('label', 'string')
 
             ->setDefault('label_prefix', 'menu.')
             ->setAllowedTypes('label_prefix', ['null', 'string'])
@@ -164,7 +164,7 @@ class MenuNode implements \IteratorAggregate, \Countable, OptionsAwareInterface
 
     /**
      * @param $id
-     * @param MenuNode $child
+     * @param  MenuNode $child
      * @return $this
      */
     public function addChild($id, MenuNode $child)
@@ -208,7 +208,7 @@ class MenuNode implements \IteratorAggregate, \Countable, OptionsAwareInterface
      */
     public function getBreadcrumbView()
     {
-        return array(
+        return [
             'label' => $this->label,
             'label_prefix' => $this->labelPrefix,
             'translation_domain' => $this->translationDomain,
@@ -216,6 +216,6 @@ class MenuNode implements \IteratorAggregate, \Countable, OptionsAwareInterface
             'icon' => $this->icon,
             'route' => $this->route,
             'route_params' => $this->routeParams,
-        );
+        ];
     }
 }

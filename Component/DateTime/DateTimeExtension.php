@@ -2,9 +2,9 @@
 
 namespace Umbrella\CoreBundle\Component\DateTime;
 
-use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use Twig\Extension\AbstractExtension;
 
 /**
  * Class DateTimeExtension
@@ -32,24 +32,24 @@ class DateTimeExtension extends AbstractExtension
      */
     public function getFunctions()
     {
-        return array(
+        return [
             new TwigFunction(
                 'time_diff',
-                array($this, 'diff'),
-                array('is_safe' => array('html'))
+                [$this, 'diff'],
+                ['is_safe' => ['html']]
             ),
-        );
+        ];
     }
 
     public function getFilters()
     {
-        return array(
+        return [
             new TwigFilter(
                 'ago',
-                array($this, 'diff'),
-                array('is_safe' => array('html'))
+                [$this, 'diff'],
+                ['is_safe' => ['html']]
             ),
-        );
+        ];
     }
 
     public function diff($since, $to = null)

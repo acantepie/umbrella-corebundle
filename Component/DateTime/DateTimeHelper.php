@@ -31,8 +31,8 @@ class DateTimeHelper
      * Returns a single number of years, months, days, hours, minutes or
      * seconds between the specified date times.
      *
-     * @param  mixed $since The datetime for which the diff will be calculated
-     * @param  mixed $since The datetime from which the diff will be calculated
+     * @param mixed $since The datetime for which the diff will be calculated
+     * @param mixed $since The datetime from which the diff will be calculated
      *
      * @return string
      */
@@ -43,5 +43,4 @@ class DateTimeHelper
         }
         return $this->formatter->formatDiff($from, $to);
     }
-
 }

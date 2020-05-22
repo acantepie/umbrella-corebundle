@@ -8,20 +8,20 @@
 
 namespace Umbrella\CoreBundle\Form;
 
+use Symfony\Component\Form\FormView;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormInterface;
+use Umbrella\CoreBundle\Utils\ArrayUtils;
+use Umbrella\CoreBundle\Entity\UmbrellaFile;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Services\UmbrellaFileUploader;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Entity\UmbrellaFile;
-use Umbrella\CoreBundle\Services\UmbrellaFileUploader;
-use Umbrella\CoreBundle\Utils\ArrayUtils;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 /**
  * Class UmbrellaFileType
@@ -41,7 +41,7 @@ class UmbrellaFileType extends AbstractType
 
     /**
      * FileUploadType constructor.
-     * @param UmbrellaFileUploader $manager
+     * @param UmbrellaFileUploader   $manager
      * @param EntityManagerInterface $em
      */
     public function __construct(UmbrellaFileUploader $manager, EntityManagerInterface $em)
@@ -68,23 +68,23 @@ class UmbrellaFileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         // hidden widget
-        $builder->add('file', FileType::class, array(
+        $builder->add('file', FileType::class, [
             'required' => false,
             'error_bubbling' => true, // pass error to the parent
             'attr' => $options['file_attr'],
             'constraints' => $options['file_constraints']
-        ));
-        $builder->add('id', TextType::class, array(
+        ]);
+        $builder->add('id', TextType::class, [
             'required' => false
-        ));
-        $builder->add('delete', CheckboxType::class, array(
+        ]);
+        $builder->add('delete', CheckboxType::class, [
             'required' => false
-        ));
+        ]);
 
         // text widget
-        $builder->add('text', TextType::class, array(
+        $builder->add('text', TextType::class, [
             'required' => $options['required']
-        ));
+        ]);
 
         $builder->addModelTransformer(new FileUploadTransformer($this->manager, $this->em));
     }
@@ -94,14 +94,14 @@ class UmbrellaFileType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'file_attr' => array(),
-            'file_constraints' => array(),
+        $resolver->setDefaults([
+            'file_attr' => [],
+            'file_constraints' => [],
             'error_bubbling' => false, // resolve error at this level
             'allow_delete' => true,
             'browse_label' => 'common.browser',
             'browse_html' => null
-        ));
+        ]);
 
         $resolver->setAllowedTypes('file_attr', 'array');
         $resolver->setAllowedTypes('file_constraints', 'array');
@@ -135,7 +135,7 @@ class FileUploadTransformer implements DataTransformerInterface
     /**
      * FileUploadTransformer constructor.
      *
-     * @param UmbrellaFileUploader $manager
+     * @param UmbrellaFileUploader   $manager
      * @param EntityManagerInterface $em
      */
     public function __construct(UmbrellaFileUploader $manager, EntityManagerInterface $em)
@@ -146,22 +146,22 @@ class FileUploadTransformer implements DataTransformerInterface
 
     /**
      * Transform UmbrellaFile => array
-     * @param UmbrellaFile $umbrellaFile
+     * @param  UmbrellaFile $umbrellaFile
      * @return array
      */
     public function transform($umbrellaFile)
     {
-        return array(
+        return [
             'file' => null,
             'id' => $umbrellaFile ? $umbrellaFile->id : null,
             'text' => $umbrellaFile ? $umbrellaFile->name . ' (' . $umbrellaFile->getHumanSize() .')' : null
-        );
+        ];
     }
 
     /**
      * Transform array => UmbrellaFile
      *
-     * @param array $array
+     * @param  array             $array
      * @return UmbrellaFile|null
      */
     public function reverseTransform($array)

@@ -1,12 +1,11 @@
 <?php
 
-
 namespace Umbrella\CoreBundle\Validator;
 
 use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\Constraints\FileValidator;
 use Umbrella\CoreBundle\Entity\UmbrellaFile;
 use Umbrella\CoreBundle\Services\UmbrellaFileUploader;
+use Symfony\Component\Validator\Constraints\FileValidator;
 
 /**
  * Class UmbrellaFileValidator

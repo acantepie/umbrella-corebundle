@@ -7,11 +7,11 @@
  */
 namespace Umbrella\CoreBundle\Form\Extension;
 
-use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
  * Class ChoiceTypeExtension.
@@ -19,9 +19,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ChoiceTypeExtension extends AbstractTypeExtension
 {
     /**
-     * @param FormView $view
+     * @param FormView      $view
      * @param FormInterface $form
-     * @param array $options
+     * @param array         $options
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
@@ -34,7 +34,7 @@ class ChoiceTypeExtension extends AbstractTypeExtension
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefault('choice_prefix', 'form.choice.');
-        $resolver->setAllowedTypes('choice_prefix', array('string', 'null'));
+        $resolver->setAllowedTypes('choice_prefix', ['string', 'null']);
     }
 
     /**

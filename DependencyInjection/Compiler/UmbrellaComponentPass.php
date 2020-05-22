@@ -8,19 +8,18 @@
 
 namespace Umbrella\CoreBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Umbrella\CoreBundle\Component\Column\ColumnFactory;
-use Umbrella\CoreBundle\Component\DataTable\DataTableFactory;
 use Umbrella\CoreBundle\Component\Toolbar\ActionFactory;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Umbrella\CoreBundle\Component\DataTable\DataTableFactory;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 /**
  * Class DataTablePass
  */
 class UmbrellaComponentPass implements CompilerPassInterface
 {
-
     /**
      * You can modify the container here before it is dumped to PHP code.
      */

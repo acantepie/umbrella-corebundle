@@ -4,9 +4,9 @@ namespace Umbrella\CoreBundle\Form\DataTransformer;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 
 /**
  * Data transformer for single mode (i.e., multiple = false)
@@ -46,12 +46,12 @@ class EntityToPropertyTransformer implements DataTransformerInterface
     /**
      * Transform entity to array
      *
-     * @param mixed $entity
+     * @param  mixed $entity
      * @return array
      */
     public function transform($entity)
     {
-        $data = array();
+        $data = [];
         if (empty($entity)) {
             return $data;
         }
@@ -72,7 +72,7 @@ class EntityToPropertyTransformer implements DataTransformerInterface
     /**
      * Transform single id value to an entity
      *
-     * @param string $value
+     * @param  string            $value
      * @return mixed|null|object
      */
     public function reverseTransform($value)

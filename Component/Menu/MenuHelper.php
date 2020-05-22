@@ -9,11 +9,11 @@
 namespace Umbrella\CoreBundle\Component\Menu;
 
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Umbrella\CoreBundle\Component\Menu\Matcher\MenuMatcherInterface;
-use Umbrella\CoreBundle\Component\Menu\Matcher\MenuRequestMatcher;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\Menu\Model\MenuNode;
+use Umbrella\CoreBundle\Component\Menu\Matcher\MenuRequestMatcher;
+use Umbrella\CoreBundle\Component\Menu\Matcher\MenuMatcherInterface;
 use Umbrella\CoreBundle\Component\Menu\Renderer\MenuRendererInterface;
 
 /**
@@ -49,11 +49,11 @@ class MenuHelper
     /**
      * MenuHelper constructor.
      *
-     * @param MenuProvider $provider
-     * @param MenuRendererProvider $rendererProvider
+     * @param MenuProvider             $provider
+     * @param MenuRendererProvider     $rendererProvider
      * @param MenuAuthorizationChecker $checker
-     * @param TranslatorInterface $translator
-     * @param RequestStack $requestStack
+     * @param TranslatorInterface      $translator
+     * @param RequestStack             $requestStack
      */
     public function __construct(
         MenuProvider $provider,
@@ -61,8 +61,7 @@ class MenuHelper
         MenuAuthorizationChecker $checker,
         TranslatorInterface $translator,
         RequestStack $requestStack
-    )
-    {
+    ) {
         $this->provider = $provider;
         $this->rendererProvider = $rendererProvider;
         $this->checker = $checker;
@@ -100,8 +99,8 @@ class MenuHelper
     }
 
     /**
-     * @param MenuNode $node
-     * @param bool $checkAncestor
+     * @param  MenuNode $node
+     * @param  bool     $checkAncestor
      * @return bool
      */
     public function isCurrent(MenuNode $node, $checkAncestor = true)
@@ -112,7 +111,7 @@ class MenuHelper
     }
 
     /**
-     * @param Menu $menu
+     * @param  Menu          $menu
      * @return null|MenuNode
      */
     public function getCurrentNode(Menu $menu)
@@ -121,14 +120,14 @@ class MenuHelper
     }
 
     /**
-     * @param Menu $menu
+     * @param  Menu  $menu
      * @return array
      */
     public function buildBreadcrumb(Menu $menu)
     {
         $node = $this->getCurrentNodeFromNode($menu->root);
 
-        $bc = array();
+        $bc = [];
         while ($node !== null) {
             if ($node->type !== MenuNode::TYPE_ROOT) {
                 $bc[] = $node->getBreadcrumbView();
@@ -139,7 +138,7 @@ class MenuHelper
     }
 
     /**
-     * @param MenuNode $node
+     * @param  MenuNode      $node
      * @return null|MenuNode
      */
     private function getCurrentNodeFromNode(MenuNode $node)
@@ -158,5 +157,4 @@ class MenuHelper
 
         return null;
     }
-
 }

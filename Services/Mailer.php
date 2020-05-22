@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Umbrella\CoreBundle\Services;
 
 use Psr\Log\LoggerInterface;
@@ -23,7 +22,7 @@ class Mailer
 
     /**
      * Mailer constructor.
-     * @param \Swift_Mailer $swiftMailer
+     * @param \Swift_Mailer   $swiftMailer
      * @param LoggerInterface $logger
      */
     public function __construct(\Swift_Mailer $swiftMailer, LoggerInterface $logger)
@@ -33,7 +32,7 @@ class Mailer
     }
 
     /**
-     * @param \Swift_Message $message
+     * @param  \Swift_Message $message
      * @return bool
      */
     public function send(\Swift_Message $message)
@@ -41,7 +40,7 @@ class Mailer
         try {
             $this->swiftMailer->send($message);
             return true;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->info('Error occured while sending message : ' . $e->getMessage());
             return false;
         }

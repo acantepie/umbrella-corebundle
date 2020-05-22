@@ -9,8 +9,8 @@
 
 namespace Umbrella\CoreBundle\Services;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Umbrella\CoreBundle\Entity\UmbrellaFile;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class UmbrellaFileUploader
@@ -48,13 +48,13 @@ class UmbrellaFileUploader
      */
     public function getAbsolutePath(UmbrellaFile $file = null)
     {
-        return $file 
+        return $file
             ? $this->absoluteWebPath . $file->getWebPath()
             : $this->absoluteWebPath . $this->assetPath;
     }
 
     /**
-     * @param UploadedFile $file
+     * @param  UploadedFile $file
      * @return string
      */
     public function upload(UploadedFile $file)
@@ -74,8 +74,8 @@ class UmbrellaFileUploader
      * Create Umbrella file from UploadedFile
      * If upload set to true => process upload else upload will be processed on postPersist
      *
-     * @param UploadedFile $file
-     * @param bool $upload
+     * @param  UploadedFile $file
+     * @param  bool         $upload
      * @return UmbrellaFile
      */
     public function createUmbrellaFile(UploadedFile $file, $upload = false)
@@ -96,8 +96,8 @@ class UmbrellaFileUploader
 
     /**
      * @param $path
-     * @param null $filename
-     * @param bool $move
+     * @param  null         $filename
+     * @param  bool         $move
      * @return UmbrellaFile
      */
     public function createUmbrellaFileFromPath($path, $filename = null, $move = true)

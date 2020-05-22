@@ -10,9 +10,9 @@
 namespace Umbrella\CoreBundle\Component\DataTable\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Component\Toolbar\ToolbarBuilder;
 use Umbrella\CoreBundle\Component\DataTable\DataTableBuilder;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarAwareTypeInterface;
-use Umbrella\CoreBundle\Component\Toolbar\ToolbarBuilder;
 
 /**
  * Class DataTableType.
@@ -21,20 +21,18 @@ class DataTableType implements ToolbarAwareTypeInterface
 {
     /**
      * @param ToolbarBuilder $builder
-     * @param array $options
+     * @param array          $options
      */
-    public function buildToolbar(ToolbarBuilder $builder, array $options = array())
+    public function buildToolbar(ToolbarBuilder $builder, array $options = [])
     {
-
     }
 
     /**
      * @param $builder
      * @param array $options
      */
-    public function buildTable(DataTableBuilder $builder, array $options = array())
+    public function buildTable(DataTableBuilder $builder, array $options = [])
     {
-
     }
 
     /**
@@ -42,7 +40,5 @@ class DataTableType implements ToolbarAwareTypeInterface
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-
     }
-
 }

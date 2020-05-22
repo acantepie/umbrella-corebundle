@@ -22,7 +22,7 @@ class JsMessage implements \JsonSerializable
     /**
      * @var string
      */
-    private $params = array();
+    private $params = [];
 
     /**
      * @var int
@@ -33,9 +33,9 @@ class JsMessage implements \JsonSerializable
      * JsMessage constructor.
      * @param $action
      * @param array $params
-     * @param int $priority
+     * @param int   $priority
      */
-    public function __construct($action, array $params = array(), $priority = 0)
+    public function __construct($action, array $params = [], $priority = 0)
     {
         $this->action = $action;
         $this->params = $params;
@@ -67,7 +67,7 @@ class JsMessage implements \JsonSerializable
     }
 
     /**
-     * @param JsMessage $action
+     * @param  JsMessage $action
      * @return int
      */
     public function compare(JsMessage $action)
@@ -83,9 +83,9 @@ class JsMessage implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return array(
+        return [
             'action' => $this->action,
             'params' => $this->params,
-        );
+        ];
     }
 }

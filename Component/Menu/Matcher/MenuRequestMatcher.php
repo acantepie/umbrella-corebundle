@@ -64,7 +64,7 @@ class MenuRequestMatcher implements MenuMatcherInterface
         }
 
         /** @var MenuNode $child */
-        foreach($node as $child) {
+        foreach ($node as $child) {
             if ($this->isAncestor($child)) {
                 return true;
             }
@@ -75,10 +75,10 @@ class MenuRequestMatcher implements MenuMatcherInterface
     /**
      *
      * @param $testRoute
-     * @param array $testRouteParams
+     * @param  array $testRouteParams
      * @return bool
      */
-    private function isRequestMatching($testRoute, array $testRouteParams = array())
+    private function isRequestMatching($testRoute, array $testRouteParams = [])
     {
         $request = $this->requestStack->getMasterRequest();
         $route = $request->attributes->get('_route');

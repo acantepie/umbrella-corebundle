@@ -8,19 +8,18 @@
 
 namespace Umbrella\CoreBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraints\Valid;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 /**
  * Class UmbrellaCollectionType
  */
 class UmbrellaCollectionType extends AbstractType
 {
-
     /**
      * @inheritdoc
      */
@@ -36,7 +35,7 @@ class UmbrellaCollectionType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'allow_add' => true,
             'allow_delete' => true,
             'by_reference' => false,
@@ -46,7 +45,7 @@ class UmbrellaCollectionType extends AbstractType
             'constraints' => [
                 new Valid(),
             ]
-        ));
+        ]);
 
         $resolver->setAllowedTypes('max_length', ['int', 'null']);
         $resolver->setAllowedTypes('sortable', 'boolean');
@@ -59,7 +58,6 @@ class UmbrellaCollectionType extends AbstractType
     {
         return CollectionType::class;
     }
-
 
     /**
      * {@inheritdoc}

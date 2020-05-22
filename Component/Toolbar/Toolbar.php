@@ -11,18 +11,14 @@ namespace Umbrella\CoreBundle\Component\Toolbar;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class Toolbar.
  */
 class Toolbar implements OptionsAwareInterface
 {
-    /**
-     * @var array
-     */
-    private $options;
 
     // Model
 
@@ -35,6 +31,10 @@ class Toolbar implements OptionsAwareInterface
      * @var array
      */
     public $actions;
+    /**
+     * @var array
+     */
+    private $options;
 
     /**
      * @param Request $request
@@ -57,7 +57,7 @@ class Toolbar implements OptionsAwareInterface
     /**
      * @inheritdoc
      */
-    public function setOptions(array $options = array())
+    public function setOptions(array $options = [])
     {
         $this->options = $options;
     }
@@ -68,7 +68,7 @@ class Toolbar implements OptionsAwareInterface
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefault('toolbar_form_options', array(
+            ->setDefault('toolbar_form_options', [
                 'validation_groups' => false,
                 'csrf_protection' => false,
                 'label' => false,
@@ -76,7 +76,7 @@ class Toolbar implements OptionsAwareInterface
                 'label_class' => 'hidden',
                 'group_class' => 'col-sm-12',
                 'method' => 'GET'
-            ))
+            ])
             ->setAllowedTypes('toolbar_form_options', 'array')
 
             ->setDefault('toolbar_template', '@UmbrellaCore/Toolbar/toolbar.html.twig')
@@ -98,9 +98,9 @@ class Toolbar implements OptionsAwareInterface
      */
     public function getViewOptions()
     {
-        return array(
+        return [
             'form' => $this->form ? $this->form->createView() : null,
             'actions' => $this->actions
-        );
+        ];
     }
 }

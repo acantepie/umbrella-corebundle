@@ -19,12 +19,12 @@ class MenuProvider
     /**
      * @var array
      */
-    private $menuFactories = array();
+    private $menuFactories = [];
 
     /**
      * @var array
      */
-    private $menus = array();
+    private $menus = [];
 
     /**
      * @param $alias

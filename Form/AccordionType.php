@@ -8,18 +8,17 @@
 
 namespace Umbrella\CoreBundle\Form;
 
+use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class AccordionType
  */
 class AccordionType extends AbstractType
 {
-
     /**
      * @inheritdoc
      */
@@ -33,13 +32,12 @@ class AccordionType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'inherit_data' => true,
             'collapsed' => false,
-            'constraints' => array(new Valid()),
-        ));
+            'constraints' => [new Valid()],
+        ]);
 
         $resolver->setAllowedTypes('collapsed', 'boolean');
     }
-
 }

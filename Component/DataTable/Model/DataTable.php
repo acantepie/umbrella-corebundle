@@ -10,11 +10,11 @@ namespace Umbrella\CoreBundle\Component\DataTable\Model;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\Column\Column;
 use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class DataTable.
@@ -67,24 +67,24 @@ class DataTable extends AbstractDataTable
             ->disableExceptionOnInvalidPropertyPath()
             ->getPropertyAccessor();
 
-        $computedData = array();
-        $computedIds = array();
+        $computedData = [];
+        $computedIds = [];
 
         // compute result
         foreach ($result->data as $row) {
-            $fetchedRow = array();
+            $fetchedRow = [];
 
             $id = $accessor->getValue($row, $this->options['id_path']);
             $computedIds[] = $id;
 
             // Add row id data
-            $fetchedRow['DT_RowAttr'] = array('data-id' => $id);
+            $fetchedRow['DT_RowAttr'] = ['data-id' => $id];
 
             // Add row class
             $fetchedRow['DT_RowClass'] = '';
             if (is_string($this->options['row_class'])) {
                 $fetchedRow['DT_RowClass'] = $this->options['row_class'];
-            } else if (is_callable($this->options['row_class'])) {
+            } elseif (is_callable($this->options['row_class'])) {
                 $fetchedRow['DT_RowClass'] = call_user_func($this->options['row_class'], $row);
             }
 
@@ -199,36 +199,36 @@ class DataTable extends AbstractDataTable
     }
 
     /**
-     * @param TranslatorInterface $translator
+     * @param  TranslatorInterface $translator
      * @return array
      */
     public function getViewOptions(TranslatorInterface $translator)
     {
-        $viewOptions = array();
+        $viewOptions = [];
         $viewOptions['table'] = $this;
         $viewOptions['id'] = $this->options['id'];
         $viewOptions['attr'] = $this->options['attr'];
         $viewOptions['component'] = 'DataTable';
         $viewOptions['container_class'] = 'umbrella-datatable-container';
 
-        $viewOptions['columns'] = array();
+        $viewOptions['columns'] = [];
         foreach ($this->columns as $column) {
             $viewOptions['columns'][] = $column->getViewOptions();
         }
 
-        $jsOptions = array();
+        $jsOptions = [];
         $jsOptions['tree'] = $this->options['tree'];
         $jsOptions['tree_column'] = $this->options['tree_column'];
         $jsOptions['tree_state'] = $this->options['tree_state'];
 
         $jsOptions['serverSide'] = true;
         $jsOptions['bFilter'] = false;
-        $jsOptions['ajax'] = array(
+        $jsOptions['ajax'] = [
             'url' => $this->loadUrl
-        );
-        $jsOptions['ajax_data'] = array(
+        ];
+        $jsOptions['ajax_data'] = [
             '_dtid' => $this->options['id']
-        );
+        ];
 
         if ($this->options['paging']) {
             $jsOptions['lengthChange'] = $this->options['length_change'];
@@ -241,10 +241,10 @@ class DataTable extends AbstractDataTable
         $jsOptions['fixedHeader'] = $this->options['fixed_header'];
 
         if ($this->relocateUrl) {
-            $jsOptions['rowReorder'] = array(
+            $jsOptions['rowReorder'] = [
                 'update' => false,
                 'url' => $this->relocateUrl
-            );
+            ];
         }
 
         $jsOptions['poll_interval'] = $this->options['poll_interval'];
@@ -252,17 +252,16 @@ class DataTable extends AbstractDataTable
         $jsOptions['ordering'] = $this->options['orderable'];
 
         // columns options
-        $jsOptions['columns'] = array();
-        $jsOptions['order'] = array();
+        $jsOptions['columns'] = [];
+        $jsOptions['order'] = [];
 
         /** @var Column $column */
         foreach ($this->columns as $idx => $column) {
-
             if ($column->getDefaultOrder()) {
-                $jsOptions['order'][] = array(
+                $jsOptions['order'][] = [
                     $idx,
                     strtolower($column->getDefaultOrder())
-                );
+                ];
             }
 
             $jsOptions['columns'][] = $column->getColumnsOptions();
@@ -273,7 +272,7 @@ class DataTable extends AbstractDataTable
         };
 
         // translations
-        $jsOptions['language'] = array(
+        $jsOptions['language'] = [
             'processing' => $translate('processing'),
             'search' => $translate('search'),
             'lengthMenu' => $translate('lengthMenu'),
@@ -285,17 +284,17 @@ class DataTable extends AbstractDataTable
             'zeroRecords' => $translate('zeroRecords'),
             'emptyTable' => $translate('emptyTable'),
             'searchPlaceholder' => $translate('searchPlaceholder'),
-            'paginate' => array(
+            'paginate' => [
                 'first' => $translate('paginate.first'),
                 'previous' => $translate('paginate.previous'),
                 'next' => $translate('paginate.next'),
                 'last' => $translate('paginate.last'),
-            ),
-            'aria' => array(
+            ],
+            'aria' => [
                 'sortAscending' => $translate('aria.sortAscending'),
                 'sortDescending' => $translate('aria.sortDescending'),
-            )
-        );
+            ]
+        ];
 
         $viewOptions['js'] = $jsOptions;
 

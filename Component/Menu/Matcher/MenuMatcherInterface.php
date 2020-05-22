@@ -19,7 +19,7 @@ interface MenuMatcherInterface
     /**
      * Checks whether an item is current.
      *
-     * @param MenuNode $node
+     * @param  MenuNode $node
      * @return bool
      */
     public function isCurrent(MenuNode $node);
@@ -27,9 +27,8 @@ interface MenuMatcherInterface
     /**
      * Checks whether an item is the ancestor of a current item.
      *
-     * @param MenuNode $node
+     * @param  MenuNode $node
      * @return bool
      */
     public function isAncestor(MenuNode $node);
-
 }

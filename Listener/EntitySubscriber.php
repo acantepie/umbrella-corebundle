@@ -9,11 +9,11 @@
 
 namespace Umbrella\CoreBundle\Listener;
 
+use Monolog\Logger;
+use Doctrine\ORM\Events;
+use Psr\Log\LoggerInterface;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Events;
-use Monolog\Logger;
-use Psr\Log\LoggerInterface;
 use Umbrella\CoreBundle\Services\SearchHandler;
 
 /**
@@ -34,7 +34,7 @@ class EntitySubscriber implements EventSubscriber
     /**
      * EntitySubscriber constructor.
      * @param LoggerInterface $logger
-     * @param SearchHandler $searchHandler
+     * @param SearchHandler   $searchHandler
      */
     public function __construct(LoggerInterface $logger, SearchHandler $searchHandler)
     {
@@ -65,9 +65,9 @@ class EntitySubscriber implements EventSubscriber
      */
     public function getSubscribedEvents()
     {
-        return array(
+        return [
             Events::prePersist,
             Events::preUpdate,
-        );
+        ];
     }
 }

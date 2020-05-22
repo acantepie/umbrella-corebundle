@@ -1,11 +1,10 @@
 <?php
 
-
 namespace Umbrella\CoreBundle\Services;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Umbrella\CoreBundle\Utils\SQLUtils;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class EntityIndexer
@@ -31,8 +30,8 @@ class EntityIndexer
     /**
      * EntityIndexer constructor.
      * @param EntityManagerInterface $em
-     * @param LoggerInterface $logger
-     * @param SearchHandler $searchHandler
+     * @param LoggerInterface        $logger
+     * @param SearchHandler          $searchHandler
      */
     public function __construct(EntityManagerInterface $em, LoggerInterface $logger, SearchHandler $searchHandler)
     {
@@ -57,6 +56,7 @@ class EntityIndexer
 
     /**
      * @param $entityClass
+     * @param mixed $batchSize
      */
     public function indexEntity($entityClass, $batchSize = 2000)
     {
@@ -86,8 +86,6 @@ class EntityIndexer
             $this->em->flush();
             $this->em->clear();
             gc_collect_cycles();
-
-        } while($itCount >= $batchSize);
+        } while ($itCount >= $batchSize);
     }
-
 }

@@ -61,13 +61,13 @@ class StringUtils
     }
 
     /**
-     * @param int $length
-     * @param string $characters
+     * @param  int    $length
+     * @param  string $characters
      * @return string
      */
     public static function random($length = 8, $characters = self::ALPHANUM)
     {
-        $str = "";
+        $str = '';
 
         $max = strlen($characters) - 1;
         for ($i = 0; $i < $length; $i++) {
@@ -79,9 +79,9 @@ class StringUtils
 
     /**
      * @param $value
-     * @param int $length
-     * @param bool $preserve
-     * @param string $separator
+     * @param  int    $length
+     * @param  bool   $preserve
+     * @param  string $separator
      * @return string
      * @see twig_truncate_filter()
      *
@@ -95,16 +95,15 @@ class StringUtils
                 }
             }
 
-            return iconv("UTF-8", "UTF-8//IGNORE", rtrim(substr($value, 0, $length)) . $separator);
+            return iconv('UTF-8', 'UTF-8//IGNORE', rtrim(substr($value, 0, $length)) . $separator);
         }
 
         return $value;
     }
 
-
     /**
-     * @param string $haystack
-     * @param string $needle
+     * @param  string $haystack
+     * @param  string $needle
      * @return bool
      */
     public static function startsWith($haystack, $needle)
@@ -117,10 +116,9 @@ class StringUtils
         return (substr($haystack, 0, $length) === $needle);
     }
 
-
     /**
-     * @param string $haystack
-     * @param string $needle
+     * @param  string $haystack
+     * @param  string $needle
      * @return bool
      */
     public static function endsWith($haystack, $needle)
@@ -146,7 +144,7 @@ class StringUtils
             return $string;
         }
 
-        $chars = array(
+        $chars = [
             // Decompositions for Latin-1 Supplement
             chr(195) . chr(128) => 'A',
             chr(195) . chr(129) => 'A',
@@ -350,7 +348,7 @@ class StringUtils
             'æ' => 'a',
             'ø' => 'o',
             'å' => 'aa',
-        );
+        ];
 
         $string = strtr($string, $chars);
         return $string;

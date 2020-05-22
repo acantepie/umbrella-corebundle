@@ -9,9 +9,9 @@
 
 namespace Umbrella\CoreBundle\Extension;
 
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
 use Twig\TwigTest;
+use Twig\TwigFilter;
+use Twig\Extension\AbstractExtension;
 use Umbrella\CoreBundle\Utils\HtmlUtils;
 use Umbrella\CoreBundle\Utils\StringUtils;
 
@@ -25,12 +25,12 @@ class CoreTwigExtension extends AbstractExtension
      */
     public function getFilters()
     {
-        return array(
-            new TwigFilter('to_css', array($this, 'toCss'), array('is_safe' => array('html'))),
-            new TwigFilter('to_human_size', array($this, 'toHumanSize'), array('is_safe' => array('html'))),
-            new TwigFilter('icon', array($this, 'renderIcon'), array('is_safe' => array('html'))),
-            new TwigFilter('html_attributes', array($this, 'toHtmlAttribute'), array('is_safe' => array('html'))),
-        );
+        return [
+            new TwigFilter('to_css', [$this, 'toCss'], ['is_safe' => ['html']]),
+            new TwigFilter('to_human_size', [$this, 'toHumanSize'], ['is_safe' => ['html']]),
+            new TwigFilter('icon', [$this, 'renderIcon'], ['is_safe' => ['html']]),
+            new TwigFilter('html_attributes', [$this, 'toHtmlAttribute'], ['is_safe' => ['html']]),
+        ];
     }
 
     /**
@@ -39,12 +39,12 @@ class CoreTwigExtension extends AbstractExtension
     public function getTests()
     {
         return [
-            new TwigTest('instanceof', array($this, 'isInstanceof'))
+            new TwigTest('instanceof', [$this, 'isInstanceof'])
         ];
     }
 
     /**
-     * @param array $rules
+     * @param  array  $rules
      * @return string
      */
     public function toCss(array $rules)
@@ -76,10 +76,10 @@ class CoreTwigExtension extends AbstractExtension
     }
 
     /**
-     * @param string $class
+     * @param  string $class
      * @return string
      */
-    public function renderIcon($class )
+    public function renderIcon($class)
     {
         return HtmlUtils::render_icon($class);
     }
@@ -93,4 +93,3 @@ class CoreTwigExtension extends AbstractExtension
         return HtmlUtils::array_to_html_attribute($attributes);
     }
 }
-

@@ -8,8 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\Menu\Extension;
 
-use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
+use Twig\Extension\AbstractExtension;
 use Umbrella\CoreBundle\Component\Menu\MenuHelper;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
 use Umbrella\CoreBundle\Component\Menu\Model\MenuNode;
@@ -38,14 +38,14 @@ class MenuTwigExtension extends AbstractExtension
      */
     public function getFunctions()
     {
-        return array(
-            new TwigFunction('menu_get', array($this, 'getMenu')),
-            new TwigFunction('menu_render', array($this, 'render'), array('is_safe' => array('html'))),
-            new TwigFunction('menu_is_granted_node', array($this, 'isGranted')),
-            new TwigFunction('menu_is_current_node', array($this, 'isCurrent')),
-            new TwigFunction('menu_get_current_node', array($this, 'getCurrentNode')),
-            new TwigFunction('menu_get_breadcrumb', array($this, 'getBreadcrumb')),
-        );
+        return [
+            new TwigFunction('menu_get', [$this, 'getMenu']),
+            new TwigFunction('menu_render', [$this, 'render'], ['is_safe' => ['html']]),
+            new TwigFunction('menu_is_granted_node', [$this, 'isGranted']),
+            new TwigFunction('menu_is_current_node', [$this, 'isCurrent']),
+            new TwigFunction('menu_get_current_node', [$this, 'getCurrentNode']),
+            new TwigFunction('menu_get_breadcrumb', [$this, 'getBreadcrumb']),
+        ];
     }
 
     /**
@@ -80,7 +80,7 @@ class MenuTwigExtension extends AbstractExtension
     }
 
     /**
-     * @param MenuNode $node
+     * @param  MenuNode $node
      * @return bool
      */
     public function isCurrent(MenuNode $node)
@@ -98,7 +98,6 @@ class MenuTwigExtension extends AbstractExtension
         return $this->helper->getCurrentNode($menu);
     }
 
-
     /**
      * @param $name
      * @return array
@@ -108,5 +107,4 @@ class MenuTwigExtension extends AbstractExtension
         $menu = $this->helper->getMenu($name);
         return $this->helper->buildBreadcrumb($menu);
     }
-
 }

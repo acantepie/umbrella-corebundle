@@ -9,7 +9,7 @@ export default class AjaxJsResponseHandler extends AjaxHandler {
         },
 
         reload(params) {
-            window.location.reload();
+            window.location.href = window.location.href.split('#')[0];
         },
 
         redirect(params) {

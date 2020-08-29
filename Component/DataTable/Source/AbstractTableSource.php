@@ -8,6 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\DataTable\Source;
 
+use Umbrella\CoreBundle\Component\DataTable\Source\Modifier\AbstractSourceModifier;
+
 /**
  * Class AbstractDataTableSource
  */
@@ -39,7 +41,7 @@ abstract class AbstractTableSource
      */
     protected function resolveModifier(array $args)
     {
-        uasort($this->modifiers, function (CallbackSourceModifier $a, CallbackSourceModifier $b) {
+        uasort($this->modifiers, function (AbstractSourceModifier $a, AbstractSourceModifier $b) {
             return $a->compare($b);
         });
 

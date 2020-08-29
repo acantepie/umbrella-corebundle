@@ -6,7 +6,7 @@
  * Time: 22:44
  */
 
-namespace Umbrella\CoreBundle\Component\DataTable\Source;
+namespace Umbrella\CoreBundle\Component\DataTable\Source\Modifier;
 
 /**
  * Class AbstractSourceModifier
@@ -42,10 +42,10 @@ abstract class AbstractSourceModifier
     }
 
     /**
-     * @param  CallbackSourceModifier $modifier
+     * @param  AbstractSourceModifier $modifier
      * @return int
      */
-    public function compare(CallbackSourceModifier $modifier)
+    public function compare(AbstractSourceModifier $modifier)
     {
         if ($this->priority == $modifier->getPriority()) {
             return 0;

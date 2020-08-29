@@ -2,6 +2,7 @@
 
 namespace Umbrella\CoreBundle\Services;
 
+use Doctrine\Persistence\Mapping\MappingException;
 use Psr\Log\LoggerInterface;
 use Umbrella\CoreBundle\Utils\SQLUtils;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,16 +41,38 @@ class EntityIndexer
         $this->searchHandler = $searchHandler;
     }
 
+    /**
+     * @param $entityClass
+     * @return bool
+     */
+    public function isIndexable($entityClass)
+    {
+        try {
+            $md = $this->em->getClassMetadata($entityClass);
+        } catch(MappingException $e) {
+            return false;
+        }
+
+        if ($md->isMappedSuperclass) {
+            return false;
+        }
+
+        if (!$this->searchHandler->isSearchable($entityClass)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param int $batchSize
+     */
     public function indexAll($batchSize = 2000)
     {
         $entitiesClass = $this->em->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
         foreach ($entitiesClass as $entityClass) {
-            if ($this->searchHandler->isSearchable($entityClass)) {
-                try {
-                    $this->indexEntity($entityClass);
-                } catch (\Exception $ex) {
-                    $this->logger->error($ex->getMessage());
-                }
+            if ($this->isIndexable($entityClass)) {
+                $this->indexEntity($entityClass, $batchSize);
             }
         }
     }
@@ -62,30 +85,25 @@ class EntityIndexer
     {
         SQLUtils::disableSQLLog($this->em);
 
-        $total = $this->em->createQuery("SELECT COUNT(e) FROM $entityClass e")->getSingleScalarResult();
-        $count = 0;
+        $this->logger->info(sprintf('>> Index %s', $entityClass));
+        $query = $this->em->createQuery(sprintf('SELECT e FROM %s e', $entityClass));
 
-        $this->logger->info('>> Index ' . $entityClass . ' : ' . $total);
+        $i = 1;
+        foreach ($query->iterate() as $row) {
+            $entity = $row[0];
+            $this->searchHandler->indexEntity($entity);
 
-        do {
-            $iterable = $this->em->createQuery("SELECT e FROM $entityClass e")
-                ->setFirstResult($count)
-                ->setMaxResults($batchSize)
-                ->iterate();
-
-            $itCount = 0;
-
-            while (($entity = $iterable->next()) !== false) {
-                ++$count;
-                ++$itCount;
-                $this->searchHandler->indexEntity($entity[0]);
+            if (($i % $batchSize) === 0) {
+                $this->em->flush();
+                $this->em->clear();
+                $this->logger->info(sprintf('... ... ... %d', $i));
             }
+            ++$i;
+        }
 
-            $this->logger->info('... ... ...' . $count);
+        $this->em->flush();
+        $this->em->clear();
 
-            $this->em->flush();
-            $this->em->clear();
-            gc_collect_cycles();
-        } while ($itCount >= $batchSize);
+        $this->logger->info(sprintf('> Total : %s', $i));
     }
 }

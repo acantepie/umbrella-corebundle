@@ -174,7 +174,7 @@ abstract class BaseController extends AbstractController
      */
     protected function toastInfo($transId, array $transParams = [])
     {
-        return $this->addBagToast($this->get(ToastFactory::class)->createInfo($transId, $transParams));
+        return $this->toast($this->get(ToastFactory::class)->createInfo($transId, $transParams));
     }
 
     /**
@@ -183,7 +183,7 @@ abstract class BaseController extends AbstractController
      */
     protected function toastSuccess($transId, array $transParams = [])
     {
-        return $this->addBagToast($this->get(ToastFactory::class)->createSuccess($transId, $transParams));
+        return $this->toast($this->get(ToastFactory::class)->createSuccess($transId, $transParams));
     }
 
     /**
@@ -192,7 +192,7 @@ abstract class BaseController extends AbstractController
      */
     protected function toastWarning($transId, array $transParams = [])
     {
-        return $this->addBagToast($this->get(ToastFactory::class)->createWarning($transId, $transParams));
+        return $this->toast($this->get(ToastFactory::class)->createWarning($transId, $transParams));
     }
 
     /**
@@ -201,13 +201,13 @@ abstract class BaseController extends AbstractController
      */
     protected function toastError($transId, array $transParams = [])
     {
-        return $this->addBagToast($this->get(ToastFactory::class)->createError($transId, $transParams));
+        return $this->toast($this->get(ToastFactory::class)->createError($transId, $transParams));
     }
 
     /**
      * @param Toast $toast
      */
-    protected function addBagToast(Toast $toast)
+    protected function toast(Toast $toast)
     {
         /** @var Session $session */
         $session = $this->get('session');

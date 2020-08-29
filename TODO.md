@@ -1,13 +1,12 @@
 === TODO ===
 
 - rework SourceModifier (base on on varargs ?)
-- implement Tree placer widget ?
-- Finish tree-able DataTable
-- Use toast component on controller (displayed on next request)
+- Tree placer widget
 - Email template
 
 - Maker Bundle
 - Task bundle
+- Skeleton + script init new project
 
 === IDEA ===
 

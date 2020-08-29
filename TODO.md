@@ -2,7 +2,6 @@
 
 - rework SourceModifier (base on on varargs ?)
 - Tree placer widget
-- Email template
 
 - Maker Bundle
 - Task bundle

@@ -10,6 +10,7 @@
 namespace Umbrella\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Umbrella\CoreBundle\Component\Toast\Toast;
 use Umbrella\CoreBundle\Component\Menu\MenuHelper;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
@@ -74,8 +75,8 @@ abstract class BaseController extends AbstractController
 
     /**
      * @param $className
-     * @param  null                                          $persistentManagerName
-     * @return \Doctrine\Common\Persistence\ObjectRepository
+     * @param null $persistentManagerName
+     * @return EntityRepository
      */
     protected function getRepository($className, $persistentManagerName = null)
     {
@@ -84,12 +85,11 @@ abstract class BaseController extends AbstractController
 
     /**
      * @param null $name
-     *
      * @return EntityManagerInterface
      */
     protected function em($name = null)
     {
-        return $this->get('doctrine')->getManager($name);
+        return $this->getDoctrine()->getManager($name);
     }
 
     /**

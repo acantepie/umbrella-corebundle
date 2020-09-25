@@ -8,19 +8,18 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Extension;
 
+use Umbrella\CoreBundle\Entity\UmbrellaTask;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\DateTime\DateTimeHelper;
-use Umbrella\CoreBundle\Entity\UmbrellaTask;
 
 /**
  * Class TaskHelper
  */
 class TaskHelper
 {
-
     const PROGRESS = '<div class="progress progress-xs m-y-0"><div class="progress-bar progress-bar-striped %s" style="width: %d%%"></div></div> <div class="text-center"> <small class="text-muted">%s %%</small></div>';
 
-    private static $STATE_COLORS = array(
+    private static $STATE_COLORS = [
         UmbrellaTask::STATE_NEW => 'dark',
         UmbrellaTask::STATE_PENDING => 'primary',
         UmbrellaTask::STATE_RUNNING => 'info',
@@ -28,9 +27,9 @@ class TaskHelper
         UmbrellaTask::STATE_TERMINATED => 'danger',
         UmbrellaTask::STATE_FAILED => 'danger',
         UmbrellaTask::STATE_CANCELED => 'dark'
-    );
+    ];
 
-    private static $STATE_ICONS = array(
+    private static $STATE_ICONS = [
         UmbrellaTask::STATE_NEW => null,
         UmbrellaTask::STATE_PENDING => 'mdi mdi-clock',
         UmbrellaTask::STATE_RUNNING => 'mdi mdi-spin mdi-loading',
@@ -38,7 +37,7 @@ class TaskHelper
         UmbrellaTask::STATE_TERMINATED => 'mdi mdi-stop',
         UmbrellaTask::STATE_CANCELED => 'mdi mdi-cancel',
         UmbrellaTask::STATE_FAILED => 'mdi mdi-alert',
-    );
+    ];
 
     /**
      * @var TranslatorInterface
@@ -53,7 +52,7 @@ class TaskHelper
     /**
      * TaskHelper constructor.
      * @param TranslatorInterface $translator
-     * @param DateTimeHelper $dateTimeHelper
+     * @param DateTimeHelper      $dateTimeHelper
      */
     public function __construct(TranslatorInterface $translator, DateTimeHelper $dateTimeHelper)
     {
@@ -101,7 +100,7 @@ class TaskHelper
     }
 
     /**
-     * @param UmbrellaTask $task
+     * @param  UmbrellaTask $task
      * @return null|string
      */
     public function renderRuntime(UmbrellaTask $task)
@@ -113,7 +112,6 @@ class TaskHelper
                 $this->dateTimeHelper->diff($task->startedAt),
                 $task->runtime()
             );
-
         }
 
         // not started
@@ -130,7 +128,7 @@ class TaskHelper
     }
 
     /**
-     * @param UmbrellaTask $task
+     * @param  UmbrellaTask $task
      * @return null|string
      */
     public function renderProgress(UmbrellaTask $task)
@@ -147,5 +145,4 @@ class TaskHelper
 
         return sprintf(self::PROGRESS, $color, $task->progress, $task->progress);
     }
-
 }

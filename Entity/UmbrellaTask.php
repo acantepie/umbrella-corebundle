@@ -8,8 +8,8 @@
 
 namespace Umbrella\CoreBundle\Entity;
 
-use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class Task
@@ -44,7 +44,7 @@ class UmbrellaTask extends BaseEntity
      * @var array
      * @ORM\Column(type="json_array", nullable=false)
      */
-    public $parameters = array();
+    public $parameters = [];
 
     /**
      * @var integer
@@ -94,7 +94,6 @@ class UmbrellaTask extends BaseEntity
      */
     public $progress;
 
-
     /**
      * @var int
      * @ORM\Column(type="smallint", nullable=false)
@@ -124,7 +123,7 @@ class UmbrellaTask extends BaseEntity
      * @param $handlerAlias
      * @param array $parameters
      */
-    public function __construct($handlerAlias, array $parameters = array())
+    public function __construct($handlerAlias, array $parameters = [])
     {
         $this->handlerAlias = $handlerAlias;
         $this->parameters = $parameters;
@@ -166,8 +165,8 @@ class UmbrellaTask extends BaseEntity
     }
 
     /**
-     * @param string $format
-     * @return int (s)
+     * @param  string $format
+     * @return int    (s)
      */
     public function runtime($format = '%H:%I:%S')
     {

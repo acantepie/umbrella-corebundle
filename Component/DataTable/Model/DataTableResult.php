@@ -26,7 +26,7 @@ class DataTableResult implements \JsonSerializable
     /***
      * @var iterable
      */
-    public $data = array();
+    public $data = [];
 
     /**
      * @inheritdoc

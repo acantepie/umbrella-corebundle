@@ -21,7 +21,7 @@ abstract class AbstractTaskHandler implements TaskHandlerInterface
     /**
      * @inheritdoc
      */
-    public abstract function getAlias();
+    abstract public function getAlias();
 
     /**
      * @inheritdoc

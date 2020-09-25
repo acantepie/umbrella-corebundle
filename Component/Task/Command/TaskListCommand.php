@@ -8,13 +8,13 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Command;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Umbrella\CoreBundle\Component\Task\TaskManager;
 use Umbrella\CoreBundle\Entity\UmbrellaTask;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Input\InputInterface;
+use Umbrella\CoreBundle\Component\Task\TaskManager;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class TaskListCommand
@@ -60,7 +60,7 @@ class TaskListCommand extends Command
     protected function configure()
     {
         $this->setName(self::CMD_NAME);
-        $this->setDescription("List tasks");
+        $this->setDescription('List tasks');
         $this->addOption('pending', null, InputOption::VALUE_NONE);
         $this->addOption('done', null, InputOption::VALUE_NONE);
     }
@@ -90,16 +90,15 @@ class TaskListCommand extends Command
                 $rows = [];
 
                 foreach ($tasksPending as $task) {
-                    $rows[] = array(
+                    $rows[] = [
                         $task->getTaskId(),
                         $task->handlerAlias,
                         $task->createdAt->format('d/m/Y H:i:s')
-                    );
+                    ];
                 }
                 $this->io->table(['id', 'handler', 'created'], $rows);
             }
         }
-
 
         $tasksRunning = $this->taskManager->findByStates([UmbrellaTask::STATE_RUNNING]);
 
@@ -110,14 +109,14 @@ class TaskListCommand extends Command
 
             /** @var UmbrellaTask $task */
             foreach ($tasksRunning as $task) {
-                $rows[] = array(
+                $rows[] = [
                     $task->getTaskId(),
                     $task->handlerAlias,
                     $task->pid,
                     $task->startedAt ? $task->startedAt->format('d/m/Y H:i:s') : '?',
                     $task->runtime(),
                     $task->progress ? $task->progress : ''
-                );
+                ];
             }
             $this->io->table(['id', 'handler', 'pid', 'started', 'runtime (s)', 'progress (%)'], $rows);
         }
@@ -132,14 +131,14 @@ class TaskListCommand extends Command
 
                 /** @var UmbrellaTask $task */
                 foreach ($tasksDone as $task) {
-                    $rows[] = array(
+                    $rows[] = [
                         $task->getTaskId(),
                         $task->handlerAlias,
                         $task->startedAt ? $task->startedAt->format('d/m/Y H:i:s') : '?',
                         $task->endedAt ? $task->endedAt->format('d/m/Y H:i:s') : '?',
                         $task->runtime(),
                         $task->state
-                    );
+                    ];
                 }
                 $this->io->table(['id', 'handler', 'started', 'ended', 'runtime (s)', 'status'], $rows);
             }
@@ -147,5 +146,4 @@ class TaskListCommand extends Command
 
         return 0;
     }
-
 }

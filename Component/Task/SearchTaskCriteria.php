@@ -16,7 +16,7 @@ class SearchTaskCriteria
     /**
      * @var array
      */
-    public $states = array();
+    public $states = [];
 
     /**
      * @var string
@@ -27,5 +27,4 @@ class SearchTaskCriteria
      * @var null|int
      */
     public $maxResults = null;
-
 }

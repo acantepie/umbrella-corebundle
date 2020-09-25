@@ -8,8 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\Task;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\EntityManagerInterface;
 use Umbrella\CoreBundle\Entity\UmbrellaTask;
 
 /**
@@ -31,7 +31,7 @@ class TaskManager
         $this->em = $em;
     }
 
-    public function createTask($handlerAlias, array $parameters = array())
+    public function createTask($handlerAlias, array $parameters = [])
     {
         return new UmbrellaTask($handlerAlias, $parameters);
     }
@@ -55,7 +55,7 @@ class TaskManager
     }
 
     /**
-     * @param SearchTaskCriteria $criteria
+     * @param  SearchTaskCriteria $criteria
      * @return int
      */
     public function countSearch(SearchTaskCriteria $criteria)
@@ -68,7 +68,7 @@ class TaskManager
     }
 
     /**
-     * @param SearchTaskCriteria $criteria
+     * @param  SearchTaskCriteria $criteria
      * @return UmbrellaTask[]
      */
     public function search(SearchTaskCriteria $criteria)
@@ -77,7 +77,7 @@ class TaskManager
     }
 
     /**
-     * @param SearchTaskCriteria $criteria
+     * @param  SearchTaskCriteria $criteria
      * @return QueryBuilder
      */
     public function searchQuery(SearchTaskCriteria $criteria)
@@ -103,7 +103,7 @@ class TaskManager
     }
 
     /**
-     * @param array $states
+     * @param  array          $states
      * @return UmbrellaTask[]
      */
     public function findByStates(array $states)
@@ -115,7 +115,7 @@ class TaskManager
 
     /**
      * Alias
-     * @param UmbrellaTask $task
+     * @param  UmbrellaTask $task
      * @return UmbrellaTask
      */
     public function register(UmbrellaTask $task)
@@ -124,7 +124,7 @@ class TaskManager
     }
 
     /**
-     * @param UmbrellaTask $task
+     * @param  UmbrellaTask $task
      * @return UmbrellaTask
      */
     public function schedule(UmbrellaTask $task)
@@ -139,7 +139,7 @@ class TaskManager
     }
 
     /**
-     * @param UmbrellaTask $task
+     * @param  UmbrellaTask $task
      * @return UmbrellaTask
      */
     public function cancel(UmbrellaTask $task)
@@ -151,7 +151,6 @@ class TaskManager
         $this->update($task);
         return $task;
     }
-
 
     /**
      * @param UmbrellaTask $task
@@ -188,7 +187,7 @@ class TaskManager
 
     /**
      * @param $alias
-     * @param null $indexBy
+     * @param  null         $indexBy
      * @return QueryBuilder
      */
     private function createQueryBuilder($alias, $indexBy = null)
@@ -197,5 +196,4 @@ class TaskManager
             ->select($alias, $indexBy)
             ->from(UmbrellaTask::class, $alias);
     }
-
 }

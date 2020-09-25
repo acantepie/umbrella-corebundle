@@ -19,11 +19,11 @@ class Pool implements \IteratorAggregate, \Countable
     /**
      * @var PoolItem[]
      */
-    private $items = array();
+    private $items = [];
 
     /**
      * @param UmbrellaTask $task
-     * @param Process $process
+     * @param Process      $process
      */
     public function add(UmbrellaTask $task, Process $process)
     {

@@ -39,7 +39,7 @@ class PoolItem
     /**
      * PoolItem constructor.
      * @param UmbrellaTask $task
-     * @param Process $process
+     * @param Process      $process
      */
     public function __construct(UmbrellaTask $task, Process $process)
     {
@@ -62,5 +62,4 @@ class PoolItem
     {
         $this->errorOutputCursor += $incr;
     }
-
 }

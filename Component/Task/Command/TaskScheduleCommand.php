@@ -8,21 +8,19 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Command;
 
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Command\LockableTrait;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Process\Exception\ProcessTimedOutException;
-use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
-use Umbrella\CoreBundle\Component\Task\Pool\Pool;
-use Umbrella\CoreBundle\Component\Task\TaskManager;
+use Symfony\Component\Filesystem\Filesystem;
 use Umbrella\CoreBundle\Entity\UmbrellaTask;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Umbrella\CoreBundle\Component\Task\Pool\Pool;
+use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Console\Input\InputInterface;
+use Umbrella\CoreBundle\Component\Task\TaskManager;
+use Symfony\Component\Console\Command\LockableTrait;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
 /**
  * Class TaskExecuteCommand
@@ -124,11 +122,10 @@ class TaskScheduleCommand extends Command
             return 0;
         }
 
-
         $tasksToSchedule = $this->taskManager->getTasksToSchedule();
         if (count($tasksToSchedule) === 0) {
             if ($this->verbose) {
-                $this->io->writeln("No task to schedule");
+                $this->io->writeln('No task to schedule');
             }
             return 1;
         }
@@ -171,12 +168,12 @@ class TaskScheduleCommand extends Command
     private function startTask(UmbrellaTask $task)
     {
         // create process
-        $process = new Process(array(
+        $process = new Process([
             $this->phpBinaryPath,
             $this->consolePath,
             TaskRunCommand::CMD_NAME,
             $task->getTaskId()
-        ));
+        ]);
 
         // update state
         $task->started();
@@ -205,7 +202,6 @@ class TaskScheduleCommand extends Command
     private function checkRunningTasks()
     {
         foreach ($this->pool as $poolItem) {
-
             $process = $poolItem->process;
             $task = $poolItem->task;
 
@@ -259,7 +255,6 @@ class TaskScheduleCommand extends Command
                 }
                 continue;
             }
-
 
             // task killed
             if (!file_exists($task->getPidFilePath())) {

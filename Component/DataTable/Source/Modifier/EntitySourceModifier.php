@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Umbrella\CoreBundle\Component\DataTable\Source\Modifier;
 
 use Doctrine\ORM\QueryBuilder;
@@ -10,7 +9,7 @@ use Doctrine\ORM\QueryBuilder;
  */
 abstract class EntitySourceModifier extends AbstractSourceModifier
 {
-    public final function modify(...$args)
+    final public function modify(...$args)
     {
         $this->modifyQb($args[0], $args[1]);
     }

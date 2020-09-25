@@ -32,7 +32,6 @@ interface TaskHandlerInterface
      */
     public function execute();
 
-
     /**
      * Method called when task is finished
      */

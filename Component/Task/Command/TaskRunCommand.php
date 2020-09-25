@@ -11,9 +11,9 @@ namespace Umbrella\CoreBundle\Component\Task\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Umbrella\CoreBundle\Component\Task\TaskManager;
 use Symfony\Component\Console\Output\OutputInterface;
 use Umbrella\CoreBundle\Component\Task\Handler\TaskHandlerFactory;
-use Umbrella\CoreBundle\Component\Task\TaskManager;
 
 /**
  * Class TaskExecuteCommand
@@ -42,7 +42,7 @@ class TaskRunCommand extends Command
 
     /**
      * TaskRunCommand constructor.
-     * @param TaskManager $taskManager
+     * @param TaskManager        $taskManager
      * @param TaskHandlerFactory $handlerFactory
      */
     public function __construct(TaskManager $taskManager, TaskHandlerFactory $handlerFactory)
@@ -92,6 +92,4 @@ class TaskRunCommand extends Command
 
         return 0;
     }
-
-
 }

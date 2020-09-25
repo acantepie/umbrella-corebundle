@@ -8,8 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Handler;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\EntityManagerInterface;
 use Umbrella\CoreBundle\Entity\UmbrellaTask;
 
 /**
@@ -61,7 +61,7 @@ class TaskHandlerHelper
      * TaskHelper constructor.
      *
      * @param EntityManagerInterface $em
-     * @param UmbrellaTask $task
+     * @param UmbrellaTask           $task
      */
     public function __construct(EntityManagerInterface $em, UmbrellaTask $task)
     {
@@ -124,9 +124,6 @@ class TaskHandlerHelper
         $this->flushProgress();
     }
 
-    /**
-     *
-     */
     public function progressFinish()
     {
         $this->progress = $this->max;
@@ -141,17 +138,16 @@ class TaskHandlerHelper
 
             if (null === $this->progressQuery) {
                 $this->progressQuery = $this->em->createQueryBuilder()
-                    ->update(get_class($this->task),'e')
+                    ->update(get_class($this->task), 'e')
                     ->set('e.progress', ':progress')
                     ->where('e.id = :id')
                     ->getQuery();
             }
 
-            $this->progressQuery->execute(array(
+            $this->progressQuery->execute([
                 'progress' => $percent,
                 'id' => $this->task->id
-            ));
+            ]);
         }
     }
-
 }

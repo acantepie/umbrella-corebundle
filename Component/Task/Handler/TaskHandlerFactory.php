@@ -8,8 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Handler;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Umbrella\CoreBundle\Entity\UmbrellaTask;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class TaskHandlerFactory
@@ -24,7 +24,7 @@ class TaskHandlerFactory
     /**
      * @var TaskHandlerInterface[]
      */
-    private $handlers = array();
+    private $handlers = [];
 
     /**
      * TaskHandlerFactory constructor.
@@ -38,7 +38,7 @@ class TaskHandlerFactory
     /**
      * @param array $ids
      */
-    public function loadHandlers(array $ids = array())
+    public function loadHandlers(array $ids = [])
     {
         foreach ($ids as $id) {
             $handler = $this->container->get($id);
@@ -60,7 +60,7 @@ class TaskHandlerFactory
     }
 
     /**
-     * @param UmbrellaTask $task
+     * @param  UmbrellaTask         $task
      * @return TaskHandlerInterface
      */
     public function create(UmbrellaTask $task)

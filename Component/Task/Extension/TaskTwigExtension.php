@@ -8,8 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Extension;
 
-use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\Extension\AbstractExtension;
 
 /**
  * Class TaskTwigExtension
@@ -32,12 +32,10 @@ class TaskTwigExtension extends AbstractExtension
 
     public function getFilters()
     {
-        return array(
-            new TwigFilter('render_task_state', array($this->taskHelper, 'renderState'), ['is_safe' => ['html']]),
-            new TwigFilter('render_task_runtime', array($this->taskHelper, 'renderRuntime'), ['is_safe' => ['html']]),
-            new TwigFilter('render_task_progress', array($this->taskHelper, 'renderProgress'), ['is_safe' => ['html']]),
-        );
+        return [
+            new TwigFilter('render_task_state', [$this->taskHelper, 'renderState'], ['is_safe' => ['html']]),
+            new TwigFilter('render_task_runtime', [$this->taskHelper, 'renderRuntime'], ['is_safe' => ['html']]),
+            new TwigFilter('render_task_progress', [$this->taskHelper, 'renderProgress'], ['is_safe' => ['html']]),
+        ];
     }
-
-
 }

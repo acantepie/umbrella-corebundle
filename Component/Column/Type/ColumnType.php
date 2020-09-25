@@ -8,8 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\Column\Column;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class ColumnType

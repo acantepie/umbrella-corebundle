@@ -2,10 +2,10 @@
 
 namespace Umbrella\CoreBundle\Services;
 
-use Doctrine\Persistence\Mapping\MappingException;
 use Psr\Log\LoggerInterface;
 use Umbrella\CoreBundle\Utils\SQLUtils;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\Mapping\MappingException;
 
 /**
  * Class EntityIndexer
@@ -49,7 +49,7 @@ class EntityIndexer
     {
         try {
             $md = $this->em->getClassMetadata($entityClass);
-        } catch(MappingException $e) {
+        } catch (MappingException $e) {
             return false;
         }
 

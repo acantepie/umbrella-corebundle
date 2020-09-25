@@ -10,7 +10,6 @@
 namespace Umbrella\CoreBundle\Component\DataTable;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Umbrella\CoreBundle\Component\DataTable\Source\Modifier\AbstractSourceModifier;
 use Umbrella\CoreBundle\Utils\ComponentUtils;
 use Symfony\Component\Routing\RouterInterface;
 use Umbrella\CoreBundle\Component\Column\Column;
@@ -24,6 +23,7 @@ use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTable;
 use Umbrella\CoreBundle\Component\DataTable\Source\AbstractTableSource;
 use Umbrella\CoreBundle\Component\DataTable\Source\EntityDataTableSource;
 use Umbrella\CoreBundle\Component\DataTable\Source\EntityTreeTableSource;
+use Umbrella\CoreBundle\Component\DataTable\Source\Modifier\AbstractSourceModifier;
 
 /**
  * Class TableBuilder.

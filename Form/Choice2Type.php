@@ -11,6 +11,7 @@ namespace Umbrella\CoreBundle\Form;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -98,8 +99,8 @@ class Choice2Type extends AbstractType
         $view->vars['attr']['data-options'] = htmlspecialchars(json_encode($this->buildJsOptions($view, $form, $options)));
 
         // avoid use some values
-        $view->vars['placeholder'] = $view->vars['placeholder'] === null ? null : '';
         $view->vars['expanded'] = false;
+        $view->vars['placeholder'] = null;
 
         if (isset($view->vars['attr']['class'])) {
             $view->vars['attr']['class'] .= ' js-select2';
@@ -137,6 +138,10 @@ class Choice2Type extends AbstractType
         $resolver->setAllowedTypes('template_selector', ['null', 'string']);
         $resolver->setAllowedTypes('template_html', ['null', 'string']);
         $resolver->setAllowedTypes('select2_options', ['array']);
+
+        $resolver->setNormalizer('placeholder', function (Options $options, $placeholder) { // erase ChoiceType normalizer
+            return $placeholder;
+        });
     }
 
     /**

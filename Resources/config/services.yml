@@ -61,6 +61,20 @@ services:
     Umbrella\CoreBundle\Component\DateTime\DateTimeFormatter:
     Umbrella\CoreBundle\Component\DateTime\DateTimeExtension:
 
+    # Task
+    Umbrella\CoreBundle\Component\Task\Command\TaskListCommand:
+    Umbrella\CoreBundle\Component\Task\Command\TaskRegisterCommand:
+    Umbrella\CoreBundle\Component\Task\Command\TaskRunCommand:
+    Umbrella\CoreBundle\Component\Task\Command\TaskScheduleCommand:
+        bind:
+            $consolePath: "%kernel.project_dir%/bin/console"
+    Umbrella\CoreBundle\Component\Task\Handler\TaskHandlerFactory:
+    Umbrella\CoreBundle\Component\Task\Extension\TaskTwigExtension:
+    Umbrella\CoreBundle\Component\Task\Extension\TaskHelper:
+        public: true
+    Umbrella\CoreBundle\Component\Task\TaskManager:
+        public: true
+
     # ---- Umbrella ----#
 
     #Command

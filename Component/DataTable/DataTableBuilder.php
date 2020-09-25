@@ -244,6 +244,10 @@ class DataTableBuilder
         $table->setLoadUrl($this->loadUrl);
         $table->setRelocateUrl($this->relocateUrl);
 
+        if (count($table->getColumns()) === 0) {
+            throw new \RuntimeException(sprintf('Zero column configured for datatable "%s"', get_class($this->type)));
+        }
+
         return $table;
     }
 

@@ -37,16 +37,16 @@ abstract class AbstractTableSource
     abstract public function search($dataClass, array $columns, array $query);
 
     /**
-     * @param array $args
+     * @param mixed ...$args
      */
-    protected function resolveModifier(array $args)
+    protected function resolveModifier(...$args)
     {
         uasort($this->modifiers, function (AbstractSourceModifier $a, AbstractSourceModifier $b) {
             return $a->compare($b);
         });
 
         foreach ($this->modifiers as $modifier) {
-            $modifier->modify($args);
+            $modifier->modify(...$args);
         }
     }
 }

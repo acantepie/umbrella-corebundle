@@ -55,3 +55,4 @@
 
 - Use Hyper admin template (legacy: Flatkit): More Ui component, full bs4 compliant, scss is configurable (can redefine variables), responsive.
 - Improve Yaml menu loader (less verbose).
+- Include User CRUD 

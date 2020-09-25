@@ -95,6 +95,6 @@ class DateTimeFormatter
     {
         $id = sprintf('diff.%s.%s', $invert ? 'ago' : 'in', $unit);
 
-        return $this->translator->transChoice($id, $count, ['%count%' => $count], 'time');
+        return $this->translator->trans($id, ['%count%' => $count], 'time');
     }
 }

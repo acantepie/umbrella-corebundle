@@ -28,10 +28,10 @@ abstract class AbstractSourceModifier
     }
 
     /**
-     * @param  array $args
+     * @param mixed ...$args
      * @return mixed
      */
-    abstract public function modify(array $args);
+    abstract public function modify(...$args);
 
     /**
      * @return int

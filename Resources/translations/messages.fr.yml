@@ -68,6 +68,7 @@ form:
     placeholder:
         search: Rechercher ...
         password_not_set_if_empty: Laissez vide pour conserver le mot de passe actuel
+        states: Etats
 
 table:
     id: Identifiant
@@ -85,6 +86,10 @@ table:
     file: Fichier
     size: Taille
     status: Statut
+    task_state: Etat
+    task_id: Identifiant
+    task_runtime: Exécution
+    task_progress: Progression
 
 message:
     delete_confirm: Confirmez-vous la suppression ?
@@ -100,6 +105,8 @@ message:
     request_password_success: Un email a été envoyé à <b>%email%</b>. Vérifier votre boite mail et cliquer sur le lien de réinitialisation du mot de passe.
     password_resetted: Votre mot de passe a bien été réinitialisé.
     signin_to_bo: "Merci de vous identifier pour accéder au service."
+    task_cancel_confirm: Annuler l'éxecution ?
+    task_canceled: Tache annulée
 
 dateFormater:
     day:
@@ -136,3 +143,13 @@ dateFormater:
         Juin: June
         Juillet: July
         Aout: August
+
+task:
+    state:
+        new: Nouveau
+        pending: En attente
+        running: En cours
+        canceled: Annulé
+        finished: Terminé
+        failed: Erreur
+        terminated: Interrompu

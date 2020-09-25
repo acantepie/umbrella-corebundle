@@ -13,21 +13,16 @@ use Doctrine\ORM\QueryBuilder;
 /**
  * Class EntitySearchModifier
  */
-class EntitySearchModifier extends AbstractSourceModifier
+class EntitySearchModifier extends EntitySourceModifier
 {
     /**
-     * @param  array $args
-     * @return mixed
+     * @inheritDoc
      */
-    public function modify(array $args)
+    public function modifyQb(QueryBuilder $qb, array $queryData)
     {
-        /** @var QueryBuilder $qb */
-        $qb = $args['qb'];
-        $data = $args['query'];
-
-        if (isset($data['form']['search'])) {
+        if (isset($queryData['form']['search'])) {
             $qb->andWhere('lower(e.search) LIKE :search');
-            $qb->setParameter('search', '%' . strtolower($data['form']['search']) . '%');
+            $qb->setParameter('search', '%' . strtolower($queryData['form']['search']) . '%');
         }
     }
 }

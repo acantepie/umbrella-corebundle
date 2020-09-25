@@ -41,7 +41,7 @@ class EntityTreeTableSource extends AbstractTableSource
             ->addOrderBy('e.lft', 'ASC')
             ->andWhere('e.parent IS NOT NULL');
 
-        $this->resolveModifier(['qb' => $qb, 'query' => $query]);
+        $this->resolveModifier(['qb' => $qb, 'query_data' => $query]);
 
         $result = new DataTableResult();
         $result->data = $qb->getQuery()->getResult();

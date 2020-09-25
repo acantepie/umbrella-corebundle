@@ -8,10 +8,12 @@
 
 namespace Umbrella\CoreBundle\Component\DataTable\Source\Modifier;
 
+use Doctrine\ORM\QueryBuilder;
+
 /**
- * Class CallbackSourceModifier
+ * Class EntityCallbackSourceModifier
  */
-class CallbackSourceModifier extends AbstractSourceModifier
+class EntityCallbackSourceModifier extends EntitySourceModifier
 {
     /**
      * @var callable
@@ -30,11 +32,10 @@ class CallbackSourceModifier extends AbstractSourceModifier
     }
 
     /**
-     * @param  array $args
-     * @return mixed
+     * @inheritDoc
      */
-    public function modify(array $args)
+    public function modifyQb(QueryBuilder  $qb, array $queryData)
     {
-        call_user_func_array($this->callback, $args);
+        call_user_func($this->callback, $qb, $queryData);
     }
 }

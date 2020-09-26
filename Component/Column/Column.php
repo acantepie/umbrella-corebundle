@@ -66,6 +66,9 @@ class Column implements OptionsAwareInterface
             ->setDefault('default_order', null)
             ->setAllowedValues('default_order', [null, 'ASC', 'DESC'])
 
+            ->setDefault('orderable', true)
+            ->setAllowedTypes('orderable', ['bool'])
+
             ->setDefault('order_by', null)
             ->setAllowedTypes('order_by', ['null', 'string', 'array'])
 
@@ -96,7 +99,7 @@ class Column implements OptionsAwareInterface
     public function getColumnsOptions()
     {
         return [
-            'orderable' => $this->options['order_by'] !== null,
+            'orderable' => $this->options['orderable'] && $this->options['order_by'] !== null,
             'className' => $this->options['class']
         ];
     }

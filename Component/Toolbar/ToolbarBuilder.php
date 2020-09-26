@@ -171,7 +171,7 @@ class ToolbarBuilder
 
         // options are already resolved at this point
 
-        $this->formBuilder = $this->formFactory->createNamedBuilder(Toolbar::FORM_NAME, FormType::class, $resolvedOptions['toolbar_form_data'], $resolvedOptions['toolbar_form_options']);
+        $this->formBuilder = $this->formFactory->createNamedBuilder($resolvedOptions['toolbar_form_name'], FormType::class, $resolvedOptions['toolbar_form_data'], $resolvedOptions['toolbar_form_options']);
         $this->awareType->buildToolbar($this, $resolvedOptions);
         $toolbar->setOptions($resolvedOptions);
 

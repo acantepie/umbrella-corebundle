@@ -39,23 +39,26 @@ class EntityDataTableSource extends AbstractTableSource
      */
     public function search($dataClass, array $columns, array $query) : DataTableResult
     {
+        $queryData = $query['query'];
+        $formData = $query['form'];
+
         $qb = $this->em->createQueryBuilder()
             ->select('e')
             ->from($dataClass, 'e');
 
-        $this->resolveModifier($qb, $query[Toolbar::FORM_NAME]);
+        $this->resolveModifier($qb, $formData);
 
         // pagination
-        if (isset($query['start'])) {
-            $qb->setFirstResult($query['start']);
+        if (isset($queryData['start'])) {
+            $qb->setFirstResult($queryData['start']);
         }
 
-        if (isset($query['length'])) {
-            $qb->setMaxResults($query['length']);
+        if (isset($queryData['length'])) {
+            $qb->setMaxResults($queryData['length']);
         }
 
         // order by
-        $orders = ArrayUtils::get($query, 'order', []);
+        $orders = ArrayUtils::get($queryData, 'order', []);
         foreach ($orders as $order) {
             if (!isset($order['column']) || !isset($order['dir'])) {
                 continue; // request valid ?
@@ -85,7 +88,7 @@ class EntityDataTableSource extends AbstractTableSource
         $paginator = new Paginator($qb);
 
         $result = new DataTableResult();
-        $result->draw = $query['draw'];
+        $result->draw = $queryData['draw'];
         $result->count = count($paginator);
         $result->data = $paginator;
 

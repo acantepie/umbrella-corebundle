@@ -41,23 +41,17 @@ class DataTable extends AbstractDataTable
     {
         $queryData = $request->query->all();
 
-        if (!isset($queryData[Toolbar::FORM_NAME])) { // always set toolbar form data (avoid test after)
-            $queryData[Toolbar::FORM_NAME] = [];
-        }
-
         $this->isCallback = $request->isXmlHttpRequest()
             && $request->isMethod('GET')
             && isset($queryData['_dtid'])
             && $queryData['_dtid'] == $this->options['id'];
 
         if ($this->isCallback) {
-            if ($this->toolbar) {
-                $this->toolbar->handleRequest($request);
-
-                $this->query = array_merge($queryData, $this->toolbar->getData());
-            } else {
-                $this->query = $queryData;
-            }
+            $this->toolbar->handleRequest($request);
+            $this->query = [
+                'query' => $queryData,
+                'form' => $this->toolbar->getFormData()
+            ];
         }
     }
 

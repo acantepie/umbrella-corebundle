@@ -231,6 +231,9 @@ class DataTableBuilder
         $this->type->buildTable($this, $resolvedOptions);
         $table->setOptions($resolvedOptions);
 
+        // override toolbar_form_name options and generate one depending of table id
+        $resolvedOptions['toolbar_form_name'] = sprintf('%s_tbf', $resolvedOptions['id']);
+
         // resolve toolbar
         $table->setToolbar($this->toolbarFactory->create($this->type, $resolvedOptions));
 

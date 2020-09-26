@@ -19,8 +19,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class Toolbar implements OptionsAwareInterface
 {
-    const FORM_NAME = 'toolbar_form';
-
     // Model
 
     /**
@@ -50,7 +48,7 @@ class Toolbar implements OptionsAwareInterface
     /**
      * @return array
      */
-    final public function getData()
+    final public function getFormData()
     {
         return $this->form ? (array) $this->form->getData() : [];
     }
@@ -69,6 +67,8 @@ class Toolbar implements OptionsAwareInterface
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
+            ->setDefault('toolbar_form_name', 'toolbar_form')
+
             ->setDefault('toolbar_form_options', [
                 'validation_groups' => false,
                 'csrf_protection' => false,

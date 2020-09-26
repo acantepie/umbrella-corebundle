@@ -98,9 +98,11 @@ class Choice2Type extends AbstractType
     {
         $view->vars['attr']['data-options'] = htmlspecialchars(json_encode($this->buildJsOptions($view, $form, $options)));
 
-        // avoid use some values
+        // never expand
         $view->vars['expanded'] = false;
-        $view->vars['placeholder'] = null;
+
+        // HACK ChoieType symfony will add an empty option value if placeholder is setted to empty value (usefull on one case : not multiple and not required)
+        $view->vars['placeholder'] = !$options['required'] && !$options['multiple'] ? '' : null;
 
         if (isset($view->vars['attr']['class'])) {
             $view->vars['attr']['class'] .= ' js-select2';

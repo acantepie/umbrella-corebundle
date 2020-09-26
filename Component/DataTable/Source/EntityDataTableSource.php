@@ -9,6 +9,7 @@
 namespace Umbrella\CoreBundle\Component\DataTable\Source;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
 use Umbrella\CoreBundle\Utils\ArrayUtils;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Umbrella\CoreBundle\Component\Column\Column;
@@ -36,13 +37,13 @@ class EntityDataTableSource extends AbstractTableSource
     /**
      * @inheritdoc
      */
-    public function search($dataClass, array $columns, array $query)
+    public function search($dataClass, array $columns, array $query) : DataTableResult
     {
         $qb = $this->em->createQueryBuilder()
             ->select('e')
             ->from($dataClass, 'e');
 
-        $this->resolveModifier($qb, $query);
+        $this->resolveModifier($qb, $query[Toolbar::FORM_NAME]);
 
         // pagination
         if (isset($query['start'])) {

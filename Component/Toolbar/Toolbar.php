@@ -19,6 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class Toolbar implements OptionsAwareInterface
 {
+    const FORM_NAME = 'toolbar_form';
 
     // Model
 

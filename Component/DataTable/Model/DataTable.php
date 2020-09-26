@@ -41,6 +41,10 @@ class DataTable extends AbstractDataTable
     {
         $queryData = $request->query->all();
 
+        if (!isset($queryData[Toolbar::FORM_NAME])) { // always set toolbar form data (avoid test after)
+            $queryData[Toolbar::FORM_NAME] = [];
+        }
+
         $this->isCallback = $request->isXmlHttpRequest()
             && $request->isMethod('GET')
             && isset($queryData['_dtid'])
@@ -49,6 +53,7 @@ class DataTable extends AbstractDataTable
         if ($this->isCallback) {
             if ($this->toolbar) {
                 $this->toolbar->handleRequest($request);
+
                 $this->query = array_merge($queryData, $this->toolbar->getData());
             } else {
                 $this->query = $queryData;
@@ -61,7 +66,6 @@ class DataTable extends AbstractDataTable
      */
     public function getApiResults()
     {
-        /** @var DataTableResult $result */
         $result = $this->source->search($this->options['data_class'], $this->columns, $this->query);
         $accessor = PropertyAccess::createPropertyAccessorBuilder()
             ->disableExceptionOnInvalidPropertyPath()

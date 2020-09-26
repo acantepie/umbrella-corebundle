@@ -18,11 +18,11 @@ class EntitySearchModifier extends EntitySourceModifier
     /**
      * @inheritDoc
      */
-    public function modifyQb(QueryBuilder $qb, array $queryData)
+    public function modifyQb(QueryBuilder $qb, array $formData)
     {
-        if (isset($queryData['form']['search'])) {
+        if (isset($formData['search'])) {
             $qb->andWhere('lower(e.search) LIKE :search');
-            $qb->setParameter('search', '%' . strtolower($queryData['form']['search']) . '%');
+            $qb->setParameter('search', '%' . strtolower($formData['search']) . '%');
         }
     }
 }

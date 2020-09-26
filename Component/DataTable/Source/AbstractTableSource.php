@@ -8,6 +8,7 @@
 
 namespace Umbrella\CoreBundle\Component\DataTable\Source;
 
+use Umbrella\CoreBundle\Component\DataTable\Model\DataTableResult;
 use Umbrella\CoreBundle\Component\DataTable\Source\Modifier\AbstractSourceModifier;
 
 /**
@@ -34,7 +35,7 @@ abstract class AbstractTableSource
      * @param  array                   $query
      * @return \JsonSerializable|array
      */
-    abstract public function search($dataClass, array $columns, array $query);
+    abstract public function search($dataClass, array $columns, array $query) : DataTableResult;
 
     /**
      * @param mixed ...$args

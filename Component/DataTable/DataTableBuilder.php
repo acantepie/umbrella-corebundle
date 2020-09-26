@@ -10,6 +10,7 @@
 namespace Umbrella\CoreBundle\Component\DataTable;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Umbrella\CoreBundle\Component\DataTable\Source\Modifier\EntityCallbackSourceModifier;
 use Umbrella\CoreBundle\Utils\ComponentUtils;
 use Symfony\Component\Routing\RouterInterface;
 use Umbrella\CoreBundle\Component\Column\Column;
@@ -199,6 +200,16 @@ class DataTableBuilder
         $this->sourceModifiers[] = $modifier;
     }
 
+    /**
+     * Alias to add callback sourceModifier
+     * @see self::addSourceModifier()
+     * @param callable $priority
+     */
+    public function addEntityCallbackSourceModifier(callable $callback, $priority = 0)
+    {
+        $this->addSourceModifier(new EntityCallbackSourceModifier($callback, $priority));
+    }
+
     public function clearSourceModifiers()
     {
         $this->sourceModifiers = [];
@@ -245,7 +256,7 @@ class DataTableBuilder
         $table->setRelocateUrl($this->relocateUrl);
 
         if (count($table->getColumns()) === 0) {
-            throw new \RuntimeException(sprintf('Zero column configured for datatable "%s"', get_class($this->type)));
+            throw new \RuntimeException(sprintf('No column configured for datatable "%s"', get_class($this->type)));
         }
 
         return $table;

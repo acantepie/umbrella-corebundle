@@ -10,6 +10,7 @@ namespace Umbrella\CoreBundle\Component\DataTable\Source;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Umbrella\CoreBundle\Component\DataTable\Model\DataTableResult;
+use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
 
 /**
  * Class EntityTreeTableSource
@@ -33,7 +34,7 @@ class EntityTreeTableSource extends AbstractTableSource
     /**
      * @inheritdoc
      */
-    public function search($dataClass, array $columns, array $query)
+    public function search($dataClass, array $columns, array $query) : DataTableResult
     {
         $qb = $this->em->createQueryBuilder()
             ->select('e')
@@ -41,7 +42,7 @@ class EntityTreeTableSource extends AbstractTableSource
             ->addOrderBy('e.lft', 'ASC')
             ->andWhere('e.parent IS NOT NULL');
 
-        $this->resolveModifier(['qb' => $qb, 'query_data' => $query]);
+        $this->resolveModifier($qb, $query[Toolbar::FORM_NAME]);
 
         $result = new DataTableResult();
         $result->data = $qb->getQuery()->getResult();

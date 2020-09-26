@@ -14,5 +14,5 @@ abstract class EntitySourceModifier extends AbstractSourceModifier
         $this->modifyQb($args[0], $args[1]);
     }
 
-    abstract public function modifyQb(QueryBuilder $qb, array $queryData);
+    abstract public function modifyQb(QueryBuilder $qb, array $formData);
 }

@@ -9,7 +9,6 @@
 namespace Umbrella\CoreBundle\Component\DataTable\Source;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
 use Umbrella\CoreBundle\Utils\ArrayUtils;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Umbrella\CoreBundle\Component\Column\Column;

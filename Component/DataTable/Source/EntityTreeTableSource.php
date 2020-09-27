@@ -10,7 +10,6 @@ namespace Umbrella\CoreBundle\Component\DataTable\Source;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Umbrella\CoreBundle\Component\DataTable\Model\DataTableResult;
-use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
 
 /**
  * Class EntityTreeTableSource

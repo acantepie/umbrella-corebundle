@@ -95,8 +95,6 @@ class TaskHelper
     {
         $icon = $this->getStateIcon($state);
 
-
-
         return $icon
             ? sprintf('<span class="badge badge-%s"><i class="%s mr-1"></i> %s</span>', $this->getStateColor($state), $icon, $this->getStateLabel($state))
             : sprintf('<span class="badge badge-%s">%s</span>', $this->getStateColor($state), $this->getStateLabel($state));

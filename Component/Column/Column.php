@@ -76,7 +76,10 @@ class Column implements OptionsAwareInterface
             ->setAllowedTypes('class', ['null', 'string'])
 
             ->setDefault('width', null)
-            ->setAllowedTypes('width', ['null', 'string']);
+            ->setAllowedTypes('width', ['null', 'string'])
+
+            ->setDefault('renderer', null)
+            ->setAllowedTypes('renderer', ['null', 'callable']);
     }
 
     /**

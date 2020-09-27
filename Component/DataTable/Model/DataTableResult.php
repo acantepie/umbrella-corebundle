@@ -21,7 +21,7 @@ class DataTableResult implements \JsonSerializable
     /**
      * @var int
      */
-    public $count;
+    public $count = 0;
 
     /***
      * @var iterable

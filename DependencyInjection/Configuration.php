@@ -21,7 +21,8 @@ class Configuration implements ConfigurationInterface
         $treeBuilder
             ->getRootNode()
             ->append($this->webpackNode())
-            ->append($this->redisNode());
+            ->append($this->redisNode())
+            ->append($this->taskNode());
         return $treeBuilder;
     }
 
@@ -56,6 +57,17 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('db')
                 ->defaultValue('0')
                 ->end();
+        return $node;
+    }
+
+    private function taskNode()
+    {
+        $treeBuilder = new TreeBuilder('task');
+        $node = $treeBuilder->getRootNode()->addDefaultsIfNotSet();
+        $node->children()
+            ->scalarNode('class')
+            ->defaultValue('App\\Entity\\Task')
+            ->end();
         return $node;
     }
 }

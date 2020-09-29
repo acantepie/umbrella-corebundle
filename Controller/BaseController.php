@@ -37,6 +37,7 @@ abstract class BaseController extends AbstractController
         return array_merge(
             parent::getSubscribedServices(),
             [
+                MenuHelper::class,
                 ToastFactory::class,
                 ToolbarFactory::class,
                 DataTableFactory::class,

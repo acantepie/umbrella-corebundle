@@ -8,7 +8,7 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Command;
 
-use Umbrella\CoreBundle\Entity\UmbrellaTask;
+use Umbrella\CoreBundle\Entity\BaseTask;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -83,7 +83,7 @@ class TaskListCommand extends Command
 
         // Task pending
         if ($this->pending) {
-            $tasksPending = $this->taskManager->findByStates([UmbrellaTask::STATE_PENDING]);
+            $tasksPending = $this->taskManager->findByStates([BaseTask::STATE_PENDING]);
 
             if (count($tasksPending) > 0) {
                 $this->io->title('Tasks pending (' . count($tasksPending) . ')');
@@ -91,7 +91,7 @@ class TaskListCommand extends Command
 
                 foreach ($tasksPending as $task) {
                     $rows[] = [
-                        $task->getTaskId(),
+                        $task->id,
                         $task->handlerAlias,
                         $task->createdAt->format('d/m/Y H:i:s')
                     ];
@@ -100,17 +100,17 @@ class TaskListCommand extends Command
             }
         }
 
-        $tasksRunning = $this->taskManager->findByStates([UmbrellaTask::STATE_RUNNING]);
+        $tasksRunning = $this->taskManager->findByStates([BaseTask::STATE_RUNNING]);
 
         // Task running
         if (count($tasksRunning) > 0) {
             $this->io->title('Tasks running (' . count($tasksRunning) . ')');
             $rows = [];
 
-            /** @var UmbrellaTask $task */
+            /** @var BaseTask $task */
             foreach ($tasksRunning as $task) {
                 $rows[] = [
-                    $task->getTaskId(),
+                    $task->id,
                     $task->handlerAlias,
                     $task->pid,
                     $task->startedAt ? $task->startedAt->format('d/m/Y H:i:s') : '?',
@@ -123,16 +123,16 @@ class TaskListCommand extends Command
 
         // Task done
         if ($this->done) {
-            $tasksDone = $this->taskManager->findByStates([UmbrellaTask::STATE_FINISHED, UmbrellaTask::STATE_TERMINATED, UmbrellaTask::STATE_FAILED]);
+            $tasksDone = $this->taskManager->findByStates([BaseTask::STATE_FINISHED, BaseTask::STATE_TERMINATED, BaseTask::STATE_FAILED]);
 
             if (count($tasksDone) > 0) {
                 $this->io->title('Tasks done (' . count($tasksDone) . ')');
                 $rows = [];
 
-                /** @var UmbrellaTask $task */
+                /** @var BaseTask $task */
                 foreach ($tasksDone as $task) {
                     $rows[] = [
-                        $task->getTaskId(),
+                        $task->id,
                         $task->handlerAlias,
                         $task->startedAt ? $task->startedAt->format('d/m/Y H:i:s') : '?',
                         $task->endedAt ? $task->endedAt->format('d/m/Y H:i:s') : '?',

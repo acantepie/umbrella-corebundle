@@ -13,7 +13,9 @@ use Umbrella\CoreBundle\Component\Column\ColumnFactory;
 use Umbrella\CoreBundle\Component\Toolbar\ActionFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Umbrella\CoreBundle\Component\DataTable\DataTableFactory;
+use Umbrella\CoreBundle\Component\Task\Handler\TaskHandlerFactory;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Umbrella\CoreBundle\Component\FileWriter\Handler\FileWriterHandlerFactory;
 
 /**
  * Class DataTablePass
@@ -28,9 +30,12 @@ class UmbrellaComponentPass implements CompilerPassInterface
         $this->storeTaggedServiceToRegistry($container, ColumnFactory::class, 'umbrella.column.type', 'registerColumnType');
         $this->storeTaggedServiceToRegistry($container, DataTableFactory::class, 'umbrella.datatable.type', 'registerDataTableType');
         $this->storeTaggedServiceToRegistry($container, ActionFactory::class, 'umbrella.action.type', 'registerActionType');
+
+        $this->storeTaggedServiceToRegistry($container, TaskHandlerFactory::class, 'umbrella.task.handler', 'registerHandler');
+        $this->storeTaggedServiceToRegistry($container, FileWriterHandlerFactory::class, 'umbrella.filewriter.handler', 'registerHandler');
     }
 
-    private function storeTaggedServiceToRegistry(ContainerBuilder $container, $registryClass, $tag, $method = 'registerType')
+    private function storeTaggedServiceToRegistry(ContainerBuilder $container, $registryClass, $tag, $method)
     {
         // always first check if the primary service is defined
         if (!$container->has($registryClass)) {

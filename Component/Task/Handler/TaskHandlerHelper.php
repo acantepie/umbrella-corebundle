@@ -10,7 +10,7 @@ namespace Umbrella\CoreBundle\Component\Task\Handler;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\EntityManagerInterface;
-use Umbrella\CoreBundle\Entity\UmbrellaTask;
+use Umbrella\CoreBundle\Entity\BaseTask;
 
 /**
  * Class TaskHandlerHelper
@@ -18,14 +18,9 @@ use Umbrella\CoreBundle\Entity\UmbrellaTask;
 class TaskHandlerHelper
 {
     /**
-     * @var UmbrellaTask
+     * @var BaseTask
      */
     private $task;
-
-    /**
-     * @var array
-     */
-    private $parameters;
 
     /**
      * @var EntityManagerInterface
@@ -53,55 +48,23 @@ class TaskHandlerHelper
     private $progressQuery = null;
 
     /**
-     * @var Query
-     */
-    private $paramsQuery = null;
-
-    /**
      * TaskHelper constructor.
      *
      * @param EntityManagerInterface $em
-     * @param UmbrellaTask           $task
+     * @param BaseTask               $task
      */
-    public function __construct(EntityManagerInterface $em, UmbrellaTask $task)
+    public function __construct(EntityManagerInterface $em, BaseTask $task)
     {
         $this->em = $em;
         $this->task = $task;
-        $this->parameters = $task->parameters;
     }
 
     /**
-     * @return UmbrellaTask
+     * @return BaseTask
      */
     public function getTask()
     {
         return $this->task;
-    }
-
-    /**
-     * @return array
-     */
-    public function getParameters()
-    {
-        return $this->parameters;
-    }
-
-    /**
-     * @param $key
-     * @return bool
-     */
-    public function hasParameter($key)
-    {
-        return isset($this->parameters[$key]);
-    }
-
-    /**
-     * @param $key
-     * @return mixed
-     */
-    public function getParameter($key)
-    {
-        return $this->parameters[$key];
     }
 
     /**

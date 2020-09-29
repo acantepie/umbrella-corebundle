@@ -9,8 +9,8 @@
 namespace Umbrella\CoreBundle\Component\Task\Command;
 
 use Symfony\Component\Process\Process;
+use Umbrella\CoreBundle\Entity\BaseTask;
 use Symfony\Component\Filesystem\Filesystem;
-use Umbrella\CoreBundle\Entity\UmbrellaTask;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -131,7 +131,7 @@ class TaskScheduleCommand extends Command
         }
 
         // create pid path
-        $pidPath = UmbrellaTask::getPidDirPath();
+        $pidPath = BaseTask::getPidDirPath();
         $fs = new Filesystem();
         if (!$fs->exists($pidPath)) {
             $fs->mkdir($pidPath);
@@ -163,16 +163,16 @@ class TaskScheduleCommand extends Command
     /**
      * Start a task
      *
-     * @param UmbrellaTask $task
+     * @param BaseTask $task
      */
-    private function startTask(UmbrellaTask $task)
+    private function startTask(BaseTask $task)
     {
         // create process
         $process = new Process([
             $this->phpBinaryPath,
             $this->consolePath,
             TaskRunCommand::CMD_NAME,
-            $task->getTaskId()
+            $task->id
         ]);
 
         // update state
@@ -192,7 +192,7 @@ class TaskScheduleCommand extends Command
         $this->pool->add($task, $process);
 
         if ($this->verbose) {
-            $this->io->writeln(sprintf('[Started] %s', $task->getTaskId()));
+            $this->io->writeln(sprintf('[Started] %s', $task));
         }
     }
 
@@ -224,9 +224,9 @@ class TaskScheduleCommand extends Command
                 $task->endedAt = new \DateTime('NOW');
 
                 if ($this->interrupted) {
-                    $task->state = UmbrellaTask::STATE_TERMINATED;
+                    $task->state = BaseTask::STATE_TERMINATED;
                 } else {
-                    $task->state = $process->isSuccessful() ? UmbrellaTask::STATE_FINISHED : UmbrellaTask::STATE_FAILED;
+                    $task->state = $process->isSuccessful() ? BaseTask::STATE_FINISHED : BaseTask::STATE_FAILED;
                 }
 
                 $this->taskManager->update($task);
@@ -235,8 +235,8 @@ class TaskScheduleCommand extends Command
                 $this->pool->remove($task);
                 if ($this->verbose) {
                     $process->isSuccessful()
-                        ? $this->io->writeln(sprintf('[done] %s', $task->getTaskId()))
-                        : $this->io->writeln(sprintf('[fail] %s', $task->getTaskId()));
+                        ? $this->io->writeln(sprintf('[done] %s', $task))
+                        : $this->io->writeln(sprintf('[fail] %s', $task));
                 }
                 continue;
             }
@@ -246,26 +246,26 @@ class TaskScheduleCommand extends Command
                 $process->checkTimeout();
             } catch (ProcessTimedOutException $e) {
                 $task->endedAt = new \DateTime('NOW');
-                $task->state = UmbrellaTask::STATE_TERMINATED;
+                $task->state = BaseTask::STATE_TERMINATED;
                 $this->taskManager->update($task);
 
                 $this->pool->remove($task);
                 if ($this->verbose) {
-                    $this->io->writeln(sprintf('[timeout] %s', $task->getTaskId()));
+                    $this->io->writeln(sprintf('[timeout] %s', $task));
                 }
                 continue;
             }
 
             // task killed
             if (!file_exists($task->getPidFilePath())) {
-                $task->state = UmbrellaTask::STATE_TERMINATED;
+                $task->state = BaseTask::STATE_TERMINATED;
                 $task->endedAt = new \DateTime('NOW');
                 $this->taskManager->update($task);
                 $process->stop();
 
                 $this->pool->remove($task);
                 if ($this->verbose) {
-                    $this->io->writeln(sprintf('[stopped] %s', $task->getTaskId()));
+                    $this->io->writeln(sprintf('[stopped] %s', $task));
                 }
                 continue;
             }

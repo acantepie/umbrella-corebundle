@@ -75,6 +75,10 @@ services:
     Umbrella\CoreBundle\Component\Task\TaskManager:
         public: true
 
+    # FileWriter
+    Umbrella\CoreBundle\Component\FileWriter\Handler\TaskFileWriterHandler:
+    Umbrella\CoreBundle\Component\FileWriter\Handler\FileWriterHandlerFactory:
+
     # ---- Umbrella ----#
 
     #Command

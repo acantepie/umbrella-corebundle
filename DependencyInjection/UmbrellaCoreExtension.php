@@ -3,6 +3,7 @@
 namespace Umbrella\CoreBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
+use Umbrella\CoreBundle\Utils\ArrayUtils;
 use Umbrella\CoreBundle\Services\UmbrellaRedis;
 use Symfony\Component\DependencyInjection\Loader;
 use Umbrella\CoreBundle\Extension\WebpackTwigExtension;
@@ -11,6 +12,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Umbrella\CoreBundle\Component\Toolbar\Action\ActionType;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
+use Umbrella\CoreBundle\Component\Task\Handler\AbstractTaskHandler;
+use Umbrella\CoreBundle\Component\FileWriter\Handler\AbstractFileWriterHandler;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -40,5 +43,16 @@ class UmbrellaCoreExtension extends Extension
         $container->registerForAutoconfiguration(DataTableType::class)->addTag('umbrella.datatable.type');
         $container->registerForAutoconfiguration(ColumnType::class)->addTag('umbrella.column.type');
         $container->registerForAutoconfiguration(ActionType::class)->addTag('umbrella.action.type');
+
+        $container->registerForAutoconfiguration(AbstractTaskHandler::class)->addTag('umbrella.task.handler');
+        $container->registerForAutoconfiguration(AbstractFileWriterHandler::class)->addTag('umbrella.filewriter.handler');
+
+        $parameters = ArrayUtils::remap_nested_array($config, 'umbrella_core');
+
+        foreach ($parameters as $pKey => $pValue) {
+            if (!$container->hasParameter($pKey)) {
+                $container->setParameter($pKey, $pValue);
+            }
+        }
     }
 }

@@ -8,8 +8,9 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Handler;
 
-use Umbrella\CoreBundle\Entity\UmbrellaTask;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Umbrella\CoreBundle\Entity\BaseTask;
+use Umbrella\CoreBundle\Component\Toolbar\Action\ActionType;
 
 /**
  * Class TaskHandlerFactory
@@ -17,57 +18,42 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class TaskHandlerFactory
 {
     /**
-     * @var ContainerInterface
+     * @var EntityManagerInterface
      */
-    private $container;
+    private $em;
 
     /**
-     * @var TaskHandlerInterface[]
+     * @var AbstractTaskHandler[]
      */
     private $handlers = [];
 
     /**
      * TaskHandlerFactory constructor.
-     * @param ContainerInterface $container
+     * @param EntityManagerInterface $em
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(EntityManagerInterface $em)
     {
-        $this->container = $container;
+        $this->em = $em;
     }
 
     /**
-     * @param array $ids
+     * @param $id
+     * @param ActionType $actionType
      */
-    public function loadHandlers(array $ids = [])
+    public function registerHandler($id, AbstractTaskHandler $handler)
     {
-        foreach ($ids as $id) {
-            $handler = $this->container->get($id);
-
-            if (false === $handler) {
-                continue;
-            }
-
-            if (!is_subclass_of($handler, TaskHandlerInterface::class)) {
-                continue;
-            }
-
-            if (0 === preg_match('/^[a-z\_\.]+$/', $handler->getAlias())) {
-                throw new \InvalidArgumentException("Handler $id has an invalid alias '{$handler->getAlias()}'");
-            }
-
-            $this->handlers[$handler->getAlias()] = $handler;
-        }
+        $this->handlers[$id] = $handler;
     }
 
     /**
-     * @param  UmbrellaTask         $task
-     * @return TaskHandlerInterface
+     * @param  BaseTask            $task
+     * @return AbstractTaskHandler
      */
-    public function create(UmbrellaTask $task)
+    public function create(BaseTask $task)
     {
         if (isset($this->handlers[$task->handlerAlias])) {
             $handler = $this->handlers[$task->handlerAlias];
-            $handler->initialize(new TaskHandlerHelper($this->container->get('doctrine.orm.entity_manager'), $task));
+            $handler->initialize(new TaskHandlerHelper($this->em, $task));
             return $handler;
         } else {
             throw new \InvalidArgumentException(sprintf(

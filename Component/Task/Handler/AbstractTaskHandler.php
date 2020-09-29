@@ -11,35 +11,32 @@ namespace Umbrella\CoreBundle\Component\Task\Handler;
 /**
  * Class AbstractTaskHandler
  */
-abstract class AbstractTaskHandler implements TaskHandlerInterface
+abstract class AbstractTaskHandler
 {
     /**
      * @var TaskHandlerHelper
      */
-    protected $helper;
+    protected $taskHelper;
 
     /**
-     * @inheritdoc
+     * Method to initialize handler
+     *
+     * @param TaskHandlerHelper $helper
      */
-    abstract public function getAlias();
-
-    /**
-     * @inheritdoc
-     */
-    public function initialize(TaskHandlerHelper $helper)
+    public function initialize(TaskHandlerHelper $taskHelper)
     {
-        $this->helper = $helper;
+        $this->taskHelper = $taskHelper;
     }
 
     /**
-     * @inheritdoc
+     * Method to execute handler operations
      */
     public function execute()
     {
     }
 
     /**
-     * @inheritdoc
+     * Method called when task is finished
      */
     public function destroy()
     {

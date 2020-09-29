@@ -10,7 +10,8 @@ namespace Umbrella\CoreBundle\Component\Task;
 
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManagerInterface;
-use Umbrella\CoreBundle\Entity\UmbrellaTask;
+use Umbrella\CoreBundle\Entity\BaseTask;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * Class TaskManager
@@ -23,35 +24,28 @@ class TaskManager
     private $em;
 
     /**
+     * @var ParameterBagInterface
+     */
+    private $parameterBag;
+
+    /**
      * TaskManager constructor.
      * @param EntityManagerInterface $em
+     * @param ParameterBagInterface  $parameterBag
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, ParameterBagInterface $parameterBag)
     {
         $this->em = $em;
-    }
-
-    public function createTask($handlerAlias, array $parameters = [])
-    {
-        return new UmbrellaTask($handlerAlias, $parameters);
+        $this->parameterBag = $parameterBag;
     }
 
     /**
-     * @param $taskId
-     * @return null|UmbrellaTask
+     * @param $id
+     * @return null|BaseTask
      */
-    public function getTask($taskId)
+    public function getTask($id)
     {
-        if (0 === preg_match('/^(.*)\.([0-9]+)$/', $taskId, $matches)) {
-            return null;
-        }
-
-        return $this->createQueryBuilder('e')
-            ->where('e.id = :id')
-            ->setParameter('id', $matches[2])
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
+        return $this->em->find($this->entityClass(), $id);
     }
 
     /**
@@ -69,7 +63,7 @@ class TaskManager
 
     /**
      * @param  SearchTaskCriteria $criteria
-     * @return UmbrellaTask[]
+     * @return BaseTask[]
      */
     public function search(SearchTaskCriteria $criteria)
     {
@@ -82,7 +76,9 @@ class TaskManager
      */
     public function searchQuery(SearchTaskCriteria $criteria)
     {
-        $qb = $this->createQueryBuilder('e');
+        $qb = $this->em->createQueryBuilder();
+        $qb->select('e');
+        $qb->from($this->entityClass(), 'e');
 
         if (!empty($criteria->states)) {
             $qb->andWhere('e.state IN (:states)');
@@ -103,8 +99,8 @@ class TaskManager
     }
 
     /**
-     * @param  array          $states
-     * @return UmbrellaTask[]
+     * @param  array      $states
+     * @return BaseTask[]
      */
     public function findByStates(array $states)
     {
@@ -114,23 +110,13 @@ class TaskManager
     }
 
     /**
-     * Alias
-     * @param  UmbrellaTask $task
-     * @return UmbrellaTask
+     * @param  BaseTask $task
+     * @return BaseTask
      */
-    public function register(UmbrellaTask $task)
-    {
-        return $this->schedule($task);
-    }
-
-    /**
-     * @param  UmbrellaTask $task
-     * @return UmbrellaTask
-     */
-    public function schedule(UmbrellaTask $task)
+    public function register(BaseTask $task)
     {
         if (!$task->canSchedule()) {
-            throw new \LogicException(sprintf("Task %s can't be scheduled", $task->getTaskId()));
+            throw new \LogicException(sprintf("Task %s can't be scheduled", $task));
         }
         $task->scheduled();
         $this->em->persist($task);
@@ -139,13 +125,13 @@ class TaskManager
     }
 
     /**
-     * @param  UmbrellaTask $task
-     * @return UmbrellaTask
+     * @param  BaseTask $task
+     * @return BaseTask
      */
-    public function cancel(UmbrellaTask $task)
+    public function cancel(BaseTask $task)
     {
         if (!$task->canCancel()) {
-            throw new \LogicException(sprintf("Task %s can't be canceled", $task->getTaskId()));
+            throw new \LogicException(sprintf("Task %s can't be canceled", $task));
         }
         $task->canceled();
         $this->update($task);
@@ -153,21 +139,23 @@ class TaskManager
     }
 
     /**
-     * @param UmbrellaTask $task
+     * @param BaseTask $task
      */
-    public function update(UmbrellaTask $task)
+    public function update(BaseTask $task)
     {
         $this->em->flush($task);
     }
 
     /**
-     * @return UmbrellaTask[]
+     * @return BaseTask[]
      */
     public function getTasksToSchedule()
     {
-        $qb = $this->createQueryBuilder('e');
+        $qb = $this->em->createQueryBuilder();
+        $qb->select('e');
+        $qb->from($this->entityClass(), 'e');
         $qb->where('e.state = :state');
-        $qb->setParameter('state', UmbrellaTask::STATE_PENDING);
+        $qb->setParameter('state', BaseTask::STATE_PENDING);
         $qb->orderBy('e.priority', 'DESC');
 
         return $qb->getQuery()->getResult();
@@ -180,20 +168,16 @@ class TaskManager
     public function hasPendingOrRunningTasks($handlerAlias)
     {
         $criteria = new SearchTaskCriteria();
-        $criteria->states = [UmbrellaTask::STATE_PENDING, UmbrellaTask::STATE_NEW, UmbrellaTask::STATE_PENDING];
+        $criteria->states = [BaseTask::STATE_PENDING, BaseTask::STATE_NEW, BaseTask::STATE_PENDING];
         $criteria->handlerAlias = $handlerAlias;
         return $this->countSearch($criteria) > 0;
     }
 
     /**
-     * @param $alias
-     * @param  null         $indexBy
-     * @return QueryBuilder
+     * @return string
      */
-    private function createQueryBuilder($alias, $indexBy = null)
+    public function entityClass()
     {
-        return $this->em->createQueryBuilder()
-            ->select($alias, $indexBy)
-            ->from(UmbrellaTask::class, $alias);
+        return $this->parameterBag->get('umbrella_core.task.class');
     }
 }

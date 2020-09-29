@@ -14,10 +14,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class Task
  *
- * @ORM\Entity()
  * @ORM\HasLifecycleCallbacks
+ * @ORM\MappedSuperclass
  */
-class UmbrellaTask extends BaseEntity
+class BaseTask extends BaseEntity
 {
     /** State if job is inserted, but not yet ready to be started. */
     const STATE_NEW = 'new';
@@ -36,15 +36,15 @@ class UmbrellaTask extends BaseEntity
 
     /**
      * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    public $type;
+
+    /**
+     * @var string
      * @ORM\Column(type="string", nullable=false)
      */
     public $handlerAlias;
-
-    /**
-     * @var array
-     * @ORM\Column(type="json_array", nullable=false)
-     */
-    public $parameters = [];
 
     /**
      * @var integer
@@ -119,49 +119,19 @@ class UmbrellaTask extends BaseEntity
     public $errorOutput;
 
     /**
-     * UmbrellaTask constructor.
-     * @param $handlerAlias
-     * @param array $parameters
+     * @var UmbrellaFileWriterConfig
+     * @ORM\ManyToOne(targetEntity="Umbrella\CoreBundle\Entity\UmbrellaFileWriterConfig", cascade={"ALL"})
+     * @ORM\JoinColumn(name="fw_config_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    public function __construct($handlerAlias, array $parameters = [])
+    public $fileWriterConfig;
+
+    /**
+     * BaseTask constructor.
+     * @param $handlerAlias
+     */
+    public function __construct($handlerAlias)
     {
         $this->handlerAlias = $handlerAlias;
-        $this->parameters = $parameters;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTaskId()
-    {
-        return sprintf('%s.%s', $this->handlerAlias, $this->id);
-    }
-
-    /**
-     * @param $key
-     * @return bool
-     */
-    public function hasParameter($key)
-    {
-        return isset($this->parameters[$key]);
-    }
-
-    /**
-     * @param $key
-     * @return mixed
-     */
-    public function getParameter($key)
-    {
-        return $this->parameters[$key];
-    }
-
-    /**
-     * @param $key
-     * @param $value
-     */
-    public function setParameter($key, $value)
-    {
-        $this->parameters[$key] = $value;
     }
 
     /**
@@ -191,7 +161,7 @@ class UmbrellaTask extends BaseEntity
      */
     public function getPidFilePath()
     {
-        return sprintf('%s%s.pid', self::getPidDirPath(), $this->getTaskId());
+        return sprintf('%s%s.pid', self::getPidDirPath(), $this->id);
     }
 
     /**
@@ -337,6 +307,6 @@ class UmbrellaTask extends BaseEntity
      */
     public function __toString()
     {
-        return (string)$this->getTaskId();
+        return (string)$this->id;
     }
 }

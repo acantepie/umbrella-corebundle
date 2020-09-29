@@ -77,7 +77,7 @@ class TaskRunCommand extends Command
     {
         $task = $this->taskManager->getTask($this->taskId);
         if (null === $task) {
-            throw new \RuntimeException(sprintf('No task %s registered', $this->taskId));
+            throw new \RuntimeException(sprintf('No task %d registered', $this->taskId));
         }
 
         $output->setVerbosity($task->verbosityOutput);

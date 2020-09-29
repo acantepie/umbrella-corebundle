@@ -90,6 +90,7 @@ table:
     task_id: Identifiant
     task_runtime: Exécution
     task_progress: Progression
+    handlerAlias: Handler alias
 
 message:
     delete_confirm: Confirmez-vous la suppression ?

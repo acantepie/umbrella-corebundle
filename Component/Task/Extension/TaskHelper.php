@@ -8,7 +8,7 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Extension;
 
-use Umbrella\CoreBundle\Entity\UmbrellaTask;
+use Umbrella\CoreBundle\Entity\BaseTask;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\DateTime\DateTimeHelper;
 
@@ -20,23 +20,23 @@ class TaskHelper
     const PROGRESS = '<div class="progress progress-xs m-y-0"><div class="progress-bar progress-bar-striped %s" style="width: %d%%"></div></div> <div class="text-center"> <small class="text-muted">%s %%</small></div>';
 
     private static $STATE_COLORS = [
-        UmbrellaTask::STATE_NEW => 'dark',
-        UmbrellaTask::STATE_PENDING => 'primary',
-        UmbrellaTask::STATE_RUNNING => 'info',
-        UmbrellaTask::STATE_FINISHED => 'success',
-        UmbrellaTask::STATE_TERMINATED => 'danger',
-        UmbrellaTask::STATE_FAILED => 'danger',
-        UmbrellaTask::STATE_CANCELED => 'dark'
+        BaseTask::STATE_NEW => 'dark',
+        BaseTask::STATE_PENDING => 'primary',
+        BaseTask::STATE_RUNNING => 'info',
+        BaseTask::STATE_FINISHED => 'success',
+        BaseTask::STATE_TERMINATED => 'danger',
+        BaseTask::STATE_FAILED => 'danger',
+        BaseTask::STATE_CANCELED => 'dark'
     ];
 
     private static $STATE_ICONS = [
-        UmbrellaTask::STATE_NEW => null,
-        UmbrellaTask::STATE_PENDING => 'mdi mdi-clock',
-        UmbrellaTask::STATE_RUNNING => 'mdi mdi-spin mdi-loading',
-        UmbrellaTask::STATE_FINISHED => 'mdi mdi-check',
-        UmbrellaTask::STATE_TERMINATED => 'mdi mdi-stop',
-        UmbrellaTask::STATE_CANCELED => 'mdi mdi-cancel',
-        UmbrellaTask::STATE_FAILED => 'mdi mdi-alert',
+        BaseTask::STATE_NEW => null,
+        BaseTask::STATE_PENDING => 'mdi mdi-clock',
+        BaseTask::STATE_RUNNING => 'mdi mdi-spin mdi-loading',
+        BaseTask::STATE_FINISHED => 'mdi mdi-check',
+        BaseTask::STATE_TERMINATED => 'mdi mdi-stop',
+        BaseTask::STATE_CANCELED => 'mdi mdi-cancel',
+        BaseTask::STATE_FAILED => 'mdi mdi-alert',
     ];
 
     /**
@@ -101,10 +101,10 @@ class TaskHelper
     }
 
     /**
-     * @param  UmbrellaTask $task
+     * @param  BaseTask    $task
      * @return null|string
      */
-    public function renderRuntime(UmbrellaTask $task)
+    public function renderRuntime(BaseTask $task)
     {
         // running
         if ($task->isRunning()) {
@@ -129,10 +129,10 @@ class TaskHelper
     }
 
     /**
-     * @param  UmbrellaTask $task
+     * @param  BaseTask    $task
      * @return null|string
      */
-    public function renderProgress(UmbrellaTask $task)
+    public function renderProgress(BaseTask $task)
     {
         if ($task->progress === null) {
             return null;

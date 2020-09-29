@@ -9,7 +9,7 @@
 namespace Umbrella\CoreBundle\Component\Task\Pool;
 
 use Symfony\Component\Process\Process;
-use Umbrella\CoreBundle\Entity\UmbrellaTask;
+use Umbrella\CoreBundle\Entity\BaseTask;
 
 /**
  * Class PoolItem
@@ -17,7 +17,7 @@ use Umbrella\CoreBundle\Entity\UmbrellaTask;
 class PoolItem
 {
     /**
-     * @var UmbrellaTask
+     * @var BaseTask
      */
     public $task;
 
@@ -38,10 +38,10 @@ class PoolItem
 
     /**
      * PoolItem constructor.
-     * @param UmbrellaTask $task
-     * @param Process      $process
+     * @param BaseTask $task
+     * @param Process  $process
      */
-    public function __construct(UmbrellaTask $task, Process $process)
+    public function __construct(BaseTask $task, Process $process)
     {
         $this->task = $task;
         $this->process = $process;

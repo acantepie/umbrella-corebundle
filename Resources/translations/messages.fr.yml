@@ -91,6 +91,7 @@ table:
     task_runtime: Exécution
     task_progress: Progression
     handlerAlias: Handler alias
+    type: Type
 
 message:
     delete_confirm: Confirmez-vous la suppression ?
@@ -154,3 +155,7 @@ task:
         finished: Terminé
         failed: Erreur
         terminated: Interrompu
+
+notification:
+    title: Liste des exports
+    empty: Vous n'avez aucun export.

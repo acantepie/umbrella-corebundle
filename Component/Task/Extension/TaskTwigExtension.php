@@ -33,6 +33,9 @@ class TaskTwigExtension extends AbstractExtension
     public function getFilters()
     {
         return [
+            new TwigFilter('task_state_label', [$this->taskHelper, 'getStateLabel']),
+            new TwigFilter('task_state_color', [$this->taskHelper, 'getStateColor']),
+            new TwigFilter('task_state_icon', [$this->taskHelper, 'getStateIcon']),
             new TwigFilter('render_task_state', [$this->taskHelper, 'renderState'], ['is_safe' => ['html']]),
             new TwigFilter('render_task_runtime', [$this->taskHelper, 'renderRuntime'], ['is_safe' => ['html']]),
             new TwigFilter('render_task_progress', [$this->taskHelper, 'renderProgress'], ['is_safe' => ['html']]),

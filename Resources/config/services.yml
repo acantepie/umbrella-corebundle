@@ -78,6 +78,7 @@ services:
     # FileWriter
     Umbrella\CoreBundle\Component\FileWriter\Handler\TaskFileWriterHandler:
     Umbrella\CoreBundle\Component\FileWriter\Handler\FileWriterHandlerFactory:
+    Umbrella\CoreBundle\Component\FileWriter\FileWriterManager:
 
     # ---- Umbrella ----#
 

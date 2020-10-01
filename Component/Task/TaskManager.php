@@ -40,6 +40,16 @@ class TaskManager
     }
 
     /**
+     * @return BaseTask
+     * @param  mixed    $hanlerAlias
+     */
+    public function create($hanlerAlias)
+    {
+        $enticyClass = $this->entityClass();
+        return new $enticyClass($hanlerAlias);
+    }
+
+    /**
      * @param $id
      * @return null|BaseTask
      */
@@ -85,9 +95,18 @@ class TaskManager
             $qb->setParameter('states', $criteria->states);
         }
 
+        if (!empty($criteria->types)) {
+            $qb->andWhere('e.type IN (:types)');
+            $qb->setParameter('types', $criteria->types);
+        }
+
         if (!empty($criteria->handlerAlias)) {
             $qb->andWhere('e.handlerAlias = :handler_alias');
             $qb->setParameter('handler_alias', $criteria->handlerAlias);
+        }
+
+        if (true === $criteria->onlyNotifiable) {
+            $qb->andWhere('e.displayAsNotification = TRUE');
         }
 
         if ($criteria->maxResults > 0) {

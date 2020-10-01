@@ -16,9 +16,22 @@ class UmbrellaFileWriterConfig extends BaseEntity
     const MODE_SCHEDULE = 'schedule';
 
     /**
+     * Only schedule mode if persisted
      * @var string
      */
     public $mode;
+
+    /**
+     * Stored on task if persisted
+     * @var string
+     */
+    public $label;
+
+    /**
+     * Only configurable for schedule mode - stored on task
+     * @var bool
+     */
+    public $displayAsNotification = false;
 
     /**
      * @var string
@@ -43,4 +56,13 @@ class UmbrellaFileWriterConfig extends BaseEntity
      * @ORM\Column(type="string", nullable=false)
      */
     public $outputPrettyFilename;
+
+    /**
+     * UmbrellaFileWriterConfig constructor.
+     * @param string $handlerAlias
+     */
+    public function __construct(string $handlerAlias)
+    {
+        $this->handlerAlias = $handlerAlias;
+    }
 }

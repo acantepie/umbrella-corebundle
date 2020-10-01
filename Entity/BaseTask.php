@@ -34,11 +34,20 @@ class BaseTask extends BaseEntity
     /** State if job exceeds its configured maximum runtime */
     const STATE_TERMINATED = 'terminated';
 
+    const TYPE_NONE = 'none';
+    const TYPE_FILEWRITER = 'filewriter';
+
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    public $type;
+    public $label;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=false, options={"default":"none"})
+     */
+    public $type = self::TYPE_NONE;
 
     /**
      * @var string
@@ -124,6 +133,12 @@ class BaseTask extends BaseEntity
      * @ORM\JoinColumn(name="fw_config_id", referencedColumnName="id", onDelete="CASCADE")
      */
     public $fileWriterConfig;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=false, options={"default": false})
+     */
+    public $displayAsNotification = false;
 
     /**
      * BaseTask constructor.

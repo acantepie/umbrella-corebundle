@@ -9,7 +9,7 @@
 namespace Umbrella\CoreBundle\Component\Task\Handler;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Umbrella\CoreBundle\Entity\BaseTask;
+use Umbrella\CoreBundle\Entity\BaseTaskConfig;
 use Umbrella\CoreBundle\Component\Toolbar\Action\ActionType;
 
 /**
@@ -46,19 +46,18 @@ class TaskHandlerFactory
     }
 
     /**
-     * @param  BaseTask            $task
+     * @param  BaseTaskConfig      $config
      * @return AbstractTaskHandler
      */
-    public function create(BaseTask $task)
+    public function create(BaseTaskConfig $config)
     {
-        if (isset($this->handlers[$task->handlerAlias])) {
-            $handler = $this->handlers[$task->handlerAlias];
-            $handler->initialize(new TaskHandlerHelper($this->em, $task));
+        if (isset($this->handlers[$config->handlerAlias])) {
+            $handler = $this->handlers[$config->handlerAlias];
             return $handler;
         } else {
             throw new \InvalidArgumentException(sprintf(
                 "No task handler found with alias '%s', alias registered are %s.",
-                $task->handlerAlias,
+                $config->handlerAlias,
                 implode(', ', array_keys($this->handlers))
             ));
         }

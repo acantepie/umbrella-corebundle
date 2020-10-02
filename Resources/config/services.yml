@@ -75,11 +75,6 @@ services:
     Umbrella\CoreBundle\Component\Task\TaskManager:
         public: true
 
-    # FileWriter
-    Umbrella\CoreBundle\Component\FileWriter\Handler\TaskFileWriterHandler:
-    Umbrella\CoreBundle\Component\FileWriter\Handler\FileWriterHandlerFactory:
-    Umbrella\CoreBundle\Component\FileWriter\FileWriterManager:
-
     # ---- Umbrella ----#
 
     #Command
@@ -113,11 +108,13 @@ services:
 
     # Annotation
     Umbrella\CoreBundle\Annotation\SearchableAnnotationReader:
+    Umbrella\CoreBundle\Annotation\DiscriminatorEntryReader:
 
     # Validator
     Umbrella\CoreBundle\Validator\UmbrellaFileValidator:
 
     # Listener
+
     Umbrella\CoreBundle\Listener\EntitySubscriber:
         tags:
             - {name: doctrine.event_subscriber}

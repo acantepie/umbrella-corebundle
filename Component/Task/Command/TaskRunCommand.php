@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Umbrella\CoreBundle\Component\Task\Handler\TaskHandlerFactory;
 
 /**
- * Class TaskExecuteCommand
+ * Class TaskRunCommand
  */
 class TaskRunCommand extends Command
 {
@@ -80,14 +80,15 @@ class TaskRunCommand extends Command
             throw new \RuntimeException(sprintf('No task %d registered', $this->taskId));
         }
 
-        $output->setVerbosity($task->verbosityOutput);
+        $output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
 
-        $handler = $this->handlerFactory->create($task);
+        $handler = $this->handlerFactory->create($task->config);
 
         try {
-            $handler->execute();
+            $handler->initialize($task->config);
+            $handler->execute($task->config);
         } finally {
-            $handler->destroy();
+            $handler->destroy($task->config);
         }
 
         return 0;

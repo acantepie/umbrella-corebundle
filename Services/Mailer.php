@@ -6,7 +6,6 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Class Mailer
- * @package App\Services
  */
 class Mailer
 {

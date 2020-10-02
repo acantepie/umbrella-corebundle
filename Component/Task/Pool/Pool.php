@@ -8,8 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Pool;
 
+use Umbrella\CoreBundle\Entity\Task;
 use Symfony\Component\Process\Process;
-use Umbrella\CoreBundle\Entity\BaseTask;
 
 /**
  * Class Pool
@@ -22,18 +22,18 @@ class Pool implements \IteratorAggregate, \Countable
     private $items = [];
 
     /**
-     * @param BaseTask $task
-     * @param Process  $process
+     * @param Task    $task
+     * @param Process $process
      */
-    public function add(BaseTask $task, Process $process)
+    public function add(Task $task, Process $process)
     {
         $this->items[$task->id] = new PoolItem($task, $process);
     }
 
     /**
-     * @param BaseTask $task
+     * @param Task $task
      */
-    public function remove(BaseTask $task)
+    public function remove(Task $task)
     {
         unset($this->items[$task->id]);
     }

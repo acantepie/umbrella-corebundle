@@ -16,11 +16,6 @@ class SearchTaskCriteria
     /**
      * @var array
      */
-    public $types = [];
-
-    /**
-     * @var array
-     */
     public $states = [];
 
     /**
@@ -32,9 +27,4 @@ class SearchTaskCriteria
      * @var null|int
      */
     public $maxResults = null;
-
-    /**
-     * @var bool
-     */
-    public $onlyNotifiable = false;
 }

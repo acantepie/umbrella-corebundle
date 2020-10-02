@@ -9,7 +9,6 @@ use Symfony\Component\Validator\Constraints\FileValidator;
 
 /**
  * Class UmbrellaFileValidator
- * @package App\Validator\Constraints
  */
 class UmbrellaFileValidator extends FileValidator
 {

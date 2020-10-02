@@ -8,7 +8,7 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Extension;
 
-use Umbrella\CoreBundle\Entity\BaseTask;
+use Umbrella\CoreBundle\Entity\Task;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\DateTime\DateTimeHelper;
 
@@ -17,26 +17,24 @@ use Umbrella\CoreBundle\Component\DateTime\DateTimeHelper;
  */
 class TaskHelper
 {
-    const PROGRESS = '<div class="progress progress-xs m-y-0"><div class="progress-bar progress-bar-striped %s" style="width: %d%%"></div></div> <div class="text-center"> <small class="text-muted">%s %%</small></div>';
-
     private static $STATE_COLORS = [
-        BaseTask::STATE_NEW => 'dark',
-        BaseTask::STATE_PENDING => 'primary',
-        BaseTask::STATE_RUNNING => 'info',
-        BaseTask::STATE_FINISHED => 'success',
-        BaseTask::STATE_TERMINATED => 'danger',
-        BaseTask::STATE_FAILED => 'danger',
-        BaseTask::STATE_CANCELED => 'dark'
+        Task::STATE_NEW => 'dark',
+        Task::STATE_PENDING => 'primary',
+        Task::STATE_RUNNING => 'info',
+        Task::STATE_FINISHED => 'success',
+        Task::STATE_TERMINATED => 'danger',
+        Task::STATE_FAILED => 'danger',
+        Task::STATE_CANCELED => 'dark'
     ];
 
     private static $STATE_ICONS = [
-        BaseTask::STATE_NEW => null,
-        BaseTask::STATE_PENDING => 'mdi mdi-clock',
-        BaseTask::STATE_RUNNING => 'mdi mdi-spin mdi-loading',
-        BaseTask::STATE_FINISHED => 'mdi mdi-check',
-        BaseTask::STATE_TERMINATED => 'mdi mdi-stop',
-        BaseTask::STATE_CANCELED => 'mdi mdi-cancel',
-        BaseTask::STATE_FAILED => 'mdi mdi-alert',
+        Task::STATE_NEW => null,
+        Task::STATE_PENDING => 'mdi mdi-clock',
+        Task::STATE_RUNNING => 'mdi mdi-spin mdi-loading',
+        Task::STATE_FINISHED => 'mdi mdi-check',
+        Task::STATE_TERMINATED => 'mdi mdi-stop',
+        Task::STATE_CANCELED => 'mdi mdi-cancel',
+        Task::STATE_FAILED => 'mdi mdi-alert',
     ];
 
     /**
@@ -101,10 +99,10 @@ class TaskHelper
     }
 
     /**
-     * @param  BaseTask    $task
+     * @param  Task        $task
      * @return null|string
      */
-    public function renderRuntime(BaseTask $task)
+    public function renderRuntime(Task $task)
     {
         // running
         if ($task->isRunning()) {
@@ -126,24 +124,5 @@ class TaskHelper
             $task->startedAt->format('d/m/Y H:i'),
             $task->runtime()
         );
-    }
-
-    /**
-     * @param  BaseTask    $task
-     * @return null|string
-     */
-    public function renderProgress(BaseTask $task)
-    {
-        if ($task->progress === null) {
-            return null;
-        }
-
-        $color = $this->getStateColor($task->state);
-
-        if ($task->isRunning()) {
-            $color .= ' progress-bar-animated';
-        }
-
-        return sprintf(self::PROGRESS, $color, $task->progress, $task->progress);
     }
 }

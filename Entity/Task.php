@@ -9,15 +9,17 @@
 namespace Umbrella\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class Task
+ * Class TaskProcess
+ *
+ * Represent one run of a task
  *
  * @ORM\HasLifecycleCallbacks
- * @ORM\MappedSuperclass
+ * @ORM\Entity()
+ * @ORM\Table("umbrella_task")
  */
-class BaseTask extends BaseEntity
+class Task extends BaseEntity
 {
     /** State if job is inserted, but not yet ready to be started. */
     const STATE_NEW = 'new';
@@ -34,27 +36,6 @@ class BaseTask extends BaseEntity
     /** State if job exceeds its configured maximum runtime */
     const STATE_TERMINATED = 'terminated';
 
-    const TYPE_NONE = 'none';
-    const TYPE_FILEWRITER = 'filewriter';
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
-     */
-    public $label;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=false, options={"default":"none"})
-     */
-    public $type = self::TYPE_NONE;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=false)
-     */
-    public $handlerAlias;
-
     /**
      * @var integer
      * @ORM\Column(type="integer", nullable=true)
@@ -66,18 +47,6 @@ class BaseTask extends BaseEntity
      * @ORM\Column(type="string", nullable=false, options={"default": "new"})
      */
     public $state = self::STATE_NEW;
-
-    /**
-     * @var int
-     * @ORM\Column(type="smallint", nullable=false, options={"default": 0})
-     */
-    public $priority = 0;
-
-    /**
-     * @var int|null
-     * @ORM\Column(type="smallint", nullable=true)
-     */
-    public $timeout;
 
     /**
      * @var \DateTime
@@ -98,18 +67,6 @@ class BaseTask extends BaseEntity
     public $endedAt;
 
     /**
-     * @var integer
-     * @ORM\Column(type="smallint", nullable=true)
-     */
-    public $progress;
-
-    /**
-     * @var int
-     * @ORM\Column(type="smallint", nullable=false)
-     */
-    public $verbosityOutput = OutputInterface::VERBOSITY_QUIET;
-
-    /**
      * @var string
      * @ORM\Column(type="text", nullable=true)
      */
@@ -128,26 +85,11 @@ class BaseTask extends BaseEntity
     public $errorOutput;
 
     /**
-     * @var UmbrellaFileWriterConfig
-     * @ORM\ManyToOne(targetEntity="Umbrella\CoreBundle\Entity\UmbrellaFileWriterConfig", cascade={"ALL"})
-     * @ORM\JoinColumn(name="fw_config_id", referencedColumnName="id", onDelete="CASCADE")
+     * @var BaseTaskConfig
+     * @ORM\ManyToOne(targetEntity="Umbrella\CoreBundle\Entity\BaseTaskConfig", inversedBy="tasks", cascade={"ALL"})
+     * @ORM\JoinColumn(name="config_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    public $fileWriterConfig;
-
-    /**
-     * @var bool
-     * @ORM\Column(type="boolean", nullable=false, options={"default": false})
-     */
-    public $displayAsNotification = false;
-
-    /**
-     * BaseTask constructor.
-     * @param $handlerAlias
-     */
-    public function __construct($handlerAlias)
-    {
-        $this->handlerAlias = $handlerAlias;
-    }
+    public $config;
 
     /**
      * @param  string $format
@@ -313,7 +255,6 @@ class BaseTask extends BaseEntity
         $this->output = null;
         $this->errorOutput = null;
         $this->endedAt = null;
-        $this->progress = null;
         $this->checkedAt = null;
     }
 

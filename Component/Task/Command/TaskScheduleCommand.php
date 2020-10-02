@@ -8,8 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Command;
 
+use Umbrella\CoreBundle\Entity\Task;
 use Symfony\Component\Process\Process;
-use Umbrella\CoreBundle\Entity\BaseTask;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
 /**
- * Class TaskExecuteCommand
+ * Class TaskScheduleCommand
  */
 class TaskScheduleCommand extends Command
 {
@@ -131,7 +131,7 @@ class TaskScheduleCommand extends Command
         }
 
         // create pid path
-        $pidPath = BaseTask::getPidDirPath();
+        $pidPath = Task::getPidDirPath();
         $fs = new Filesystem();
         if (!$fs->exists($pidPath)) {
             $fs->mkdir($pidPath);
@@ -163,9 +163,9 @@ class TaskScheduleCommand extends Command
     /**
      * Start a task
      *
-     * @param BaseTask $task
+     * @param Task $task
      */
-    private function startTask(BaseTask $task)
+    private function startTask(Task $task)
     {
         // create process
         $process = new Process([
@@ -179,14 +179,14 @@ class TaskScheduleCommand extends Command
         $task->started();
 
         // configure process
-        $process->setTimeout($task->timeout);
+        $process->setTimeout($task->config->timeout);
 
         // start
         $process->start();
         $task->pid = $process->getPid();
         touch($task->getPidFilePath());
 
-        $this->taskManager->update($task);
+        $this->taskManager->save($task);
 
         // add to pool
         $this->pool->add($task, $process);
@@ -217,19 +217,19 @@ class TaskScheduleCommand extends Command
             $task->addOutput($newStdOutput);
             $task->addOutput($newErrorOutput);
             $task->checked();
-            $this->taskManager->update($task);
+            $this->taskManager->save($task);
 
             // task done ?
             if (!$process->isRunning()) {
                 $task->endedAt = new \DateTime('NOW');
 
                 if ($this->interrupted) {
-                    $task->state = BaseTask::STATE_TERMINATED;
+                    $task->state = Task::STATE_TERMINATED;
                 } else {
-                    $task->state = $process->isSuccessful() ? BaseTask::STATE_FINISHED : BaseTask::STATE_FAILED;
+                    $task->state = $process->isSuccessful() ? Task::STATE_FINISHED : Task::STATE_FAILED;
                 }
 
-                $this->taskManager->update($task);
+                $this->taskManager->save($task);
                 $process->stop();
 
                 $this->pool->remove($task);
@@ -246,8 +246,8 @@ class TaskScheduleCommand extends Command
                 $process->checkTimeout();
             } catch (ProcessTimedOutException $e) {
                 $task->endedAt = new \DateTime('NOW');
-                $task->state = BaseTask::STATE_TERMINATED;
-                $this->taskManager->update($task);
+                $task->state = Task::STATE_TERMINATED;
+                $this->taskManager->save($task);
 
                 $this->pool->remove($task);
                 if ($this->verbose) {
@@ -258,9 +258,9 @@ class TaskScheduleCommand extends Command
 
             // task killed
             if (!file_exists($task->getPidFilePath())) {
-                $task->state = BaseTask::STATE_TERMINATED;
+                $task->state = Task::STATE_TERMINATED;
                 $task->endedAt = new \DateTime('NOW');
-                $this->taskManager->update($task);
+                $this->taskManager->save($task);
                 $process->stop();
 
                 $this->pool->remove($task);

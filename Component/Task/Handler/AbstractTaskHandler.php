@@ -8,37 +8,34 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Handler;
 
+use Umbrella\CoreBundle\Entity\BaseTaskConfig;
+
 /**
  * Class AbstractTaskHandler
  */
 abstract class AbstractTaskHandler
 {
     /**
-     * @var TaskHandlerHelper
-     */
-    protected $taskHelper;
-
-    /**
      * Method to initialize handler
-     *
-     * @param TaskHandlerHelper $helper
+     * @param BaseTaskConfig $config
      */
-    public function initialize(TaskHandlerHelper $taskHelper)
+    public function initialize(BaseTaskConfig $config)
     {
-        $this->taskHelper = $taskHelper;
     }
 
     /**
      * Method to execute handler operations
+     * @param BaseTaskConfig $config
      */
-    public function execute()
+    public function execute(BaseTaskConfig $config)
     {
     }
 
     /**
      * Method called when task is finished
+     * @param BaseTaskConfig $config
      */
-    public function destroy()
+    public function destroy(BaseTaskConfig $config)
     {
     }
 }

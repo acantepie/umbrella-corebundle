@@ -8,7 +8,7 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Command;
 
-use Umbrella\CoreBundle\Entity\BaseTask;
+use Umbrella\CoreBundle\Entity\Task;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -83,7 +83,7 @@ class TaskListCommand extends Command
 
         // Task pending
         if ($this->pending) {
-            $tasksPending = $this->taskManager->findByStates([BaseTask::STATE_PENDING]);
+            $tasksPending = $this->taskManager->findByStates([Task::STATE_PENDING]);
 
             if (count($tasksPending) > 0) {
                 $this->io->title('Tasks pending (' . count($tasksPending) . ')');
@@ -92,55 +92,57 @@ class TaskListCommand extends Command
                 foreach ($tasksPending as $task) {
                     $rows[] = [
                         $task->id,
-                        $task->handlerAlias,
+                        $task->config->handlerAlias,
+                        $task->config->tag,
                         $task->createdAt->format('d/m/Y H:i:s')
                     ];
                 }
-                $this->io->table(['id', 'handler', 'created'], $rows);
+                $this->io->table(['id', 'config (handler alias)', 'config (tag)', 'created'], $rows);
             }
         }
 
-        $tasksRunning = $this->taskManager->findByStates([BaseTask::STATE_RUNNING]);
+        $tasksRunning = $this->taskManager->findByStates([Task::STATE_RUNNING]);
 
         // Task running
         if (count($tasksRunning) > 0) {
             $this->io->title('Tasks running (' . count($tasksRunning) . ')');
             $rows = [];
 
-            /** @var BaseTask $task */
+            /** @var Task $task */
             foreach ($tasksRunning as $task) {
                 $rows[] = [
                     $task->id,
-                    $task->handlerAlias,
+                    $task->config->handlerAlias,
+                    $task->config->tag,
                     $task->pid,
                     $task->startedAt ? $task->startedAt->format('d/m/Y H:i:s') : '?',
                     $task->runtime(),
-                    $task->progress ? $task->progress : ''
                 ];
             }
-            $this->io->table(['id', 'handler', 'pid', 'started', 'runtime (s)', 'progress (%)'], $rows);
+            $this->io->table(['id', 'config (handler alias)', 'config (tag)', 'pid', 'started', 'runtime (s)'], $rows);
         }
 
         // Task done
         if ($this->done) {
-            $tasksDone = $this->taskManager->findByStates([BaseTask::STATE_FINISHED, BaseTask::STATE_TERMINATED, BaseTask::STATE_FAILED]);
+            $tasksDone = $this->taskManager->findByStates([Task::STATE_FINISHED, Task::STATE_TERMINATED, Task::STATE_FAILED]);
 
             if (count($tasksDone) > 0) {
                 $this->io->title('Tasks done (' . count($tasksDone) . ')');
                 $rows = [];
 
-                /** @var BaseTask $task */
+                /** @var Task $task */
                 foreach ($tasksDone as $task) {
                     $rows[] = [
                         $task->id,
-                        $task->handlerAlias,
+                        $task->config->handlerAlias,
+                        $task->config->tag,
                         $task->startedAt ? $task->startedAt->format('d/m/Y H:i:s') : '?',
                         $task->endedAt ? $task->endedAt->format('d/m/Y H:i:s') : '?',
                         $task->runtime(),
                         $task->state
                     ];
                 }
-                $this->io->table(['id', 'handler', 'started', 'ended', 'runtime (s)', 'status'], $rows);
+                $this->io->table(['id', 'config (handler alias)', 'config (tag)', 'started', 'ended', 'runtime (s)', 'status'], $rows);
             }
         }
 

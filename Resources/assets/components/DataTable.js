@@ -57,10 +57,7 @@ export default class DataTable extends Component {
 
             // do ajax call and send extra params
             if ($e.data('xhr')) {
-                AjaxUtils.get({
-                    url: $target.data('xhr'),
-                    data: this.table.ajax.params()
-                });
+                AjaxUtils.handleLink($e, {data: data});
             } else if ($e.attr('href')) {
                 window.location.href = $e.attr('href') + '?' + $.param(data);
             }

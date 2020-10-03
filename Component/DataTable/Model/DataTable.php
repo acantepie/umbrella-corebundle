@@ -11,6 +11,7 @@ namespace Umbrella\CoreBundle\Component\DataTable\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\Options;
 use Umbrella\CoreBundle\Component\Column\Column;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,7 +25,7 @@ class DataTable extends AbstractDataTable
     /**
      * @var array()
      */
-    private $query;
+    private $query = [];
 
     /**
      * @param string $relocateUrl
@@ -32,6 +33,18 @@ class DataTable extends AbstractDataTable
     public function setRelocateUrl($relocateUrl)
     {
         $this->relocateUrl = $relocateUrl;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function handleRequestData(array $requestData)
+    {
+        $request = new Request();
+        $request->query = new ParameterBag($requestData);
+        $request->setMethod(Request::METHOD_GET);
+        $request->headers->set('X-Requested-With', 'XMLHttpRequest'); // consider request as Ajax request
+        $this->handleRequest($request);
     }
 
     /**
@@ -56,11 +69,23 @@ class DataTable extends AbstractDataTable
     }
 
     /**
+     * @return DataTableResult
+     */
+    public function getResults() : DataTableResult
+    {
+        if (!$this->isCallback) {
+            throw new \RuntimeException('Unable to retrieve result, datatable is not on callback context');
+        }
+
+        return $this->source->search($this->options['data_class'], $this->columns, $this->query);
+    }
+
+    /**
      * @inheritdoc
      */
     public function getApiResults()
     {
-        $result = $this->source->search($this->options['data_class'], $this->columns, $this->query);
+        $result = $this->getResults();
         $accessor = PropertyAccess::createPropertyAccessorBuilder()
             ->disableExceptionOnInvalidPropertyPath()
             ->getPropertyAccessor();

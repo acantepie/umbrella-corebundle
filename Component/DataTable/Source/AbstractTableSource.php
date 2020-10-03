@@ -30,10 +30,18 @@ abstract class AbstractTableSource
     }
 
     /**
+     * @param AbstractSourceModifier $modifier
+     */
+    public function addModifier(AbstractSourceModifier $modifier)
+    {
+        $this->modifiers[] = $modifier;
+    }
+
+    /**
      * @param $dataClass
-     * @param  array                   $columns
-     * @param  array                   $query
-     * @return \JsonSerializable|array
+     * @param  array           $columns
+     * @param  array           $query
+     * @return DataTableResult
      */
     abstract public function search($dataClass, array $columns, array $query) : DataTableResult;
 

@@ -103,6 +103,14 @@ abstract class AbstractDataTable implements OptionsAwareInterface
     }
 
     /**
+     * @return AbstractTableSource
+     */
+    public function getSource(): AbstractTableSource
+    {
+        return $this->source;
+    }
+
+    /**
      * @param AbstractTableSource $source
      */
     public function setSource($source)
@@ -132,9 +140,25 @@ abstract class AbstractDataTable implements OptionsAwareInterface
     abstract public function handleRequest(Request $request);
 
     /**
+     * Hack to handle submitted data when request is not available
+     * @param array $requestData
+     */
+    abstract public function handleRequestData(array $requestData);
+
+    /**
+     * You must call isCallback() method before call one
+     * Return json serialisable data for api
+     *
      * @return \JsonSerializable|array
      */
     abstract public function getApiResults();
+
+    /**
+     * You must call isCallback() method before call this one
+     *
+     * @return DataTableResult
+     */
+    abstract public function getResults() : DataTableResult;
 
     /**
      * @param  OptionsResolver $resolver

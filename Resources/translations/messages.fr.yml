@@ -155,6 +155,14 @@ task:
         failed: Erreur
         terminated: Interrompu
 
+filewriter:
+    task_register:
+        title: Tache enregistré
+        message: Votre tache <b>%label%</b> a été enregistré.<br> Vous pouvez vérifier son avancement dans les notifications.
+    task_register_error:
+        title: Erreur
+        message: Votre tache <b>%label%</b> n'a pas été enregistré.<br> Vous avez déjà trop de taches en attente (%max_task%). Veuillez réessayer plus tard.
+
 notification:
     title: Liste des exports
     empty: Vous n'avez aucun export.

@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: acantepie
- * Date: 16/04/18
- * Time: 21:12
+ * Date: 27/06/17
+ * Time: 22:29
  */
 
 namespace Umbrella\CoreBundle\Component\Toolbar\Action;
@@ -11,20 +11,17 @@ namespace Umbrella\CoreBundle\Component\Toolbar\Action;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class SendSearchedActionType
+ * Class ExportActionType
  */
-class SendSearchedActionType extends ActionType
+class ExportActionType extends ActionType
 {
     /**
      * @inheritdoc
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'attr' => [
-                'data-send' => 'searched'
-            ],
-            'xhr' => false,
-        ]);
+        $resolver
+            ->setDefault('icon', 'mdi mdi-file-download-outline mr-1')
+            ->setDefault('class', 'btn btn-light');
     }
 }

@@ -1,18 +1,14 @@
-<div class="js-umbrella-toolbar toolbar">
+<toolbar class="toolbar {% if form | length == 0  and actions | length ==0%}d-none{% endif %}">
 
-    {% if form %}
-        <form class="form-inline" enctype="multipart/form-data" data-mount="Form" method="{{ form.vars.method }}">
+    {% if form | length > 0 %}
+        <form class="form-inline js-toolbar-form" enctype="multipart/form-data" data-mount="Form" method="{{ form.vars.method }}">
             {{ form_rest(form) }}
         </form>
     {% endif %}
 
     <span class="ml-auto"></span>
 
-    {% if actions %}
-        <div class="umbrella-actions">
-            {% for action in actions %}
-                {{ render_action(action) }}
-            {% endfor %}
-        </div>
-    {% endif %}
-</div>
+    {% for action in actions %}
+        {{ render_action(action) }}
+    {% endfor %}
+</toolbar>

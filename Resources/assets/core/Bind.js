@@ -39,15 +39,17 @@ export default class Bind {
         }
     }
 
+    // if you don't want your form was bind : use class no-bind
     bindForm() {
-        this.$view.on('click', '[data-xhr]:not(form)', (e) => {
+        this.$view.on('click', '[data-xhr]:not(form):not(.no-bind)', (e) => {
             e.preventDefault();
             AjaxUtils.handleLink($(e.currentTarget));
         });
     }
 
+    // if you don't want your link was bind : use class no-bind
     bindLink() {
-        this.$view.on('submit', 'form[data-xhr]', (e) => {
+        this.$view.on('submit', 'form[data-xhr]:not(.no-bind)', (e) => {
             e.preventDefault();
             AjaxUtils.handleForm($(e.currentTarget));
         });

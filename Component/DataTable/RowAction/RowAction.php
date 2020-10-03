@@ -47,6 +47,16 @@ class RowAction
     private $title;
 
     /**
+     * @var boolean
+     */
+    private $spinner = false;
+
+    /**
+     * @var string
+     */
+    private $xhrId;
+
+    /**
      * @var string
      */
     private $confirm;
@@ -54,12 +64,12 @@ class RowAction
     /**
      * @var boolean
      */
-    private $xhr;
+    private $xhr = false;
 
     /**
      * @var string
      */
-    private $target;
+    private $target = self::TARGET_SELF;
 
     /**
      * @return string
@@ -232,6 +242,42 @@ class RowAction
     public function setXhr($xhr)
     {
         $this->xhr = $xhr;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSpinner()
+    {
+        return $this->spinner;
+    }
+
+    /**
+     * @param  bool      $spinner
+     * @return RowAction
+     */
+    public function setSpinner($spinner)
+    {
+        $this->spinner = $spinner;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getXhrId()
+    {
+        return $this->xhrId;
+    }
+
+    /**
+     * @param  string    $xhrId
+     * @return RowAction
+     */
+    public function setXhrId($xhrId)
+    {
+        $this->xhrId = $xhrId;
         return $this;
     }
 

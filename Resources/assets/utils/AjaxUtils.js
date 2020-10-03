@@ -5,28 +5,28 @@ export default class AjaxUtils {
 
     static xhrPendingRegistryIds = [];
 
-    static handleLink($view) {
-        const options = {
+    static handleLink($view, options = []) {
+        options = {...{
             url: $view.data('xhr'),
             xhr_id: $view.data('xhr-id') || null,
             confirm: $view.data('confirm') || false,
             spinner: $view.data('spinner') || false,
-            method: 'get'
-        };
+            method: $view.data('method') || 'get'
+        },...options};
 
         const handler = app.getAjaxHandler($view.data('handler') || null);
         this.request(options, handler);
     }
 
-    static handleForm($view) {
-        const options = {
+    static handleForm($view, options = []) {
+        options = {...{
             url: $view.data('xhr'),
             xhr_id: $view.data('xhr-id') || null,
             confirm: $view.data('confirm') || false,
             spinner: $view.data('spinner') || false,
             method: $view.attr('method') || 'post',
             data: $view.serializeFormToFormData(),
-        };
+        },...options};
 
         const handler = app.getAjaxHandler($view.data('handler') || null);
         this.request(options, handler);

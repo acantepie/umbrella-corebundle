@@ -13,10 +13,10 @@ export default class DataTable extends Component {
         super($view);
 
         this.$table = this.$view.find('table');
-        this.$toolbarAction = this.$view.find('.js-umbrella-toolbar .umbrella-actions');
-        this.$toolbarForm = this.$view.find('.js-umbrella-toolbar form');
-
         this.table = null;
+
+        this.$toolbar = this.$view.find('toolbar');
+        this.toolbar = null;
 
         this.options = $view.data('options') || {};
 
@@ -29,61 +29,42 @@ export default class DataTable extends Component {
 
     init() {
         this.configureOptions();
+        this.toolbar = new Toolbar(this.$toolbar, {
+            'submitOnChange': true,
+            'onSubmit': (e, toolbar) => {
+                e.preventDefault();
+                this.reload();
+            }
+        });
         this.table = this.$table.DataTable(this.options);
     }
 
     bind() {
+        // toolbar => handle some toolbar action
+        this.$toolbar.on('click', '[data-extra-data]', (e) => {
+            let $e = $(e.currentTarget);
+            const extraDataTag = $e.data('extra-data');
 
-        // toolbar => filter form
-        if (this.$toolbarForm.length) {
+            // avoid default action
+            e.preventDefault();
 
-            new Toolbar(this.$toolbarForm, {
-                'submitOnChange': true
-            });
+            let data = [];
+            if (extraDataTag === 'dt_filter') {
+                data = this.getTableData();
+            } else if(extraDataTag === 'dt_selection') {
+                data = this.getSelectedData();
+            }
 
-            this.$toolbarForm.on('tb:submit', () => {
-                this.reload();
-            });
-        }
-
-        // toolbar => action form
-        if (this.$toolbarAction.length) {
-            this.$toolbarAction.on('click', '.js-umbrella-action[data-send=searched]', (e) => {
-                let $target = $(e.currentTarget);
-
-                // avoid default action
-                e.preventDefault();
-                e.stopPropagation();
-
-                // do ajax call and send extra params
-                if ($target.data('xhr')) {
-                    AjaxUtils.get({
-                        url: $target.data('xhr'),
-                        data: this.table.ajax.params()
-                    });
-                } else {
-                    window.location.href = $target.attr('href') + '?' + $.param(this.table.ajax.params());
-                }
-            });
-
-            this.$toolbarAction.on('click', '.js-umbrella-action[data-send=selected]', (e) => {
-                let $target = $(e.currentTarget);
-
-                // avoid default action
-                e.preventDefault();
-                e.stopPropagation();
-
-                // do ajax call and send extra params
-                if ($target.data('xhr')) {
-                    AjaxUtils.get({
-                        url: $target.data('xhr'),
-                        data: this.selectedRowsIdParams()
-                    });
-                } else {
-                    window.location.href = $target.attr('href') + '?' + $.param(this.selectedRowsIdParams());
-                }
-            });
-        }
+            // do ajax call and send extra params
+            if ($e.data('xhr')) {
+                AjaxUtils.get({
+                    url: $target.data('xhr'),
+                    data: this.table.ajax.params()
+                });
+            } else if ($e.attr('href')) {
+                window.location.href = $e.attr('href') + '?' + $.param(data);
+            }
+        });
 
         // row toggle
         this.$table.on('change', '.js-toggle-widget input[type=checkbox]', (e) => {
@@ -139,7 +120,7 @@ export default class DataTable extends Component {
         });
 
         // default error handler
-        this.bindError((e, settings, techNote, message) => {
+        this.table.on('error.dt', (e, settings, techNote, message) => {
 
             let html = '<tr>';
             html += '<td class="text-danger text-center" colspan="100%">';
@@ -157,7 +138,7 @@ export default class DataTable extends Component {
             // avoid sending unused params
             delete d['columns'];
             delete d['search'];
-            return {...d, ...this.options['ajax_data'], ...this.toolbarData()};
+            return {...d, ...this.options['ajax_data'], ...this.toolbar.getData()};
         };
         this.options['preDrawCallback'] = (settings) => {
             this.$view.trigger('draw:before');
@@ -184,12 +165,6 @@ export default class DataTable extends Component {
         };
     }
 
-    toolbarData() {
-        return this.$toolbarForm.length
-            ? this.$toolbarForm.serializeFormToJson()
-            : [];
-    }
-
     reload(paging = true) {
         this.$table.DataTable().draw(paging);
     }
@@ -198,7 +173,7 @@ export default class DataTable extends Component {
         this.$table.find('tbody').html(this.$table.find('tbody').data('spinner'));
     }
 
-    selectedRowsIdParams() {
+    getSelectedData() {
         let ids = [];
         this.$table.find('tbody tr.selected[data-id]').each((e, elt) => {
             ids.push($(elt).data('id'));
@@ -206,8 +181,8 @@ export default class DataTable extends Component {
         return {'ids': ids};
     }
 
-    bindError(cb) {
-        this.table.on('error.dt', cb);
+    getTableData() {
+        return this.table.ajax.params();
     }
 
     startAutoReload(pollInterval) {

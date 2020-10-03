@@ -15,6 +15,18 @@ namespace Umbrella\CoreBundle\Utils;
 class ArrayUtils
 {
     /**
+     * Return true if all element of array $search are in array $all
+     *
+     * @param  array $a
+     * @param  array $b
+     * @return bool
+     */
+    public static function contains_all(array $search, array $all)
+    {
+        return count(array_intersect($search, $all)) === count($search);
+    }
+
+    /**
      * @param array $array
      * @param $key
      * @param null $default

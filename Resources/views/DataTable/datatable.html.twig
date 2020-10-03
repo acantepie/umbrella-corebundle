@@ -1,4 +1,4 @@
-<div class="{{ container_class }}" id="{{ id }}" data-mount="{{ component }}" data-options="{{ js|json_encode() }}">
+<div class="{{ container_class }}" id="{{ id }}" data-mount="{{ component }}" data-options="{{ js | json_encode() | e('html_attr') }}">
 
     {% block toolbar %}
         {% if table.toolbar %}

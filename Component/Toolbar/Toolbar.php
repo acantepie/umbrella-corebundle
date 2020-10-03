@@ -40,9 +40,7 @@ class Toolbar implements OptionsAwareInterface
      */
     final public function handleRequest(Request $request)
     {
-        if ($this->form) {
-            $this->form->handleRequest($request);
-        }
+        $this->form->handleRequest($request);
     }
 
     /**
@@ -50,7 +48,7 @@ class Toolbar implements OptionsAwareInterface
      */
     final public function getFormData()
     {
-        return $this->form ? (array) $this->form->getData() : [];
+        return (array) $this->form->getData();
     }
 
     /**
@@ -100,8 +98,8 @@ class Toolbar implements OptionsAwareInterface
     public function getViewOptions()
     {
         return [
-            'form' => $this->form ? $this->form->createView() : null,
-            'actions' => $this->actions
+            'form' => $this->form->createView(),
+            'actions' => $this->actions,
         ];
     }
 }

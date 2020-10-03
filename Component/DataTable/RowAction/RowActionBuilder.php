@@ -39,15 +39,12 @@ class RowActionBuilder
 
     /**
      * @param $route
-     * @param $routeParams
+     * @param  array     $routeParams
      * @return RowAction
      */
-    public function createEdit($route, array $routeParams = [])
+    public function createXhrEdit($route, array $routeParams = [])
     {
-        return $this->create()
-            ->setRoute($route, $routeParams)
-            ->setIcon('mdi mdi-pencil')
-            ->setTitle('action.edit')
+        return $this->createEdit($route, $routeParams)
             ->setXhr(true);
     }
 
@@ -56,7 +53,20 @@ class RowActionBuilder
      * @param $routeParams
      * @return RowAction
      */
-    public function createDelete($route, array $routeParams = [])
+    public function createEdit($route, array $routeParams = [])
+    {
+        return $this->create()
+            ->setRoute($route, $routeParams)
+            ->setIcon('mdi mdi-pencil')
+            ->setTitle('action.edit');
+    }
+
+    /**
+     * @param $route
+     * @param $routeParams
+     * @return RowAction
+     */
+    public function createXhrDelete($route, array $routeParams = [])
     {
         return $this->create()
             ->setRoute($route, $routeParams)
@@ -71,12 +81,33 @@ class RowActionBuilder
      * @param $routeParams
      * @return RowAction
      */
+    public function createXhrShow($route, array $routeParams = [])
+    {
+        return $this->createShow($route, $routeParams)
+            ->setXhr(true);
+    }
+
+    /**
+     * @param $route
+     * @param $routeParams
+     * @return RowAction
+     */
     public function createShow($route, array $routeParams = [])
     {
         return $this->create()
             ->setRoute($route, $routeParams)
             ->setIcon('mdi mdi-eye')
-            ->setTitle('action.show')
+            ->setTitle('action.show');
+    }
+
+    /**
+     * @param $route
+     * @param  array     $routeParams
+     * @return RowAction
+     */
+    public function createXhrAdd($route, array $routeParams = [])
+    {
+        return $this->createAdd($route, $routeParams)
             ->setXhr(true);
     }
 
@@ -90,8 +121,7 @@ class RowActionBuilder
         return $this->create()
             ->setRoute($route, $routeParams)
             ->setIcon('mdi mdi-filter-variant-plus')
-            ->setTitle('action.add')
-            ->setXhr(true);
+            ->setTitle('action.add');
     }
 
     /**

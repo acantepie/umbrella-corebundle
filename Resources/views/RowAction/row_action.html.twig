@@ -2,6 +2,8 @@
 
 <a class="{{ action.class }}"
         {% if action.xhr %}data-xhr="{{ url }}" href{% else %}href="{{ url }}"{% endif %}
+        {% if action .xhrId %}data-xhr-id="{{ action.xhrId }}"{% endif %}
+        {% if action.spinner %}data-spinner="true"{% endif %}
         {% if action.confirm %}data-confirm="{{ action.confirm | trans }}"{% endif %}
         {% if action.target %}target="{{ action.target }}"{% endif %}
         {% if action.title %}title="{{ action.title | trans}}" data-toggle="tooltip"{% endif %}>

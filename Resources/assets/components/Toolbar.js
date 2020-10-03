@@ -5,8 +5,11 @@
  */
 export default class Toolbar {
 
-    constructor($elt, options = {}) {
-        this.$view = $elt;
+    constructor($view, options = {}) {
+        
+        this.$view = $view;
+        this.$form = this.$view.find('.js-toolbar-form');
+        
         this.options = options;
 
         this.init();
@@ -14,13 +17,17 @@ export default class Toolbar {
     }
 
     init() {
-        this.configureOptions();
+        const defaultOptions = {
+            submitOnChange: false,
+            onSubmit: (e, toolbar) => {}
+        };
+
+        this.options = {...defaultOptions, ...this.options};
     }
 
     bind() {
 
         if (this.options['submitOnChange'] === true) { // reload on change
-
             this.$view.on('change', 'select, input[type=checkbox], input[type=radio], .js-datepicker', () => {
                 this.$view.trigger('submit');
             });
@@ -35,18 +42,19 @@ export default class Toolbar {
         }
 
         this.$view.on('submit', (e) => {
-            // avoid default action
-            e.preventDefault();
-            e.stopPropagation();
-            this.$view.trigger('tb:submit');
+            this.options['onSubmit'](e, this);
         });
     }
 
-    configureOptions() {
-        const defaultOptions = {
-            submitOnChange: false
-        };
+    submit() {
+        if (this.$form) {
+            this.$form.trigger('submit');
+        }
+    }
 
-        this.options = {...defaultOptions, ...this.options};
+    getData() {
+        return this.$form.length
+            ? this.$form.serializeFormToJson()
+            : [];
     }
 }

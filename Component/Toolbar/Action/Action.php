@@ -17,6 +17,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class Action implements OptionsAwareInterface
 {
+    const DATA_DATATABLE_FILTER = 'dt_filter';
+    const DATA_DATATABLE_SELECTION = 'dt_selection';
+
     /**
      * @var array
      */
@@ -50,10 +53,10 @@ class Action implements OptionsAwareInterface
             ->setDefault('translation_domain', 'messages')
             ->setAllowedTypes('translation_domain', ['null', 'string'])
 
-            ->setDefault('template', '@UmbrellaCore/Toolbar/Action/action.html.twig')
+            ->setDefault('template', '@UmbrellaCore/Toolbar/action.html.twig')
             ->setAllowedTypes('template', 'string')
 
-            ->setDefault('xhr', true)
+            ->setDefault('xhr', false)
             ->setAllowedTypes('xhr', 'bool')
 
             ->setDefault('route', null)
@@ -68,11 +71,21 @@ class Action implements OptionsAwareInterface
             ->setDefault('confirm', null)
             ->setAllowedTypes('confirm', ['null', 'string'])
 
+            ->setDefault('spinner', false)
+            ->setAllowedTypes('spinner', 'bool')
+
+            ->setDefault('xhr_id', null)
+            ->setAllowedTypes('xhr_id', ['null', 'string'])
+
             ->setDefault('class', null)
             ->setAllowedTypes('class', ['null', 'string'])
 
             ->setDefault('icon', null)
-            ->setAllowedTypes('icon', ['null', 'string']);
+            ->setAllowedTypes('icon', ['null', 'string'])
+
+            ->setDefault('extra_data', null)
+            ->setAllowedTypes('extra_data', ['null', 'string'])
+            ->setAllowedValues('extra_data', [null, self::DATA_DATATABLE_SELECTION, self::DATA_DATATABLE_FILTER]);
     }
 
     /**

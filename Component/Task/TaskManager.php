@@ -47,7 +47,7 @@ class TaskManager
      */
     public function countSearch(SearchTaskCriteria $criteria)
     {
-        return $this->searchQuery($criteria)
+        return $this->searchQb($criteria)
             ->resetDQLPart('select')
             ->select('COUNT(e.id)')
             ->getQuery()
@@ -60,14 +60,14 @@ class TaskManager
      */
     public function search(SearchTaskCriteria $criteria)
     {
-        return $this->searchQuery($criteria)->getQuery()->getResult();
+        return $this->searchQb($criteria)->getQuery()->getResult();
     }
 
     /**
      * @param  SearchTaskCriteria $criteria
      * @return QueryBuilder
      */
-    public function searchQuery(SearchTaskCriteria $criteria)
+    public function searchQb(SearchTaskCriteria $criteria)
     {
         $qb = $this->em->createQueryBuilder();
         $qb->select('e');
@@ -78,6 +78,16 @@ class TaskManager
         if (!empty($criteria->states)) {
             $qb->andWhere('e.state IN (:states)');
             $qb->setParameter('states', $criteria->states);
+        }
+
+        if (!empty($criteria->handlerAlias)) {
+            $qb->andWhere('c.handlerAlias = :handler_alias');
+            $qb->setParameter('handler_alias', $criteria->handlerAlias);
+        }
+
+        if (!empty($criteria->tag)) {
+            $qb->andWhere('c.tag = :tag');
+            $qb->setParameter('tag', $criteria->tag);
         }
 
         if ($criteria->maxResults > 0) {

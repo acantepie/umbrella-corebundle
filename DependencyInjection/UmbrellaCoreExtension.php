@@ -13,7 +13,6 @@ use Umbrella\CoreBundle\Component\Toolbar\Action\ActionType;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\Task\Handler\AbstractTaskHandler;
-use Umbrella\CoreBundle\Component\FileWriter\Handler\AbstractFileWriterHandler;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -45,7 +44,6 @@ class UmbrellaCoreExtension extends Extension
         $container->registerForAutoconfiguration(ActionType::class)->addTag('umbrella.action.type');
 
         $container->registerForAutoconfiguration(AbstractTaskHandler::class)->addTag('umbrella.task.handler');
-        $container->registerForAutoconfiguration(AbstractFileWriterHandler::class)->addTag('umbrella.filewriter.handler');
 
         $parameters = ArrayUtils::remap_nested_array($config, 'umbrella_core');
 

@@ -15,10 +15,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Umbrella\CoreBundle\Component\DataTable\DataTableFactory;
 use Umbrella\CoreBundle\Component\Task\Handler\TaskHandlerFactory;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Umbrella\CoreBundle\Component\FileWriter\Handler\FileWriterHandlerFactory;
 
 /**
- * Class DataTablePass
+ * Class UmbrellaComponentPass
  */
 class UmbrellaComponentPass implements CompilerPassInterface
 {
@@ -32,7 +31,6 @@ class UmbrellaComponentPass implements CompilerPassInterface
         $this->storeTaggedServiceToRegistry($container, ActionFactory::class, 'umbrella.action.type', 'registerActionType');
 
         $this->storeTaggedServiceToRegistry($container, TaskHandlerFactory::class, 'umbrella.task.handler', 'registerHandler');
-        $this->storeTaggedServiceToRegistry($container, FileWriterHandlerFactory::class, 'umbrella.filewriter.handler', 'registerHandler');
     }
 
     private function storeTaggedServiceToRegistry(ContainerBuilder $container, $registryClass, $tag, $method)

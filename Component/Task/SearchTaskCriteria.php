@@ -21,6 +21,11 @@ class SearchTaskCriteria
     /**
      * @var string
      */
+    public $tag;
+
+    /**
+     * @var string
+     */
     public $handlerAlias;
 
     /**

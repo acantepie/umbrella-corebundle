@@ -1,0 +1,9 @@
+{% block ckeditor_widget %}
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+
+    {# load js here #}
+    <script src="{{ webpack_asset('/build/ckeditor.js', null, false) }}" type="text/javascript"></script>
+    <script>
+        CKEDITOR.replace('{{ form.vars.id }}')
+    </script>
+{% endblock %}

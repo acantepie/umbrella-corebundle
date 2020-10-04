@@ -1,0 +1,1 @@
+window.CKEDITOR_BASEPATH = '/build/ckeditor4/';

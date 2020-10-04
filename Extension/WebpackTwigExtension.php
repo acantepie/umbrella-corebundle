@@ -76,12 +76,13 @@ class WebpackTwigExtension extends AbstractExtension
 
     /**
      * @param $path
-     * @param  null   $packageName
+     * @param null $packageName
+     * @param bool $useDevServer
      * @return string
      */
-    public function getAssetUrl($path, $packageName = null)
+    public function getAssetUrl($path, $packageName = null, $useDevServer = true)
     {
-        if ($this->env == 'dev' && $this->devServerEnabled) {
+        if ($this->env == 'dev' && $this->devServerEnabled && $useDevServer) {
             return $this->devServerHost . ':' . $this->devServerPort . $this->packages->getUrl($path, $packageName);
         } else {
             return $this->packages->getUrl($path, $packageName);

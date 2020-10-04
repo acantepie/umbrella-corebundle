@@ -6,22 +6,24 @@ use Umbrella\CoreBundle\Component\ComponentView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class ActionType
+ * Class DropdownItemActionType
  */
-class ActionType
+class DropdownItemActionType extends ActionType
 {
     /**
-     * @param ComponentView $view
-     * @param array         $options
+     * @inheritDoc
      */
     public function buildView(ComponentView $view, array $options)
     {
+        $view->vars['attr']['class'] = $options['class'] . ' dropdown-item';
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * @inheritDoc
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver
+            ->setDefault('template', '@UmbrellaCore/Action/dropdown_item.html.twig');
     }
 }

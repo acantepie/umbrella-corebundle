@@ -50,6 +50,7 @@ services:
     Umbrella\CoreBundle\Component\Toolbar\Extension\ToolbarTwigExtension:
 
     # Action
+    Umbrella\CoreBundle\Component\Action\Type\DropdownActionType:
     Umbrella\CoreBundle\Component\Action\Extension\ActionTwigExtension:
     Umbrella\CoreBundle\Component\Action\ActionFactory:
         public: true

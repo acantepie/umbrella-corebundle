@@ -8,8 +8,8 @@
 
 namespace Umbrella\CoreBundle\DependencyInjection\Compiler;
 
-use Umbrella\CoreBundle\Component\ActionFactory;
 use Symfony\Component\DependencyInjection\Reference;
+use Umbrella\CoreBundle\Component\Action\ActionFactory;
 use Umbrella\CoreBundle\Component\Column\ColumnFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Umbrella\CoreBundle\Component\DataTable\DataTableFactory;

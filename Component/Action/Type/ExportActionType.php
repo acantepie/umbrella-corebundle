@@ -21,7 +21,7 @@ class ExportActionType extends ActionType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefault('icon', 'mdi mdi-file-download-outline mr-1')
-            ->setDefault('class', 'btn btn-light ml-1');
+            ->setDefault('icon', 'mdi mdi-file-download-outline')
+            ->setDefault('class', 'btn btn-light');
     }
 }

@@ -107,7 +107,16 @@ class Action implements OptionsAwareInterface
         $view = new ComponentView();
         $view->template = $this->options['template'];
 
-        $view->vars['icon'] = $this->options['icon'];
+        if (!empty($this->options['icon'])) {
+            $view->vars['icon'] = $this->options['icon'];
+
+            if (!empty($this->options['label'])) {
+                $view->vars['icon'] .= ' mr-1';
+            }
+        } else {
+            $view->vars['icon'] = null;
+        }
+
         $view->vars['label_prefix'] = $this->options['label_prefix'];
         $view->vars['label'] = $this->options['label'];
         $view->vars['translation_domain'] = $this->options['translation_domain'];
@@ -138,6 +147,8 @@ class Action implements OptionsAwareInterface
         }
 
         $view->vars['attr']['class'] = $this->options['class'];
+
+        $this->type->buildView($view, $this->options);
 
         if (!empty($this->options['extra_data'])) {
             $view->vars['attr']['data-extra-data'] = $this->options['extra_data'];

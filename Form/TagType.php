@@ -11,6 +11,8 @@ namespace Umbrella\CoreBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -19,6 +21,15 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
  */
 class TagType extends AbstractType
 {
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        if (isset($view->vars['attr']['class'])) {
+            $view->vars['attr']['class'] .= ' js-tag';
+        } else {
+            $view->vars['attr']['class'] = 'js-tag';
+        }
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -26,18 +37,6 @@ class TagType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addModelTransformer(new TagTransformer());
-    }
-
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'attr' => [
-                'class' => 'js-umbrella-tag'
-            ]
-        ]);
     }
 
     /**

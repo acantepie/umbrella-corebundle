@@ -146,7 +146,6 @@ class AsyncEntity2Type extends AbstractType
                 'placeholder' => false,
                 'transformer' => null,
                 'property' => null,
-                'callback' => null,
 
                 //s2 options
                 'language' => 'fr',

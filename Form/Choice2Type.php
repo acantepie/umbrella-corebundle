@@ -42,7 +42,7 @@ to avoid set template on FormType, you can use 'template_selector' options:
 $builder->add('user', Entity2Type::class, array(
     'choice_attr' => function($user) {
         return array(
-            'data->email' => $user->email
+            'data-email' => $user->email
         );
     },
     'template_selector' => '#tpl'

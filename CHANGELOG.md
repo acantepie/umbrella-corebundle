@@ -3,13 +3,23 @@
 - Upgrade to symfony 5
 - Remove all deprecated and unused features
 - Upgrade all node dependency, remove unused dependency
+- Rework Bundle config (DI)
 
 ## CoreBundle
 
+### UI component
+
+- Add method **creteView()** on all UI component to manage vars used on view
+
 ### Toolbar
 
-- Remove **ToolbarType**
-- Remove **ActionBuilder**. **ToolbarBuilder** is used to build form and action on toolbar
+- Remove **ToolbarType**, replaced by **ToolbarAwareType**
+- **ToolbarBuilder** is used to build form and action on toolbar
+
+### Action
+
+- Rework **Action** component, create **ActionListBuilder** and **ActionListFactory** to manage set of actions.
+- Add **DropdownActionType**, **DropdownItemActionType**, **DropdownItemDividerActionType** to create dropdown list.
 
 ### DataTable
 
@@ -51,8 +61,15 @@
 
 - UmbrellaFileType can now be used on CollectionType
 
+### Task
+
+- Move all **TaskBundle** feature on CoreBundle (Task Component) + rework.
+
 ## AdminBundle
 
 - Use Hyper admin template (legacy: Flatkit): More Ui component, full bs4 compliant, scss is configurable (can redefine variables), responsive.
 - Improve Yaml menu loader (less verbose).
 - Include User CRUD 
+- Create **FileWriter** component to manage export of Admin CRUD. 2 modes are available :
+    * SYNC mode - return file generated on http response.
+    * ASYNC mode based on Task component - generate export with task scheduler, progress and results are visible on notification widget.

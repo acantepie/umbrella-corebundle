@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
 
         $this->addwebpackSection($rootNode);
         $this->addRedisSection($rootNode);
+        $this->ckeditorSection($rootNode);
 
         return $treeBuilder;
     }
@@ -45,5 +46,19 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('host')->defaultValue('127.0.0.1')->end()
                 ->scalarNode('port')->defaultValue('6379')->end()
                 ->scalarNode('db')->defaultValue('0')->end();
+    }
+
+    private function ckeditorSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode->children()
+            ->arrayNode('ckeditor')->addDefaultsIfNotSet()
+            ->children()
+                ->scalarNode('default_config')->defaultNull()->end()
+                ->arrayNode('configs')
+                    ->useAttributeAsKey('name')
+                    ->normalizeKeys(false)
+                    ->arrayPrototype()
+                        ->variablePrototype()->end()
+                    ->end();
     }
 }

@@ -76,8 +76,8 @@ class WebpackTwigExtension extends AbstractExtension
 
     /**
      * @param $path
-     * @param null $packageName
-     * @param bool $useDevServer
+     * @param  null   $packageName
+     * @param  bool   $useDevServer
      * @return string
      */
     public function getAssetUrl($path, $packageName = null, $useDevServer = true)

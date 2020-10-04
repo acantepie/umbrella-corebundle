@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: acantepie
- * Date: 14/05/17
- * Time: 18:46.
- */
 
 namespace Umbrella\CoreBundle\Component\Action\Extension;
 

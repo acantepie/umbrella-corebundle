@@ -12,6 +12,7 @@ use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
+use Umbrella\CoreBundle\Component\Ckeditor\CkeditorConfiguration;
 use Umbrella\CoreBundle\Component\Task\Handler\AbstractTaskHandler;
 
 /**
@@ -38,6 +39,9 @@ class UmbrellaCoreExtension extends Extension
 
         $def = $container->getDefinition(UmbrellaRedis::class);
         $def->addMethodCall('loadConfig', [$config['redis']]);
+
+        $def = $container->getDefinition(CkeditorConfiguration::class);
+        $def->setArgument(0, $config['ckeditor']);
 
         $container->registerForAutoconfiguration(DataTableType::class)->addTag('umbrella.datatable.type');
         $container->registerForAutoconfiguration(ColumnType::class)->addTag('umbrella.column.type');

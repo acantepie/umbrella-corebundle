@@ -81,6 +81,10 @@ services:
     Umbrella\CoreBundle\Component\Task\TaskManager:
         public: true
 
+    # Ckeditor
+    Umbrella\CoreBundle\Component\Ckeditor\CkeditorConfiguration:
+    Umbrella\CoreBundle\Component\Ckeditor\CkeditorExtension:
+
     # ---- Umbrella ----#
 
     #Command

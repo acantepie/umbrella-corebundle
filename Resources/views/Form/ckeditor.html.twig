@@ -4,6 +4,6 @@
     {# load js here #}
     <script src="{{ webpack_asset('/build/ckeditor.js', null, false) }}" type="text/javascript"></script>
     <script>
-        CKEDITOR.replace('{{ form.vars.id }}')
+        {{ render_ckeditor_js(form.vars.id, config) }}
     </script>
 {% endblock %}

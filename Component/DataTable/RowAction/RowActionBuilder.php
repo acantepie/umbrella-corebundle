@@ -103,30 +103,6 @@ class RowActionBuilder
     }
 
     /**
-     * @param $route
-     * @param  array     $routeParams
-     * @return RowAction
-     */
-    public function createXhrAdd($route, array $routeParams = [])
-    {
-        return $this->createAdd($route, $routeParams)
-            ->setXhr(true);
-    }
-
-    /**
-     * @param $route
-     * @param  array     $routeParams
-     * @return RowAction
-     */
-    public function createAdd($route, array $routeParams = [])
-    {
-        return $this->create()
-            ->setRoute($route, $routeParams)
-            ->setIcon('mdi mdi-filter-variant-plus')
-            ->setTitle('action.add');
-    }
-
-    /**
      * @return array
      */
     public function getActions()

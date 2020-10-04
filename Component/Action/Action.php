@@ -7,6 +7,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Umbrella\CoreBundle\Component\ComponentView;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Component\Action\Type\ActionType;
 
 /**
  * Class Action
@@ -17,9 +18,22 @@ class Action implements OptionsAwareInterface
     const DATA_DATATABLE_SELECTION = 'dt_selection';
 
     /**
+     * @var ActionType
+     */
+    private $type;
+
+    /**
      * @var array
      */
     private $options;
+
+    /**
+     * @param ActionType $type
+     */
+    public function setType(ActionType $type)
+    {
+        $this->type = $type;
+    }
 
     /**
      * @inheritdoc
@@ -127,6 +141,7 @@ class Action implements OptionsAwareInterface
 
         if (!empty($this->options['extra_data'])) {
             $view->vars['attr']['data-extra-data'] = $this->options['extra_data'];
+            $view->vars['attr']['class'] .= ' no-bind';
         }
 
         return $view;

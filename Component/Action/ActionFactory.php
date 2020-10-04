@@ -34,6 +34,7 @@ class ActionFactory
     {
         $type = $this->createType($typeClass);
         $action = new Action();
+        $action->setType($type);
 
         $resolver = new OptionsResolver();
         $action->configureOptions($resolver);

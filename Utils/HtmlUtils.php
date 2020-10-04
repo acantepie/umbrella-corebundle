@@ -21,9 +21,21 @@ class HtmlUtils
     {
         $html = '';
         foreach ($attr as $key => $value) {
-            $html .= $key . '="' . htmlspecialchars($value) . '" ';
+            $html .= $key . '="' . self::encode_html_attr($value) . '" ';
         }
         return $html;
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public static function encode_html_attr($value)
+    {
+        if (is_array($value)) {
+            $value = json_encode($value);
+        }
+        return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false);
     }
 
     /**

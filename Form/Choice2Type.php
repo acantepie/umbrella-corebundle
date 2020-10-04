@@ -10,6 +10,7 @@ namespace Umbrella\CoreBundle\Form;
 
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\AbstractType;
+use Umbrella\CoreBundle\Utils\HtmlUtils;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Routing\RouterInterface;
@@ -96,7 +97,7 @@ class Choice2Type extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['attr']['data-options'] = htmlspecialchars(json_encode($this->buildJsOptions($view, $form, $options)));
+        $view->vars['attr']['data-options'] = HtmlUtils::encode_html_attr($this->buildJsOptions($view, $form, $options));
 
         // never expand
         $view->vars['expanded'] = false;

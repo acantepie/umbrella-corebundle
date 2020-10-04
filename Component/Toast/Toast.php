@@ -8,6 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\Toast;
 
+use Umbrella\CoreBundle\Component\ComponentView;
+
 /**
  * Class Toast
  */
@@ -188,11 +190,12 @@ class Toast
     }
 
     /**
-     * @return array
+     * @return ComponentView
      */
-    public function getViewOptions()
+    public function createView() : ComponentView
     {
-        return [
+        $view = new ComponentView();
+        $view->vars = [
             'heading' => $this->title,
             'text' => $this->text,
             'position' => $this->position,
@@ -201,5 +204,7 @@ class Toast
             'loader' => $this->loader,
             'hideAfter' => $this->hideAfter
         ];
+
+        return $view;
     }
 }

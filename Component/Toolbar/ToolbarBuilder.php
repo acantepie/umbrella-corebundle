@@ -10,8 +10,10 @@ namespace Umbrella\CoreBundle\Component\Toolbar;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
+use Umbrella\CoreBundle\Component\Action\Action;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Umbrella\CoreBundle\Component\Toolbar\Action\Action;
+use Umbrella\CoreBundle\Component\Action\Type\ActionType;
+use Umbrella\CoreBundle\Component\Action\ActionListFactory;
 
 /**
  * Class ToolbarBuilder
@@ -29,9 +31,14 @@ class ToolbarBuilder
     private $formBuilder;
 
     /**
-     * @var ActionFactory
+     * @var ActionListFactory
      */
-    private $actionFactory;
+    private $actionListFactory;
+
+    /**
+     * @var ActionListBuilder
+     */
+    private $actionListBuilder;
 
     /**
      * @var ToolbarAwareTypeInterface
@@ -39,20 +46,16 @@ class ToolbarBuilder
     private $awareType;
 
     /**
-     * @var array
-     */
-    private $actions = [];
-
-    /**
      * ToolbarBuilder constructor.
+     *
      * @param FormFactoryInterface      $formFactory
-     * @param ActionFactory             $actionFactory
+     * @param ActionListFactory         $actionListFactory
      * @param ToolbarAwareTypeInterface $awareType
      */
-    public function __construct(FormFactoryInterface $formFactory, ActionFactory $actionFactory, ToolbarAwareTypeInterface $awareType)
+    public function __construct(FormFactoryInterface $formFactory, ActionListFactory $actionListFactory, ToolbarAwareTypeInterface $awareType)
     {
         $this->formFactory = $formFactory;
-        $this->actionFactory = $actionFactory;
+        $this->actionListFactory = $actionListFactory;
         $this->awareType = $awareType;
     }
 
@@ -60,13 +63,14 @@ class ToolbarBuilder
 
     /**
      * @param $child
-     * @param  null                 $type
-     * @param  array                $options
-     * @return FormBuilderInterface
+     * @param  null  $type
+     * @param  array $options
+     * @return $this
      */
     public function addFilter($child, $type = null, array $options = [])
     {
-        return $this->formBuilder->add($child, $type, $options);
+        $this->formBuilder->add($child, $type, $options);
+        return $this;
     }
 
     /**
@@ -80,10 +84,12 @@ class ToolbarBuilder
 
     /**
      * @param $name
+     * @return $this
      */
     public function removeFilter($name)
     {
         $this->formBuilder->remove($name);
+        return $this;
     }
 
     /**
@@ -95,30 +101,17 @@ class ToolbarBuilder
         return $this->formBuilder->has($name);
     }
 
-    /**
-     * @return array
-     */
-    public function allFilter()
-    {
-        return $this->formBuilder->all();
-    }
-
     // Action builder
 
     /**
      * @param $id
-     * @param $actionClass
-     * @param array $options
-     *
+     * @param  string $type
+     * @param  array  $options
      * @return $this
      */
-    public function addAction($id, $actionClass, array $options = [])
+    public function addAction($id, $type = ActionType::class, array $options = [])
     {
-        $this->actions[$id] = [
-            'class' => $actionClass,
-            'options' => $options,
-        ];
-
+        $this->actionListBuilder->add($id, $type, $options);
         return $this;
     }
 
@@ -128,7 +121,7 @@ class ToolbarBuilder
      */
     public function removeAction($id)
     {
-        unset($this->actions[$id]);
+        $this->actionListBuilder->remove($id);
         return $this;
     }
 
@@ -139,26 +132,16 @@ class ToolbarBuilder
      */
     public function hasAction($id)
     {
-        return isset($this->actions[$id]);
+        return $this->actionListBuilder->has($id);
     }
 
     /**
      * @param $id
      * @return Action
-     * @throws \Exception
      */
     public function getAction($id)
     {
-        if (isset($this->actions[$id]['resolved'])) {
-            return $this->actions[$id]['resolved'];
-        }
-
-        if (isset($this->actions[$id])) {
-            $this->resolveAction($id);
-            return $this->actions[$id]['resolved'];
-        }
-
-        throw new \Exception(sprintf('The action with id "%s" does not exist.', $id));
+        return $this->actionListBuilder->get($id);
     }
 
     /**
@@ -169,40 +152,15 @@ class ToolbarBuilder
     {
         $toolbar = new Toolbar();
 
-        // options are already resolved at this point
-
         $this->formBuilder = $this->formFactory->createNamedBuilder($resolvedOptions['toolbar_form_name'], FormType::class, $resolvedOptions['toolbar_form_data'], $resolvedOptions['toolbar_form_options']);
+        $this->actionListBuilder = $this->actionListFactory->createBuilder();
+
+        // options are already resolved at this point
         $this->awareType->buildToolbar($this, $resolvedOptions);
         $toolbar->setOptions($resolvedOptions);
-
-        // resolve actions
-        $this->resolveActions();
-        foreach ($this->actions as $arg) {
-            $toolbar->actions[] = $arg['resolved'];
-        }
-
-        // resolve form
         $toolbar->form = $this->formBuilder->getForm();
+        $toolbar->actions = $this->actionListBuilder->getActionList();
 
         return $toolbar;
-    }
-
-    protected function resolveActions()
-    {
-        foreach ($this->actions as $id => $action) {
-            if (!isset($action['resolved'])) {
-                $this->resolveAction($id);
-            }
-        }
-    }
-
-    /**
-     * @param $id
-     */
-    protected function resolveAction($id)
-    {
-        $action = $this->actions[$id];
-        $action['options']['id'] = $id;
-        $this->actions[$id]['resolved'] = $this->actionFactory->create($action['class'], $action['options']);
     }
 }

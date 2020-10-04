@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: acantepie
- * Date: 16/04/18
- * Time: 19:39
- */
 
-namespace Umbrella\CoreBundle\Component\Toolbar\Action;
+namespace Umbrella\CoreBundle\Component\Action\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

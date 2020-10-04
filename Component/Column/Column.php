@@ -9,14 +9,21 @@
 namespace Umbrella\CoreBundle\Component\Column;
 
 use Symfony\Component\OptionsResolver\Options;
+use Umbrella\CoreBundle\Component\ComponentView;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
 
 /**
  * Class Column.
  */
 class Column implements OptionsAwareInterface
 {
+    /**
+     * @var ColumnType
+     */
+    private $type;
+
     /**
      * @var array
      */
@@ -33,6 +40,14 @@ class Column implements OptionsAwareInterface
         } else {
             return (string)$data;
         }
+    }
+
+    /**
+     * @param ColumnType $type
+     */
+    public function setType(ColumnType $type)
+    {
+        $this->type = $type;
     }
 
     /**
@@ -85,21 +100,7 @@ class Column implements OptionsAwareInterface
     /**
      * @return array
      */
-    public function getViewOptions()
-    {
-        return [
-            'label' => $this->options['label'],
-            'label_prefix' => $this->options['label_prefix'],
-            'translation_domain' => $this->options['translation_domain'],
-            'class' => $this->options['class'],
-            'width' => $this->options['width']
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function getColumnsOptions()
+    public function getJsOptions()
     {
         return [
             'orderable' => $this->options['orderable'] && $this->options['order_by'] !== null,
@@ -121,5 +122,25 @@ class Column implements OptionsAwareInterface
     public function getOrderBy()
     {
         return (array) $this->options['order_by'];
+    }
+
+    /**
+     * @return ComponentView
+     */
+    public function createView() : ComponentView
+    {
+        $componentView = new ComponentView();
+        $componentView->template = '@UmbrellaCore/DataTable/column_header.html.twig';
+
+        $componentView->vars['attr'] = [
+            'class' => $this->options['class'],
+            'style' => $this->options['width'] ?  sprintf('width:%s', $this->options['width']) : null,
+        ];
+
+        $componentView->vars['label'] = $this->options['label'];
+        $componentView->vars['label_prefix'] = $this->options['label_prefix'];
+        $componentView->vars['translation_domain'] = $this->options['translation_domain'];
+
+        return $componentView;
     }
 }

@@ -10,10 +10,12 @@ namespace Umbrella\CoreBundle\Component\DataTable\Model;
 
 use Symfony\Component\HttpFoundation\Request;
 use Umbrella\CoreBundle\Component\Column\Column;
+use Umbrella\CoreBundle\Component\ComponentView;
 use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\DataTable\Source\AbstractTableSource;
 
 /**
@@ -21,6 +23,11 @@ use Umbrella\CoreBundle\Component\DataTable\Source\AbstractTableSource;
  */
 abstract class AbstractDataTable implements OptionsAwareInterface
 {
+    /**
+     * @var DataTableType
+     */
+    protected $type;
+
     /**
      * @var string
      */
@@ -68,6 +75,14 @@ abstract class AbstractDataTable implements OptionsAwareInterface
     final public function __construct($defaultId = null)
     {
         $this->defaultId = $defaultId;
+    }
+
+    /**
+     * @param DataTableType $type
+     */
+    public function setType(DataTableType $type)
+    {
+        $this->type = $type;
     }
 
     /**
@@ -183,19 +198,8 @@ abstract class AbstractDataTable implements OptionsAwareInterface
     }
 
     /**
-     * @return string
-     */
-    public function getTemplate()
-    {
-        return $this->options['template'];
-    }
-
-    /**
      * @param  TranslatorInterface $translator
-     * @return array
+     * @return ComponentView
      */
-    public function getViewOptions(TranslatorInterface $translator)
-    {
-        return $this->options;
-    }
+    abstract public function createView(TranslatorInterface $translator) : ComponentView;
 }

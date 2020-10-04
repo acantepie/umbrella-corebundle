@@ -8,7 +8,9 @@
 
 namespace Umbrella\CoreBundle\Component\DataTable\RowAction;
 
-use Twig\Environment;
+use Umbrella\CoreBundle\Utils\HtmlUtils;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class RowActionRenderer
@@ -16,27 +18,73 @@ use Twig\Environment;
 class RowActionRenderer
 {
     /**
-     * @var Environment
+     * @var RouterInterface
      */
-    private $twig;
+    private $router;
 
     /**
-     * UmbrellaRowActionRenderer constructor.
-     * @param Environment $twig
+     * @var TranslatorInterface
      */
-    public function __construct(Environment $twig)
+    private $translator;
+
+    /**
+     * RowActionRenderer constructor.
+     * @param RouterInterface     $router
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(RouterInterface $router, TranslatorInterface $translator)
     {
-        $this->twig = $twig;
+        $this->router = $router;
+        $this->translator = $translator;
     }
 
     /**
+     * Don't use twig template to avoid performance issue
+     *
      * @param  RowAction $rowAction
-     * @return mixed
+     * @return string
      */
     public function render(RowAction $rowAction)
     {
-        return $this->twig->render('@UmbrellaCore/RowAction/row_action.html.twig', [
-            'action' => $rowAction
-        ]);
+        $url = empty($rowAction->getRoute())
+            ? $rowAction->getUrl()
+            : $this->router->generate($rowAction->getRoute(), $rowAction->getRouteParams());
+
+        $attr = [];
+        $attr['class'] = $rowAction->getClass();
+
+        if ($rowAction->isXhr()) {
+            $attr['data-xhr'] = $url;
+            $attr['href'] = '';
+
+            if ($rowAction->isSpinner()) {
+                $attr['data-spinner'] = 'true';
+            }
+
+            if (!empty($rowAction->getConfirm())) {
+                $attr['data-confirm'] = $this->translator->trans($rowAction->getConfirm());
+            }
+
+            if (!empty($rowAction->getXhrId())) {
+                $attr['data-xhr-id'] = $rowAction->getXhrId();
+            }
+        } else {
+            $attr['href'] = $url;
+            $attr['target'] = $rowAction->getTarget();
+        }
+
+        if (!empty($rowAction->getTitle())) {
+            $attr['title'] = $this->translator->trans($rowAction->getTitle());
+            $attr['data-toggle'] = 'tooltip';
+        }
+
+        $html = sprintf('<a %s>', HtmlUtils::array_to_html_attribute($attr));
+
+        if (!empty($rowAction->getIcon())) {
+            $html .= HtmlUtils::render_icon($rowAction->getIcon());
+        }
+
+        $html .= '</a>';
+        return $html;
     }
 }

@@ -6,6 +6,7 @@ use Symfony\Component\Form\FormView;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
+use Umbrella\CoreBundle\Utils\HtmlUtils;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -110,7 +111,7 @@ class AsyncEntity2Type extends AbstractType
         }
 
         $jsOptions['select2'] = $jsSelect2Options;
-        $view->vars['attr']['data-options'] = htmlspecialchars(json_encode($jsOptions));
+        $view->vars['attr']['data-options'] = HtmlUtils::encode_html_attr($jsOptions);
 
         // widget options
         $view->vars['multiple'] = $options['multiple'];

@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: acantepie
- * Date: 27/06/17
- * Time: 22:29
- */
 
-namespace Umbrella\CoreBundle\Component\Toolbar\Action;
+namespace Umbrella\CoreBundle\Component\Action\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,6 +16,6 @@ class AddActionType extends ActionType
     {
         $resolver
             ->setDefault('icon', 'mdi mdi-plus mr-1')
-            ->setDefault('class', 'btn btn-primary');
+            ->setDefault('class', 'btn btn-primary ml-1');
     }
 }

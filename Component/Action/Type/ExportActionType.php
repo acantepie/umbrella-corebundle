@@ -6,7 +6,7 @@
  * Time: 22:29
  */
 
-namespace Umbrella\CoreBundle\Component\Toolbar\Action;
+namespace Umbrella\CoreBundle\Component\Action\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,6 +22,6 @@ class ExportActionType extends ActionType
     {
         $resolver
             ->setDefault('icon', 'mdi mdi-file-download-outline mr-1')
-            ->setDefault('class', 'btn btn-light');
+            ->setDefault('class', 'btn btn-light ml-1');
     }
 }

@@ -10,6 +10,7 @@
 namespace Umbrella\CoreBundle\Component\Toolbar;
 
 use Symfony\Component\Form\FormFactoryInterface;
+use Umbrella\CoreBundle\Component\Action\ActionListFactory;
 
 /**
  * Class ToolbarFactory.
@@ -22,19 +23,20 @@ class ToolbarFactory
     private $formFactory;
 
     /**
-     * @var ActionFactory
+     * @var ActionListFactory
      */
-    private $actionFactory;
+    private $actionListFactory;
 
     /**
      * ToolbarFactory constructor.
+     *
      * @param FormFactoryInterface $formFactory
-     * @param ActionFactory        $actionFactory
+     * @param ActionListFactory    $actionListFactory
      */
-    public function __construct(FormFactoryInterface $formFactory, ActionFactory $actionFactory)
+    public function __construct(FormFactoryInterface $formFactory, ActionListFactory $actionListFactory)
     {
         $this->formFactory = $formFactory;
-        $this->actionFactory = $actionFactory;
+        $this->actionListFactory = $actionListFactory;
     }
 
     /**
@@ -53,6 +55,6 @@ class ToolbarFactory
      */
     public function createBuilder(ToolbarAwareTypeInterface $awareType)
     {
-        return new ToolbarBuilder($this->formFactory, $this->actionFactory, $awareType);
+        return new ToolbarBuilder($this->formFactory, $this->actionListFactory, $awareType);
     }
 }

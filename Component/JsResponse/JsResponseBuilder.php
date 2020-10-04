@@ -125,7 +125,7 @@ class JsResponseBuilder
 
     public function toast(Toast $toast)
     {
-        return $this->add(self::TOAST, $toast->getViewOptions());
+        return $this->add(self::TOAST, $toast->createView()->vars);
     }
 
     public function toastInfo($transId, array $transParams = [])

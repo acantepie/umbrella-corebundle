@@ -41,6 +41,7 @@ class ColumnFactory
     {
         $type = $this->createType($typeClass);
         $column = new Column();
+        $column->setType($type);
 
         $resolver = new OptionsResolver();
         $column->configureOptions($resolver);

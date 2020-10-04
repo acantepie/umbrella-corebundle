@@ -11,6 +11,7 @@ namespace Umbrella\CoreBundle\Component\Toolbar;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Umbrella\CoreBundle\Component\ComponentView;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -30,6 +31,7 @@ class Toolbar implements OptionsAwareInterface
      * @var array
      */
     public $actions;
+
     /**
      * @var array
      */
@@ -85,21 +87,15 @@ class Toolbar implements OptionsAwareInterface
     }
 
     /**
-     * @return string
+     * @return ComponentView
      */
-    public function getTemplate()
+    public function createView() : ComponentView
     {
-        return $this->options['toolbar_template'];
-    }
+        $view = new ComponentView();
+        $view->template = $this->options['toolbar_template'];
+        $view->vars['form'] = $this->form->createView();
+        $view->vars['actions'] = $this->actions;
 
-    /**
-     * @return array
-     */
-    public function getViewOptions()
-    {
-        return [
-            'form' => $this->form->createView(),
-            'actions' => $this->actions,
-        ];
+        return $view;
     }
 }

@@ -8,9 +8,9 @@
 
 namespace Umbrella\CoreBundle\DependencyInjection\Compiler;
 
+use Umbrella\CoreBundle\Component\ActionFactory;
 use Symfony\Component\DependencyInjection\Reference;
 use Umbrella\CoreBundle\Component\Column\ColumnFactory;
-use Umbrella\CoreBundle\Component\Toolbar\ActionFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Umbrella\CoreBundle\Component\DataTable\DataTableFactory;
 use Umbrella\CoreBundle\Component\Task\Handler\TaskHandlerFactory;

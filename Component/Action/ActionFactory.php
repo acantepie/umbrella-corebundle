@@ -1,16 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: acantepie
- * Date: 16/04/18
- * Time: 19:41
- */
 
-namespace Umbrella\CoreBundle\Component\Toolbar;
+namespace Umbrella\CoreBundle\Component\Action;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Component\Toolbar\Action\Action;
-use Umbrella\CoreBundle\Component\Toolbar\Action\ActionType;
+use Umbrella\CoreBundle\Component\Action\Type\ActionType;
 
 /**
  * Class ActionFactory

@@ -1,0 +1,13 @@
+<a {{ attr | html_attributes }}>
+    {% if icon %}
+        {{ icon | icon('mr-1') }}
+    {% endif %}
+
+    {% if label is not empty %}
+        {% if translation_domain %}
+            {{ (label_prefix ~ label) | trans([], translation_domain) | raw }}
+        {% else %}
+            {{ (label_prefix ~ label) | raw }}
+        {% endif %}
+    {% endif %}
+</a>

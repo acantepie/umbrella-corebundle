@@ -1,14 +1,10 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: acantepie
- * Date: 27/06/17
- * Time: 22:07
- */
-namespace Umbrella\CoreBundle\Component\Toolbar\Action;
+namespace Umbrella\CoreBundle\Component\Action;
 
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Routing\RouterInterface;
+use Umbrella\CoreBundle\Component\ComponentView;
 use Umbrella\CoreBundle\Model\OptionsAwareInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -53,7 +49,7 @@ class Action implements OptionsAwareInterface
             ->setDefault('translation_domain', 'messages')
             ->setAllowedTypes('translation_domain', ['null', 'string'])
 
-            ->setDefault('template', '@UmbrellaCore/Toolbar/action.html.twig')
+            ->setDefault('template', '@UmbrellaCore/Action/action.html.twig')
             ->setAllowedTypes('template', 'string')
 
             ->setDefault('xhr', false)
@@ -89,18 +85,50 @@ class Action implements OptionsAwareInterface
     }
 
     /**
-     * @return string
+     * @param  RouterInterface $router
+     * @return ComponentView
      */
-    public function getTemplate()
+    public function createView(RouterInterface $router): ComponentView
     {
-        return $this->options['template'];
-    }
+        $view = new ComponentView();
+        $view->template = $this->options['template'];
 
-    /**
-     * @return array
-     */
-    public function getViewOptions()
-    {
-        return $this->options;
+        $view->vars['icon'] = $this->options['icon'];
+        $view->vars['label_prefix'] = $this->options['label_prefix'];
+        $view->vars['label'] = $this->options['label'];
+        $view->vars['translation_domain'] = $this->options['translation_domain'];
+
+        if ($this->options['route']) {
+            $url = $router->generate($this->options['route'], $this->options['route_params']);
+        } else {
+            $url = $this->options['url'];
+        }
+
+        if ($this->options['xhr']) {
+            $view->vars['attr']['data-xhr'] = $url;
+            $view->vars['attr']['href'] = '#';
+
+            if (!empty($this->options['confirm'])) {
+                $view->vars['attr']['data-confirm'] = $this->options['confirm'];
+            }
+
+            if (!empty($this->options['xhr_id'])) {
+                $view->vars['attr']['data-xhr-id'] = $this->options['xhr_id'];
+            }
+
+            if (true === $this->options['spinner']) {
+                $view->vars['attr']['spinner'] = 'true';
+            }
+        } else {
+            $view->vars['attr']['href'] = $url;
+        }
+
+        $view->vars['attr']['class'] = $this->options['class'];
+
+        if (!empty($this->options['extra_data'])) {
+            $view->vars['attr']['data-extra-data'] = $this->options['extra_data'];
+        }
+
+        return $view;
     }
 }

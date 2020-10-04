@@ -9,6 +9,8 @@
 namespace Umbrella\CoreBundle\Component\DataTable\RowAction;
 
 /**
+ * FIXME : Use ListActionBuilder instead of row Action ?
+ *
  * Class RowActionBuilder
  */
 class RowActionBuilder
@@ -125,7 +127,7 @@ class RowActionBuilder
     }
 
     /**
-     * @array
+     * @return array
      */
     public function getActions()
     {

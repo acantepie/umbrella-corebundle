@@ -11,6 +11,7 @@ namespace Umbrella\CoreBundle\Component\DataTable\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\Options;
 use Umbrella\CoreBundle\Component\Column\Column;
+use Umbrella\CoreBundle\Component\ComponentView;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -26,14 +27,6 @@ class DataTable extends AbstractDataTable
      * @var array()
      */
     private $query = [];
-
-    /**
-     * @param string $relocateUrl
-     */
-    public function setRelocateUrl($relocateUrl)
-    {
-        $this->relocateUrl = $relocateUrl;
-    }
 
     /**
      * @inheritDoc
@@ -214,31 +207,12 @@ class DataTable extends AbstractDataTable
     }
 
     /**
-     * @return string
-     */
-    public function getTemplate()
-    {
-        return $this->options['template'];
-    }
-
-    /**
      * @param  TranslatorInterface $translator
-     * @return array
+     * @return ComponentView
      */
-    public function getViewOptions(TranslatorInterface $translator)
+    public function createView(TranslatorInterface $translator) : ComponentView
     {
-        $viewOptions = [];
-        $viewOptions['table'] = $this;
-        $viewOptions['id'] = $this->options['id'];
-        $viewOptions['attr'] = $this->options['attr'];
-        $viewOptions['component'] = 'DataTable';
-        $viewOptions['container_class'] = 'umbrella-datatable-container';
-
-        $viewOptions['columns'] = [];
-        foreach ($this->columns as $column) {
-            $viewOptions['columns'][] = $column->getViewOptions();
-        }
-
+        // js options
         $jsOptions = [];
         $jsOptions['tree'] = $this->options['tree'];
         $jsOptions['tree_column'] = $this->options['tree_column'];
@@ -287,7 +261,7 @@ class DataTable extends AbstractDataTable
                 ];
             }
 
-            $jsOptions['columns'][] = $column->getColumnsOptions();
+            $jsOptions['columns'][] = $column->getJsOptions();
         }
 
         $translate = function ($key) use ($translator) {
@@ -319,8 +293,27 @@ class DataTable extends AbstractDataTable
             ]
         ];
 
-        $viewOptions['js'] = $jsOptions;
+        // view vars
+        $view = new ComponentView();
+        $view->template = $this->options['template'];
 
-        return $viewOptions;
+        $view->vars['id'] = $this->options['id'];
+        $view->vars['attr'] = [
+            'id' => $this->options['id'],
+            'class' => 'umbrella-datatable-container',
+            'data-mount' => 'DataTable',
+            'data-options' => $jsOptions
+        ];
+
+        $view->vars['table_attr'] = $this->options['attr'];
+
+        $view->vars['toolbar'] = $this->toolbar;
+
+        $view->vars['columns'] = [];
+        foreach ($this->columns as $column) {
+            $view->vars['columns'][] = $column;
+        }
+
+        return $view;
     }
 }

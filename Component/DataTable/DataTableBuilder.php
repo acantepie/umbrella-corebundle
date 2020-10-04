@@ -150,20 +150,10 @@ class DataTableBuilder
     /**
      * @param $id
      * @return Column
-     * @throws \Exception
      */
     public function get($id)
     {
-        if (isset($this->columns[$id]['resolved'])) {
-            return $this->columns[$id]['resolved'];
-        }
-
-        if (isset($this->columns[$id])) {
-            $this->resolveColumn($id);
-            return $this->columns[$id]['resolved'];
-        }
-
-        throw new \Exception(sprintf('The column with id "%s" does not exist.', $id));
+        return $this->resolveColumn($id);
     }
 
     /**
@@ -202,8 +192,8 @@ class DataTableBuilder
 
     /**
      * Alias to add callback sourceModifier
-     * @see self::addSourceModifier()
      * @param callable $priority
+     * @see self::addSourceModifier()
      */
     public function addEntityCallbackSourceModifier(callable $callback, $priority = 0)
     {
@@ -221,6 +211,7 @@ class DataTableBuilder
     public function getTable()
     {
         $table = new DataTable(ComponentUtils::typeClassToId(get_class($this->type)));
+        $table->setType($this->type);
 
         // resolve options
         $resolver = new OptionsResolver();
@@ -238,9 +229,8 @@ class DataTableBuilder
         $table->setToolbar($this->toolbarFactory->create($this->type, $resolvedOptions));
 
         // resolve columns
-        $this->resolveColumns();
-        foreach ($this->columns as $arg) {
-            $table->addColumn($arg['resolved']);
+        foreach ($this->columns as $id => $column) {
+            $table->addColumn($this->resolveColumn($id));
         }
 
         // resolve source
@@ -265,22 +255,22 @@ class DataTableBuilder
         return $table;
     }
 
-    protected function resolveColumns()
-    {
-        foreach ($this->columns as $id => $column) {
-            if (!isset($column['resolved'])) {
-                $this->resolveColumn($id);
-            }
-        }
-    }
-
     /**
      * @param $id
+     * @param  false  $force
+     * @return Column
      */
-    protected function resolveColumn($id)
+    protected function resolveColumn($id, $force = false)
     {
-        $column = $this->columns[$id];
-        $column['options']['id'] = $id;
-        $this->columns[$id]['resolved'] = $this->columnFactory->create($column['class'], $column['options']);
+        if (!isset($this->columns[$id])) {
+            throw new \RuntimeException(sprintf('Column with id "%s" does not exist.', $id));
+        }
+
+        if ($force === true || !isset($this->columns[$id]['resolved'])) {
+            $this->columns[$id]['options']['id'] = $id;
+            $this->columns[$id]['resolved'] = $this->columnFactory->create($this->columns[$id]['class'], $this->columns[$id]['options']);
+        }
+
+        return $this->columns[$id]['resolved'];
     }
 }

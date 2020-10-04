@@ -10,7 +10,7 @@ namespace Umbrella\CoreBundle\Component\Task\Handler;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Umbrella\CoreBundle\Entity\BaseTaskConfig;
-use Umbrella\CoreBundle\Component\Toolbar\Action\ActionType;
+use Umbrella\CoreBundle\Component\Action\ActionType;
 
 /**
  * Class TaskHandlerFactory

@@ -1,4 +1,4 @@
-<toolbar class="toolbar {% if form | length == 0  and actions | length ==0%}d-none{% endif %}">
+<toolbar class="toolbar {% if form | length == 0  and actions | length ==0 %}d-none{% endif %}">
 
     {% if form | length > 0 %}
         <form class="form-inline js-toolbar-form" enctype="multipart/form-data" data-mount="Form" method="{{ form.vars.method }}">

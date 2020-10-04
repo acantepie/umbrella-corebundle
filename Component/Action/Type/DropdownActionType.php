@@ -64,7 +64,7 @@ class DropdownActionType extends ActionType
 
             ->setDefault('class', 'dropdown ml-1')
 
-            ->setDefault('dropdown_button_class', 'btn btn-primary')
+            ->setDefault('dropdown_button_class', 'btn btn-light')
             ->setAllowedTypes('dropdown_button_class', 'string')
 
             ->setDefault('dropdown_menu_class', '')

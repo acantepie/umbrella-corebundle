@@ -70,7 +70,7 @@ class CkeditorConfiguration
     }
 
     /**
-     * @param null $name
+     * @param  null  $name
      * @return array
      */
     public function getConfig($name)
@@ -90,6 +90,4 @@ class CkeditorConfiguration
     {
         return $this->defaultConfig;
     }
-
-
 }

@@ -14,6 +14,7 @@ use Umbrella\CoreBundle\Utils\HtmlUtils;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -28,9 +29,9 @@ Choice2Type use mustache for templating, see https://mustache.github.io/
 you can add 'extra value with 'choice_attr' options
 
 $builder->add('user', Entity2Type::class, array(
-    'choice_attr' => function($user) {
+    'expose' => function($user) {
         return array(
-            'data-email' => $user->email
+            'email' => $user->email
         );
     },
     'template_html' => '<b>[[text]]</b><br>[[data.email]]',
@@ -40,9 +41,9 @@ $builder->add('user', Entity2Type::class, array(
 to avoid set template on FormType, you can use 'template_selector' options:
 
 $builder->add('user', Entity2Type::class, array(
-    'choice_attr' => function($user) {
+    'expose' => function($user) {
         return array(
-            'data-email' => $user->email
+            'email' => $user->email
         );
     },
     'template_selector' => '#tpl'
@@ -115,6 +116,48 @@ class Choice2Type extends AbstractType
     /**
      * {@inheritdoc}
      */
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
+        if (is_callable($options['expose'])) {
+            foreach ($view->vars['choices'] as &$choice) {
+                if ($choice instanceof ChoiceView) {
+                    $data = $this->getSerializedData(call_user_func($options['expose'], $choice->data, $options));
+
+                    if (null !== $data) {
+                        $choice->attr['data-json'] = $data;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @param $data
+     * @return string
+     * @throws \JsonException
+     */
+    private function getSerializedData($data)
+    {
+        if ($data === null || empty($data)) {
+            return null;
+        }
+
+        if (!is_array($data) && !$data instanceof \JsonSerializable) {
+            throw new \UnexpectedValueException(sprintf('Expected array or JsonSerializable data returned by option[\'expose\'], have %s', gettype($data)));
+        }
+
+        $json = json_encode($data);
+
+        if (false === $json) {
+            throw new \JsonException('Enable serialize data returned by option[\'expose\']');
+        }
+
+        return $json;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -128,6 +171,8 @@ class Choice2Type extends AbstractType
             'template_selector' => null,
             'template_html' => null,
 
+            'expose' => null,
+
             'select2_options' => [],
         ]);
 
@@ -140,6 +185,9 @@ class Choice2Type extends AbstractType
 
         $resolver->setAllowedTypes('template_selector', ['null', 'string']);
         $resolver->setAllowedTypes('template_html', ['null', 'string']);
+
+        $resolver->setAllowedTypes('expose', ['null', 'callable']);
+
         $resolver->setAllowedTypes('select2_options', ['array']);
 
         $resolver->setNormalizer('placeholder', function (Options $options, $placeholder) { // erase ChoiceType normalizer

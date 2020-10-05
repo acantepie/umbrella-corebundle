@@ -34,6 +34,10 @@ class HtmlUtils
     {
         if (is_array($value)) {
             $value = json_encode($value);
+            
+            if (false === $value) {
+                throw new \JsonException('Enable to encode json_data');
+            }
         }
         return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false);
     }

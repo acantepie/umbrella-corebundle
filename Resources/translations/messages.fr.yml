@@ -64,6 +64,7 @@ form:
         avatar: Avatar
         your_email: Votre email
         active: Actif
+        parent: Parent
 
     placeholder:
         search: Rechercher ...

@@ -42,14 +42,15 @@ export default class Select2 extends Component {
                     return state.text;
                 }
 
-                let mustacheData = state;
+                let data = state;
 
                 // add data retrieve from vanilla option element
                 if (state.element) {
-                    mustacheData['data'] = $(state.element).data();
-                    mustacheData['extra'] = mustacheData['data'];  // keep for legacy usage
+                    const exposedData = $(state.element).data('json') || {};
+                    data = {...exposedData,...data}
                 }
-                return $('<span>' + mustache.render(mustacheTemplate, mustacheData) + '</span>');
+
+                return $('<span>' + mustache.render(mustacheTemplate, data) + '</span>');
 
             };
         }

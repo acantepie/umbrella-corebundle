@@ -33,7 +33,7 @@ trait TreeNodeEntityTrait
     /**
      * @inheritDoc
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -41,7 +41,7 @@ trait TreeNodeEntityTrait
     /**
      * @inheritDoc
      */
-    public function getLvl(): int
+    public function getLvl() : ?int
     {
         return $this->lvl;
     }
@@ -49,7 +49,7 @@ trait TreeNodeEntityTrait
     /**
      * @inheritDoc
      */
-    public function getParent() : TreeNodeInterface
+    public function getParent(): TreeNodeInterface
     {
         return $this->parent;
     }
@@ -57,11 +57,11 @@ trait TreeNodeEntityTrait
     /**
      * @inheritDoc
      */
-    public function getChildren() : ArrayCollection
+    public function getChildren(): ArrayCollection
     {
         return $this->children;
     }
-    
+
     /**
      * @param TreeNodeInterface $child
      */
@@ -78,5 +78,21 @@ trait TreeNodeEntityTrait
     {
         $child->parent = null;
         $this->children->removeElement($child);
+    }
+
+    /**
+     * @param TreeNodeInterface $node
+     */
+    public function isChildOf(TreeNodeInterface $node): bool
+    {
+        if ($this->getLvl() <= $node->getLvl() || $this->getParent() === null) {
+            return false;
+        }
+
+        if ($this->getParent() === $node) {
+            return true;
+        }
+
+        return $this->getParent()->isChildOf($node);
     }
 }

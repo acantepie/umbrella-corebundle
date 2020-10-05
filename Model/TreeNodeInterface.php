@@ -11,14 +11,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 interface TreeNodeInterface
 {
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int;
+    public function getId(): ?int;
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getLvl(): int;
+    public function getLvl(): ?int;
 
     /**
      * @return TreeNodeInterface
@@ -29,4 +29,10 @@ interface TreeNodeInterface
      * @return iterable
      */
     public function getChildren(): ArrayCollection;
+
+    /**
+     * @param  TreeNodeInterface $node
+     * @return bool
+     */
+    public function isChildOf(TreeNodeInterface  $node) : bool;
 }

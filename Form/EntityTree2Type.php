@@ -2,8 +2,8 @@
 
 namespace Umbrella\CoreBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
-use App\Repository\FishCategoryRepository;
 use Umbrella\CoreBundle\Model\TreeNodeInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,7 +18,7 @@ class EntityTree2Type extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefault('query_builder', function (FishCategoryRepository $er) {
+            ->setDefault('query_builder', function (EntityRepository $er) {
                 return $er->createQueryBuilder('e')
                     ->orderBy('e.lft', 'ASC');
             })

@@ -43,7 +43,10 @@ class CkeditorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         // resolve config
-        $config = $this->ckeditorConfig->getConfig($options['config_name']);
+        $config = null === $options['config_name']
+            ? $this->ckeditorConfig->getDefaultConfig()
+            : $this->ckeditorConfig->getConfig($options['config_name']);
+
         $builder->setAttribute('config', array_merge($config, $options['config']));
     }
 

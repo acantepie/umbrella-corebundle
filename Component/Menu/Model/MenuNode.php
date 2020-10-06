@@ -10,13 +10,12 @@
 namespace Umbrella\CoreBundle\Component\Menu\Model;
 
 use Symfony\Component\OptionsResolver\Options;
-use Umbrella\CoreBundle\Model\OptionsAwareInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class MenuNode.
  */
-class MenuNode implements \IteratorAggregate, \Countable, OptionsAwareInterface
+class MenuNode implements \IteratorAggregate, \Countable
 {
     const TYPE_ROOT = 'root';
     const TYPE_TITLE = 'title';

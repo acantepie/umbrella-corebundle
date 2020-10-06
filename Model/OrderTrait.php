@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Trait OrderableTrait
  */
-trait OrderableTrait
+trait OrderTrait
 {
     /**
      * @var int

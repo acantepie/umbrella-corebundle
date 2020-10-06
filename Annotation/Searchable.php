@@ -21,7 +21,7 @@ class Searchable
     /**
      * @var string
      */
-    private $searchField;
+    private $searchField = 'search';
 
     /**
      * Searchable constructor.
@@ -29,11 +29,9 @@ class Searchable
      */
     public function __construct(array $options)
     {
-        if (!isset($options['searchField'])) {
-            throw new \InvalidArgumentException('@Searchable annotation expects searchField attribute');
+        if (isset($options['searchField'])) {
+            $this->searchField = $options['searchField'];
         }
-
-        $this->searchField = $options['searchField'];
     }
 
     /**

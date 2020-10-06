@@ -5,14 +5,13 @@ namespace Umbrella\CoreBundle\Component\Action;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Routing\RouterInterface;
 use Umbrella\CoreBundle\Component\ComponentView;
-use Umbrella\CoreBundle\Model\OptionsAwareInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\Action\Type\ActionType;
 
 /**
  * Class Action
  */
-class Action implements OptionsAwareInterface
+class Action
 {
     const DATA_DATATABLE_FILTER = 'dt_filter';
     const DATA_DATATABLE_SELECTION = 'dt_selection';

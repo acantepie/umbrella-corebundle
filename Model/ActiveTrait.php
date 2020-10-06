@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Trait ActivableTrait
  */
-trait ActivableTrait
+trait ActiveTrait
 {
     /**
      * @var bool

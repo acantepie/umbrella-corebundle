@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Umbrella\CoreBundle\Component\Column\Column;
 use Umbrella\CoreBundle\Component\ComponentView;
 use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
-use Umbrella\CoreBundle\Model\OptionsAwareInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
@@ -21,7 +20,7 @@ use Umbrella\CoreBundle\Component\DataTable\Source\AbstractTableSource;
 /**
  * Class Table
  */
-abstract class AbstractDataTable implements OptionsAwareInterface
+abstract class AbstractDataTable
 {
     /**
      * @var DataTableType

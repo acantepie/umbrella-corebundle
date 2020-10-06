@@ -10,14 +10,13 @@ namespace Umbrella\CoreBundle\Component\Column;
 
 use Symfony\Component\OptionsResolver\Options;
 use Umbrella\CoreBundle\Component\ComponentView;
-use Umbrella\CoreBundle\Model\OptionsAwareInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
 
 /**
  * Class Column.
  */
-class Column implements OptionsAwareInterface
+class Column
 {
     /**
      * @var ColumnType

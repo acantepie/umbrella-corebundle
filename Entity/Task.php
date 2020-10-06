@@ -9,6 +9,8 @@
 namespace Umbrella\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Umbrella\CoreBundle\Model\IdTrait;
+use Umbrella\CoreBundle\Model\TimestampTrait;
 
 /**
  * Class TaskProcess
@@ -19,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table("umbrella_task")
  */
-class Task extends BaseEntity
+class Task
 {
     /** State if job is inserted, but not yet ready to be started. */
     const STATE_NEW = 'new';
@@ -35,6 +37,10 @@ class Task extends BaseEntity
     const STATE_FAILED = 'failed';
     /** State if job exceeds its configured maximum runtime */
     const STATE_TERMINATED = 'terminated';
+
+    use IdTrait;
+    use TimestampTrait;
+
 
     /**
      * @var integer

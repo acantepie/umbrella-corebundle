@@ -12,13 +12,12 @@ namespace Umbrella\CoreBundle\Component\Toolbar;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Umbrella\CoreBundle\Component\ComponentView;
-use Umbrella\CoreBundle\Model\OptionsAwareInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class Toolbar.
  */
-class Toolbar implements OptionsAwareInterface
+class Toolbar
 {
     // Model
 

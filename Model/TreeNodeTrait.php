@@ -10,8 +10,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Trait TreeEntityTrait
  * @package Umbrella\CoreBundle\Model
  */
-trait TreeNodeEntityTrait
+trait TreeNodeTrait
 {
+
+    use IdTrait;
+
     /**
      * @Gedmo\TreeLeft()
      * @ORM\Column(type="integer")

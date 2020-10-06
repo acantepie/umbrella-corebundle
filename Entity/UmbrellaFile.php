@@ -9,6 +9,8 @@
 namespace Umbrella\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Umbrella\CoreBundle\Model\IdTrait;
+use Umbrella\CoreBundle\Model\TimestampTrait;
 use Umbrella\CoreBundle\Utils\MathUtils;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -20,8 +22,11 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\HasLifecycleCallbacks
  * @ORM\EntityListeners({ "Umbrella\CoreBundle\Listener\UmbrellaFileListener" })
  */
-class UmbrellaFile extends BaseEntity
+class UmbrellaFile
 {
+    use IdTrait;
+    use TimestampTrait;
+
     /**
      * @var string
      * @ORM\Column(type="string", length=255, nullable=false)

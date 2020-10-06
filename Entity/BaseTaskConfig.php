@@ -4,6 +4,8 @@ namespace Umbrella\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Umbrella\CoreBundle\Model\IdTrait;
+use Umbrella\CoreBundle\Model\TimestampTrait;
 
 /**
  * Class BaseTaskConfig
@@ -17,12 +19,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 abstract class BaseTaskConfig
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    public $id;
+    use IdTrait;
+    use TimestampTrait;
 
     /**
      * Process timeout (s)

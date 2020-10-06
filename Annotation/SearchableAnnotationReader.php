@@ -81,20 +81,12 @@ class SearchableAnnotationReader
     /**
      * @param $class
      * @param $annotationName
-     * @return null|mixed
+     * @return object|null
+     * @throws \ReflectionException
      */
     public function getInheritAnnotation($class, $annotationName)
     {
         $reflection = new \ReflectionClass($class);
-        $annotation = $this->reader->getClassAnnotation($reflection, $annotationName);
-
-        if ($annotation !== null) {
-            return $annotation;
-        }
-
-        $parentClass = get_parent_class($class);
-        return $parentClass === false
-            ? null
-            : $this->getInheritAnnotation($parentClass, $annotationName);
+        return $this->reader->getClassAnnotation($reflection, $annotationName);
     }
 }

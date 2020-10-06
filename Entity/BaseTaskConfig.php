@@ -12,6 +12,7 @@ use Umbrella\CoreBundle\Model\TimestampTrait;
  *
  * @ORM\Entity()
  * @ORM\Table("umbrella_task_config")
+ * @ORM\HasLifecycleCallbacks()
  *
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")

@@ -61,7 +61,7 @@ class ActionColumnType extends ColumnType
             ->setDefault('action_builder', null)
             ->setAllowedTypes('action_builder', ['null', 'callable'])
 
-            ->setDefault('class', 'disable-row-click text-right')
+            ->setDefault('class', 'text-right')
             ->setDefault('width', '100px')
             ->setDefault('label', '')
             ->setDefault('renderer', [$this, 'render']);

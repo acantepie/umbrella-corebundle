@@ -99,10 +99,11 @@ export default class DataTable extends Component {
         }
 
         // row select
-        this.table.on('change', 'thead tr th.js-select input[type=checkbox]', (e) => {
+        this.table.on('click', 'thead .js-action-select', (e) => {
+            e.preventDefault();
             let $target = $(e.currentTarget);
             let $checkboxes = this.$table.find('tbody tr td.js-select input[type=checkbox]');
-            $checkboxes.prop('checked', $target.prop('checked'));
+            $checkboxes.prop('checked', $target.data('filter') === 'all');
             $checkboxes.trigger('change');
         });
 

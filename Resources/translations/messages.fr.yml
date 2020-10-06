@@ -12,6 +12,8 @@ common:
     enable: Activé
     disabled: Désactivé
     welcome: Bienvenue
+    all: Tous
+    none: Aucun
 
 action:
     add: Ajouter

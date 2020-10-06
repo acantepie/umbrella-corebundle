@@ -34,6 +34,7 @@ services:
     Umbrella\CoreBundle\Component\DataTable\RowAction\RowActionRenderer:
 
     # Column
+    Umbrella\CoreBundle\Component\Column\Type\CheckBoxColumnType:
     Umbrella\CoreBundle\Component\Column\Type\ToggleColumnType:
     Umbrella\CoreBundle\Component\Column\Type\ActionColumnType:
     Umbrella\CoreBundle\Component\Column\Type\BadgeColumnType:

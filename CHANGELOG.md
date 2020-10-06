@@ -65,6 +65,11 @@
 
 - Move all **TaskBundle** feature on CoreBundle (Task Component) + rework.
 
+### Form
+
+- Add EntityTree2Type : based on select2 and can display Tree Structure
+- CkeditorType : can define multiple configs, can override them on FormType, ckeditor.js is packaged with webpack
+
 ## AdminBundle
 
 - Use Hyper admin template (legacy: Flatkit): More Ui component, full bs4 compliant, scss is configurable (can redefine variables), responsive.

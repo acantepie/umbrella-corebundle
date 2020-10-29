@@ -9,7 +9,7 @@
 namespace Umbrella\CoreBundle\Component\Menu\Matcher;
 
 use Symfony\Component\HttpFoundation\RequestStack;
-use Umbrella\CoreBundle\Component\Menu\Model\MenuNode;
+use Umbrella\CoreBundle\Component\Menu\Model\MenuItem;
 
 /**
  * Class MenuRequestMatcher
@@ -39,32 +39,32 @@ class MenuRequestMatcher implements MenuMatcherInterface
     /**
      * @inheritdoc
      */
-    public function isCurrent(MenuNode $node)
+    public function isCurrent(MenuItem $item)
     {
-        if (null !== $node->isCurrent) {
-            return $node->isCurrent;
+        if (null !== $item->isCurrent) {
+            return $item->isCurrent;
         }
 
-        if ($this->cache->contains($node)) {
-            return $this->cache[$node];
+        if ($this->cache->contains($item)) {
+            return $this->cache[$item];
         }
 
-        $match = $this->isRequestMatching($node->route, $node->routeParams);
-        $this->cache[$node] = $match;
+        $match = $this->isRequestMatching($item->route, $item->routeParams);
+        $this->cache[$item] = $match;
         return $match;
     }
 
     /**
      * @inheritdoc
      */
-    public function isAncestor(MenuNode $node)
+    public function isAncestor(MenuItem $item)
     {
-        if ($this->isCurrent($node)) {
+        if ($this->isCurrent($item)) {
             return true;
         }
 
-        /** @var MenuNode $child */
-        foreach ($node as $child) {
+        /** @var MenuItem $child */
+        foreach ($item as $child) {
             if ($this->isAncestor($child)) {
                 return true;
             }

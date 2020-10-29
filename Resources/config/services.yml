@@ -7,10 +7,11 @@ services:
     # ---- Component ---- #
 
     # Menu
+    Umbrella\CoreBundle\Component\Menu\MenuFactory:
     Umbrella\CoreBundle\Component\Menu\MenuProvider:
         public: true
-    Umbrella\CoreBundle\Component\Menu\MenuRendererProvider:
-        public: true
+        bind:
+            $defaultAlias: "%umbrella_core.menu.default_alias%"
     Umbrella\CoreBundle\Component\Menu\MenuAuthorizationChecker:
         $tokenStorage: "@security.token_storage"
         $language: "@security.expression_language"
@@ -20,7 +21,6 @@ services:
     Umbrella\CoreBundle\Component\Menu\MenuHelper:
         public: true
     Umbrella\CoreBundle\Component\Menu\Extension\MenuTwigExtension:
-    Umbrella\CoreBundle\Component\Menu\Extension\BreadcrumbTwigExtension:
 
 
     # JsResponse

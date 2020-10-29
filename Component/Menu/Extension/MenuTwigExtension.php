@@ -12,7 +12,7 @@ use Twig\TwigFunction;
 use Twig\Extension\AbstractExtension;
 use Umbrella\CoreBundle\Component\Menu\MenuHelper;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
-use Umbrella\CoreBundle\Component\Menu\Model\MenuNode;
+use Umbrella\CoreBundle\Component\Menu\Model\MenuItem;
 
 /**
  * Class MenuTwigExtension.
@@ -39,72 +39,14 @@ class MenuTwigExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('menu_get', [$this, 'getMenu']),
-            new TwigFunction('menu_render', [$this, 'render'], ['is_safe' => ['html']]),
-            new TwigFunction('menu_is_granted_node', [$this, 'isGranted']),
-            new TwigFunction('menu_is_current_node', [$this, 'isCurrent']),
-            new TwigFunction('menu_get_current_node', [$this, 'getCurrentNode']),
-            new TwigFunction('menu_get_breadcrumb', [$this, 'getBreadcrumb']),
+            new TwigFunction('menu', [$this->helper, 'getMenu']),
+            new TwigFunction('menu_render', [$this->helper, 'renderMenu'], ['is_safe' => ['html']]),
+            new TwigFunction('menu_is_granted_item', [$this->helper, 'isGranted']),
+            new TwigFunction('menu_is_current_item', [$this->helper, 'isCurrent']),
+            new TwigFunction('menu_get_current_item', [$this->helper, 'getCurrentItem']),
+
+            new TwigFunction('breadcrumb', [$this->helper, 'getBreadcrumb']),
+            new TwigFunction('breadcrumb_render', [$this->helper, 'renderBreadcrumb'], ['is_safe' => ['html']]),
         ];
-    }
-
-    /**
-     * @param $name
-     *
-     * @return Menu
-     */
-    public function getMenu($name)
-    {
-        return $this->helper->getMenu($name);
-    }
-
-    /**
-     * @param $name
-     *
-     * @return string
-     */
-    public function render($name)
-    {
-        $menu = $this->helper->getMenu($name);
-        return $this->helper->getRenderer($name)->render($menu);
-    }
-
-    /**
-     * @param MenuNode $node
-     *
-     * @return bool
-     */
-    public function isGranted(MenuNode $node)
-    {
-        return $this->helper->isGranted($node);
-    }
-
-    /**
-     * @param  MenuNode $node
-     * @return bool
-     */
-    public function isCurrent(MenuNode $node)
-    {
-        return $this->helper->isCurrent($node);
-    }
-
-    /**
-     * @param $name
-     * @return null|MenuNode
-     */
-    public function getCurrentNode($name)
-    {
-        $menu = $this->helper->getMenu($name);
-        return $this->helper->getCurrentNode($menu);
-    }
-
-    /**
-     * @param $name
-     * @return array
-     */
-    public function getBreadcrumb($name)
-    {
-        $menu = $this->helper->getMenu($name);
-        return $this->helper->buildBreadcrumb($menu);
     }
 }

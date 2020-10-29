@@ -21,11 +21,19 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('umbrella_core');
         $rootNode = $treeBuilder->getRootNode();
 
+        $this->addMenuSection($rootNode);
         $this->addwebpackSection($rootNode);
         $this->addRedisSection($rootNode);
         $this->ckeditorSection($rootNode);
 
         return $treeBuilder;
+    }
+    private function addMenuSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode->children()
+            ->arrayNode('menu')->addDefaultsIfNotSet()
+            ->children()
+            ->scalarNode('default_alias')->defaultValue('admin_sidebar')->end();
     }
 
     private function addwebpackSection(ArrayNodeDefinition $rootNode)

@@ -11,6 +11,7 @@ namespace Umbrella\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Umbrella\CoreBundle\Component\Menu\Model\Breadcrumb;
 use Umbrella\CoreBundle\Component\Toast\Toast;
 use Umbrella\CoreBundle\Component\Menu\MenuHelper;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
@@ -155,18 +156,27 @@ abstract class BaseController extends AbstractController
     /**
      * @return MenuHelper
      */
-    protected function getMenuHelper()
+    protected function menuHelper()
     {
         return $this->get(MenuHelper::class);
     }
 
     /**
-     * @param $name
+     * @param null $name
      * @return Menu
      */
-    protected function getMenu($name)
+    protected function getMenu($name = null)
     {
-        return $this->getMenuHelper()->getMenu($name);
+        return $this->menuHelper()->getMenu($name);
+    }
+
+    /**
+     * @param null $name
+     * @return Breadcrumb
+     */
+    protected function getBreadcrumb($name = null)
+    {
+        return $this->menuHelper()->getBreadcrumb($name);
     }
 
     /**

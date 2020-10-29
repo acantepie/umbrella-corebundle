@@ -2,6 +2,7 @@
 
 namespace Umbrella\CoreBundle\DependencyInjection\Compiler;
 
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Umbrella\CoreBundle\Component\Menu\MenuProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -19,38 +20,27 @@ class MenuPass implements CompilerPassInterface
         if ($container->hasDefinition(MenuProvider::class)) {
             $definition = $container->getDefinition(MenuProvider::class);
 
-            foreach ($container->findTaggedServiceIds('umbrella.menu.factory') as $id => $tags) {
-                foreach ($tags as $attributes) {
-                    if (empty($attributes['alias'])) {
-                        throw new \InvalidArgumentException(sprintf('The alias is not defined in the "umbrella.menu.factory" tag for the service "%s"', $id));
-                    }
+            $this->registerTaggedFactory($container, 'umbrella.menu.factory', $definition, 'registerMenu');
+            $this->registerTaggedFactory($container, 'umbrella.menu.renderer', $definition, 'registerMenuRenderer');
+            $this->registerTaggedFactory($container, 'umbrella.breadcrumb.renderer', $definition, 'registerBreadcrumbRenderer');
 
-                    if (empty($attributes['method'])) {
-                        throw new \InvalidArgumentException(sprintf('The method is not defined in the "umbrella.menu.factory" tag for the service "%s"', $id));
-                    }
-
-                    $definition->addMethodCall('register', [$attributes['alias'], new Reference($id), $attributes['method']]);
-                }
-            }
         }
+    }
 
-        if ($container->hasDefinition(MenuRendererProvider::class)) {
-            $definition = $container->getDefinition(MenuRendererProvider::class);
+    private function registerTaggedFactory(ContainerBuilder $container, $tag, Definition $providerDefinition, $providerregisterMethod)
+    {
+        foreach ($container->findTaggedServiceIds($tag) as $id => $tags) {
+            foreach ($tags as $attributes) {
 
-            foreach ($container->findTaggedServiceIds('umbrella.menu_renderer') as $id => $tags) {
-                $rendererDefinition = $container->findDefinition($id);
-
-                if (!is_subclass_of($rendererDefinition->getClass(), MenuRendererInterface::class)) {
-                    throw new \InvalidArgumentException(sprintf('Service "%s" with tag "umbrella.menu_renderer" must implements interface "%s"', $id, MenuRendererInterface::class));
+                if (empty($attributes['alias'])) {
+                    throw new \InvalidArgumentException(sprintf('The alias is not defined in the "%s" tag for the service "%s"', $tag, $id));
                 }
 
-                foreach ($tags as $attributes) {
-                    if (empty($attributes['alias'])) {
-                        throw new \InvalidArgumentException(sprintf('The alias is not defined in the "umbrella.menu_renderer" tag for the service "%s"', $id));
-                    }
-
-                    $definition->addMethodCall('register', [$attributes['alias'], new Reference($id)]);
+                if (empty($attributes['method'])) {
+                    throw new \InvalidArgumentException(sprintf('The method is not defined in the "%s" tag for the service "%s"', $tag, $id));
                 }
+
+                $providerDefinition->addMethodCall($providerregisterMethod, [$attributes['alias'], new Reference($id), $attributes['method']]);
             }
         }
     }

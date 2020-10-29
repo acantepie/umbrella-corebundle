@@ -8,7 +8,7 @@
 
 namespace Umbrella\CoreBundle\Component\Menu;
 
-use Umbrella\CoreBundle\Component\Menu\Model\MenuNode;
+use Umbrella\CoreBundle\Component\Menu\Model\MenuItem;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Symfony\Component\Security\Core\Authorization\ExpressionLanguage;
 use Sensio\Bundle\FrameworkExtraBundle\EventListener\SecurityListener;
@@ -71,13 +71,13 @@ class MenuAuthorizationChecker
     }
 
     /**
-     * @param  MenuNode $node
+     * @param  MenuItem $item
      * @return bool
      */
-    public function isGranted(MenuNode $node)
+    public function isGranted(MenuItem $item)
     {
-        if ($this->cache->contains($node)) {
-            return $this->cache[$node];
+        if ($this->cache->contains($item)) {
+            return $this->cache[$item];
         }
 
         // no user authenticated
@@ -86,29 +86,29 @@ class MenuAuthorizationChecker
         }
 
         // no securityExpression => look at children
-        if (empty($node->security)) {
+        if (empty($item->security)) {
 
             // no children => granted
-            if (!$node->hasChildren()) {
-                $this->cache[$node] = true;
+            if (!$item->hasChildren()) {
+                $this->cache[$item] = true;
                 return true;
             }
 
             // one children is granted => granted
-            foreach ($node as $child) {
+            foreach ($item as $child) {
                 if ($this->isGranted($child)) {
-                    $this->cache[$node] = true;
+                    $this->cache[$item] = true;
                     return true;
                 }
             }
 
             // all children are forbidden => not granted
-            $this->cache[$node] = false;
+            $this->cache[$item] = false;
             return false;
         }
 
-        $granted = $this->language->evaluate($node->security, $this->getVariables());
-        $this->cache[$node] = $granted;
+        $granted = $this->language->evaluate($item->security, $this->getVariables());
+        $this->cache[$item] = $granted;
         return $granted;
     }
 

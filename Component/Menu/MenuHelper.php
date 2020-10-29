@@ -9,9 +9,10 @@
 namespace Umbrella\CoreBundle\Component\Menu;
 
 use Symfony\Component\HttpFoundation\RequestStack;
+use Umbrella\CoreBundle\Component\Menu\Model\Breadcrumb;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Umbrella\CoreBundle\Component\Menu\Model\MenuNode;
+use Umbrella\CoreBundle\Component\Menu\Model\MenuItem;
 use Umbrella\CoreBundle\Component\Menu\Matcher\MenuRequestMatcher;
 use Umbrella\CoreBundle\Component\Menu\Matcher\MenuMatcherInterface;
 use Umbrella\CoreBundle\Component\Menu\Renderer\MenuRendererInterface;
@@ -25,11 +26,6 @@ class MenuHelper
      * @var MenuProvider
      */
     private $provider;
-
-    /**
-     * @var MenuRendererProvider
-     */
-    private $rendererProvider;
 
     /**
      * @var MenuAuthorizationChecker
@@ -50,20 +46,17 @@ class MenuHelper
      * MenuHelper constructor.
      *
      * @param MenuProvider             $provider
-     * @param MenuRendererProvider     $rendererProvider
      * @param MenuAuthorizationChecker $checker
      * @param TranslatorInterface      $translator
      * @param RequestStack             $requestStack
      */
     public function __construct(
         MenuProvider $provider,
-        MenuRendererProvider $rendererProvider,
         MenuAuthorizationChecker $checker,
         TranslatorInterface $translator,
         RequestStack $requestStack
     ) {
         $this->provider = $provider;
-        $this->rendererProvider = $rendererProvider;
         $this->checker = $checker;
         $this->translator = $translator;
         $this->defaultMatcher = new MenuRequestMatcher($requestStack);
@@ -71,87 +64,89 @@ class MenuHelper
 
     /**
      * @param $name
-     *
      * @return Menu
      */
-    public function getMenu($name)
+    public function getMenu($name = null)
     {
-        return $this->provider->get($name);
+        return $this->provider->getMenu($name);
     }
 
     /**
      * @param $name
-     * @return MenuRendererInterface
+     * @return Breadcrumb
      */
-    public function getRenderer($name)
+    public function getBreadcrumb($name = null)
     {
-        return $this->rendererProvider->get($name);
+        return $this->provider->getBreadcrumb(
+            $this->getCurrentItemFromItem($this->getMenu($name)->getRoot()),
+            $name
+        );
     }
 
     /**
-     * @param MenuNode $node
+     * @param null $name
+     * @return string
+     */
+    public function renderMenu($name = null)
+    {
+        return $this->provider->renderMenu($this->getMenu($name), $name);
+    }
+
+    /**
+     * @param $name
+     * @return string
+     */
+    public function renderBreadcrumb($name = null)
+    {
+        return $this->provider->renderBreadcrumb($this->getBreadcrumb($name), $name);
+    }
+
+    /**
+     * @param MenuItem $item
      *
      * @return bool
      */
-    public function isGranted(MenuNode $node)
+    public function isGranted(MenuItem $item)
     {
-        return $this->checker->isGranted($node);
+        return $this->checker->isGranted($item);
     }
 
     /**
-     * @param  MenuNode $node
+     * @param  MenuItem $item
      * @param  bool     $checkAncestor
      * @return bool
      */
-    public function isCurrent(MenuNode $node, $checkAncestor = true)
+    public function isCurrent(MenuItem $item, $checkAncestor = true)
     {
         return $checkAncestor
-            ? $this->defaultMatcher->isAncestor($node)
-            : $this->defaultMatcher->isCurrent($node);
+            ? $this->defaultMatcher->isAncestor($item)
+            : $this->defaultMatcher->isCurrent($item);
     }
 
     /**
-     * @param  Menu          $menu
-     * @return null|MenuNode
+     * @param null $name
+     * @return MenuItem|null
      */
-    public function getCurrentNode(Menu $menu)
+    public function getCurrentItem($name = null)
     {
-        return $this->getCurrentNodeFromNode($menu->root);
+        return $this->getCurrentItemFromItem($this->getMenu($name)->getRoot());
     }
 
     /**
-     * @param  Menu  $menu
-     * @return array
+     * @param  MenuItem      $item
+     * @return null|MenuItem
      */
-    public function buildBreadcrumb(Menu $menu)
+    private function getCurrentItemFromItem(MenuItem $item)
     {
-        $node = $this->getCurrentNodeFromNode($menu->root);
-
-        $bc = [];
-        while ($node !== null) {
-            if ($node->type !== MenuNode::TYPE_ROOT) {
-                $bc[] = $node->getBreadcrumbView();
-            }
-            $node = $node->parent;
-        }
-        return array_reverse($bc);
-    }
-
-    /**
-     * @param  MenuNode      $node
-     * @return null|MenuNode
-     */
-    private function getCurrentNodeFromNode(MenuNode $node)
-    {
-        if ($this->defaultMatcher->isCurrent($node)) {
-            return $node;
+        if ($this->defaultMatcher->isCurrent($item)) {
+            return $item;
         }
 
-        /** @var MenuNode $child */
-        foreach ($node as $child) {
-            $currentNode = $this->getCurrentNodeFromNode($child);
-            if ($currentNode !== null) {
-                return $currentNode;
+        /** @var MenuItem $child */
+        foreach ($item as $child) {
+            $currentItem = $this->getCurrentItemFromItem($child);
+            if ($currentItem !== null) {
+                return $currentItem;
             }
         }
 

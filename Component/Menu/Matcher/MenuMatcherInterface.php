@@ -8,7 +8,7 @@
 
 namespace Umbrella\CoreBundle\Component\Menu\Matcher;
 
-use Umbrella\CoreBundle\Component\Menu\Model\MenuNode;
+use Umbrella\CoreBundle\Component\Menu\Model\MenuItem;
 
 /**
  * Interface MenuMatcherInterface
@@ -19,16 +19,16 @@ interface MenuMatcherInterface
     /**
      * Checks whether an item is current.
      *
-     * @param  MenuNode $node
+     * @param  MenuItem $item
      * @return bool
      */
-    public function isCurrent(MenuNode $node);
+    public function isCurrent(MenuItem $item);
 
     /**
      * Checks whether an item is the ancestor of a current item.
      *
-     * @param  MenuNode $node
+     * @param  MenuItem $item
      * @return bool
      */
-    public function isAncestor(MenuNode $node);
+    public function isAncestor(MenuItem $item);
 }

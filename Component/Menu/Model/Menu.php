@@ -8,86 +8,70 @@
 
 namespace Umbrella\CoreBundle\Component\Menu\Model;
 
+use Umbrella\CoreBundle\Component\Menu\MenuFactory;
+
 /**
  * Class Menu
  * @package Umbrella\CoreBundle\Component\Menu\Model
  */
-class Menu implements \IteratorAggregate, \Countable
+class Menu
 {
     /**
-     * @var MenuNode
+     * @var MenuItem
      */
-    public $root;
+    protected $root;
 
     /**
-     * @var string
+     * @var array
      */
-    public $translationPrefix = 'menu.';
+    private $pathEntries = [];
 
     /**
-     * @return \ArrayIterator
+     * Menu constructor.
+     * @param MenuItem $root
      */
-    public function getIterator()
+    public function __construct(MenuFactory $factory)
     {
-        return new \ArrayIterator($this->root->children);
+        $this->root = new MenuItem('root', $factory);
     }
 
     /**
-     * @return int
+     * @return MenuItem
      */
-    public function count()
+    public function getRoot()
     {
-        return count($this->root->children);
+        return $this->root;
     }
 
     /**
-     * Path of node: e.g: header_admin.user
-     * @param $path
-     * @return MenuNode
+     * @param $pattern
+     * @param bool $regexp
+     *
+     * @return null|MenuItem
      */
-    public function findByPath($path)
+    public function search($pattern, $regexp = true)
     {
-        $names = explode('.', $path);
-
-        $current = $this->root;
-        foreach ($names as $name) {
-            if (!array_key_exists($name, $current->children)) {
-                break;
-            }
-
-            $current = $current->children[$name];
-        }
-        return $current;
-    }
-
-    /**
-     * @param $route
-     * @return MenuNode
-     */
-    public function findByRoute($route)
-    {
-        $found = $this->_find($this->root, function (MenuNode $node) use ($route) {
-            return $node->route == $route;
-        });
-        return $found ? $found : $this->root;
-    }
-
-    /**
-     * @param  MenuNode $node
-     * @param  callable $finder
-     * @return MenuNode
-     */
-    private function _find(MenuNode $node, callable $finder)
-    {
-        if ($finder($node)) {
-            return $node;
-        }
-
-        foreach ($node->children as $name => $child) {
-            if (null !== ($found = $this->_find($child, $finder))) {
-                return $found;
+        foreach ($this->root->getFlatIterator() as $item) {
+            if ($item->matchPath($pattern)) {
+                return $item;
             }
         }
         return null;
     }
+
+    /**
+     * @param $pattern
+     * @param bool $regexp
+     * @param false $quiet
+     */
+    public function setCurrent($pattern, $regexp = true, $quiet = false)
+    {
+        $item = $this->search($pattern, $regexp);
+        if (null !== $item) {
+            $item->setCurrent(true);
+        } elseif(!$quiet) {
+            throw new \RuntimeException(sprintf('No item found on menu "%s" for pattern %s(%s)', $name, $regexp ? 'r' : 's', $pattern));
+        }
+    }
+
 }

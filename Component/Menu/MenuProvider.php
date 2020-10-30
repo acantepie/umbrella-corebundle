@@ -70,7 +70,7 @@ class MenuProvider
      * @param null $name
      * @return mixed|string
      */
-    private function normalizeName($name = null)
+    private function fallbackName($name = null)
     {
         return $name === null ? $this->defaultAlias : $name;
     }
@@ -93,7 +93,7 @@ class MenuProvider
      */
     public function getMenu($name = null)
     {
-        $name = $this->normalizeName($name);
+        $name = $this->fallbackName($name);
 
         if (!isset($this->menuFactories[$name])) {
             throw new \InvalidArgumentException(sprintf('The menu "%s" is not defined.', $name));
@@ -126,10 +126,12 @@ class MenuProvider
      */
     public function renderMenu(Menu $menu, $name = null)
     {
-        $name = $this->normalizeName($name);
+        // if name is ull => use defaultAlias
+        $name = $this->fallbackName($name);
 
+        // if name not found => use defaultAlias
         if (!isset($this->menuRendererFactories[$name])) {
-            throw new \InvalidArgumentException(sprintf('The menu renderer "%s" is not defined.', $name));
+            $name = $this->defaultAlias;
         }
 
         list($factory, $method) = $this->menuRendererFactories[$name];
@@ -144,9 +146,13 @@ class MenuProvider
      * @param null $name
      * @return Breadcrumb
      */
-    public function getBreadcrumb(MenuItem $menuItem, $name = null)
+    public function getBreadcrumb(MenuItem $menuItem = null, $name = null)
     {
-        $name = $this->normalizeName($name);
+        if (null === $menuItem) {
+            return new Breadcrumb();
+        }
+
+        $name = $this->fallbackName($name);
 
         $iPath = $menuItem->getPath();
 
@@ -183,10 +189,12 @@ class MenuProvider
      */
     public function renderBreadcrumb(Breadcrumb $breadcrumb, $name = null)
     {
-        $name = $this->normalizeName($name);
+        // if name is ull => use defaultAlias
+        $name = $this->fallbackName($name);
 
+        // if name not found => use defaultAlias
         if (!isset($this->breadcrumbRendererFactories[$name])) {
-            throw new \InvalidArgumentException(sprintf('The breadcrumb renderer "%s" is not defined.', $name));
+            $name = $this->defaultAlias;
         }
 
         list($factory, $method) = $this->breadcrumbRendererFactories[$name];

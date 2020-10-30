@@ -21,7 +21,6 @@ use Umbrella\CoreBundle\Model\TimestampTrait;
 abstract class BaseTaskConfig
 {
     use IdTrait;
-    use TimestampTrait;
 
     /**
      * Process timeout (s)

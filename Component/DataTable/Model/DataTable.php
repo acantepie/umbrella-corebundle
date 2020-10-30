@@ -254,10 +254,10 @@ class DataTable extends AbstractDataTable
 
         /** @var Column $column */
         foreach ($this->columns as $idx => $column) {
-            if ($column->getDefaultOrder()) {
+            if (is_string($column->getOrder())) {
                 $jsOptions['order'][] = [
                     $idx,
-                    strtolower($column->getDefaultOrder())
+                    strtolower($column->getOrder())
                 ];
             }
 

@@ -77,11 +77,8 @@ class Column
             ->setDefault('translation_domain', 'messages')
             ->setAllowedTypes('translation_domain', ['null', 'string'])
 
-            ->setDefault('default_order', null)
-            ->setAllowedValues('default_order', [null, 'ASC', 'DESC'])
-
-            ->setDefault('orderable', true)
-            ->setAllowedTypes('orderable', ['bool'])
+            ->setDefault('order', true)
+            ->setAllowedValues('order', [false, true, 'ASC', 'DESC'])
 
             ->setDefault('order_by', null)
             ->setAllowedTypes('order_by', ['null', 'string', 'array'])
@@ -102,17 +99,17 @@ class Column
     public function getJsOptions()
     {
         return [
-            'orderable' => $this->options['orderable'] && $this->options['order_by'] !== null,
+            'orderable' => false !== $this->options['order'] && $this->options['order_by'] !== null,
             'className' => $this->options['class']
         ];
     }
 
     /**
-     * @return string
+     * @return strine|null|false
      */
-    public function getDefaultOrder()
+    public function getOrder()
     {
-        return $this->options['default_order'];
+        return $this->options['order'];
     }
 
     /**

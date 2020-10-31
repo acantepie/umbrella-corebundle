@@ -122,9 +122,10 @@ class MenuProvider
     /**
      * @param Menu $menu
      * @param null $name
+     * @param array $parameters
      * @return string
      */
-    public function renderMenu(Menu $menu, $name = null)
+    public function renderMenu(Menu $menu, $name = null, array $parameters = [])
     {
         // if name is ull => use defaultAlias
         $name = $this->fallbackName($name);
@@ -136,7 +137,7 @@ class MenuProvider
 
         list($factory, $method) = $this->menuRendererFactories[$name];
 
-        return $factory->$method($menu);
+        return $factory->$method($menu, $parameters);
     }
 
     // ------ Breadcrumb provider ------ //
@@ -184,10 +185,12 @@ class MenuProvider
     }
 
     /**
+     * @param Breadcrumb $breadcrumb
      * @param null $name
-     * @return mixed
+     * @param array $parameters
+     * @return string
      */
-    public function renderBreadcrumb(Breadcrumb $breadcrumb, $name = null)
+    public function renderBreadcrumb(Breadcrumb $breadcrumb, $name = null, array $parameters = [])
     {
         // if name is ull => use defaultAlias
         $name = $this->fallbackName($name);
@@ -199,6 +202,6 @@ class MenuProvider
 
         list($factory, $method) = $this->breadcrumbRendererFactories[$name];
 
-        return $factory->$method($breadcrumb);
+        return $factory->$method($breadcrumb, $parameters);
     }
 }

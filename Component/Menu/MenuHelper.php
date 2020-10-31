@@ -85,20 +85,22 @@ class MenuHelper
 
     /**
      * @param null $name
+     * @param array $parameters
      * @return string
      */
-    public function renderMenu($name = null)
+    public function renderMenu($name = null, array $parameters = [])
     {
-        return $this->provider->renderMenu($this->getMenu($name), $name);
+        return $this->provider->renderMenu($this->getMenu($name), $name, $parameters);
     }
 
     /**
-     * @param $name
+     * @param null $name
+     * @param array $parameters
      * @return string
      */
-    public function renderBreadcrumb($name = null)
+    public function renderBreadcrumb($name = null, array $parameters = [])
     {
-        return $this->provider->renderBreadcrumb($this->getBreadcrumb($name), $name);
+        return $this->provider->renderBreadcrumb($this->getBreadcrumb($name), $name, $parameters);
     }
 
     /**

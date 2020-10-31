@@ -10,7 +10,6 @@
 namespace Umbrella\CoreBundle\Component\DataTable;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Umbrella\CoreBundle\Utils\ComponentUtils;
 use Symfony\Component\Routing\RouterInterface;
 use Umbrella\CoreBundle\Component\Column\Column;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,6 +24,7 @@ use Umbrella\CoreBundle\Component\DataTable\Source\EntityDataTableSource;
 use Umbrella\CoreBundle\Component\DataTable\Source\EntityTreeTableSource;
 use Umbrella\CoreBundle\Component\DataTable\Source\Modifier\AbstractSourceModifier;
 use Umbrella\CoreBundle\Component\DataTable\Source\Modifier\EntityCallbackSourceModifier;
+use Umbrella\CoreBundle\Utils\StringUtils;
 
 /**
  * Class TableBuilder.
@@ -210,7 +210,7 @@ class DataTableBuilder
      */
     public function getTable()
     {
-        $table = new DataTable(ComponentUtils::typeClassToId(get_class($this->type)));
+        $table = new DataTable(StringUtils::typeClassToId(get_class($this->type)));
         $table->setType($this->type);
 
         // resolve options

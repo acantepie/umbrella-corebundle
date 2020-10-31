@@ -96,7 +96,7 @@ class MenuProvider
         $name = $this->fallbackName($name);
 
         if (!isset($this->menuFactories[$name])) {
-            throw new \InvalidArgumentException(sprintf('The menu "%s" is not defined.', $name));
+            throw new \InvalidArgumentException(sprintf('The menu "%s" does not exist. Defined menu are: %s.', $name, implode(', ', array_keys($this->menuFactories))));
         }
 
         if (!array_key_exists($name, $this->menus)) {

@@ -49,10 +49,10 @@ class Menu
      *
      * @return null|MenuItem
      */
-    public function search($pattern, $regexp = true)
+    public function search($pattern, $regexp = false)
     {
         foreach ($this->root->getFlatIterator() as $item) {
-            if ($item->matchPath($pattern)) {
+            if ($item->matchPath($pattern, $regexp)) {
                 return $item;
             }
         }
@@ -64,13 +64,13 @@ class Menu
      * @param bool $regexp
      * @param false $quiet
      */
-    public function setCurrent($pattern, $regexp = true, $quiet = false)
+    public function setCurrent($pattern, $regexp = false, $quiet = false)
     {
         $item = $this->search($pattern, $regexp);
         if (null !== $item) {
             $item->setCurrent(true);
         } elseif(!$quiet) {
-            throw new \RuntimeException(sprintf('No item found on menu "%s" for pattern %s(%s)', $name, $regexp ? 'r' : 's', $pattern));
+            throw new \RuntimeException(sprintf('No item found on menu for pattern %s(%s)', $regexp ? 'r' : 's', $pattern));
         }
     }
 

@@ -133,7 +133,7 @@ class MenuItem implements \Countable, \IteratorAggregate
     public function matchPath($pattern, $regexp = false)
     {
         return $regexp
-            ? false !== preg_match($pattern, $this->getPath())
+            ? 0 < preg_match($pattern, $this->getPath())
             : $this->getPath() === $pattern;
     }
 
@@ -176,7 +176,7 @@ class MenuItem implements \Countable, \IteratorAggregate
     /**
      * @param $id
      * @param array $options
-     * @return mixed
+     * @return MenuItem
      */
     public function addChild($id, array $options = [])
     {

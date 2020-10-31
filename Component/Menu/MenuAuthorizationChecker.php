@@ -8,6 +8,7 @@
 
 namespace Umbrella\CoreBundle\Component\Menu;
 
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Umbrella\CoreBundle\Component\Menu\Model\MenuItem;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Symfony\Component\Security\Core\Authorization\ExpressionLanguage;
@@ -119,23 +120,42 @@ class MenuAuthorizationChecker
     {
         $token = $this->tokenStorage->getToken();
 
-        if (null !== $this->roleHierarchy) {
-            $roles = $this->roleHierarchy->getReachableRoles($token->getRoles());
-        } else {
-            $roles = $token->getRoles();
-        }
-
         $variables = [
             'token' => $token,
             'user' => $token->getUser(),
-            'roles' => array_map(function ($role) {
-                return $role->getRole();
-            }, $roles),
+            'roles' => $this->getRoles($token),
             'trust_resolver' => $this->trustResolver,
             // needed for the is_granted expression function
             'auth_checker' => $this->authChecker,
         ];
 
         return $variables;
+    }
+
+    /**
+     * @param TokenInterface $token
+     * @return array
+     */
+    private function getRoles(TokenInterface $token): array
+    {
+        if (method_exists($this->roleHierarchy, 'getReachableRoleNames')) {
+            if (null !== $this->roleHierarchy) {
+                $roles = $this->roleHierarchy->getReachableRoleNames($token->getRoleNames());
+            } else {
+                $roles = $token->getRoleNames();
+            }
+        } else {
+            if (null !== $this->roleHierarchy) {
+                $roles = $this->roleHierarchy->getReachableRoles($token->getRoles());
+            } else {
+                $roles = $token->getRoles();
+            }
+
+            $roles = array_map(function ($role) {
+                return $role->getRole();
+            }, $roles);
+        }
+
+        return $roles;
     }
 }

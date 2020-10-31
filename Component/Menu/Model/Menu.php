@@ -49,7 +49,7 @@ class Menu
      *
      * @return null|MenuItem
      */
-    public function search($pattern, $regexp = false)
+    public function search($pattern, $regexp = true)
     {
         foreach ($this->root->getFlatIterator() as $item) {
             if ($item->matchPath($pattern, $regexp)) {
@@ -78,7 +78,7 @@ class Menu
      * @param bool $regexp
      * @param false $quiet
      */
-    public function setCurrent($pattern, $regexp = false, $quiet = false)
+    public function setCurrent($pattern, $regexp = true, $quiet = false)
     {
         $item = $this->search($pattern, $regexp);
         if (null !== $item) {

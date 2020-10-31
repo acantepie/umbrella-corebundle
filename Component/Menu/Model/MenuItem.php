@@ -20,10 +20,6 @@ class MenuItem implements \Countable, \IteratorAggregate
 {
     const ID_REGEXP = '/^[0a-zA-Z0-9\-\_\.]+$/';
 
-    const TYPE_TITLE = 'title';
-    const TYPE_ITEM = 'item';
-
-
     /**
      * @var MenuItem
      */
@@ -44,11 +40,6 @@ class MenuItem implements \Countable, \IteratorAggregate
      * @var string
      */
     protected $id;
-
-    /**
-     * @var string
-     */
-    public $type;
 
     /**
      * @var string
@@ -130,7 +121,7 @@ class MenuItem implements \Countable, \IteratorAggregate
      * @param false $regexp
      * @return bool
      */
-    public function matchPath($pattern, $regexp = false)
+    public function matchPath($pattern, $regexp = true)
     {
         return $regexp
             ? 0 < preg_match($pattern, $this->getPath())
@@ -232,6 +223,14 @@ class MenuItem implements \Countable, \IteratorAggregate
     public function getChild($id)
     {
         return isset($this->children[$id]) ? $this->children[$id] : null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasUrl()
+    {
+        return empty($this->route);
     }
 
 

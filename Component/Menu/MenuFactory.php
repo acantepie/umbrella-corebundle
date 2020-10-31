@@ -53,10 +53,6 @@ class MenuFactory
     {
         $resolver = new OptionsResolver();
         $resolver
-
-            ->setDefault('type', MenuItem::TYPE_ITEM)
-            ->setAllowedValues('type', [MenuItem::TYPE_TITLE, MenuItem::TYPE_ITEM])
-
             ->setDefault('label', function (Options $options) use($id) {
                 return sprintf('menu.%s', $id);
             })
@@ -83,7 +79,6 @@ class MenuFactory
         $resolvedOptions = $resolver->resolve($options);
 
         $i = new MenuItem($id, $this);
-        $i->type = $resolvedOptions['type'];
         $i->translationDomain = $resolvedOptions['translation_domain'];
         $i->label = $resolvedOptions['label'];
         $i->icon = $resolvedOptions['icon'];

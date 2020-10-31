@@ -6,7 +6,7 @@ common:
     cancel: Annuler
     save: Sauvegarder
     confirm_delete: Confirmer la suppression ?
-    browser: Browse
+    browse: Parcourir
     loading: Chargement...
     settings: Configuration
     enable: Activé

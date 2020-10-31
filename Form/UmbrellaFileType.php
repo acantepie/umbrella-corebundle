@@ -99,7 +99,7 @@ class UmbrellaFileType extends AbstractType
             'file_constraints' => [],
             'error_bubbling' => false, // resolve error at this level
             'allow_delete' => true,
-            'browse_label' => 'common.browser',
+            'browse_label' => 'common.browse',
             'browse_html' => null
         ]);
 

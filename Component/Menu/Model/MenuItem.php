@@ -138,6 +138,15 @@ class MenuItem implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @param $route
+     * @return bool
+     */
+    public function mathRoute($route)
+    {
+        return $this->route === $route;
+    }
+
+    /**
      * @return MenuItem
      */
     public function getParent()

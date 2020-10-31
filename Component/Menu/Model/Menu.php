@@ -60,6 +60,20 @@ class Menu
     }
 
     /**
+     * @param $route
+     * @return MenuItem|null
+     */
+    public function searchByRoute($route)
+    {
+        foreach ($this->root->getFlatIterator() as $item) {
+            if ($item->mathRoute($route)) {
+                return $item;
+            }
+        }
+        return null;
+    }
+
+    /**
      * @param $pattern
      * @param bool $regexp
      * @param false $quiet
@@ -71,6 +85,20 @@ class Menu
             $item->setCurrent(true);
         } elseif(!$quiet) {
             throw new \RuntimeException(sprintf('No item found on menu for pattern %s(%s)', $regexp ? 'r' : 's', $pattern));
+        }
+    }
+
+    /**
+     * @param $route
+     * @param false $quiet
+     */
+    public function setCurrentByRoute($route, $quiet = false)
+    {
+        $item = $this->searchByRoute($route);
+        if (null !== $item) {
+            $item->setCurrent(true);
+        } elseif(!$quiet) {
+            throw new \RuntimeException(sprintf('No item found on menu for route "%s"', $route));
         }
     }
 

@@ -44,15 +44,18 @@ class Menu
     }
 
     /**
-     * @param $pattern
-     * @param bool $regexp
+     * Strict = true => Return a MenuItem with a path equals to $path
+     * Strict = false => Return first MenuItem with a path that contains $path
      *
-     * @return null|MenuItem
+     * @param $path
+     * @param false $strict
+     *
+     * @return MenuItem|null
      */
-    public function search($pattern, $regexp = true)
+    public function search($path, $strict = false)
     {
         foreach ($this->root->getFlatIterator() as $item) {
-            if ($item->matchPath($pattern, $regexp)) {
+            if ($item->matchPath($path, $strict)) {
                 return $item;
             }
         }
@@ -74,17 +77,17 @@ class Menu
     }
 
     /**
-     * @param $pattern
-     * @param bool $regexp
+     * @param $path
+     * @param false $strict
      * @param false $quiet
      */
-    public function setCurrent($pattern, $regexp = true, $quiet = false)
+    public function setCurrent($path, $strict = false, $quiet = false)
     {
-        $item = $this->search($pattern, $regexp);
+        $item = $this->search($path, $strict);
         if (null !== $item) {
             $item->setCurrent(true);
         } elseif(!$quiet) {
-            throw new \RuntimeException(sprintf('No item found on menu for pattern %s(%s)', $regexp ? 'r' : 's', $pattern));
+            throw new \RuntimeException(sprintf('No item found on menu for path "%s" (strict search ? %s)', $path, $strict ? 'true' : 'false'));
         }
     }
 

@@ -117,15 +117,15 @@ class MenuItem implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @param $pattern
-     * @param false $regexp
+     * @param $path
+     * @param false $strict
      * @return bool
      */
-    public function matchPath($pattern, $regexp = true)
+    public function matchPath($path, $strict = false)
     {
-        return $regexp
-            ? 0 < preg_match($pattern, $this->getPath())
-            : $this->getPath() === $pattern;
+        return $strict
+            ? $this->getPath() === $path
+            : false !== strpos($this->getPath(), $path);
     }
 
     /**

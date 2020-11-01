@@ -17,8 +17,8 @@ class ArrayUtils
     /**
      * Return true if all element of array $search are in array $all
      *
-     * @param  array $a
-     * @param  array $b
+     * @param array $a
+     * @param array $b
      * @return bool
      */
     public static function contains_all(array $search, array $all)
@@ -38,26 +38,34 @@ class ArrayUtils
         return isset($array[$key]) ? $array[$key] : $default;
     }
 
-    /**
-     * @param array $array
-     * @param $key
-     * @param null $default
-     *
-     * @return mixed|null
-     */
-    public static function get_with_dot_keys(array $array, $key, $default = null)
+    public static function array_merge_recursive()
     {
-        $keys = explode('.', $key);
+        $args = func_get_args();
+        return self::_array_merge_recursive($args);
+    }
 
-        $current = $array;
-        foreach ($keys as $key) {
-            if (is_array($current) && array_key_exists($key, $current)) {
-                $current = $current[$key];
-            } else {
-                return $default;
+    // source : https://api.drupal.org/api/drupal/includes%21bootstrap.inc/function/drupal_array_merge_deep_array/7.x
+    private static function _array_merge_recursive(array $arrays)
+    {
+        $result = array();
+        foreach ($arrays as $array) {
+            foreach ($array as $key => $value) {
+                // Renumber integer keys as array_merge_recursive() does. Note that PHP
+                // automatically converts array keys that are integer strings (e.g., '1')
+                // to integers.
+                if (is_integer($key)) {
+                    $result[] = $value;
+                } elseif (isset($result[$key]) && is_array($result[$key]) && is_array($value)) {
+                    $result[$key] = self::_array_merge_recursive(array(
+                        $result[$key],
+                        $value,
+                    ));
+                } else {
+                    $result[$key] = $value;
+                }
             }
         }
-        return $current;
+        return $result;
     }
 
     /**
@@ -67,7 +75,7 @@ class ArrayUtils
      *
      * @return array
      */
-    public static function values_as_keys(array  $array)
+    public static function values_as_keys(array $array)
     {
         $result = [];
         foreach ($array as $value) {
@@ -105,9 +113,9 @@ class ArrayUtils
      *  a.c => 2
      * ]
      *
-     * @param  array  $nested
-     * @param  string $baseNs
-     * @param  array  $stopRules
+     * @param array $nested
+     * @param string $baseNs
+     * @param array $stopRules
      * @return array
      */
     public static function remap_nested_array(array $nested, $baseNs = '', $stopRules = [])
@@ -120,8 +128,8 @@ class ArrayUtils
     /**
      * @param $a
      * @param string $currentNs
-     * @param array  $stopRules
-     * @param array  $result
+     * @param array $stopRules
+     * @param array $result
      */
     private static function map_recursive_nested_array($a, $currentNs = '', array $stopRules = [], array &$result)
     {

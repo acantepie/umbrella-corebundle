@@ -86,6 +86,12 @@ services:
     Umbrella\CoreBundle\Component\Ckeditor\CkeditorConfiguration:
     Umbrella\CoreBundle\Component\Ckeditor\CkeditorExtension:
 
+    # Tabs
+    Umbrella\CoreBundle\Component\Tabs\TabsHelper:
+        bind:
+            $configPath: "%kernel.project_dir%/vendor/umbrella/corebundle/Component/Tabs/config.yml"
+    Umbrella\CoreBundle\Component\Tabs\TabsExtension:
+
     # ---- Umbrella ----#
 
     #Command

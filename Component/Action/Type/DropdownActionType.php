@@ -2,9 +2,9 @@
 
 namespace Umbrella\CoreBundle\Component\Action\Type;
 
-use Umbrella\CoreBundle\Component\ComponentView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\Action\ActionListFactory;
+use Umbrella\CoreBundle\Component\ComponentView;
 
 /**
  * Class DropdownActionType
@@ -18,6 +18,7 @@ class DropdownActionType extends ActionType
 
     /**
      * DropdownActionType constructor.
+     *
      * @param ActionListFactory $actionListFactory
      */
     public function __construct(ActionListFactory $actionListFactory)
@@ -26,19 +27,19 @@ class DropdownActionType extends ActionType
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function buildView(ComponentView $view, array $options)
     {
         $view->vars['attr'] = [
-            'class' => $options['class']
+            'class' => $options['class'],
         ];
 
         $view->vars['dropdown_button_attr'] = [
             'class' => $options['dropdown_button_class'] . ' dropdown-toggle',
             'type' => 'button',
             'data-toggle' => 'dropdown',
-            'aria-expanded' => 'true'
+            'aria-expanded' => 'true',
         ];
 
         $view->vars['dropdown_menu_attr'] = [
@@ -55,7 +56,7 @@ class DropdownActionType extends ActionType
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {

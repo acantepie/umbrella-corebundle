@@ -8,10 +8,10 @@
 
 namespace Umbrella\CoreBundle\Component\JsResponse;
 
-use Twig\Environment;
 use Symfony\Component\Routing\RouterInterface;
-use Umbrella\CoreBundle\Component\Toast\Toast;
+use Twig\Environment;
 use Umbrella\CoreBundle\Component\Menu\MenuHelper;
+use Umbrella\CoreBundle\Component\Toast\Toast;
 use Umbrella\CoreBundle\Component\Toast\ToastFactory;
 
 /**
@@ -32,7 +32,7 @@ class JsResponseBuilder
 
     const RELOAD_TABLE = 'reload_table';
     const RELOAD_MENU = 'reload_menu';
-    
+
     /**
      * @var array
      */
@@ -60,6 +60,7 @@ class JsResponseBuilder
 
     /**
      * JsResponseBuilder constructor.
+     *
      * @param RouterInterface $router
      * @param Environment     $twig
      * @param MenuHelper      $menuHelper
@@ -82,16 +83,19 @@ class JsResponseBuilder
     public function add($action, $params = [])
     {
         $this->messages[] = new JsMessage($action, $params);
+
         return $this;
     }
 
     /**
      * Clear all messages.
+     *
      * @return $this
      */
     public function clear()
     {
         $this->messages = [];
+
         return $this;
     }
 
@@ -101,21 +105,17 @@ class JsResponseBuilder
     public function getResponse()
     {
         $this->orderActions();
+
         return new JsResponse($this->messages);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getIterator()
     {
         $this->orderActions();
+
         return new \ArrayIterator($this->messages);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function count()
     {
         return count($this->messages);
@@ -219,6 +219,7 @@ class JsResponseBuilder
     {
         $menu = $this->menuHelper->getMenu($id);
         $html = $this->menuHelper->getRenderer($id)->render($menu);
+
         return $this->update($container_selector, $html);
     }
 

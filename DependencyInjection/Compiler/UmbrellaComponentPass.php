@@ -8,13 +8,13 @@
 
 namespace Umbrella\CoreBundle\DependencyInjection\Compiler;
 
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Umbrella\CoreBundle\Component\Action\ActionFactory;
 use Umbrella\CoreBundle\Component\Column\ColumnFactory;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Umbrella\CoreBundle\Component\DataTable\DataTableFactory;
 use Umbrella\CoreBundle\Component\Task\Handler\TaskHandlerFactory;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 /**
  * Class UmbrellaComponentPass

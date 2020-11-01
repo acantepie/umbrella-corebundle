@@ -2,8 +2,8 @@
 
 namespace Umbrella\CoreBundle\Component\Action\Type;
 
-use Umbrella\CoreBundle\Component\ComponentView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Component\ComponentView;
 
 /**
  * Class ActionType

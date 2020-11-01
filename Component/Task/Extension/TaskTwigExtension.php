@@ -8,8 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Extension;
 
-use Twig\TwigFilter;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
 /**
  * Class TaskTwigExtension
@@ -23,6 +23,7 @@ class TaskTwigExtension extends AbstractExtension
 
     /**
      * TaskTwigExtension constructor.
+     *
      * @param TaskHelper $taskHelper
      */
     public function __construct(TaskHelper $taskHelper)

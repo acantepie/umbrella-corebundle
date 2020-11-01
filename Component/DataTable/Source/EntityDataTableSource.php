@@ -9,10 +9,10 @@
 namespace Umbrella\CoreBundle\Component\DataTable\Source;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Umbrella\CoreBundle\Utils\ArrayUtils;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Umbrella\CoreBundle\Component\Column\Column;
 use Umbrella\CoreBundle\Component\DataTable\Model\DataTableResult;
+use Umbrella\CoreBundle\Utils\ArrayUtils;
 
 /**
  * Class EntityDataTableSource
@@ -26,6 +26,7 @@ class EntityDataTableSource extends AbstractTableSource
 
     /**
      * DataTableEntitySource constructor.
+     *
      * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
@@ -34,9 +35,9 @@ class EntityDataTableSource extends AbstractTableSource
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function search($dataClass, array $columns, array $query) : DataTableResult
+    public function search($dataClass, array $columns, array $query): DataTableResult
     {
         $queryData = $query['query'];
         $formData = $query['form'];
@@ -74,7 +75,6 @@ class EntityDataTableSource extends AbstractTableSource
             $column = $columns[$idx];
 
             foreach ($column->getOrderBy() as $path) {
-
                 // if path is not a sub property path, prefix it by alias
                 if (false === strpos($path, '.')) {
                     $path = sprintf('e.%s', $path);

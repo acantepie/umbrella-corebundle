@@ -17,17 +17,19 @@ class BadgeColumnType extends PropertyColumnType
 {
     /**
      * @param $entity
-     * @param  array  $options
+     * @param array $options
+     *
      * @return string
      */
     public function render($entity, array $options)
     {
         $value = $this->accessor->getValue($entity, $options['property_path']);
+
         return sprintf('<span class="badge %s">%s<span>', $options['badge_class'], $value);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {

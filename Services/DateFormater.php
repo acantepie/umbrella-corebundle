@@ -6,9 +6,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class DateFormater
- * @package Umbrella\CoreBundle\Services
- *
- * Manipulation des dates avec prise en charge de la langue
  */
 class DateFormater
 {
@@ -19,7 +16,7 @@ class DateFormater
         4 => 'Thursday',
         5 => 'Friday',
         6 => 'Saturday',
-        7 => 'Sunday'
+        7 => 'Sunday',
     ];
 
     const NUMBER_MONTH = [
@@ -34,13 +31,14 @@ class DateFormater
         9 => 'September',
         10 => 'October',
         11 => 'November',
-        12 => 'December'
+        12 => 'December',
     ];
     /** @var TranslatorInterface */
     private $translator;
 
     /**
      * DateFormater constructor.
+     *
      * @param TranslatorInterface $translator
      */
     public function __construct(TranslatorInterface $translator)
@@ -51,14 +49,15 @@ class DateFormater
     /**
      * Transforme un objet datetime en date texte traduite ex:
      * 24/12/2020 = Jeudi 24 décembre 2020
+     *
      * @param \DateTime  $date
-     * @param null|mixed $locale
+     * @param mixed|null $locale
      */
     public function dateToPlainText(\DateTime $date, $locale = null): string
     {
-        $day = $this->translator->trans('dateFormater.day.'.self::NUMBER_TO_DAY[$date->format('N')], [], null, $locale);
-        $month = $this->translator->trans('dateFormater.month.'.self::NUMBER_MONTH[$date->format('n')], [], null, $locale);
+        $day = $this->translator->trans('dateFormater.day.' . self::NUMBER_TO_DAY[$date->format('N')], [], null, $locale);
+        $month = $this->translator->trans('dateFormater.month.' . self::NUMBER_MONTH[$date->format('n')], [], null, $locale);
 
-        return $day.' '.$date->format('d').' '.$month.' '.$date->format('Y');
+        return $day . ' ' . $date->format('d') . ' ' . $month . ' ' . $date->format('Y');
     }
 }

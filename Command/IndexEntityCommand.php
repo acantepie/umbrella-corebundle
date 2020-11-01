@@ -10,11 +10,11 @@
 namespace Umbrella\CoreBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
-use Umbrella\CoreBundle\Services\EntityIndexer;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Umbrella\CoreBundle\Services\EntityIndexer;
 
 /**
  * Class IndexEntityCommand.
@@ -40,6 +40,7 @@ class IndexEntityCommand extends Command
 
     /**
      * IndexEntityCommand constructor.
+     *
      * @param EntityIndexer $indexer
      */
     public function __construct(EntityIndexer $indexer)
@@ -58,7 +59,7 @@ class IndexEntityCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
@@ -75,13 +76,16 @@ class IndexEntityCommand extends Command
         if ($this->entityClass) {
             if (!$this->indexer->isIndexable($this->entityClass)) {
                 $this->io->error(sprintf('Entity class %s is not indexable', $this->entityClass));
+
                 return 1;
             }
 
             $this->indexer->indexEntity($this->entityClass);
+
             return 0;
         } else {
             $this->indexer->indexAll();
+
             return 0;
         }
     }

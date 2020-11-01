@@ -21,6 +21,7 @@ class Mailer
 
     /**
      * Mailer constructor.
+     *
      * @param \Swift_Mailer   $swiftMailer
      * @param LoggerInterface $logger
      */
@@ -31,16 +32,19 @@ class Mailer
     }
 
     /**
-     * @param  \Swift_Message $message
+     * @param \Swift_Message $message
+     *
      * @return bool
      */
     public function send(\Swift_Message $message)
     {
         try {
             $this->swiftMailer->send($message);
+
             return true;
         } catch (\Exception $e) {
             $this->logger->info('Error occured while sending message : ' . $e->getMessage());
+
             return false;
         }
     }

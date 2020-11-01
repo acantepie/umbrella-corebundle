@@ -53,7 +53,7 @@ class TabsHelper
     /**
      * TabsHelper constructor.
      *
-     * @param RequestStack $requestStack
+     * @param RequestStack    $requestStack
      * @param RouterInterface $router
      * @param $configPath
      */
@@ -64,10 +64,6 @@ class TabsHelper
         $this->configPath = $configPath;
     }
 
-
-    /**
-     *
-     */
     private function initialize()
     {
         if (!$this->_initialized) {
@@ -87,7 +83,7 @@ class TabsHelper
 
     /**
      * @param string $configName
-     * @param array $config
+     * @param array  $config
      */
     public function navConfig(array $config = [], $configName = self::DEFAULT_CONFIG)
     {
@@ -109,15 +105,14 @@ class TabsHelper
         $this->_navItemCount = 0;
 
         $config = ArrayUtils::array_merge_recursive($this->_currentConfig['nav'], $parameters);
+
         return sprintf('<ul %s>', HtmlUtils::array_to_html_attribute($config['attr']));
     }
 
-    /**
-     *
-     */
     public function navEnd()
     {
         $this->initialize();
+
         return sprintf('</ul>');
     }
 
@@ -127,7 +122,7 @@ class TabsHelper
     public function navItem(array $parameters = [])
     {
         $this->initialize();
-        $this->_navItemCount++;
+        ++$this->_navItemCount;
 
         $config = ArrayUtils::array_merge_recursive($this->_currentConfig['nav_item'], $parameters);
 
@@ -139,7 +134,7 @@ class TabsHelper
             $config['attr_link']['href'] = $config['url'];
         }
 
-        if (substr($config['attr_link']['href'], 0, 1) === '#') { // anchor
+        if ('#' === substr($config['attr_link']['href'], 0, 1)) { // anchor
             $config['attr_link']['data-toggle'] = 'tab';
         }
 
@@ -170,19 +165,17 @@ class TabsHelper
     {
         $activeStrategy = $this->_currentConfig['active_strategy'];
 
-        switch($activeStrategy) {
+        switch ($activeStrategy) {
             case 'first':
-                return $this->_navItemCount === 1;
+                return 1 === $this->_navItemCount;
 
             case 'current_route':
                 $currentRoute = $this->requestStack->getMasterRequest()->get('_route');
+
                 return $navItemConfig['route'] === $currentRoute;
 
             default:
                 return (bool) $navItemConfig['active'];
         }
-
     }
-
-
 }

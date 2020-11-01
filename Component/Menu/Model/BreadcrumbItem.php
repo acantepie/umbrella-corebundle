@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Umbrella\CoreBundle\Component\Menu\Model;
 
 use Umbrella\CoreBundle\Utils\ArrayUtils;
@@ -47,6 +46,7 @@ class BreadcrumbItem
 
     /**
      * @param array $options
+     *
      * @return BreadcrumbItem
      */
     public static function create(array $options = [])
@@ -57,11 +57,13 @@ class BreadcrumbItem
         $bi->translationDomain = ArrayUtils::get($options, 'translation_domain', 'messages');
         $bi->route = ArrayUtils::get($options, 'route');
         $bi->routeParams = ArrayUtils::get($options, 'route_params', []);
+
         return $bi;
     }
 
     /**
      * @param MenuItem $item
+     *
      * @return BreadcrumbItem
      */
     public static function createFromMenuItem(MenuItem $item)
@@ -72,6 +74,7 @@ class BreadcrumbItem
         $bi->translationDomain = $item->translationDomain;
         $bi->route = $item->route;
         $bi->routeParams = $item->routeParams;
+
         return $bi;
     }
 }

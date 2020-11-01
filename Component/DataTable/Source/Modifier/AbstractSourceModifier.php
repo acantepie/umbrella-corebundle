@@ -20,6 +20,7 @@ abstract class AbstractSourceModifier
 
     /**
      * SourceModifier constructor.
+     *
      * @param int $priority
      */
     public function __construct($priority = 0)
@@ -28,7 +29,8 @@ abstract class AbstractSourceModifier
     }
 
     /**
-     * @param  mixed ...$args
+     * @param mixed ...$args
+     *
      * @return mixed
      */
     abstract public function modify(...$args);
@@ -42,7 +44,8 @@ abstract class AbstractSourceModifier
     }
 
     /**
-     * @param  AbstractSourceModifier $modifier
+     * @param AbstractSourceModifier $modifier
+     *
      * @return int
      */
     public function compare(AbstractSourceModifier $modifier)
@@ -50,6 +53,7 @@ abstract class AbstractSourceModifier
         if ($this->priority == $modifier->getPriority()) {
             return 0;
         }
+
         return ($this->priority < $modifier->getPriority()) ? -1 : 1;
     }
 }

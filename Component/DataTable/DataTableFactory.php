@@ -12,9 +12,9 @@ namespace Umbrella\CoreBundle\Component\DataTable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Umbrella\CoreBundle\Component\Column\ColumnFactory;
-use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
-use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTable;
+use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
+use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
 
 /**
  * Class TableFactory.
@@ -48,6 +48,7 @@ class DataTableFactory
 
     /**
      * TableFactory constructor.
+     *
      * @param EntityManagerInterface $em
      * @param RouterInterface        $router
      * @param ToolbarFactory         $toolbarFactory
@@ -99,7 +100,7 @@ class DataTableFactory
      */
     private function createType($typeClass)
     {
-        if ($typeClass !== DataTableType::class && !is_subclass_of($typeClass, DataTableType::class)) {
+        if (DataTableType::class !== $typeClass && !is_subclass_of($typeClass, DataTableType::class)) {
             throw new \InvalidArgumentException(sprintf("Class '%s' must extends %s class.", $typeClass, DataTableType::class));
         }
 

@@ -2,39 +2,37 @@
 
 namespace Umbrella\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait TreeEntityTrait
- * @package Umbrella\CoreBundle\Model
  */
 trait TreeNodeTrait
 {
-
     use IdTrait;
 
     /**
-     * @Gedmo\TreeLeft()
+     * @Gedmo\TreeLeft
      * @ORM\Column(type="integer")
      */
     public $lft;
 
     /**
-     * @Gedmo\TreeLevel()
+     * @Gedmo\TreeLevel
      * @ORM\Column(type="integer")
      */
     public $lvl;
 
     /**
-     * @Gedmo\TreeRight()
+     * @Gedmo\TreeRight
      * @ORM\Column(type="integer")
      */
     public $rgt;
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getId(): ?int
     {
@@ -42,15 +40,15 @@ trait TreeNodeTrait
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
-    public function getLvl() : ?int
+    public function getLvl(): ?int
     {
         return $this->lvl;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getParent(): TreeNodeInterface
     {
@@ -58,7 +56,7 @@ trait TreeNodeTrait
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getChildren(): ArrayCollection
     {
@@ -88,7 +86,7 @@ trait TreeNodeTrait
      */
     public function isChildOf(TreeNodeInterface $node): bool
     {
-        if ($this->getLvl() <= $node->getLvl() || $this->getParent() === null) {
+        if ($this->getLvl() <= $node->getLvl() || null === $this->getParent()) {
             return false;
         }
 

@@ -8,13 +8,13 @@
 
 namespace Umbrella\CoreBundle\Form\Extension;
 
-use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class FormTypeExtension.
@@ -31,12 +31,12 @@ class FormTypeExtension extends AbstractTypeExtension
         $this->setView($view, $form, 'label_class', 'col-sm-2');
         $this->setView($view, $form, 'group_class', 'col-sm-10');
 
-        if ($view->vars['label'] !== false) {
+        if (false !== $view->vars['label']) {
             if (empty($view->vars['label'])) {
                 $view->vars['label'] = $view->vars['name'];
             }
 
-            if ($options['translation_domain'] !== false) {
+            if (false !== $options['translation_domain']) {
                 $view->vars['label'] = $options['label_prefix'] . $view->vars['label'];
             }
         }
@@ -72,6 +72,7 @@ class FormTypeExtension extends AbstractTypeExtension
                 if ($options['input_prefix_text']) {
                     return sprintf('<span class="input-group-text">%s</span>', $options['input_prefix_text']);
                 }
+
                 return $value;
             })
 
@@ -81,6 +82,7 @@ class FormTypeExtension extends AbstractTypeExtension
                 if ($options['input_suffix_text']) {
                     return sprintf('<span class="input-group-text">%s</span>', $options['input_suffix_text']);
                 }
+
                 return $value;
             })
 
@@ -92,7 +94,7 @@ class FormTypeExtension extends AbstractTypeExtension
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function getExtendedTypes(): iterable
     {

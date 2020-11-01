@@ -6,6 +6,7 @@
  * Date: 01/06/17
  * Time: 23:52
  */
+
 namespace Umbrella\CoreBundle\Services;
 
 use Umbrella\CoreBundle\Annotation\SearchableAnnotationReader;
@@ -15,7 +16,6 @@ use Umbrella\CoreBundle\Annotation\SearchableAnnotationReader;
  */
 class SearchHandler
 {
-
     /**
      * @var SearchableAnnotationReader
      */
@@ -23,6 +23,7 @@ class SearchHandler
 
     /**
      * SearchHandler constructor.
+     *
      * @param SearchableAnnotationReader $reader
      */
     public function __construct(SearchableAnnotationReader $reader)
@@ -32,15 +33,17 @@ class SearchHandler
 
     /**
      * @param $entityClass
+     *
      * @return bool
      */
     public function isSearchable($entityClass)
     {
-        return $this->reader->getSearchable($entityClass) !== null;
+        return null !== $this->reader->getSearchable($entityClass);
     }
 
     /**
      * @param $entity
+     *
      * @return bool
      */
     public function indexEntity($entity)
@@ -50,13 +53,13 @@ class SearchHandler
         $searchable = $this->reader->getSearchable($entityClass);
 
         // Entity doesn't have annotation Searchable
-        if ($searchable === null) {
+        if (null === $searchable) {
             return false;
         }
 
         $searches = [];
         foreach ($this->reader->getSearchableProperties($entityClass) as $property => $annotation) {
-            $searches[] = (string)$entity->{$property};
+            $searches[] = (string) $entity->{$property};
         }
 
         foreach ($this->reader->getSearchableMethods($entityClass) as $method => $annotation) {
@@ -65,6 +68,7 @@ class SearchHandler
 
         $search = implode(' ', $searches);
         $entity->{$searchable->getSearchField()} = $search;
+
         return true;
     }
 }

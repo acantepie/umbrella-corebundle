@@ -8,27 +8,26 @@
 
 namespace Umbrella\CoreBundle\Form;
 
-use Symfony\Component\Form\FormView;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormInterface;
-use Umbrella\CoreBundle\Utils\ArrayUtils;
-use Umbrella\CoreBundle\Entity\UmbrellaFile;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Services\UmbrellaFileUploader;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Entity\UmbrellaFile;
+use Umbrella\CoreBundle\Services\UmbrellaFileUploader;
+use Umbrella\CoreBundle\Utils\ArrayUtils;
 
 /**
  * Class UmbrellaFileType
  */
 class UmbrellaFileType extends AbstractType
 {
-
     /**
      * @var EntityManagerInterface
      */
@@ -41,6 +40,7 @@ class UmbrellaFileType extends AbstractType
 
     /**
      * FileUploadType constructor.
+     *
      * @param UmbrellaFileUploader   $manager
      * @param EntityManagerInterface $em
      */
@@ -72,18 +72,18 @@ class UmbrellaFileType extends AbstractType
             'required' => false,
             'error_bubbling' => true, // pass error to the parent
             'attr' => $options['file_attr'],
-            'constraints' => $options['file_constraints']
+            'constraints' => $options['file_constraints'],
         ]);
         $builder->add('id', TextType::class, [
-            'required' => false
+            'required' => false,
         ]);
         $builder->add('delete', CheckboxType::class, [
-            'required' => false
+            'required' => false,
         ]);
 
         // text widget
         $builder->add('text', TextType::class, [
-            'required' => $options['required']
+            'required' => $options['required'],
         ]);
 
         $builder->addModelTransformer(new FileUploadTransformer($this->manager, $this->em));
@@ -100,7 +100,7 @@ class UmbrellaFileType extends AbstractType
             'error_bubbling' => false, // resolve error at this level
             'allow_delete' => true,
             'browse_label' => 'common.browse',
-            'browse_html' => null
+            'browse_html' => null,
         ]);
 
         $resolver->setAllowedTypes('file_attr', 'array');
@@ -146,7 +146,9 @@ class FileUploadTransformer implements DataTransformerInterface
 
     /**
      * Transform UmbrellaFile => array
-     * @param  UmbrellaFile $umbrellaFile
+     *
+     * @param UmbrellaFile $umbrellaFile
+     *
      * @return array
      */
     public function transform($umbrellaFile)
@@ -154,14 +156,15 @@ class FileUploadTransformer implements DataTransformerInterface
         return [
             'file' => null,
             'id' => $umbrellaFile ? $umbrellaFile->id : null,
-            'text' => $umbrellaFile ? $umbrellaFile->name . ' (' . $umbrellaFile->getHumanSize() .')' : null
+            'text' => $umbrellaFile ? $umbrellaFile->name . ' (' . $umbrellaFile->getHumanSize() . ')' : null,
         ];
     }
 
     /**
      * Transform array => UmbrellaFile
      *
-     * @param  array             $array
+     * @param array $array
+     *
      * @return UmbrellaFile|null
      */
     public function reverseTransform($array)
@@ -177,15 +180,17 @@ class FileUploadTransformer implements DataTransformerInterface
 
         if ($umbrellaFile && $uploadedFile) { // update
             $this->em->remove($umbrellaFile);
+
             return $this->manager->createUmbrellaFile($uploadedFile);
         }
 
-        if ($umbrellaFile && $uploadedFile === null && $delete) { // delete
+        if ($umbrellaFile && null === $uploadedFile && $delete) { // delete
             $this->em->remove($umbrellaFile);
+
             return null;
         }
 
-        if ($umbrellaFile === null && $uploadedFile) { // create
+        if (null === $umbrellaFile && $uploadedFile) { // create
             return $this->manager->createUmbrellaFile($uploadedFile);
         }
 

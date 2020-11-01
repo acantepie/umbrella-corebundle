@@ -8,12 +8,12 @@
 
 namespace Umbrella\CoreBundle\Component\Toolbar;
 
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Umbrella\CoreBundle\Component\Action\Action;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Umbrella\CoreBundle\Component\Action\Type\ActionType;
 use Umbrella\CoreBundle\Component\Action\ActionListFactory;
+use Umbrella\CoreBundle\Component\Action\Type\ActionType;
 
 /**
  * Class ToolbarBuilder
@@ -63,18 +63,21 @@ class ToolbarBuilder
 
     /**
      * @param $child
-     * @param  null  $type
-     * @param  array $options
+     * @param null  $type
+     * @param array $options
+     *
      * @return $this
      */
     public function addFilter($child, $type = null, array $options = [])
     {
         $this->formBuilder->add($child, $type, $options);
+
         return $this;
     }
 
     /**
      * @param $name
+     *
      * @return FormBuilderInterface
      */
     public function getFilter($name)
@@ -84,16 +87,19 @@ class ToolbarBuilder
 
     /**
      * @param $name
+     *
      * @return $this
      */
     public function removeFilter($name)
     {
         $this->formBuilder->remove($name);
+
         return $this;
     }
 
     /**
      * @param $name
+     *
      * @return bool
      */
     public function hasFilter($name)
@@ -105,23 +111,27 @@ class ToolbarBuilder
 
     /**
      * @param $id
-     * @param  string $type
-     * @param  array  $options
+     * @param string $type
+     * @param array  $options
+     *
      * @return $this
      */
     public function addAction($id, $type = ActionType::class, array $options = [])
     {
         $this->actionListBuilder->add($id, $type, $options);
+
         return $this;
     }
 
     /**
      * @param $id
+     *
      * @return $this
      */
     public function removeAction($id)
     {
         $this->actionListBuilder->remove($id);
+
         return $this;
     }
 
@@ -137,6 +147,7 @@ class ToolbarBuilder
 
     /**
      * @param $id
+     *
      * @return Action
      */
     public function getAction($id)
@@ -145,7 +156,8 @@ class ToolbarBuilder
     }
 
     /**
-     * @param  array   $resolvedOptions
+     * @param array $resolvedOptions
+     *
      * @return Toolbar
      */
     public function getToolbar(array $resolvedOptions = [])

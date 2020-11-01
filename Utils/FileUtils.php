@@ -9,6 +9,7 @@ class FileUtils
 {
     /**
      * @param $mime
+     *
      * @return string
      */
     public static function mime_to_ext($mime)

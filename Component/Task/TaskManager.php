@@ -8,10 +8,10 @@
 
 namespace Umbrella\CoreBundle\Component\Task;
 
-use Doctrine\ORM\QueryBuilder;
-use Umbrella\CoreBundle\Entity\Task;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Umbrella\CoreBundle\Entity\BaseTaskConfig;
+use Umbrella\CoreBundle\Entity\Task;
 
 /**
  * Class TaskManager
@@ -25,6 +25,7 @@ class TaskManager
 
     /**
      * TaskManager constructor.
+     *
      * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
@@ -34,6 +35,7 @@ class TaskManager
 
     /**
      * @param $id
+     *
      * @return Task|null
      */
     public function getTask($id)
@@ -42,7 +44,8 @@ class TaskManager
     }
 
     /**
-     * @param  SearchTaskCriteria $criteria
+     * @param SearchTaskCriteria $criteria
+     *
      * @return int
      */
     public function countSearch(SearchTaskCriteria $criteria)
@@ -55,7 +58,8 @@ class TaskManager
     }
 
     /**
-     * @param  SearchTaskCriteria $criteria
+     * @param SearchTaskCriteria $criteria
+     *
      * @return Task[]
      */
     public function search(SearchTaskCriteria $criteria)
@@ -64,7 +68,8 @@ class TaskManager
     }
 
     /**
-     * @param  SearchTaskCriteria $criteria
+     * @param SearchTaskCriteria $criteria
+     *
      * @return QueryBuilder
      */
     public function searchQb(SearchTaskCriteria $criteria)
@@ -95,22 +100,26 @@ class TaskManager
         }
 
         $qb->orderBy('e.createdAt', 'DESC');
+
         return $qb;
     }
 
     /**
-     * @param  array  $states
+     * @param array $states
+     *
      * @return Task[]
      */
     public function findByStates(array $states)
     {
         $criteria = new SearchTaskCriteria();
         $criteria->states = $states;
+
         return $this->search($criteria);
     }
 
     /**
-     * @param  Task $task
+     * @param Task $task
+     *
      * @return Task
      */
     public function register(BaseTaskConfig $config)
@@ -120,11 +129,13 @@ class TaskManager
         $task->scheduled();
         $this->em->persist($task);
         $this->save($task);
+
         return $task;
     }
 
     /**
-     * @param  Task $task
+     * @param Task $task
+     *
      * @return Task
      */
     public function cancel(Task $task)
@@ -134,6 +145,7 @@ class TaskManager
         }
         $task->canceled();
         $this->save($task);
+
         return $task;
     }
 
@@ -161,6 +173,7 @@ class TaskManager
 
     /**
      * @param $handlerAlias
+     *
      * @return bool
      */
     public function hasPendingOrRunningTasks($handlerAlias)
@@ -168,6 +181,7 @@ class TaskManager
         $criteria = new SearchTaskCriteria();
         $criteria->states = [Task::STATE_PENDING, Task::STATE_NEW, Task::STATE_PENDING];
         $criteria->handlerAlias = $handlerAlias;
+
         return $this->countSearch($criteria) > 0;
     }
 }

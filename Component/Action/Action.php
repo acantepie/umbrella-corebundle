@@ -3,10 +3,10 @@
 namespace Umbrella\CoreBundle\Component\Action;
 
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\Routing\RouterInterface;
-use Umbrella\CoreBundle\Component\ComponentView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\RouterInterface;
 use Umbrella\CoreBundle\Component\Action\Type\ActionType;
+use Umbrella\CoreBundle\Component\ComponentView;
 
 /**
  * Class Action
@@ -34,17 +34,11 @@ class Action
         $this->type = $type;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setOptions(array $options = [])
     {
         $this->options = $options;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
@@ -98,7 +92,8 @@ class Action
     }
 
     /**
-     * @param  RouterInterface $router
+     * @param RouterInterface $router
+     *
      * @return ComponentView
      */
     public function createView(RouterInterface $router): ComponentView

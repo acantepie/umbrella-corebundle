@@ -2,10 +2,10 @@
 
 namespace Umbrella\CoreBundle\Component\Action\Extension;
 
-use Twig\Environment;
-use Twig\TwigFunction;
-use Twig\Extension\AbstractExtension;
 use Symfony\Component\Routing\RouterInterface;
+use Twig\Environment;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 use Umbrella\CoreBundle\Component\Action\Action;
 
 /**
@@ -13,7 +13,6 @@ use Umbrella\CoreBundle\Component\Action\Action;
  */
 class ActionTwigExtension extends AbstractExtension
 {
-
     /**
      * @var RouterInterface
      */
@@ -21,6 +20,7 @@ class ActionTwigExtension extends AbstractExtension
 
     /**
      * ActionTwigExtension constructor.
+     *
      * @param RouterInterface $router
      */
     public function __construct(RouterInterface $router)
@@ -42,13 +42,15 @@ class ActionTwigExtension extends AbstractExtension
     }
 
     /**
-     * @param  Environment $twig
-     * @param  Action      $action
+     * @param Environment $twig
+     * @param Action      $action
+     *
      * @return string
      */
     public function render(Environment $twig, Action $action)
     {
         $view = $action->createView($this->router);
+
         return $twig->render($view->template, $view->vars);
     }
 }

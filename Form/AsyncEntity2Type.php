@@ -2,25 +2,21 @@
 
 namespace Umbrella\CoreBundle\Form;
 
-use Symfony\Component\Form\FormView;
-
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
-use Umbrella\CoreBundle\Utils\HtmlUtils;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Umbrella\CoreBundle\Form\DataTransformer\EntityToPropertyTransformer;
 use Umbrella\CoreBundle\Form\DataTransformer\EntitiesToPropertyTransformer;
+use Umbrella\CoreBundle\Form\DataTransformer\EntityToPropertyTransformer;
+use Umbrella\CoreBundle\Utils\HtmlUtils;
 
 /**
  * Class AsyncEntity2Type
- * @package Umbrella\CoreBundle\Form
- *
- * Inspiré de https://github.com/tetranz/select2entity-bundle
  */
 class AsyncEntity2Type extends AbstractType
 {
@@ -41,6 +37,7 @@ class AsyncEntity2Type extends AbstractType
 
     /**
      * AsyncEntity2Type constructor.
+     *
      * @param EntityManagerInterface $em
      * @param RouterInterface        $router
      */
@@ -90,7 +87,7 @@ class AsyncEntity2Type extends AbstractType
             ? $options['placeholder']
             : $this->translator->trans($options['placeholder']);
 
-        $jsSelect2Options['allowClear'] = $view->vars['required'] !== true; // allow clear if not required
+        $jsSelect2Options['allowClear'] = true !== $view->vars['required']; // allow clear if not required
         $jsSelect2Options['minimumInputLength'] = $options['min_search_length'];
         $jsSelect2Options['width'] = $options['width'];
 

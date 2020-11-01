@@ -41,7 +41,7 @@ class DateTimeFormatter
             'd' => 'day',
             'h' => 'hour',
             'i' => 'minute',
-            's' => 'second'
+            's' => 'second',
         ];
 
         $diff = $to->diff($from);
@@ -59,10 +59,10 @@ class DateTimeFormatter
     /**
      * Returns the diff message for the specified count and unit
      *
-     * @param integer $count  The diff count
-     * @param boolean $invert Whether to invert the count
-     * @param integer $unit   The unit must be either year, month, day, hour,
-     *                        minute or second
+     * @param int  $count  The diff count
+     * @param bool $invert Whether to invert the count
+     * @param int  $unit   The unit must be either year, month, day, hour,
+     *                     minute or second
      *
      * @return string
      */

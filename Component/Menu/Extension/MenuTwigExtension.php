@@ -8,11 +8,9 @@
 
 namespace Umbrella\CoreBundle\Component\Menu\Extension;
 
-use Twig\TwigFunction;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 use Umbrella\CoreBundle\Component\Menu\MenuHelper;
-use Umbrella\CoreBundle\Component\Menu\Model\Menu;
-use Umbrella\CoreBundle\Component\Menu\Model\MenuItem;
 
 /**
  * Class MenuTwigExtension.
@@ -26,6 +24,7 @@ class MenuTwigExtension extends AbstractExtension
 
     /**
      * MenuTwigExtension constructor.
+     *
      * @param MenuHelper $helper
      */
     public function __construct(MenuHelper $helper)

@@ -14,7 +14,8 @@ namespace Umbrella\CoreBundle\Utils;
 class HtmlUtils
 {
     /**
-     * @param  array  $attr
+     * @param array $attr
+     *
      * @return string
      */
     public static function array_to_html_attribute(array $attr)
@@ -23,27 +24,31 @@ class HtmlUtils
         foreach ($attr as $key => $value) {
             $html .= $key . '="' . self::encode_html_attr($value) . '" ';
         }
+
         return $html;
     }
 
     /**
      * @param $value
+     *
      * @return string
      */
     public static function encode_html_attr($value)
     {
         if (is_array($value)) {
             $value = json_encode($value);
-            
+
             if (false === $value) {
                 throw new \JsonException('Enable to encode json_data');
             }
         }
+
         return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false);
     }
 
     /**
      * @param $class
+     *
      * @return string
      */
     public static function render_icon($class)

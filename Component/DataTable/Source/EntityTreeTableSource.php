@@ -23,6 +23,7 @@ class EntityTreeTableSource extends AbstractTableSource
 
     /**
      * DataTableEntitySource constructor.
+     *
      * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
@@ -31,9 +32,9 @@ class EntityTreeTableSource extends AbstractTableSource
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function search($dataClass, array $columns, array $query) : DataTableResult
+    public function search($dataClass, array $columns, array $query): DataTableResult
     {
         $queryData = $query['query'];
         $formData = $query['form'];
@@ -49,6 +50,7 @@ class EntityTreeTableSource extends AbstractTableSource
         $result = new DataTableResult();
         $result->data = $qb->getQuery()->getResult();
         $result->count = count($result->data);
+
         return $result;
     }
 }

@@ -12,14 +12,14 @@ use Umbrella\CoreBundle\Component\Menu\Model\MenuItem;
 
 /**
  * Interface MenuMatcherInterface
- * @package Umbrella\CoreBundle\Component\Matcher\Menu
  */
 interface MenuMatcherInterface
 {
     /**
      * Checks whether an item is current.
      *
-     * @param  MenuItem $item
+     * @param MenuItem $item
+     *
      * @return bool
      */
     public function isCurrent(MenuItem $item);
@@ -27,7 +27,8 @@ interface MenuMatcherInterface
     /**
      * Checks whether an item is the ancestor of a current item.
      *
-     * @param  MenuItem $item
+     * @param MenuItem $item
+     *
      * @return bool
      */
     public function isAncestor(MenuItem $item);

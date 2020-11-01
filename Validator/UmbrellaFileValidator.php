@@ -3,9 +3,9 @@
 namespace Umbrella\CoreBundle\Validator;
 
 use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Constraints\FileValidator;
 use Umbrella\CoreBundle\Entity\UmbrellaFile;
 use Umbrella\CoreBundle\Services\UmbrellaFileUploader;
-use Symfony\Component\Validator\Constraints\FileValidator;
 
 /**
  * Class UmbrellaFileValidator
@@ -19,6 +19,7 @@ class UmbrellaFileValidator extends FileValidator
 
     /**
      * UmbrellaFileValidator constructor.
+     *
      * @param UmbrellaFileUploader $fileUploader
      */
     public function __construct(UmbrellaFileUploader $fileUploader)
@@ -36,9 +37,9 @@ class UmbrellaFileValidator extends FileValidator
         }
 
         /** @var UmbrellaFile $value */
-
         if ($value->file) {
             parent::validate($value->file, $constraint);
+
             return;
         }
 

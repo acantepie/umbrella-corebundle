@@ -41,6 +41,7 @@ class StringUtils
 
     /**
      * @param $bytes
+     *
      * @return string
      */
     public static function to_human_size($bytes)
@@ -61,8 +62,9 @@ class StringUtils
     }
 
     /**
-     * @param  int    $length
-     * @param  string $characters
+     * @param int    $length
+     * @param string $characters
+     *
      * @return string
      */
     public static function random($length = 8, $characters = self::ALPHANUM)
@@ -70,21 +72,23 @@ class StringUtils
         $str = '';
 
         $max = strlen($characters) - 1;
-        for ($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < $length; ++$i) {
             $rand = mt_rand(0, $max);
             $str .= $characters[$rand];
         }
+
         return str_shuffle($str);
     }
 
     /**
      * @param $value
-     * @param  int    $length
-     * @param  bool   $preserve
-     * @param  string $separator
-     * @return string
-     * @see twig_truncate_filter()
+     * @param int    $length
+     * @param bool   $preserve
+     * @param string $separator
      *
+     * @return string
+     *
+     * @see twig_truncate_filter()
      */
     public static function truncate($value, $length = 30, $preserve = false, $separator = '...')
     {
@@ -102,8 +106,9 @@ class StringUtils
     }
 
     /**
-     * @param  string $haystack
-     * @param  string $needle
+     * @param string $haystack
+     * @param string $needle
+     *
      * @return bool
      */
     public static function startsWith($haystack, $needle)
@@ -113,12 +118,14 @@ class StringUtils
         }
 
         $length = strlen($needle);
-        return (substr($haystack, 0, $length) === $needle);
+
+        return substr($haystack, 0, $length) === $needle;
     }
 
     /**
-     * @param  string $haystack
-     * @param  string $needle
+     * @param string $haystack
+     * @param string $needle
+     *
      * @return bool
      */
     public static function endsWith($haystack, $needle)
@@ -128,14 +135,16 @@ class StringUtils
         }
 
         $length = strlen($needle);
-        if ($length == 0) {
+        if (0 == $length) {
             return false;
         }
-        return (substr($haystack, -$length) === $needle);
+
+        return substr($haystack, -$length) === $needle;
     }
 
     /**
      * @param $string
+     *
      * @return string
      */
     public static function unaccent($string)
@@ -351,17 +360,20 @@ class StringUtils
         ];
 
         $string = strtr($string, $chars);
+
         return $string;
     }
 
     /**
      * @param $typeClass
+     *
      * @return mixed|string
      */
     public static function typeClassToId($typeClass)
     {
         $ns = preg_replace('/Type$/', '', $typeClass);
         $name = str_replace('\\', '_', $ns);
+
         return \function_exists('mb_strtolower') && preg_match('//u', $name) ? mb_strtolower($name, 'UTF-8') : strtolower($name);
     }
 }

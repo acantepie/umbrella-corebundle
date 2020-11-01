@@ -10,10 +10,9 @@
 namespace Umbrella\CoreBundle\Component\Menu;
 
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\Menu\Model\MenuItem;
 
 /**
@@ -21,7 +20,6 @@ use Umbrella\CoreBundle\Component\Menu\Model\MenuItem;
  */
 class MenuFactory
 {
-
     /**
      * @var TranslatorInterface
      */
@@ -29,6 +27,7 @@ class MenuFactory
 
     /**
      * MenuFactory constructor.
+     *
      * @param TranslatorInterface $translator
      */
     public function __construct(TranslatorInterface $translator)
@@ -47,13 +46,14 @@ class MenuFactory
     /**
      * @param $id
      * @param array $options
+     *
      * @return MenuItem
      */
     public function _createItem($id, array $options = [])
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setDefault('label', function (Options $options) use($id) {
+            ->setDefault('label', function (Options $options) use ($id) {
                 return sprintf('menu.%s', $id);
             })
             ->setAllowedTypes('label', 'string')
@@ -89,6 +89,7 @@ class MenuFactory
         foreach ($resolvedOptions['children'] as $id => $childOptions) {
             $i->addChild($id, $childOptions);
         }
+
         return $i;
     }
 }

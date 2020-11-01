@@ -19,6 +19,7 @@ class ArrayUtils
      *
      * @param array $a
      * @param array $b
+     *
      * @return bool
      */
     public static function contains_all(array $search, array $all)
@@ -41,13 +42,14 @@ class ArrayUtils
     public static function array_merge_recursive()
     {
         $args = func_get_args();
+
         return self::_array_merge_recursive($args);
     }
 
     // source : https://api.drupal.org/api/drupal/includes%21bootstrap.inc/function/drupal_array_merge_deep_array/7.x
     private static function _array_merge_recursive(array $arrays)
     {
-        $result = array();
+        $result = [];
         foreach ($arrays as $array) {
             foreach ($array as $key => $value) {
                 // Renumber integer keys as array_merge_recursive() does. Note that PHP
@@ -56,15 +58,16 @@ class ArrayUtils
                 if (is_integer($key)) {
                     $result[] = $value;
                 } elseif (isset($result[$key]) && is_array($result[$key]) && is_array($value)) {
-                    $result[$key] = self::_array_merge_recursive(array(
+                    $result[$key] = self::_array_merge_recursive([
                         $result[$key],
                         $value,
-                    ));
+                    ]);
                 } else {
                     $result[$key] = $value;
                 }
             }
         }
+
         return $result;
     }
 
@@ -88,6 +91,7 @@ class ArrayUtils
     /**
      * @param $f
      * @param $xs
+     *
      * @return array
      */
     public static function array_map_recursive($f, array $xs)
@@ -96,6 +100,7 @@ class ArrayUtils
         foreach ($xs as $k => $x) {
             $out[$k] = (is_array($x)) ? self::array_map_recursive($f, $x) : $f($x);
         }
+
         return $out;
     }
 
@@ -113,23 +118,25 @@ class ArrayUtils
      *  a.c => 2
      * ]
      *
-     * @param array $nested
+     * @param array  $nested
      * @param string $baseNs
-     * @param array $stopRules
+     * @param array  $stopRules
+     *
      * @return array
      */
     public static function remap_nested_array(array $nested, $baseNs = '', $stopRules = [])
     {
         $r = [];
         self::map_recursive_nested_array($nested, $baseNs, $stopRules, $r);
+
         return $r;
     }
 
     /**
      * @param $a
      * @param string $currentNs
-     * @param array $stopRules
-     * @param array $result
+     * @param array  $stopRules
+     * @param array  $result
      */
     private static function map_recursive_nested_array($a, $currentNs = '', array $stopRules = [], array &$result)
     {

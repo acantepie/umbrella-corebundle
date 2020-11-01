@@ -8,11 +8,11 @@
 
 namespace Umbrella\CoreBundle\Component\DataTable\Extension;
 
-use Twig\Environment;
-use Twig\TwigFunction;
-use Twig\Extension\AbstractExtension;
-use Umbrella\CoreBundle\Component\Column\Column;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
+use Umbrella\CoreBundle\Component\Column\Column;
 use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTable;
 
 /**
@@ -27,6 +27,7 @@ class DataTableTwigExtension extends AbstractExtension
 
     /**
      * DataTableTwigExtension constructor.
+     *
      * @param TranslatorInterface $translator
      */
     public function __construct(TranslatorInterface $translator)
@@ -52,24 +53,28 @@ class DataTableTwigExtension extends AbstractExtension
     }
 
     /**
-     * @param  Environment       $twig
-     * @param  AbstractDataTable $table
+     * @param Environment       $twig
+     * @param AbstractDataTable $table
+     *
      * @return string
      */
     public function render(Environment $twig, AbstractDataTable $table)
     {
         $view = $table->createView($this->translator);
+
         return $twig->render($view->template, $view->vars);
     }
 
     /**
-     * @param  Environment $twig
-     * @param  Column      $column
+     * @param Environment $twig
+     * @param Column      $column
+     *
      * @return string
      */
     public function renderColumn(Environment $twig, Column $column)
     {
         $view = $column->createView();
+
         return $twig->render($view->template, $view->vars);
     }
 }

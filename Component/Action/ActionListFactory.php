@@ -7,7 +7,6 @@ namespace Umbrella\CoreBundle\Component\Action;
  */
 class ActionListFactory
 {
-
     /**
      * @var ActionFactory
      */
@@ -15,6 +14,7 @@ class ActionListFactory
 
     /**
      * ActionListFactory constructor.
+     *
      * @param ActionFactory $actionFactory
      */
     public function __construct(ActionFactory $actionFactory)

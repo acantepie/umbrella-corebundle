@@ -10,9 +10,9 @@
 namespace Umbrella\CoreBundle\Component\DataTable\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Component\Toolbar\ToolbarBuilder;
 use Umbrella\CoreBundle\Component\DataTable\DataTableBuilder;
 use Umbrella\CoreBundle\Component\Toolbar\ToolbarAwareTypeInterface;
+use Umbrella\CoreBundle\Component\Toolbar\ToolbarBuilder;
 
 /**
  * Class DataTableType.

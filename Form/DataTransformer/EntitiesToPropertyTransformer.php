@@ -4,25 +4,24 @@ namespace Umbrella\CoreBundle\Form\DataTransformer;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 
 /**
  * Data transformer for multiple mode (i.e., multiple = true)
  *
  * Class EntitiesToPropertyTransformer
- * @package Tetranz\Select2EntityBundle\Form\DataTransformer
  */
 class EntitiesToPropertyTransformer implements DataTransformerInterface
 {
     /** @var EntityManagerInterface */
     protected $em;
-    /** @var  string */
+    /** @var string */
     protected $className;
-    /** @var  string */
+    /** @var string */
     protected $textProperty;
-    /** @var  string */
+    /** @var string */
     protected $primaryKey;
     /** @var PropertyAccessor */
     protected $accessor;
@@ -45,7 +44,8 @@ class EntitiesToPropertyTransformer implements DataTransformerInterface
     /**
      * Transform initial entities to array
      *
-     * @param  mixed $entities
+     * @param mixed $entities
+     *
      * @return array
      */
     public function transform($entities)
@@ -74,7 +74,8 @@ class EntitiesToPropertyTransformer implements DataTransformerInterface
     /**
      * Transform array to a collection of entities
      *
-     * @param  array $values
+     * @param array $values
+     *
      * @return array
      */
     public function reverseTransform($values)
@@ -87,7 +88,7 @@ class EntitiesToPropertyTransformer implements DataTransformerInterface
         $entities = $this->em->createQueryBuilder()
             ->select('entity')
             ->from($this->className, 'entity')
-            ->where('entity.'.$this->primaryKey.' IN (:ids)')
+            ->where('entity.' . $this->primaryKey . ' IN (:ids)')
             ->setParameter('ids', $values)
             ->getQuery()
             ->getResult();

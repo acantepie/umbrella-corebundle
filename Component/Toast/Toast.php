@@ -72,12 +72,14 @@ class Toast
     }
 
     /**
-     * @param  bool  $loader
+     * @param bool $loader
+     *
      * @return Toast
      */
     public function setLoader($loader)
     {
         $this->loader = $loader;
+
         return $this;
     }
 
@@ -90,12 +92,14 @@ class Toast
     }
 
     /**
-     * @param  bool  $allowToastClose
+     * @param bool $allowToastClose
+     *
      * @return Toast
      */
     public function setAllowToastClose($allowToastClose)
     {
         $this->allowToastClose = $allowToastClose;
+
         return $this;
     }
 
@@ -108,12 +112,14 @@ class Toast
     }
 
     /**
-     * @param  int   $hideAfter
+     * @param int $hideAfter
+     *
      * @return Toast
      */
     public function setHideAfter($hideAfter)
     {
         $this->hideAfter = $hideAfter;
+
         return $this;
     }
 
@@ -126,12 +132,14 @@ class Toast
     }
 
     /**
-     * @param  string $title
+     * @param string $title
+     *
      * @return Toast
      */
     public function setTitle($title)
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -144,12 +152,14 @@ class Toast
     }
 
     /**
-     * @param  string $text
+     * @param string $text
+     *
      * @return Toast
      */
     public function setText($text)
     {
         $this->text = $text;
+
         return $this;
     }
 
@@ -162,12 +172,14 @@ class Toast
     }
 
     /**
-     * @param  string $type
+     * @param string $type
+     *
      * @return Toast
      */
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -180,19 +192,21 @@ class Toast
     }
 
     /**
-     * @param  string $position
+     * @param string $position
+     *
      * @return Toast
      */
     public function setPosition($position)
     {
         $this->position = $position;
+
         return $this;
     }
 
     /**
      * @return ComponentView
      */
-    public function createView() : ComponentView
+    public function createView(): ComponentView
     {
         $view = new ComponentView();
         $view->vars = [
@@ -202,7 +216,7 @@ class Toast
             'icon' => $this->type,
             'allowToastClose' => $this->allowToastClose,
             'loader' => $this->loader,
-            'hideAfter' => $this->hideAfter
+            'hideAfter' => $this->hideAfter,
         ];
 
         return $view;

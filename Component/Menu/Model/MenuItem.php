@@ -9,8 +9,6 @@
 
 namespace Umbrella\CoreBundle\Component\Menu\Model;
 
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\Menu\MenuFactory;
 
 /**
@@ -27,6 +25,7 @@ class MenuItem implements \Countable, \IteratorAggregate
 
     /**
      * Children map using id as key
+     *
      * @var MenuItem[]
      */
     protected $children = [];
@@ -73,12 +72,14 @@ class MenuItem implements \Countable, \IteratorAggregate
 
     /**
      * whether the item is current. null means unknown
-     * @var boolean|null
+     *
+     * @var bool|null
      */
     public $isCurrent = null;
 
     /**
      * MenuItem constructor.
+     *
      * @param $id
      * @param MenuFactory $factory
      */
@@ -97,7 +98,7 @@ class MenuItem implements \Countable, \IteratorAggregate
      */
     public function isRoot()
     {
-        return $this->parent === null;
+        return null === $this->parent;
     }
 
     /**
@@ -119,6 +120,7 @@ class MenuItem implements \Countable, \IteratorAggregate
     /**
      * @param $path
      * @param false $strict
+     *
      * @return bool
      */
     public function matchPath($path, $strict = false)
@@ -130,6 +132,7 @@ class MenuItem implements \Countable, \IteratorAggregate
 
     /**
      * @param $route
+     *
      * @return bool
      */
     public function mathRoute($route)
@@ -147,21 +150,25 @@ class MenuItem implements \Countable, \IteratorAggregate
 
     /**
      * @param MenuItem|null $parent
+     *
      * @return $this
      */
     public function setParent(MenuItem $parent = null)
     {
         $this->parent = $parent;
+
         return $this;
     }
 
     /**
      * @param bool $current
+     *
      * @return $this
      */
     public function setCurrent($current = true)
     {
         $this->isCurrent = $current;
+
         return $this;
     }
 
@@ -176,6 +183,7 @@ class MenuItem implements \Countable, \IteratorAggregate
     /**
      * @param $id
      * @param array $options
+     *
      * @return MenuItem
      */
     public function addChild($id, array $options = [])
@@ -183,6 +191,7 @@ class MenuItem implements \Countable, \IteratorAggregate
         $child = $this->factory->_createItem($id, $options);
         $child->setParent($this);
         $this->children[$child->id] = $child;
+
         return $child;
     }
 
@@ -196,6 +205,7 @@ class MenuItem implements \Countable, \IteratorAggregate
 
     /**
      * @param $id
+     *
      * @return bool
      */
     public function hasChild($id)
@@ -205,6 +215,7 @@ class MenuItem implements \Countable, \IteratorAggregate
 
     /**
      * @param $id
+     *
      * @return $this
      */
     public function removeChild($id)
@@ -213,11 +224,13 @@ class MenuItem implements \Countable, \IteratorAggregate
             $this->children[$id]->setParent(null);
             unset($this->children[$id]);
         }
+
         return $this;
     }
 
     /**
      * @param $id
+     *
      * @return MenuItem|null
      */
     public function getChild($id)
@@ -233,11 +246,10 @@ class MenuItem implements \Countable, \IteratorAggregate
         return empty($this->route);
     }
 
-
     // Interface implementations
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getIterator()
     {
@@ -252,15 +264,16 @@ class MenuItem implements \Countable, \IteratorAggregate
         $it = new \ArrayIterator();
         foreach ($this->children as $child) {
             $it->append($child);
-            foreach ($child->getFlatIterator() as $value)
+            foreach ($child->getFlatIterator() as $value) {
                 $it->append($value);
+            }
         }
 
         return $it;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function count()
     {

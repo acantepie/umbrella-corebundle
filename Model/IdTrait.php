@@ -1,11 +1,9 @@
 <?php
 
-
 namespace Umbrella\CoreBundle\Model;
 
 /**
  * Trait IdTrait
- * @package Umbrella\CoreBundle\Model
  */
 trait IdTrait
 {
@@ -16,5 +14,4 @@ trait IdTrait
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     public $id;
-
 }

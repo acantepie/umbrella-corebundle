@@ -8,9 +8,9 @@
 
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
-use Umbrella\CoreBundle\Utils\HtmlUtils;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Umbrella\CoreBundle\Utils\HtmlUtils;
 
 /**
  * Class EnableColumnType
@@ -24,6 +24,7 @@ class BooleanColumnType extends PropertyColumnType
 
     /**
      * EnableColumnType constructor.
+     *
      * @param TranslatorInterface $translator
      */
     public function __construct(TranslatorInterface $translator)
@@ -34,7 +35,8 @@ class BooleanColumnType extends PropertyColumnType
 
     /**
      * @param $entity
-     * @param  array  $options
+     * @param array $options
+     *
      * @return string
      */
     public function render($entity, array $options)

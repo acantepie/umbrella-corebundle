@@ -17,7 +17,8 @@ class MathUtils
      * @see Utils.js
      *
      * @param $bytes
-     * @param  int    $precision
+     * @param int $precision
+     *
      * @return string
      */
     public static function bytes_to_size($bytes, $precision = 2)

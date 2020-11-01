@@ -47,7 +47,7 @@ class RowAction
     private $title;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $spinner = false;
 
@@ -62,7 +62,7 @@ class RowAction
     private $confirm;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $xhr = false;
 
@@ -80,12 +80,14 @@ class RowAction
     }
 
     /**
-     * @param  string    $icon
+     * @param string $icon
+     *
      * @return RowAction
      */
     public function setIcon($icon)
     {
         $this->icon = $icon;
+
         return $this;
     }
 
@@ -98,12 +100,14 @@ class RowAction
     }
 
     /**
-     * @param  string    $class
+     * @param string $class
+     *
      * @return RowAction
      */
     public function setClass($class)
     {
         $this->class = $class;
+
         return $this;
     }
 
@@ -117,13 +121,15 @@ class RowAction
 
     /**
      * @param $route
-     * @param  array $routeParams
+     * @param array $routeParams
+     *
      * @return $this
      */
     public function setRoute($route, array $routeParams = [])
     {
         $this->route = $route;
         $this->routeParams = $routeParams;
+
         return $this;
     }
 
@@ -136,12 +142,14 @@ class RowAction
     }
 
     /**
-     * @param  array     $routeParams
+     * @param array $routeParams
+     *
      * @return RowAction
      */
     public function setRouteParams(array $routeParams)
     {
         $this->routeParams = $routeParams;
+
         return $this;
     }
 
@@ -153,16 +161,19 @@ class RowAction
     /**
      * @param $key
      * @param $value
+     *
      * @return $this
      */
     public function addRouteParam($key, $value)
     {
         $this->routeParams[$key] = $value;
+
         return $this;
     }
 
     /**
      * @param $key
+     *
      * @return $this
      */
     public function removeRouteParam($key)
@@ -170,6 +181,7 @@ class RowAction
         if ($this->hasRouteParam($key)) {
             unset($this->routeParams[$key]);
         }
+
         return $this;
     }
 
@@ -182,12 +194,14 @@ class RowAction
     }
 
     /**
-     * @param  string    $url
+     * @param string $url
+     *
      * @return RowAction
      */
     public function setUrl($url)
     {
         $this->url = $url;
+
         return $this;
     }
 
@@ -200,12 +214,14 @@ class RowAction
     }
 
     /**
-     * @param  string    $title
+     * @param string $title
+     *
      * @return RowAction
      */
     public function setTitle($title)
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -218,12 +234,14 @@ class RowAction
     }
 
     /**
-     * @param  string    $confirm
+     * @param string $confirm
+     *
      * @return RowAction
      */
     public function setConfirm($confirm)
     {
         $this->confirm = $confirm;
+
         return $this;
     }
 
@@ -236,12 +254,14 @@ class RowAction
     }
 
     /**
-     * @param  bool      $xhr
+     * @param bool $xhr
+     *
      * @return RowAction
      */
     public function setXhr($xhr)
     {
         $this->xhr = $xhr;
+
         return $this;
     }
 
@@ -254,12 +274,14 @@ class RowAction
     }
 
     /**
-     * @param  bool      $spinner
+     * @param bool $spinner
+     *
      * @return RowAction
      */
     public function setSpinner($spinner)
     {
         $this->spinner = $spinner;
+
         return $this;
     }
 
@@ -272,12 +294,14 @@ class RowAction
     }
 
     /**
-     * @param  string    $xhrId
+     * @param string $xhrId
+     *
      * @return RowAction
      */
     public function setXhrId($xhrId)
     {
         $this->xhrId = $xhrId;
+
         return $this;
     }
 
@@ -290,12 +314,14 @@ class RowAction
     }
 
     /**
-     * @param  string    $target
+     * @param string $target
+     *
      * @return RowAction
      */
     public function setTarget($target)
     {
         $this->target = $target;
+
         return $this;
     }
 }

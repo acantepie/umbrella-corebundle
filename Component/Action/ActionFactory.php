@@ -47,11 +47,12 @@ class ActionFactory
 
     /**
      * @param $typeClass
+     *
      * @return ActionType
      */
     private function createType($typeClass)
     {
-        if ($typeClass !== ActionType::class && !is_subclass_of($typeClass, ActionType::class)) {
+        if (ActionType::class !== $typeClass && !is_subclass_of($typeClass, ActionType::class)) {
             throw new \InvalidArgumentException("Class '$typeClass' must extends ActionType class.");
         }
 

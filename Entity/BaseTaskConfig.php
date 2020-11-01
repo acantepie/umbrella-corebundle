@@ -2,21 +2,19 @@
 
 namespace Umbrella\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use Umbrella\CoreBundle\Model\IdTrait;
-use Umbrella\CoreBundle\Model\TimestampTrait;
 
 /**
  * Class BaseTaskConfig
  *
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table("umbrella_task_config")
- * @ORM\HasLifecycleCallbacks()
+ * @ORM\HasLifecycleCallbacks
  *
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
- *
  */
 abstract class BaseTaskConfig
 {
@@ -56,6 +54,7 @@ abstract class BaseTaskConfig
 
     /**
      * BaseTaskConfig constructor.
+     *
      * @param $handlerAlias
      */
     public function __construct($handlerAlias)

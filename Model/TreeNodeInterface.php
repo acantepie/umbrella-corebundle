@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Interface TreeInterface
- * @package Umbrella\CoreBundle\Model
  */
 interface TreeNodeInterface
 {
@@ -31,8 +30,9 @@ interface TreeNodeInterface
     public function getChildren(): ArrayCollection;
 
     /**
-     * @param  TreeNodeInterface $node
+     * @param TreeNodeInterface $node
+     *
      * @return bool
      */
-    public function isChildOf(TreeNodeInterface  $node) : bool;
+    public function isChildOf(TreeNodeInterface $node): bool;
 }

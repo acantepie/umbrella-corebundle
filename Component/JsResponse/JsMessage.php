@@ -13,7 +13,6 @@ namespace Umbrella\CoreBundle\Component\JsResponse;
  */
 class JsMessage implements \JsonSerializable
 {
-
     /**
      * @var string
      */
@@ -31,6 +30,7 @@ class JsMessage implements \JsonSerializable
 
     /**
      * JsMessage constructor.
+     *
      * @param $action
      * @param array $params
      * @param int   $priority
@@ -67,7 +67,8 @@ class JsMessage implements \JsonSerializable
     }
 
     /**
-     * @param  JsMessage $action
+     * @param JsMessage $action
+     *
      * @return int
      */
     public function compare(JsMessage $action)
@@ -75,11 +76,12 @@ class JsMessage implements \JsonSerializable
         if ($this->priority == $action->getPriority()) {
             return 0;
         }
+
         return ($this->priority < $action->getPriority()) ? -1 : 1;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function jsonSerialize()
     {

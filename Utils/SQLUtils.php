@@ -8,8 +8,8 @@
 
 namespace Umbrella\CoreBundle\Utils;
 
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class SQLUtils.
@@ -17,9 +17,10 @@ use Doctrine\ORM\EntityManagerInterface;
 class SQLUtils
 {
     /**
-     * @param  QueryBuilder $queryBuilder
-     * @param  string       $select
-     * @return integer
+     * @param QueryBuilder $queryBuilder
+     * @param string       $select
+     *
+     * @return int
      */
     public static function count(QueryBuilder $queryBuilder, $select = 'e.id')
     {
@@ -27,6 +28,7 @@ class SQLUtils
         $countQb->resetDQLPart('select');
         $countQb->setMaxResults(null);
         $countQb->setFirstResult(null);
+
         return $countQb->select("COUNT($select)")->getQuery()->getSingleScalarResult();
     }
 

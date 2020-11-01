@@ -8,13 +8,13 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Command;
 
-use Umbrella\CoreBundle\Entity\Task;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputInterface;
-use Umbrella\CoreBundle\Component\Task\TaskManager;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Umbrella\CoreBundle\Component\Task\TaskManager;
+use Umbrella\CoreBundle\Entity\Task;
 
 /**
  * Class TaskListCommand
@@ -35,17 +35,18 @@ class TaskListCommand extends Command
     private $io;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $pending;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $done;
 
     /**
      * TaskListCommand constructor.
+     *
      * @param TaskManager $taskManager
      */
     public function __construct(TaskManager $taskManager)
@@ -55,7 +56,7 @@ class TaskListCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -66,7 +67,7 @@ class TaskListCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
@@ -76,11 +77,10 @@ class TaskListCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         // Task pending
         if ($this->pending) {
             $tasksPending = $this->taskManager->findByStates([Task::STATE_PENDING]);
@@ -94,7 +94,7 @@ class TaskListCommand extends Command
                         $task->id,
                         $task->config->handlerAlias,
                         $task->config->tag,
-                        $task->createdAt->format('d/m/Y H:i:s')
+                        $task->createdAt->format('d/m/Y H:i:s'),
                     ];
                 }
                 $this->io->table(['id', 'config (handler alias)', 'config (tag)', 'created'], $rows);
@@ -139,7 +139,7 @@ class TaskListCommand extends Command
                         $task->startedAt ? $task->startedAt->format('d/m/Y H:i:s') : '?',
                         $task->endedAt ? $task->endedAt->format('d/m/Y H:i:s') : '?',
                         $task->runtime(),
-                        $task->state
+                        $task->state,
                     ];
                 }
                 $this->io->table(['id', 'config (handler alias)', 'config (tag)', 'started', 'ended', 'runtime (s)', 'status'], $rows);

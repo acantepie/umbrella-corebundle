@@ -22,6 +22,7 @@ class ToastFactory
 
     /**
      * ToastFactory constructor.
+     *
      * @param TranslatorInterface $translator
      */
     public function __construct(TranslatorInterface $translator)
@@ -39,7 +40,8 @@ class ToastFactory
 
     /**
      * @param $transId
-     * @param  array $transParams
+     * @param array $transParams
+     *
      * @return Toast
      */
     public function createInfo($transId, array $transParams = [])
@@ -51,7 +53,8 @@ class ToastFactory
 
     /**
      * @param $transId
-     * @param  array $transParams
+     * @param array $transParams
+     *
      * @return Toast
      */
     public function createSuccess($transId, array $transParams = [])
@@ -63,7 +66,8 @@ class ToastFactory
 
     /**
      * @param $transId
-     * @param  array $transParams
+     * @param array $transParams
+     *
      * @return Toast
      */
     public function createWarning($transId, array $transParams = [])
@@ -75,7 +79,8 @@ class ToastFactory
 
     /**
      * @param $transId
-     * @param  array $transParams
+     * @param array $transParams
+     *
      * @return Toast
      */
     public function createError($transId, array $transParams = [])

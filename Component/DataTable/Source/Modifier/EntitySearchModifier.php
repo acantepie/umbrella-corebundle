@@ -16,7 +16,7 @@ use Doctrine\ORM\QueryBuilder;
 class EntitySearchModifier extends EntitySourceModifier
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function modifyQb(QueryBuilder $qb, array $formData)
     {

@@ -24,7 +24,7 @@ class UmbrellaRedis
     private $port;
 
     /**
-     * @var integer
+     * @var int
      */
     private $db;
 
@@ -52,9 +52,10 @@ class UmbrellaRedis
      */
     public function getConn()
     {
-        if ($this->conn == null) {
+        if (null == $this->conn) {
             $this->conn = $this->openConn();
         }
+
         return $this->conn;
     }
 
@@ -66,6 +67,7 @@ class UmbrellaRedis
         $connection = new \Redis();
         $connection->connect($this->host, $this->port);
         $connection->select($this->db);
+
         return $connection;
     }
 }

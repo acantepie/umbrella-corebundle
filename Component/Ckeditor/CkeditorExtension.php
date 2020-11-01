@@ -2,16 +2,15 @@
 
 namespace Umbrella\CoreBundle\Component\Ckeditor;
 
-use Twig\TwigFunction;
-use Twig\Extension\AbstractExtension;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * Class CkeditorExtension
  */
 class CkeditorExtension extends AbstractExtension
 {
-
     /**
      * @var RequestStack
      */
@@ -19,6 +18,7 @@ class CkeditorExtension extends AbstractExtension
 
     /**
      * CkeditorExtension constructor.
+     *
      * @param RequestStack $requestStack
      */
     public function __construct(RequestStack $requestStack)

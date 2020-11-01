@@ -27,6 +27,7 @@ class RowActionBuilder
     {
         $action = new RowAction();
         $this->actions[] = $action;
+
         return $action;
     }
 
@@ -36,12 +37,14 @@ class RowActionBuilder
     public function clear()
     {
         $this->actions = [];
+
         return $this;
     }
 
     /**
      * @param $route
-     * @param  array     $routeParams
+     * @param array $routeParams
+     *
      * @return RowAction
      */
     public function createXhrEdit($route, array $routeParams = [])
@@ -53,6 +56,7 @@ class RowActionBuilder
     /**
      * @param $route
      * @param $routeParams
+     *
      * @return RowAction
      */
     public function createEdit($route, array $routeParams = [])
@@ -66,6 +70,7 @@ class RowActionBuilder
     /**
      * @param $route
      * @param $routeParams
+     *
      * @return RowAction
      */
     public function createXhrDelete($route, array $routeParams = [])
@@ -81,6 +86,7 @@ class RowActionBuilder
     /**
      * @param $route
      * @param $routeParams
+     *
      * @return RowAction
      */
     public function createXhrShow($route, array $routeParams = [])
@@ -92,6 +98,7 @@ class RowActionBuilder
     /**
      * @param $route
      * @param $routeParams
+     *
      * @return RowAction
      */
     public function createShow($route, array $routeParams = [])

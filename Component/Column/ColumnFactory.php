@@ -54,11 +54,12 @@ class ColumnFactory
 
     /**
      * @param $typeClass
+     *
      * @return ColumnType
      */
     private function createType($typeClass)
     {
-        if ($typeClass !== ColumnType::class && !is_subclass_of($typeClass, ColumnType::class)) {
+        if (ColumnType::class !== $typeClass && !is_subclass_of($typeClass, ColumnType::class)) {
             throw new \InvalidArgumentException("Class '$typeClass' must extends ColumnType class.");
         }
 

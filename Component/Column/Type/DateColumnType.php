@@ -16,16 +16,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class DateColumnType extends PropertyColumnType
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function render($entity, array $options)
     {
         $value = $this->accessor->getValue($entity, $options['property_path']);
+
         return $value instanceof \DateTime ? $value->format($options['format']) : $value;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {

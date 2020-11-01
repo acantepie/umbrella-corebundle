@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Umbrella\CoreBundle\Component\Tabs;
 
 use Twig\Extension\AbstractExtension;
@@ -18,6 +17,7 @@ class TabsExtension extends AbstractExtension
 
     /**
      * TabsExtension constructor.
+     *
      * @param TabsHelper $tabsHelper
      */
     public function __construct(TabsHelper $tabsHelper)
@@ -34,7 +34,7 @@ class TabsExtension extends AbstractExtension
             new TwigFunction('nav_config', [$this->tabsHelper, 'navConfig']),
             new TwigFunction('nav_start', [$this->tabsHelper, 'navStart'], ['is_safe' => ['html']]),
             new TwigFunction('nav_end', [$this->tabsHelper, 'navEnd'], ['is_safe' => ['html']]),
-            new TwigFunction('nav_item', [$this->tabsHelper, 'navItem'], ['is_safe' => ['html']])
+            new TwigFunction('nav_item', [$this->tabsHelper, 'navItem'], ['is_safe' => ['html']]),
         ];
     }
 }

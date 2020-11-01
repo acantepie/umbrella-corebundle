@@ -8,9 +8,9 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Extension;
 
-use Umbrella\CoreBundle\Entity\Task;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\DateTime\DateTimeHelper;
+use Umbrella\CoreBundle\Entity\Task;
 
 /**
  * Class TaskHelper
@@ -24,7 +24,7 @@ class TaskHelper
         Task::STATE_FINISHED => 'success',
         Task::STATE_TERMINATED => 'danger',
         Task::STATE_FAILED => 'danger',
-        Task::STATE_CANCELED => 'dark'
+        Task::STATE_CANCELED => 'dark',
     ];
 
     private static $STATE_ICONS = [
@@ -49,6 +49,7 @@ class TaskHelper
 
     /**
      * TaskHelper constructor.
+     *
      * @param TranslatorInterface $translator
      * @param DateTimeHelper      $dateTimeHelper
      */
@@ -60,6 +61,7 @@ class TaskHelper
 
     /**
      * @param $state
+     *
      * @return string
      */
     public function getStateColor($state)
@@ -69,6 +71,7 @@ class TaskHelper
 
     /**
      * @param $state
+     *
      * @return string
      */
     public function getStateLabel($state)
@@ -78,6 +81,7 @@ class TaskHelper
 
     /**
      * @param $state
+     *
      * @return string
      */
     public function getStateIcon($state)
@@ -87,6 +91,7 @@ class TaskHelper
 
     /**
      * @param $state
+     *
      * @return string
      */
     public function renderState($state)
@@ -99,8 +104,9 @@ class TaskHelper
     }
 
     /**
-     * @param  Task        $task
-     * @return null|string
+     * @param Task $task
+     *
+     * @return string|null
      */
     public function renderRuntime(Task $task)
     {

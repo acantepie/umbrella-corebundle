@@ -22,6 +22,7 @@ class SearchableAnnotationReader
 
     /**
      * SearchableAnnotationReader constructor.
+     *
      * @param Reader $reader
      */
     public function __construct(Reader $reader)
@@ -31,7 +32,8 @@ class SearchableAnnotationReader
 
     /**
      * @param $entityClass
-     * @return null|Searchable
+     *
+     * @return Searchable|null
      */
     public function getSearchable($entityClass)
     {
@@ -40,6 +42,7 @@ class SearchableAnnotationReader
 
     /**
      * @param $entityClass
+     *
      * @return SearchableField[]
      */
     public function getSearchableProperties($entityClass)
@@ -49,7 +52,7 @@ class SearchableAnnotationReader
         $result = [];
         foreach ($reflection->getProperties() as $property) {
             $annotation = $this->reader->getPropertyAnnotation($property, SearchableField::class);
-            if ($annotation !== null) {
+            if (null !== $annotation) {
                 $result[$property->getName()] = $annotation;
             }
         }
@@ -59,6 +62,7 @@ class SearchableAnnotationReader
 
     /**
      * @param $entityClass
+     *
      * @return SearchableField[]
      */
     public function getSearchableMethods($entityClass)
@@ -68,7 +72,7 @@ class SearchableAnnotationReader
         $result = [];
         foreach ($reflection->getMethods() as $method) {
             $annotation = $this->reader->getMethodAnnotation($method, SearchableField::class);
-            if ($annotation !== null) {
+            if (null !== $annotation) {
                 $result[$method->getName()] = $annotation;
             }
         }
@@ -81,12 +85,15 @@ class SearchableAnnotationReader
     /**
      * @param $class
      * @param $annotationName
+     *
      * @return object|null
+     *
      * @throws \ReflectionException
      */
     public function getInheritAnnotation($class, $annotationName)
     {
         $reflection = new \ReflectionClass($class);
+
         return $this->reader->getClassAnnotation($reflection, $annotationName);
     }
 }

@@ -22,6 +22,7 @@ class EntityCallbackSourceModifier extends EntitySourceModifier
 
     /**
      * SourceModifier constructor.
+     *
      * @param callable $callback
      * @param int      $priority
      */
@@ -32,9 +33,9 @@ class EntityCallbackSourceModifier extends EntitySourceModifier
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
-    public function modifyQb(QueryBuilder  $qb, array $formData)
+    public function modifyQb(QueryBuilder $qb, array $formData)
     {
         call_user_func($this->callback, $qb, $formData);
     }

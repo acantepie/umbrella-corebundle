@@ -3,17 +3,17 @@
 namespace Umbrella\CoreBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
-use Umbrella\CoreBundle\Utils\ArrayUtils;
-use Umbrella\CoreBundle\Services\UmbrellaRedis;
-use Symfony\Component\DependencyInjection\Loader;
-use Umbrella\CoreBundle\Extension\WebpackTwigExtension;
-use Umbrella\CoreBundle\Component\Action\Type\ActionType;
-use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
+use Umbrella\CoreBundle\Component\Action\Type\ActionType;
 use Umbrella\CoreBundle\Component\Ckeditor\CkeditorConfiguration;
+use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
+use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\Task\Handler\AbstractTaskHandler;
+use Umbrella\CoreBundle\Extension\WebpackTwigExtension;
+use Umbrella\CoreBundle\Services\UmbrellaRedis;
+use Umbrella\CoreBundle\Utils\ArrayUtils;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -30,7 +30,7 @@ class UmbrellaCoreExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
         $loader->load('form_extension.yml');
 

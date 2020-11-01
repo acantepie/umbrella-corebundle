@@ -9,13 +9,12 @@
 namespace Umbrella\CoreBundle\Component\Menu;
 
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Umbrella\CoreBundle\Component\Menu\Matcher\MenuMatcherInterface;
+use Umbrella\CoreBundle\Component\Menu\Matcher\MenuRequestMatcher;
 use Umbrella\CoreBundle\Component\Menu\Model\Breadcrumb;
 use Umbrella\CoreBundle\Component\Menu\Model\Menu;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\Menu\Model\MenuItem;
-use Umbrella\CoreBundle\Component\Menu\Matcher\MenuRequestMatcher;
-use Umbrella\CoreBundle\Component\Menu\Matcher\MenuMatcherInterface;
-use Umbrella\CoreBundle\Component\Menu\Renderer\MenuRendererInterface;
 
 /**
  * Class MenuHelper
@@ -64,6 +63,7 @@ class MenuHelper
 
     /**
      * @param $name
+     *
      * @return Menu
      */
     public function getMenu($name = null)
@@ -73,6 +73,7 @@ class MenuHelper
 
     /**
      * @param $name
+     *
      * @return Breadcrumb
      */
     public function getBreadcrumb($name = null)
@@ -84,8 +85,9 @@ class MenuHelper
     }
 
     /**
-     * @param null $name
+     * @param null  $name
      * @param array $parameters
+     *
      * @return string
      */
     public function renderMenu($name = null, array $parameters = [])
@@ -94,8 +96,9 @@ class MenuHelper
     }
 
     /**
-     * @param null $name
+     * @param null  $name
      * @param array $parameters
+     *
      * @return string
      */
     public function renderBreadcrumb($name = null, array $parameters = [])
@@ -114,8 +117,9 @@ class MenuHelper
     }
 
     /**
-     * @param  MenuItem $item
-     * @param  bool     $checkAncestor
+     * @param MenuItem $item
+     * @param bool     $checkAncestor
+     *
      * @return bool
      */
     public function isCurrent(MenuItem $item, $checkAncestor = true)
@@ -127,6 +131,7 @@ class MenuHelper
 
     /**
      * @param null $name
+     *
      * @return MenuItem|null
      */
     public function getCurrentItem($name = null)
@@ -135,8 +140,9 @@ class MenuHelper
     }
 
     /**
-     * @param  MenuItem      $item
-     * @return null|MenuItem
+     * @param MenuItem $item
+     *
+     * @return MenuItem|null
      */
     private function getCurrentItemFromItem(MenuItem $item)
     {
@@ -147,7 +153,7 @@ class MenuHelper
         /** @var MenuItem $child */
         foreach ($item as $child) {
             $currentItem = $this->getCurrentItemFromItem($child);
-            if ($currentItem !== null) {
+            if (null !== $currentItem) {
                 return $currentItem;
             }
         }

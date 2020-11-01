@@ -10,20 +10,20 @@
 namespace Umbrella\CoreBundle\Component\DataTable;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
 use Umbrella\CoreBundle\Component\Column\Column;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\Column\ColumnFactory;
 use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
-use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
-use Umbrella\CoreBundle\Component\DataTable\Model\DataTable;
-use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTable;
+use Umbrella\CoreBundle\Component\DataTable\Model\DataTable;
 use Umbrella\CoreBundle\Component\DataTable\Source\AbstractTableSource;
 use Umbrella\CoreBundle\Component\DataTable\Source\EntityDataTableSource;
 use Umbrella\CoreBundle\Component\DataTable\Source\EntityTreeTableSource;
 use Umbrella\CoreBundle\Component\DataTable\Source\Modifier\AbstractSourceModifier;
 use Umbrella\CoreBundle\Component\DataTable\Source\Modifier\EntityCallbackSourceModifier;
+use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
+use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
 use Umbrella\CoreBundle\Utils\StringUtils;
 
 /**
@@ -67,7 +67,7 @@ class DataTableBuilder
     private $loadUrl;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $relocateUrl;
 
@@ -134,6 +134,7 @@ class DataTableBuilder
     public function remove($id)
     {
         unset($this->columns[$id]);
+
         return $this;
     }
 
@@ -149,6 +150,7 @@ class DataTableBuilder
 
     /**
      * @param $id
+     *
      * @return Column
      */
     public function get($id)
@@ -192,7 +194,9 @@ class DataTableBuilder
 
     /**
      * Alias to add callback sourceModifier
+     *
      * @param callable $priority
+     *
      * @see self::addSourceModifier()
      */
     public function addEntityCallbackSourceModifier(callable $callback, $priority = 0)
@@ -234,7 +238,7 @@ class DataTableBuilder
         }
 
         // resolve source
-        if ($this->source === null) {
+        if (null === $this->source) {
             $source = $resolvedOptions['tree']
                 ? new EntityTreeTableSource($this->em) // default source for tree data
                 : new EntityDataTableSource($this->em); // default source for regular data
@@ -248,7 +252,7 @@ class DataTableBuilder
         $table->setLoadUrl($this->loadUrl);
         $table->setRelocateUrl($this->relocateUrl);
 
-        if (count($table->getColumns()) === 0) {
+        if (0 === count($table->getColumns())) {
             throw new \RuntimeException(sprintf('No column configured for datatable "%s"', get_class($this->type)));
         }
 
@@ -257,7 +261,8 @@ class DataTableBuilder
 
     /**
      * @param $id
-     * @param  false  $force
+     * @param false $force
+     *
      * @return Column
      */
     protected function resolveColumn($id, $force = false)
@@ -266,7 +271,7 @@ class DataTableBuilder
             throw new \RuntimeException(sprintf('Column with id "%s" does not exist.', $id));
         }
 
-        if ($force === true || !isset($this->columns[$id]['resolved'])) {
+        if (true === $force || !isset($this->columns[$id]['resolved'])) {
             $this->columns[$id]['options']['id'] = $id;
             $this->columns[$id]['resolved'] = $this->columnFactory->create($this->columns[$id]['class'], $this->columns[$id]['options']);
         }

@@ -10,7 +10,6 @@ namespace Umbrella\CoreBundle\Component\Toolbar;
 
 /**
  * Interface ToolbarTypeInterface
- * @package Umbrella\CoreBundle\Component\Toolbar\Type
  */
 interface ToolbarAwareTypeInterface
 {

@@ -12,7 +12,6 @@ use Umbrella\CoreBundle\Component\Menu\MenuFactory;
 
 /**
  * Class Menu
- * @package Umbrella\CoreBundle\Component\Menu\Model
  */
 class Menu
 {
@@ -28,6 +27,7 @@ class Menu
 
     /**
      * Menu constructor.
+     *
      * @param MenuItem $root
      */
     public function __construct(MenuFactory $factory)
@@ -59,11 +59,13 @@ class Menu
                 return $item;
             }
         }
+
         return null;
     }
 
     /**
      * @param $route
+     *
      * @return MenuItem|null
      */
     public function searchByRoute($route)
@@ -73,6 +75,7 @@ class Menu
                 return $item;
             }
         }
+
         return null;
     }
 
@@ -86,7 +89,7 @@ class Menu
         $item = $this->search($path, $strict);
         if (null !== $item) {
             $item->setCurrent(true);
-        } elseif(!$quiet) {
+        } elseif (!$quiet) {
             throw new \RuntimeException(sprintf('No item found on menu for path "%s" (strict search ? %s)', $path, $strict ? 'true' : 'false'));
         }
     }
@@ -100,9 +103,8 @@ class Menu
         $item = $this->searchByRoute($route);
         if (null !== $item) {
             $item->setCurrent(true);
-        } elseif(!$quiet) {
+        } elseif (!$quiet) {
             throw new \RuntimeException(sprintf('No item found on menu for route "%s"', $route));
         }
     }
-
 }

@@ -20,6 +20,7 @@ class DateTimeHelper
 
     /**
      * DateTimeHelper constructor.
+     *
      * @param DateTimeFormatter $formatter
      */
     public function __construct(DateTimeFormatter $formatter)
@@ -38,9 +39,10 @@ class DateTimeHelper
      */
     public function diff(\DateTimeInterface $from, \DateTimeInterface $to = null)
     {
-        if ($to === null) {
+        if (null === $to) {
             $to = new \DateTime();
         }
+
         return $this->formatter->formatDiff($from, $to);
     }
 }

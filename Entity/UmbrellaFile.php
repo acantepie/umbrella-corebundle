@@ -9,10 +9,10 @@
 namespace Umbrella\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Umbrella\CoreBundle\Model\IdTrait;
 use Umbrella\CoreBundle\Model\TimestampTrait;
 use Umbrella\CoreBundle\Utils\MathUtils;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class UmbrellaFile.

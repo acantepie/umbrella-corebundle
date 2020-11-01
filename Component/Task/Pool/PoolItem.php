@@ -8,8 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Pool;
 
-use Umbrella\CoreBundle\Entity\Task;
 use Symfony\Component\Process\Process;
+use Umbrella\CoreBundle\Entity\Task;
 
 /**
  * Class PoolItem
@@ -38,6 +38,7 @@ class PoolItem
 
     /**
      * PoolItem constructor.
+     *
      * @param Task    $task
      * @param Process $process
      */

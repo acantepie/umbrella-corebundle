@@ -29,7 +29,7 @@ class DataTableResult implements \JsonSerializable
     public $data = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function jsonSerialize()
     {

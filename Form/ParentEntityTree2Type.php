@@ -2,14 +2,14 @@
 
 namespace Umbrella\CoreBundle\Form;
 
-use Symfony\Component\Form\FormView;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\OptionsResolver\Options;
-use Umbrella\CoreBundle\Model\TreeNodeInterface;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Model\TreeNodeInterface;
 
 /**
  * Class EntityTree2Type
@@ -23,6 +23,7 @@ class ParentEntityTree2Type extends AbstractType
 
     /**
      * ParentEntityTree2Type constructor.
+     *
      * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
@@ -47,7 +48,7 @@ class ParentEntityTree2Type extends AbstractType
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -74,18 +75,18 @@ class ParentEntityTree2Type extends AbstractType
 
         $nodes = $qb->getQuery()->getResult();
 
-        if (null === $currentNode || $currentNode->getId() === null) {
+        if (null === $currentNode || null === $currentNode->getId()) {
             return $nodes;
         }
 
         // exclude all child of currentNode
-        return array_filter($nodes, function (TreeNodeInterface  $node) use ($currentNode) {
+        return array_filter($nodes, function (TreeNodeInterface $node) use ($currentNode) {
             return !$node->isChildOf($currentNode);
         });
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getParent()
     {

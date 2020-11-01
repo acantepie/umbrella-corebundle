@@ -2,9 +2,9 @@
 
 namespace Umbrella\CoreBundle\Component\DateTime;
 
+use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
-use Twig\Extension\AbstractExtension;
 
 /**
  * Class DateTimeExtension
@@ -18,6 +18,7 @@ class DateTimeExtension extends AbstractExtension
 
     /**
      * TimeExtension constructor.
+     *
      * @param DateTimeHelper $helper
      */
     public function __construct(DateTimeHelper $helper)

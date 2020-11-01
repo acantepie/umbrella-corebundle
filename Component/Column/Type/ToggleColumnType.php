@@ -8,10 +8,10 @@
 
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
-use Umbrella\CoreBundle\Utils\StringUtils;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Umbrella\CoreBundle\Utils\StringUtils;
 
 /**
  * Class ToggleColumnType
@@ -35,6 +35,7 @@ class ToggleColumnType extends PropertyColumnType
 
     /**
      * ToggleColumnType constructor.
+     *
      * @param TranslatorInterface $translator
      * @param RouterInterface     $router
      */
@@ -46,7 +47,7 @@ class ToggleColumnType extends PropertyColumnType
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function render($entity, array $options)
     {
@@ -73,7 +74,7 @@ class ToggleColumnType extends PropertyColumnType
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {

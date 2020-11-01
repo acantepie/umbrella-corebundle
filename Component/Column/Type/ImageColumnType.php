@@ -8,10 +8,10 @@
 
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
-use Umbrella\CoreBundle\Utils\HtmlUtils;
-use Umbrella\CoreBundle\Entity\UmbrellaFile;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Entity\UmbrellaFile;
+use Umbrella\CoreBundle\Utils\HtmlUtils;
 
 /**
  * Class ImageColumnType
@@ -25,6 +25,7 @@ class ImageColumnType extends PropertyColumnType
 
     /**
      * ImageColumnType constructor.
+     *
      * @param CacheManager $cacheManager
      */
     public function __construct(CacheManager $cacheManager)
@@ -35,8 +36,9 @@ class ImageColumnType extends PropertyColumnType
 
     /**
      * @param $entity
-     * @param  array       $options
-     * @return null|string
+     * @param array $options
+     *
+     * @return string|null
      */
     public function render($entity, array $options)
     {
@@ -51,11 +53,12 @@ class ImageColumnType extends PropertyColumnType
         if (!empty($options['imagine_filter'])) {
             $url = $this->cacheManager->getBrowserPath($url, $options['imagine_filter']);
         }
+
         return sprintf('<img src="%s" %s>', $url, HtmlUtils::array_to_html_attribute($attr));
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -64,7 +67,7 @@ class ImageColumnType extends PropertyColumnType
         $resolver
             ->setDefault('image_attr', [
                 'width' => 80,
-                'height' => 80
+                'height' => 80,
             ])
             ->setAllowedTypes('image_attr', 'array')
 

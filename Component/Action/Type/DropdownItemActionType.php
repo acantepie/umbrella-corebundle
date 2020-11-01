@@ -2,8 +2,8 @@
 
 namespace Umbrella\CoreBundle\Component\Action\Type;
 
-use Umbrella\CoreBundle\Component\ComponentView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Component\ComponentView;
 
 /**
  * Class DropdownItemActionType
@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class DropdownItemActionType extends ActionType
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function buildView(ComponentView $view, array $options)
     {
@@ -19,7 +19,7 @@ class DropdownItemActionType extends ActionType
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {

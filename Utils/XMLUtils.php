@@ -12,10 +12,11 @@ class XMLUtils
 {
     /**
      * @see https://stackoverflow.com/questions/6167279/converting-a-simplexml-object-to-an-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+     *
      * @param mixed $xmlObject
      */
     public static function xml2array($xmlObject)
     {
-        return json_decode(json_encode((array)$xmlObject), true);
+        return json_decode(json_encode((array) $xmlObject), true);
     }
 }

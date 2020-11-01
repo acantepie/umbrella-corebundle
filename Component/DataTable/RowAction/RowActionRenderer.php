@@ -8,9 +8,9 @@
 
 namespace Umbrella\CoreBundle\Component\DataTable\RowAction;
 
-use Umbrella\CoreBundle\Utils\HtmlUtils;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Umbrella\CoreBundle\Utils\HtmlUtils;
 
 /**
  * Class RowActionRenderer
@@ -29,6 +29,7 @@ class RowActionRenderer
 
     /**
      * RowActionRenderer constructor.
+     *
      * @param RouterInterface     $router
      * @param TranslatorInterface $translator
      */
@@ -41,7 +42,8 @@ class RowActionRenderer
     /**
      * Don't use twig template to avoid performance issue
      *
-     * @param  RowAction $rowAction
+     * @param RowAction $rowAction
+     *
      * @return string
      */
     public function render(RowAction $rowAction)
@@ -85,6 +87,7 @@ class RowActionRenderer
         }
 
         $html .= '</a>';
+
         return $html;
     }
 }

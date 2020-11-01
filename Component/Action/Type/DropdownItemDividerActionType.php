@@ -2,8 +2,8 @@
 
 namespace Umbrella\CoreBundle\Component\Action\Type;
 
-use Umbrella\CoreBundle\Component\ComponentView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Component\ComponentView;
 
 /**
  * Class DropdownItemDividerActionType
@@ -11,17 +11,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class DropdownItemDividerActionType extends ActionType
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function buildView(ComponentView $view, array $options)
     {
         $view->vars['attr'] = [
-            'class' => $options['class']
+            'class' => $options['class'],
         ];
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {

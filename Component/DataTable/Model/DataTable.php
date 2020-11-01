@@ -8,15 +8,15 @@
 
 namespace Umbrella\CoreBundle\Component\DataTable\Model;
 
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\Column\Column;
 use Umbrella\CoreBundle\Component\ComponentView;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class DataTable.
@@ -29,7 +29,7 @@ class DataTable extends AbstractDataTable
     private $query = [];
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function handleRequestData(array $requestData)
     {
@@ -41,7 +41,7 @@ class DataTable extends AbstractDataTable
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handleRequest(Request $request)
     {
@@ -56,7 +56,7 @@ class DataTable extends AbstractDataTable
             $this->toolbar->handleRequest($request);
             $this->query = [
                 'query' => $queryData,
-                'form' => $this->toolbar->getFormData()
+                'form' => $this->toolbar->getFormData(),
             ];
         }
     }
@@ -64,7 +64,7 @@ class DataTable extends AbstractDataTable
     /**
      * @return DataTableResult
      */
-    public function getResults() : DataTableResult
+    public function getResults(): DataTableResult
     {
         if (!$this->isCallback) {
             throw new \RuntimeException('Unable to retrieve result, datatable is not on callback context');
@@ -74,7 +74,7 @@ class DataTable extends AbstractDataTable
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getApiResults()
     {
@@ -153,7 +153,7 @@ class DataTable extends AbstractDataTable
 
             ->setDefault('attr', function (Options $options) {
                 return [
-                    'class' => $options['tree'] ? 'table table-centered' : 'table table-striped table-centered'
+                    'class' => $options['tree'] ? 'table table-centered' : 'table table-striped table-centered',
                 ];
             })
             ->setAllowedTypes('attr', ['array'])
@@ -207,10 +207,11 @@ class DataTable extends AbstractDataTable
     }
 
     /**
-     * @param  TranslatorInterface $translator
+     * @param TranslatorInterface $translator
+     *
      * @return ComponentView
      */
-    public function createView(TranslatorInterface $translator) : ComponentView
+    public function createView(TranslatorInterface $translator): ComponentView
     {
         // js options
         $jsOptions = [];
@@ -221,10 +222,10 @@ class DataTable extends AbstractDataTable
         $jsOptions['serverSide'] = true;
         $jsOptions['bFilter'] = false;
         $jsOptions['ajax'] = [
-            'url' => $this->loadUrl
+            'url' => $this->loadUrl,
         ];
         $jsOptions['ajax_data'] = [
-            '_dtid' => $this->options['id']
+            '_dtid' => $this->options['id'],
         ];
 
         if ($this->options['paging']) {
@@ -240,7 +241,7 @@ class DataTable extends AbstractDataTable
         if ($this->relocateUrl) {
             $jsOptions['rowReorder'] = [
                 'update' => false,
-                'url' => $this->relocateUrl
+                'url' => $this->relocateUrl,
             ];
         }
 
@@ -257,7 +258,7 @@ class DataTable extends AbstractDataTable
             if (is_string($column->getOrder())) {
                 $jsOptions['order'][] = [
                     $idx,
-                    strtolower($column->getOrder())
+                    strtolower($column->getOrder()),
                 ];
             }
 
@@ -290,7 +291,7 @@ class DataTable extends AbstractDataTable
             'aria' => [
                 'sortAscending' => $translate('aria.sortAscending'),
                 'sortDescending' => $translate('aria.sortDescending'),
-            ]
+            ],
         ];
 
         // view vars
@@ -302,7 +303,7 @@ class DataTable extends AbstractDataTable
             'id' => $this->options['id'],
             'class' => 'umbrella-datatable-container',
             'data-mount' => 'DataTable',
-            'data-options' => $jsOptions
+            'data-options' => $jsOptions,
         ];
 
         $view->vars['table_attr'] = $this->options['attr'];

@@ -1,13 +1,11 @@
 <?php
 
-
 namespace Umbrella\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Trait TimestampTrait
- * @package Umbrella\CoreBundle\Model
  */
 trait TimestampTrait
 {
@@ -24,7 +22,7 @@ trait TimestampTrait
     public $updatedAt;
 
     /**
-     * @ORM\PrePersist()
+     * @ORM\PrePersist
      */
     public function updateCreatedAt()
     {
@@ -32,8 +30,8 @@ trait TimestampTrait
     }
 
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
     public function updateUpdatedAt()
     {

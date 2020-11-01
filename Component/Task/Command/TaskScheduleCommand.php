@@ -8,19 +8,19 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Command;
 
-use Umbrella\CoreBundle\Entity\Task;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Umbrella\CoreBundle\Component\Task\Pool\Pool;
-use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Console\Input\InputInterface;
-use Umbrella\CoreBundle\Component\Task\TaskManager;
 use Symfony\Component\Console\Command\LockableTrait;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
+use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Process\Process;
+use Umbrella\CoreBundle\Component\Task\Pool\Pool;
+use Umbrella\CoreBundle\Component\Task\TaskManager;
+use Umbrella\CoreBundle\Entity\Task;
 
 /**
  * Class TaskScheduleCommand
@@ -56,12 +56,13 @@ class TaskScheduleCommand extends Command
 
     /**
      * Interval in s
+     *
      * @var int
      */
     private $interval;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $verbose;
 
@@ -71,12 +72,13 @@ class TaskScheduleCommand extends Command
     private $pool;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $interrupted = false;
 
     /**
      * TaskScheduleCommand constructor.
+     *
      * @param TaskManager $taskManager
      * @param $consolePath
      */
@@ -99,7 +101,7 @@ class TaskScheduleCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
@@ -119,14 +121,16 @@ class TaskScheduleCommand extends Command
         // try lock
         if (!$this->lock()) {
             $output->writeln('The command is already running.');
+
             return 0;
         }
 
         $tasksToSchedule = $this->taskManager->getTasksToSchedule();
-        if (count($tasksToSchedule) === 0) {
+        if (0 === count($tasksToSchedule)) {
             if ($this->verbose) {
                 $this->io->writeln('No task to schedule');
             }
+
             return 1;
         }
 
@@ -157,6 +161,7 @@ class TaskScheduleCommand extends Command
         }
 
         $this->release();
+
         return 1;
     }
 
@@ -172,7 +177,7 @@ class TaskScheduleCommand extends Command
             $this->phpBinaryPath,
             $this->consolePath,
             TaskRunCommand::CMD_NAME,
-            $task->id
+            $task->id,
         ]);
 
         // update state

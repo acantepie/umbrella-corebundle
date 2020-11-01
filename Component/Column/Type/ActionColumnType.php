@@ -24,6 +24,7 @@ class ActionColumnType extends ColumnType
 
     /**
      * ActionColumnType constructor.
+     *
      * @param RowActionRenderer $renderer
      */
     public function __construct(RowActionRenderer $renderer)
@@ -33,7 +34,8 @@ class ActionColumnType extends ColumnType
 
     /**
      * @param $entity
-     * @param  array  $options
+     * @param array $options
+     *
      * @return string
      */
     public function render($entity, array $options)
@@ -47,11 +49,12 @@ class ActionColumnType extends ColumnType
         foreach ($builder->getActions() as $action) {
             $html .= $this->renderer->render($action);
         }
+
         return $html;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {

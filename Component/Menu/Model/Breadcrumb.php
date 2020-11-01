@@ -14,6 +14,7 @@ class Breadcrumb implements \IteratorAggregate, \Countable
 
     /**
      * Breadcrumb constructor.
+     *
      * @param BreadcrumbItem[] $items
      */
     public function __construct(array $items = [])
@@ -29,9 +30,6 @@ class Breadcrumb implements \IteratorAggregate, \Countable
         $this->items[] = BreadcrumbItem::create($options);
     }
 
-    /**
-     *
-     */
     public function clear()
     {
         $this->items = [];
@@ -39,6 +37,7 @@ class Breadcrumb implements \IteratorAggregate, \Countable
 
     /**
      * Return first not empty icon found belongs items
+     *
      * @return string|null
      */
     public function getIcon()
@@ -48,11 +47,12 @@ class Breadcrumb implements \IteratorAggregate, \Countable
                 return $item->icon;
             }
         }
+
         return null;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function count()
     {
@@ -60,12 +60,10 @@ class Breadcrumb implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getIterator()
     {
         return new \ArrayIterator($this->items);
     }
-
-
 }

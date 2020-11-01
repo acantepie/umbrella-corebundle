@@ -4,8 +4,8 @@ namespace Umbrella\CoreBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
-use Umbrella\CoreBundle\Model\TreeNodeInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Model\TreeNodeInterface;
 
 /**
  * Class EntityTree2Type
@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class EntityTree2Type extends AbstractType
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -23,13 +23,13 @@ class EntityTree2Type extends AbstractType
                     ->orderBy('e.lft', 'ASC');
             })
             ->setDefault('select2_options', [
-                'dropdownCssClass' => 'select2-tree-dropdown'
+                'dropdownCssClass' => 'select2-tree-dropdown',
             ])
             ->setDefault('expose', function ($entity) {
                 if (is_a($entity, TreeNodeInterface::class)) {
                     return [
                         'lvl' => $entity->getLvl(),
-                        'indent' => range(0, $entity->getLvl())
+                        'indent' => range(0, $entity->getLvl()),
                     ];
                 }
             })
@@ -46,7 +46,7 @@ class EntityTree2Type extends AbstractType
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getParent()
     {

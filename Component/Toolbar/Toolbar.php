@@ -11,8 +11,8 @@ namespace Umbrella\CoreBundle\Component\Toolbar;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Umbrella\CoreBundle\Component\ComponentView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Component\ComponentView;
 
 /**
  * Class Toolbar.
@@ -52,17 +52,11 @@ class Toolbar
         return (array) $this->form->getData();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setOptions(array $options = [])
     {
         $this->options = $options;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
@@ -75,7 +69,7 @@ class Toolbar
                 'required' => false,
                 'label_class' => 'hidden',
                 'group_class' => 'col-sm-12',
-                'method' => 'GET'
+                'method' => 'GET',
             ])
             ->setAllowedTypes('toolbar_form_options', 'array')
 
@@ -88,7 +82,7 @@ class Toolbar
     /**
      * @return ComponentView
      */
-    public function createView() : ComponentView
+    public function createView(): ComponentView
     {
         $view = new ComponentView();
         $view->template = $this->options['toolbar_template'];

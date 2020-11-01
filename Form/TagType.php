@@ -8,12 +8,12 @@
 
 namespace Umbrella\CoreBundle\Form;
 
-use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 
 /**
  * Class TagType
@@ -56,7 +56,9 @@ class TagTransformer implements DataTransformerInterface
 
     /**
      * Transform array => string
-     * @param  array  $tags
+     *
+     * @param array $tags
+     *
      * @return string
      */
     public function transform($tags)
@@ -67,7 +69,8 @@ class TagTransformer implements DataTransformerInterface
     /**
      * Transform string => array
      *
-     * @param  string     $data
+     * @param string $data
+     *
      * @return array|null
      */
     public function reverseTransform($data)

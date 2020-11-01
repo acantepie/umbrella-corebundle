@@ -9,9 +9,9 @@
 namespace Umbrella\CoreBundle\Component\Column;
 
 use Symfony\Component\OptionsResolver\Options;
-use Umbrella\CoreBundle\Component\ComponentView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
+use Umbrella\CoreBundle\Component\ComponentView;
 
 /**
  * Class Column.
@@ -30,6 +30,7 @@ class Column
 
     /**
      * @param $data
+     *
      * @return string
      */
     public function render($data)
@@ -37,7 +38,7 @@ class Column
         if (is_callable($this->options['renderer'])) {
             return call_user_func($this->options['renderer'], $data, $this->options);
         } else {
-            return (string)$data;
+            return (string) $data;
         }
     }
 
@@ -99,13 +100,13 @@ class Column
     public function getJsOptions()
     {
         return [
-            'orderable' => false !== $this->options['order'] && $this->options['order_by'] !== null,
-            'className' => $this->options['class']
+            'orderable' => false !== $this->options['order'] && null !== $this->options['order_by'],
+            'className' => $this->options['class'],
         ];
     }
 
     /**
-     * @return strine|null|false
+     * @return strine|false|null
      */
     public function getOrder()
     {
@@ -123,14 +124,14 @@ class Column
     /**
      * @return ComponentView
      */
-    public function createView() : ComponentView
+    public function createView(): ComponentView
     {
         $componentView = new ComponentView();
         $componentView->template = '@UmbrellaCore/DataTable/column_header.html.twig';
 
         $componentView->vars['attr'] = [
             'class' => $this->options['class'],
-            'style' => $this->options['width'] ?  sprintf('width:%s', $this->options['width']) : null,
+            'style' => $this->options['width'] ? sprintf('width:%s', $this->options['width']) : null,
         ];
 
         $componentView->vars['label'] = $this->options['label'];

@@ -8,16 +8,16 @@
 
 namespace Umbrella\CoreBundle\Form;
 
-use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\AbstractType;
-use Umbrella\CoreBundle\Utils\HtmlUtils;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Umbrella\CoreBundle\Utils\HtmlUtils;
 
 // see AsyncEntity2Type to work asynchronously with entity
 
@@ -84,6 +84,7 @@ class Choice2Type extends AbstractType
 
     /**
      * Choice2Type constructor.
+     *
      * @param TranslatorInterface $translator
      * @param RouterInterface     $router
      */
@@ -94,7 +95,7 @@ class Choice2Type extends AbstractType
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
@@ -133,12 +134,14 @@ class Choice2Type extends AbstractType
 
     /**
      * @param $data
+     *
      * @return string
+     *
      * @throws \JsonException
      */
     private function getSerializedData($data)
     {
-        if ($data === null || empty($data)) {
+        if (null === $data || empty($data)) {
             return null;
         }
 
@@ -213,7 +216,7 @@ class Choice2Type extends AbstractType
             ? $options['placeholder']
             : $this->translator->trans($options['placeholder']);
 
-        $jsSelect2Options['allowClear'] = $view->vars['required'] !== true; // allow clear if not required
+        $jsSelect2Options['allowClear'] = true !== $view->vars['required']; // allow clear if not required
         $jsSelect2Options['minimumInputLength'] = $options['min_search_length'];
         $jsSelect2Options['width'] = $options['width'];
 

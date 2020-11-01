@@ -25,6 +25,7 @@ class ActionListBuilder
 
     /**
      * ActionListBuilder constructor.
+     *
      * @param ActionFactory $actionFactory
      */
     public function __construct(ActionFactory $actionFactory)
@@ -51,11 +52,13 @@ class ActionListBuilder
 
     /**
      * @param $id
+     *
      * @return $this
      */
     public function remove($id)
     {
         unset($this->actions[$id]);
+
         return $this;
     }
 
@@ -71,6 +74,7 @@ class ActionListBuilder
 
     /**
      * @param $id
+     *
      * @return Action
      */
     public function get($id)
@@ -87,12 +91,14 @@ class ActionListBuilder
         foreach ($this->actions as $id => $action) {
             $actions[$id] = $this->resolveAction($id);
         }
+
         return $actions;
     }
 
     /**
      * @param $id
-     * @param  false  $force
+     * @param false $force
+     *
      * @return Action
      */
     protected function resolveAction($id, $force = false)
@@ -101,7 +107,7 @@ class ActionListBuilder
             throw new \RuntimeException(sprintf('Action with id "%s" does not exist.', $id));
         }
 
-        if ($force === true || !isset($this->actions[$id]['resolved'])) {
+        if (true === $force || !isset($this->actions[$id]['resolved'])) {
             $this->actions[$id]['options']['id'] = $id;
             $this->actions[$id]['resolved'] = $this->actionFactory->create($this->actions[$id]['class'], $this->actions[$id]['options']);
         }

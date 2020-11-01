@@ -8,17 +8,16 @@
 
 namespace Umbrella\CoreBundle\Extension;
 
-use Twig\TwigFunction;
 use Symfony\Component\Asset\Packages;
-use Twig\Extension\AbstractExtension;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * Class WebpackTwigExtension
  */
 class WebpackTwigExtension extends AbstractExtension
 {
-
     /**
      * @var Packages
      */
@@ -46,6 +45,7 @@ class WebpackTwigExtension extends AbstractExtension
 
     /**
      * WebpackTwigExtension constructor.
+     *
      * @param Packages        $packages
      * @param KernelInterface $kernel
      */
@@ -76,13 +76,14 @@ class WebpackTwigExtension extends AbstractExtension
 
     /**
      * @param $path
-     * @param  null   $packageName
-     * @param  bool   $useDevServer
+     * @param null $packageName
+     * @param bool $useDevServer
+     *
      * @return string
      */
     public function getAssetUrl($path, $packageName = null, $useDevServer = true)
     {
-        if ($this->env == 'dev' && $this->devServerEnabled && $useDevServer) {
+        if ('dev' == $this->env && $this->devServerEnabled && $useDevServer) {
             return $this->devServerHost . ':' . $this->devServerPort . $this->packages->getUrl($path, $packageName);
         } else {
             return $this->packages->getUrl($path, $packageName);

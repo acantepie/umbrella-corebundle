@@ -8,9 +8,9 @@
 
 namespace Umbrella\CoreBundle\Listener;
 
-use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder;
 
 /**
@@ -30,7 +30,7 @@ class UmbrellaViewResponseListener implements EventSubscriberInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {

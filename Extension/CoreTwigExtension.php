@@ -9,9 +9,9 @@
 
 namespace Umbrella\CoreBundle\Extension;
 
-use Twig\TwigTest;
-use Twig\TwigFilter;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigTest;
 use Umbrella\CoreBundle\Utils\HtmlUtils;
 use Umbrella\CoreBundle\Utils\StringUtils;
 
@@ -21,7 +21,7 @@ use Umbrella\CoreBundle\Utils\StringUtils;
 class CoreTwigExtension extends AbstractExtension
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getFilters()
     {
@@ -34,17 +34,18 @@ class CoreTwigExtension extends AbstractExtension
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getTests()
     {
         return [
-            new TwigTest('instanceof', [$this, 'isInstanceof'])
+            new TwigTest('instanceof', [$this, 'isInstanceof']),
         ];
     }
 
     /**
-     * @param  array  $rules
+     * @param array $rules
+     *
      * @return string
      */
     public function toCss(array $rules)
@@ -53,11 +54,13 @@ class CoreTwigExtension extends AbstractExtension
         foreach ($rules as $key => $value) {
             $css .= "$key:$value;";
         }
+
         return $css;
     }
 
     /**
      * @param $bytes
+     *
      * @return string
      */
     public function toHumanSize($bytes)
@@ -68,6 +71,7 @@ class CoreTwigExtension extends AbstractExtension
     /**
      * @param $var
      * @param $instance
+     *
      * @return bool
      */
     public function isInstanceOf($var, $instance)
@@ -76,7 +80,8 @@ class CoreTwigExtension extends AbstractExtension
     }
 
     /**
-     * @param  string $class
+     * @param string $class
+     *
      * @return string
      */
     public function renderIcon($class)
@@ -86,6 +91,7 @@ class CoreTwigExtension extends AbstractExtension
 
     /**
      * @param $attributes
+     *
      * @return string
      */
     public function toHtmlAttribute($attributes)

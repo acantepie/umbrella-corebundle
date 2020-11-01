@@ -17,6 +17,7 @@ abstract class AbstractTaskHandler
 {
     /**
      * Method to initialize handler
+     *
      * @param BaseTaskConfig $config
      */
     public function initialize(BaseTaskConfig $config)
@@ -25,6 +26,7 @@ abstract class AbstractTaskHandler
 
     /**
      * Method to execute handler operations
+     *
      * @param BaseTaskConfig $config
      */
     public function execute(BaseTaskConfig $config)
@@ -33,6 +35,7 @@ abstract class AbstractTaskHandler
 
     /**
      * Method called when task is finished
+     *
      * @param BaseTaskConfig $config
      */
     public function destroy(BaseTaskConfig $config)

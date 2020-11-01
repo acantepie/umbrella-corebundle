@@ -68,11 +68,12 @@ class MenuProvider
 
     /**
      * @param null $name
+     *
      * @return mixed|string
      */
     private function fallbackName($name = null)
     {
-        return $name === null ? $this->defaultAlias : $name;
+        return null === $name ? $this->defaultAlias : $name;
     }
 
     // ------ Menu provider ------ //
@@ -89,6 +90,7 @@ class MenuProvider
 
     /**
      * @param null $name
+     *
      * @return Menu
      */
     public function getMenu($name = null)
@@ -120,9 +122,10 @@ class MenuProvider
     }
 
     /**
-     * @param Menu $menu
-     * @param null $name
+     * @param Menu  $menu
+     * @param null  $name
      * @param array $parameters
+     *
      * @return string
      */
     public function renderMenu(Menu $menu, $name = null, array $parameters = [])
@@ -144,7 +147,8 @@ class MenuProvider
 
     /**
      * @param MenuItem $menuItem
-     * @param null $name
+     * @param null     $name
+     *
      * @return Breadcrumb
      */
     public function getBreadcrumb(MenuItem $menuItem = null, $name = null)
@@ -161,7 +165,7 @@ class MenuProvider
             $bis = [];
 
             $currentMenuItem = $menuItem;
-            while(!$currentMenuItem->isRoot()) {
+            while (!$currentMenuItem->isRoot()) {
                 $bis[] = BreadcrumbItem::createFromMenuItem($currentMenuItem);
                 $currentMenuItem = $currentMenuItem->getParent();
             }
@@ -186,8 +190,9 @@ class MenuProvider
 
     /**
      * @param Breadcrumb $breadcrumb
-     * @param null $name
-     * @param array $parameters
+     * @param null       $name
+     * @param array      $parameters
+     *
      * @return string
      */
     public function renderBreadcrumb(Breadcrumb $breadcrumb, $name = null, array $parameters = [])

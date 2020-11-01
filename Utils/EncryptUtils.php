@@ -14,6 +14,7 @@ class EncryptUtils
      * @param $string
      * @param $secretIv
      * @param $secretKey
+     *
      * @return string
      */
     public static function encrypt_aes256($string, $secretIv, $secretKey)
@@ -23,6 +24,7 @@ class EncryptUtils
         $iv = substr(hash('sha256', $secretIv), 0, 16);
 
         $output = openssl_encrypt($string, 'AES-256-CBC', $key, 0, $iv);
+
         return base64_encode($output);
     }
 
@@ -30,6 +32,7 @@ class EncryptUtils
      * @param $string
      * @param $secretIv
      * @param $secretKey
+     *
      * @return string
      */
     public static function decrypt_aes_256($string, $secretIv, $secretKey)

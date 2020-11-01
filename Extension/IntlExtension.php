@@ -4,10 +4,11 @@
  * @see https://github.com/twigphp/Twig-extensions
  * Deprecated bundle, not use twig v3
  */
+
 namespace Umbrella\CoreBundle\Extension
 {
-    use Twig\TwigFilter;
     use Twig\Extension\AbstractExtension;
+    use Twig\TwigFilter;
 
     class IntlExtension extends AbstractExtension
     {

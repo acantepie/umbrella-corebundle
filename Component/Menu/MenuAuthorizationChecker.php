@@ -8,17 +8,18 @@
 
 namespace Umbrella\CoreBundle\Component\Menu;
 
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Umbrella\CoreBundle\Component\Menu\Model\MenuItem;
-use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
-use Symfony\Component\Security\Core\Authorization\ExpressionLanguage;
 use Sensio\Bundle\FrameworkExtraBundle\EventListener\SecurityListener;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Authorization\ExpressionLanguage;
+use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
+use Umbrella\CoreBundle\Component\Menu\Model\MenuItem;
 
 /**
  * Class MenuAuthorizationChecker
+ *
  * @see SecurityListener
  */
 class MenuAuthorizationChecker
@@ -55,6 +56,7 @@ class MenuAuthorizationChecker
 
     /**
      * MenuAuthorizationChecker constructor.
+     *
      * @param TokenStorageInterface                $tokenStorage
      * @param ExpressionLanguage                   $language
      * @param AuthenticationTrustResolverInterface $trustResolver
@@ -72,7 +74,8 @@ class MenuAuthorizationChecker
     }
 
     /**
-     * @param  MenuItem $item
+     * @param MenuItem $item
+     *
      * @return bool
      */
     public function isGranted(MenuItem $item)
@@ -88,10 +91,10 @@ class MenuAuthorizationChecker
 
         // no securityExpression => look at children
         if (empty($item->security)) {
-
             // no children => granted
             if (!$item->hasChildren()) {
                 $this->cache[$item] = true;
+
                 return true;
             }
 
@@ -99,17 +102,20 @@ class MenuAuthorizationChecker
             foreach ($item as $child) {
                 if ($this->isGranted($child)) {
                     $this->cache[$item] = true;
+
                     return true;
                 }
             }
 
             // all children are forbidden => not granted
             $this->cache[$item] = false;
+
             return false;
         }
 
         $granted = $this->language->evaluate($item->security, $this->getVariables());
         $this->cache[$item] = $granted;
+
         return $granted;
     }
 
@@ -134,6 +140,7 @@ class MenuAuthorizationChecker
 
     /**
      * @param TokenInterface $token
+     *
      * @return array
      */
     private function getRoles(TokenInterface $token): array

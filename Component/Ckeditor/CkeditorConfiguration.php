@@ -19,6 +19,7 @@ class CkeditorConfiguration
 
     /**
      * CkeditorConfiguration constructor.
+     *
      * @param array $config
      */
     public function __construct(array $bundleConfig)
@@ -37,9 +38,9 @@ class CkeditorConfiguration
                 ['name' => 'styles', 'items' => ['Format']],
                 ['name' => 'basicstyles', 'items' => ['Bold', 'Italic', 'Strike', '-', 'RemoveFormat']],
                 ['name' => 'paragraph', 'items' => ['NumberedList', 'BulletedList']],
-                ['name' => 'links', 'items' => ['Link', 'Unlink']]
+                ['name' => 'links', 'items' => ['Link', 'Unlink']],
             ],
-            'uiColor' => '#FEFEFE'
+            'uiColor' => '#FEFEFE',
         ];
 
         $this->configs['full'] = [
@@ -50,12 +51,12 @@ class CkeditorConfiguration
                 ['name' => 'paragraph', 'items' => ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote']],
                 ['name' => 'links', 'items' => ['Link', 'Unlink']],
                 ['name' => 'insert', 'items' => ['Image', 'oembed', 'Table']],
-                ['name' => 'tools', 'items' => ['Maximize', 'Scayt', 'Source']]
+                ['name' => 'tools', 'items' => ['Maximize', 'Scayt', 'Source']],
             ],
-            'uiColor' => '#FEFEFE'
+            'uiColor' => '#FEFEFE',
         ];
         $this->configs['all'] = [];
-        
+
         foreach ($bundleConfig['configs'] as $configName => $config) {
             $this->configs[$configName] = $config;
         }
@@ -70,7 +71,8 @@ class CkeditorConfiguration
     }
 
     /**
-     * @param  null  $name
+     * @param null $name
+     *
      * @return array
      */
     public function getConfig($name)

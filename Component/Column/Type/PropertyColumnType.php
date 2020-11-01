@@ -9,15 +9,14 @@
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * Class PropertyColumnType.
  */
 class PropertyColumnType extends ColumnType
 {
-
     /**
      * @var PropertyAccess
      */
@@ -33,16 +32,17 @@ class PropertyColumnType extends ColumnType
 
     /**
      * @param $entity
-     * @param  array  $options
+     * @param array $options
+     *
      * @return string
      */
     public function render($entity, array $options)
     {
-        return (string)$this->accessor->getValue($entity, $options['property_path']);
+        return (string) $this->accessor->getValue($entity, $options['property_path']);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {

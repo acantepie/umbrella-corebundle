@@ -9,7 +9,6 @@
 namespace Umbrella\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Umbrella\CoreBundle\Annotation\Searchable;
 use Umbrella\CoreBundle\Model\IdTrait;
 use Umbrella\CoreBundle\Model\TimestampTrait;
 
@@ -19,7 +18,7 @@ use Umbrella\CoreBundle\Model\TimestampTrait;
  * Represent one run of a task
  *
  * @ORM\HasLifecycleCallbacks
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table("umbrella_task")
  */
 class Task
@@ -42,9 +41,8 @@ class Task
     use IdTrait;
     use TimestampTrait;
 
-
     /**
-     * @var integer
+     * @var int
      * @ORM\Column(type="integer", nullable=true)
      */
     public $pid;
@@ -99,21 +97,23 @@ class Task
     public $config;
 
     /**
-     * @param  string $format
-     * @return int    (s)
+     * @param string $format
+     *
+     * @return int (s)
      */
     public function runtime($format = '%H:%I:%S')
     {
-        if ($this->startedAt === null) {
+        if (null === $this->startedAt) {
             return null;
         }
 
-        if ($this->state === self::STATE_RUNNING) {
+        if (self::STATE_RUNNING === $this->state) {
             $date = new \DateTime('NOW');
+
             return $date->diff($this->startedAt)->format($format);
         }
 
-        if ($this->endedAt === null) {
+        if (null === $this->endedAt) {
             return null;
         }
 
@@ -270,6 +270,6 @@ class Task
      */
     public function __toString()
     {
-        return (string)$this->id;
+        return (string) $this->id;
     }
 }

@@ -4,26 +4,24 @@ namespace Umbrella\CoreBundle\Form\DataTransformer;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 
 /**
  * Data transformer for single mode (i.e., multiple = false)
  *
  * Class EntityToPropertyTransformer
- *
- * @package Tetranz\Select2EntityBundle\Form\DataTransformer
  */
 class EntityToPropertyTransformer implements DataTransformerInterface
 {
     /** @var EntityManagerInterface */
     protected $em;
-    /** @var  string */
+    /** @var string */
     protected $className;
-    /** @var  string */
+    /** @var string */
     protected $textProperty;
-    /** @var  string */
+    /** @var string */
     protected $primaryKey;
     /** @var PropertyAccessor */
     protected $accessor;
@@ -46,7 +44,8 @@ class EntityToPropertyTransformer implements DataTransformerInterface
     /**
      * Transform entity to array
      *
-     * @param  mixed $entity
+     * @param mixed $entity
+     *
      * @return array
      */
     public function transform($entity)
@@ -72,8 +71,9 @@ class EntityToPropertyTransformer implements DataTransformerInterface
     /**
      * Transform single id value to an entity
      *
-     * @param  string            $value
-     * @return mixed|null|object
+     * @param string $value
+     *
+     * @return mixed|object|null
      */
     public function reverseTransform($value)
     {
@@ -86,7 +86,7 @@ class EntityToPropertyTransformer implements DataTransformerInterface
             $entity = $this->em->createQueryBuilder()
                 ->select('entity')
                 ->from($this->className, 'entity')
-                ->where('entity.'.$this->primaryKey.' = :id')
+                ->where('entity.' . $this->primaryKey . ' = :id')
                 ->setParameter('id', $value)
                 ->getQuery()
                 ->getSingleResult();

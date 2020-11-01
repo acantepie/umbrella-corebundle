@@ -9,13 +9,13 @@
 namespace Umbrella\CoreBundle\Component\DataTable\Model;
 
 use Symfony\Component\HttpFoundation\Request;
-use Umbrella\CoreBundle\Component\Column\Column;
-use Umbrella\CoreBundle\Component\ComponentView;
-use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
+use Umbrella\CoreBundle\Component\Column\Column;
+use Umbrella\CoreBundle\Component\ComponentView;
 use Umbrella\CoreBundle\Component\DataTable\Source\AbstractTableSource;
+use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
+use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
 
 /**
  * Class Table
@@ -69,6 +69,7 @@ abstract class AbstractDataTable
 
     /**
      * Table constructor.
+     *
      * @param string $defaultId
      */
     final public function __construct($defaultId = null)
@@ -155,6 +156,7 @@ abstract class AbstractDataTable
 
     /**
      * Hack to handle submitted data when request is not available
+     *
      * @param array $requestData
      */
     abstract public function handleRequestData(array $requestData);
@@ -172,10 +174,11 @@ abstract class AbstractDataTable
      *
      * @return DataTableResult
      */
-    abstract public function getResults() : DataTableResult;
+    abstract public function getResults(): DataTableResult;
 
     /**
-     * @param  OptionsResolver $resolver
+     * @param OptionsResolver $resolver
+     *
      * @return mixed
      */
     abstract public function configureOptions(OptionsResolver $resolver);
@@ -197,8 +200,9 @@ abstract class AbstractDataTable
     }
 
     /**
-     * @param  TranslatorInterface $translator
+     * @param TranslatorInterface $translator
+     *
      * @return ComponentView
      */
-    abstract public function createView(TranslatorInterface $translator) : ComponentView;
+    abstract public function createView(TranslatorInterface $translator): ComponentView;
 }

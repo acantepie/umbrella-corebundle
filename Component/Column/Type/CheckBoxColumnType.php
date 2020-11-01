@@ -8,9 +8,9 @@
 
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Utils\StringUtils;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class CheckBoxColumnType
@@ -22,9 +22,9 @@ class CheckBoxColumnType extends ColumnType
      */
     private $translator;
 
-
     /**
      * CheckBoxColumnType constructor.
+     *
      * @param TranslatorInterface $translator
      */
     public function __construct(TranslatorInterface $translator)
@@ -35,6 +35,7 @@ class CheckBoxColumnType extends ColumnType
     /**
      * @param $entity
      * @param array $options
+     *
      * @return string
      */
     public function render($entity, array $options)
@@ -44,6 +45,7 @@ class CheckBoxColumnType extends ColumnType
 
     /**
      * @param $htmlId
+     *
      * @return string
      */
     private function columnTemplate($htmlId)
@@ -71,7 +73,7 @@ class CheckBoxColumnType extends ColumnType
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {

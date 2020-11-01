@@ -2,14 +2,13 @@
 
 namespace Umbrella\CoreBundle\Services;
 
-use Psr\Log\LoggerInterface;
-use Umbrella\CoreBundle\Utils\SQLUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\Mapping\MappingException;
+use Psr\Log\LoggerInterface;
+use Umbrella\CoreBundle\Utils\SQLUtils;
 
 /**
  * Class EntityIndexer
- * @package Umbrella\CoreBundle\Services
  */
 class EntityIndexer
 {
@@ -30,6 +29,7 @@ class EntityIndexer
 
     /**
      * EntityIndexer constructor.
+     *
      * @param EntityManagerInterface $em
      * @param LoggerInterface        $logger
      * @param SearchHandler          $searchHandler
@@ -43,6 +43,7 @@ class EntityIndexer
 
     /**
      * @param $entityClass
+     *
      * @return bool
      */
     public function isIndexable($entityClass)

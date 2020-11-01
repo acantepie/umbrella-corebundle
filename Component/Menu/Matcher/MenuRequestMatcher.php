@@ -28,6 +28,7 @@ class MenuRequestMatcher implements MenuMatcherInterface
 
     /**
      * MenuRequestMatcher constructor.
+     *
      * @param RequestStack $requestStack
      */
     public function __construct(RequestStack $requestStack)
@@ -37,7 +38,7 @@ class MenuRequestMatcher implements MenuMatcherInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isCurrent(MenuItem $item)
     {
@@ -51,11 +52,12 @@ class MenuRequestMatcher implements MenuMatcherInterface
 
         $match = $this->isRequestMatching($item->route, $item->routeParams);
         $this->cache[$item] = $match;
+
         return $match;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isAncestor(MenuItem $item)
     {
@@ -69,13 +71,14 @@ class MenuRequestMatcher implements MenuMatcherInterface
                 return true;
             }
         }
+
         return false;
     }
 
     /**
-     *
      * @param $testRoute
-     * @param  array $testRouteParams
+     * @param array $testRouteParams
+     *
      * @return bool
      */
     private function isRequestMatching($testRoute, array $testRouteParams = [])

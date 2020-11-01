@@ -8,8 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\Task\Pool;
 
-use Umbrella\CoreBundle\Entity\Task;
 use Symfony\Component\Process\Process;
+use Umbrella\CoreBundle\Entity\Task;
 
 /**
  * Class Pool
@@ -43,11 +43,12 @@ class Pool implements \IteratorAggregate, \Countable
      */
     public function isEmpty()
     {
-        return $this->count() === 0;
+        return 0 === $this->count();
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @return PoolItem[]|\ArrayIterator
      */
     public function getIterator()
@@ -56,7 +57,7 @@ class Pool implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function count()
     {

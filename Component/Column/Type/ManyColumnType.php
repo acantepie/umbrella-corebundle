@@ -9,8 +9,8 @@
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * Class ManyColumnType
@@ -32,7 +32,8 @@ class ManyColumnType extends ColumnType
 
     /**
      * @param $entity
-     * @param  array  $options
+     * @param array $options
+     *
      * @return string
      */
     public function render($entity, array $options)
@@ -46,12 +47,14 @@ class ManyColumnType extends ColumnType
         foreach ($many as $one) {
             $html .= call_user_func($options['one_renderer'], $one, $options);
         }
+
         return $html;
     }
 
     /**
      * @param $one
-     * @param  array  $options
+     * @param array $options
+     *
      * @return string
      */
     public function renderOne($one, array $options)
@@ -64,7 +67,7 @@ class ManyColumnType extends ColumnType
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {

@@ -9,22 +9,22 @@
 
 namespace Umbrella\CoreBundle\Controller;
 
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Umbrella\CoreBundle\Component\Menu\Model\Breadcrumb;
-use Umbrella\CoreBundle\Component\Toast\Toast;
-use Umbrella\CoreBundle\Component\Menu\MenuHelper;
-use Umbrella\CoreBundle\Component\Menu\Model\Menu;
-use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Umbrella\CoreBundle\Component\Toast\ToastFactory;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
 use Umbrella\CoreBundle\Component\DataTable\DataTableBuilder;
 use Umbrella\CoreBundle\Component\DataTable\DataTableFactory;
-use Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Umbrella\CoreBundle\Component\DataTable\Model\AbstractDataTable;
+use Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder;
+use Umbrella\CoreBundle\Component\Menu\MenuHelper;
+use Umbrella\CoreBundle\Component\Menu\Model\Breadcrumb;
+use Umbrella\CoreBundle\Component\Menu\Model\Menu;
+use Umbrella\CoreBundle\Component\Toast\Toast;
+use Umbrella\CoreBundle\Component\Toast\ToastFactory;
+use Umbrella\CoreBundle\Component\Toolbar\Toolbar;
+use Umbrella\CoreBundle\Component\Toolbar\ToolbarFactory;
 
 /**
  * Class BaseController.
@@ -43,7 +43,7 @@ abstract class BaseController extends AbstractController
                 ToolbarFactory::class,
                 DataTableFactory::class,
                 JsResponseBuilder::class,
-                'translator' => TranslatorInterface::class
+                'translator' => TranslatorInterface::class,
             ]
         );
     }
@@ -77,7 +77,8 @@ abstract class BaseController extends AbstractController
 
     /**
      * @param $className
-     * @param  null             $persistentManagerName
+     * @param null $persistentManagerName
+     *
      * @return EntityRepository
      */
     protected function getRepository($className, $persistentManagerName = null)
@@ -86,7 +87,8 @@ abstract class BaseController extends AbstractController
     }
 
     /**
-     * @param  null                   $name
+     * @param null $name
+     *
      * @return EntityManagerInterface
      */
     protected function em($name = null)
@@ -163,6 +165,7 @@ abstract class BaseController extends AbstractController
 
     /**
      * @param null $name
+     *
      * @return Menu
      */
     protected function getMenu($name = null)
@@ -172,6 +175,7 @@ abstract class BaseController extends AbstractController
 
     /**
      * @param null $name
+     *
      * @return Breadcrumb
      */
     protected function getBreadcrumb($name = null)
@@ -228,12 +232,14 @@ abstract class BaseController extends AbstractController
     /**
      * @param $className
      * @param $id
+     *
      * @return object
      */
     protected function findOrNotFound($className, $id)
     {
         $e = $this->em()->find($className, $id);
         $this->throwNotFoundExceptionIfNull($e);
+
         return $e;
     }
 
@@ -243,7 +249,7 @@ abstract class BaseController extends AbstractController
      */
     protected function throwNotFoundExceptionIfNull($target, $message = 'Not Found')
     {
-        if ($target === null) {
+        if (null === $target) {
             throw $this->createNotFoundException($message);
         }
     }
@@ -254,7 +260,7 @@ abstract class BaseController extends AbstractController
      */
     protected function throwAccessDeniedExceptionIfFalse($target, $message = '')
     {
-        if ($target === false) {
+        if (false === $target) {
             throw $this->createAccessDeniedException($message);
         }
     }

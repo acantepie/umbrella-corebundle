@@ -40,8 +40,9 @@ class ToolbarFactory
     }
 
     /**
-     * @param  ToolbarAwareTypeInterface $awareType
-     * @param  array                     $options
+     * @param ToolbarAwareTypeInterface $awareType
+     * @param array                     $options
+     *
      * @return Toolbar
      */
     public function create(ToolbarAwareTypeInterface $awareType, array $options = [])
@@ -50,7 +51,8 @@ class ToolbarFactory
     }
 
     /**
-     * @param  ToolbarAwareTypeInterface $awareType
+     * @param ToolbarAwareTypeInterface $awareType
+     *
      * @return ToolbarBuilder
      */
     public function createBuilder(ToolbarAwareTypeInterface $awareType)

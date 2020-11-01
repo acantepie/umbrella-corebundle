@@ -39,11 +39,12 @@ abstract class AbstractTableSource
 
     /**
      * @param $dataClass
-     * @param  array           $columns
-     * @param  array           $query
+     * @param array $columns
+     * @param array $query
+     *
      * @return DataTableResult
      */
-    abstract public function search($dataClass, array $columns, array $query) : DataTableResult;
+    abstract public function search($dataClass, array $columns, array $query): DataTableResult;
 
     /**
      * @param mixed ...$args

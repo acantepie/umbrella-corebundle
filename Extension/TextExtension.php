@@ -13,10 +13,11 @@
  * @see https://github.com/twigphp/Twig-extensions
  * Deprecated bundle, not use twig v3
  */
+
 namespace Umbrella\CoreBundle\Extension
 {
-    use Twig\TwigFilter;
     use Twig\Extension\AbstractExtension;
+    use Twig\TwigFilter;
 
     /**
      * @author Henrik Bjornskov <hb@peytz.dk>
@@ -49,7 +50,7 @@ namespace
                 $length = $breakpoint;
             }
 
-            return rtrim(mb_substr($value, 0, $length, $env->getCharset())).$separator;
+            return rtrim(mb_substr($value, 0, $length, $env->getCharset())) . $separator;
         }
 
         return $value;

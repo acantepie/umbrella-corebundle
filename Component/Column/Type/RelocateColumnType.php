@@ -8,8 +8,8 @@
 
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
-use Umbrella\CoreBundle\Utils\HtmlUtils;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Utils\HtmlUtils;
 
 /**
  * Class SequenceColumn.
@@ -18,17 +18,19 @@ class RelocateColumnType extends PropertyColumnType
 {
     /**
      * @param $entity
-     * @param  array  $options
+     * @param array $options
+     *
      * @return string
      */
     public function render($entity, array $options)
     {
         $value = (string) $this->accessor->getValue($entity, $options['property_path']);
+
         return sprintf('<span data-sequence="%d">%s</span>', $value, HtmlUtils::render_icon($options['icon']));
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {

@@ -29,7 +29,7 @@ class SearchTaskCriteria
     public $handlerAlias;
 
     /**
-     * @var null|int
+     * @var int|null
      */
     public $maxResults = null;
 }

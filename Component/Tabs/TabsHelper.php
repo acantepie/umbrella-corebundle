@@ -139,6 +139,10 @@ class TabsHelper
             $config['attr_link']['href'] = $config['url'];
         }
 
+        if (substr($config['attr_link']['href'], 0, 1) === '#') { // anchor
+            $config['attr_link']['data-toggle'] = 'tab';
+        }
+
         if ($this->isActive($config)) {
             $config['attr_link']['class'] .= ' active';
         }

@@ -16,7 +16,6 @@ base: # Not a config - only base value
       class: 'nav-item'
     attr_link:
       class: 'nav-link'
-      data-toggle: 'tab'
 
 default:
   nav:

@@ -10,6 +10,7 @@ namespace Umbrella\CoreBundle\Component\DataTable\Source;
 
 use Umbrella\CoreBundle\Component\DataTable\Model\DataTableResult;
 use Umbrella\CoreBundle\Component\DataTable\Source\Modifier\AbstractSourceModifier;
+use Umbrella\CoreBundle\Component\DataTable\Source\Modifier\EntityCallbackSourceModifier;
 
 /**
  * Class AbstractDataTableSource
@@ -35,6 +36,15 @@ abstract class AbstractTableSource
     public function addModifier(AbstractSourceModifier $modifier)
     {
         $this->modifiers[] = $modifier;
+    }
+
+    /**
+     * @param callable $callback
+     * @param int $priority
+     */
+    public function addEntityCallbackModifier(callable $callback, $priority = 0)
+    {
+        $this->addModifier(new EntityCallbackSourceModifier($callback, $priority));
     }
 
     /**

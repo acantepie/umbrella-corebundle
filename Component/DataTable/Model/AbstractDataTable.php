@@ -162,7 +162,7 @@ abstract class AbstractDataTable
     abstract public function handleRequestData(array $requestData);
 
     /**
-     * You must call isCallback() method before call one
+     * You must call isCallback() method before call getApiResults()
      * Return json serialisable data for api
      *
      * @return \JsonSerializable|array
@@ -170,7 +170,7 @@ abstract class AbstractDataTable
     abstract public function getApiResults();
 
     /**
-     * You must call isCallback() method before call this one
+     * You must call isCallback() method before call getResults()
      *
      * @return DataTableResult
      */

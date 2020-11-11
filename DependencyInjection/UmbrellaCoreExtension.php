@@ -10,7 +10,7 @@ use Umbrella\CoreBundle\Component\Action\Type\ActionType;
 use Umbrella\CoreBundle\Component\Ckeditor\CkeditorConfiguration;
 use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
-use Umbrella\CoreBundle\Component\Task\Handler\AbstractTaskHandler;
+use Umbrella\CoreBundle\Component\Schedule\Task\AbstractTask;
 use Umbrella\CoreBundle\Extension\WebpackTwigExtension;
 use Umbrella\CoreBundle\Services\UmbrellaRedis;
 use Umbrella\CoreBundle\Utils\ArrayUtils;
@@ -46,8 +46,7 @@ class UmbrellaCoreExtension extends Extension
         $container->registerForAutoconfiguration(DataTableType::class)->addTag('umbrella.datatable.type');
         $container->registerForAutoconfiguration(ColumnType::class)->addTag('umbrella.column.type');
         $container->registerForAutoconfiguration(ActionType::class)->addTag('umbrella.action.type');
-
-        $container->registerForAutoconfiguration(AbstractTaskHandler::class)->addTag('umbrella.task.handler');
+        $container->registerForAutoconfiguration(AbstractTask::class)->addTag('umbrella.task');
 
         $parameters = ArrayUtils::remap_nested_array($config, 'umbrella_core');
 

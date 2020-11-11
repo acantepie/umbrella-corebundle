@@ -47,6 +47,7 @@ action:
     create: Créer
     mark_all_as_seen: Tous marquer comme lus
     see_more: Voir plus
+    delete_all: Tout supprimer
 
 form:
     header:
@@ -89,9 +90,9 @@ table:
     file: Fichier
     size: Taille
     status: Statut
-    task_state: Etat
-    task_id: Identifiant
-    task_runtime: Exécution
+    job_state: Etat
+    job_id: Identifiant
+    job_runtime: Exécution
     type: Type
     config: Configuration
 
@@ -109,8 +110,7 @@ message:
     request_password_success: Un email a été envoyé à <b>%email%</b>. Vérifier votre boite mail et cliquer sur le lien de réinitialisation du mot de passe.
     password_resetted: Votre mot de passe a bien été réinitialisé.
     signin_to_bo: "Merci de vous identifier pour accéder au service."
-    task_cancel_confirm: Annuler l'éxecution ?
-    task_canceled: Tache annulée
+    delete_all_job: Supprimer tous les jobs qui ne sont pas en cours d'execution ?
 
 dateFormater:
     day:
@@ -148,7 +148,7 @@ dateFormater:
         Juillet: July
         Aout: August
 
-task:
+job:
     state:
         new: Nouveau
         pending: En attente
@@ -159,10 +159,10 @@ task:
         terminated: Interrompu
 
 filewriter:
-    task_register:
+    job_register:
         title: Tache enregistré
         message: Votre tache <b>%label%</b> a été enregistré.<br> Vous pouvez vérifier son avancement dans les notifications.
-    task_register_error:
+    job_register_error:
         title: Erreur
         message: Votre tache <b>%label%</b> n'a pas été enregistré.<br> Vous avez déjà trop de taches en attente (%max_task%). Veuillez réessayer plus tard.
 

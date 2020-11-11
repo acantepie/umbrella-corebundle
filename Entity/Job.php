@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: acantepie
- * Date: 13/09/18
- * Time: 00:02
- */
 
 namespace Umbrella\CoreBundle\Entity;
 
@@ -13,15 +7,11 @@ use Umbrella\CoreBundle\Model\IdTrait;
 use Umbrella\CoreBundle\Model\TimestampTrait;
 
 /**
- * Class TaskProcess
- *
- * Represent one run of a task
- *
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
- * @ORM\Table("umbrella_task")
+ * @ORM\Table("umbrella_job")
  */
-class Task
+class Job
 {
     /** State if job is inserted, but not yet ready to be started. */
     const STATE_NEW = 'new';
@@ -49,6 +39,19 @@ class Task
 
     /**
      * @var string
+     * @ORM\Column(type="text", nullable=true)
+     */
+    public $description;
+
+    /**
+     * Process timeout (s)
+     * @var int
+     * @ORM\Column(type="smallint", nullable=false)
+     */
+    public $timeout = 0;
+
+    /**
+     * @var string
      * @ORM\Column(type="string", nullable=false, options={"default": "new"})
      */
     public $state = self::STATE_NEW;
@@ -63,19 +66,13 @@ class Task
      * @var \DateTime
      * @ORM\Column(type="datetime", nullable=true)
      */
-    public $checkedAt;
-
-    /**
-     * @var \DateTime
-     * @ORM\Column(type="datetime", nullable=true)
-     */
     public $endedAt;
 
     /**
-     * @var string
-     * @ORM\Column(type="text", nullable=true)
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=false)
      */
-    public $output;
+    public $disableOutput = false;
 
     /**
      * @var string
@@ -90,11 +87,19 @@ class Task
     public $errorOutput;
 
     /**
-     * @var BaseTaskConfig
-     * @ORM\ManyToOne(targetEntity="Umbrella\CoreBundle\Entity\BaseTaskConfig", inversedBy="tasks", cascade={"ALL"})
-     * @ORM\JoinColumn(name="config_id", referencedColumnName="id", onDelete="CASCADE")
+     * @var array
+     * @ORM\Column(type="json", nullable=true)
      */
-    public $config;
+    public $processArgs = [];
+
+    /**
+     *
+     */
+    public function clearOutput()
+    {
+        $this->stdOutput = '';
+        $this->errorOutput = '';
+    }
 
     /**
      * @param string $format
@@ -118,30 +123,6 @@ class Task
         }
 
         return $this->endedAt->diff($this->startedAt)->format($format);
-    }
-
-    /**
-     * @return string
-     */
-    public function getPidFilePath()
-    {
-        return sprintf('%s%s.pid', self::getPidDirPath(), $this->id);
-    }
-
-    /**
-     * @return string
-     */
-    public static function getPidDirPath()
-    {
-        return sprintf('%s/var/tasks/', getcwd());
-    }
-
-    /**
-     * @param $output
-     */
-    public function addOutput($output)
-    {
-        $this->output .= $output;
     }
 
     /**
@@ -170,14 +151,14 @@ class Task
         return self::STATE_PENDING === $this->state;
     }
 
-    public function isCanceled()
-    {
-        return self::STATE_CANCELED === $this->state;
-    }
-
     public function isRunning()
     {
         return self::STATE_RUNNING === $this->state;
+    }
+
+    public function isCanceled()
+    {
+        return self::STATE_CANCELED === $this->state;
     }
 
     public function isFailed()
@@ -190,79 +171,14 @@ class Task
         return self::STATE_FINISHED === $this->state;
     }
 
-    /**
-     * @return bool
-     */
-    public function canSchedule()
+    public function isTerminated()
     {
-        return $this->isNew() || $this->isPending();
+        return self::STATE_TERMINATED === $this->state;
     }
 
-    /**
-     * Task scheduled
-     */
-    public function scheduled()
+    public function isDone()
     {
-        $this->resetRun();
-        $this->state = self::STATE_PENDING;
-    }
-
-    /**
-     * @return bool
-     */
-    public function canCancel()
-    {
-        return $this->isNew() || $this->isPending();
-    }
-
-    /**
-     * Task canceled
-     */
-    public function canceled()
-    {
-        $this->resetRun();
-        $this->state = self::STATE_CANCELED;
-    }
-
-    /**
-     * @return bool
-     */
-    public function canStart()
-    {
-        return $this->isPending();
-    }
-
-    /**
-     * Task started
-     */
-    public function started()
-    {
-        $this->resetRun();
-        $this->state = self::STATE_RUNNING;
-        $this->startedAt = new \DateTime();
-    }
-
-    /**
-     * Task started
-     */
-    public function checked()
-    {
-        $this->checkedAt = new \DateTime();
-    }
-
-    /**
-     * FIXME: implementation
-     * In case of task we be re run
-     */
-    private function resetRun()
-    {
-        $this->pid = null;
-        $this->startedAt = null;
-        $this->endedAt = null;
-        $this->output = null;
-        $this->errorOutput = null;
-        $this->endedAt = null;
-        $this->checkedAt = null;
+        return $this->isCanceled() || $this->isFinished() || $this->isTerminated() || $this->isFailed();
     }
 
     /**

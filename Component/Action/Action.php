@@ -5,6 +5,7 @@ namespace Umbrella\CoreBundle\Component\Action;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\Action\Type\ActionType;
 use Umbrella\CoreBundle\Component\ComponentView;
 
@@ -93,10 +94,10 @@ class Action
 
     /**
      * @param RouterInterface $router
-     *
+     * @param TranslatorInterface $translator
      * @return ComponentView
      */
-    public function createView(RouterInterface $router): ComponentView
+    public function createView(RouterInterface $router, TranslatorInterface $translator): ComponentView
     {
         $view = new ComponentView();
         $view->template = $this->options['template'];
@@ -126,7 +127,7 @@ class Action
             $view->vars['attr']['href'] = '#';
 
             if (!empty($this->options['confirm'])) {
-                $view->vars['attr']['data-confirm'] = $this->options['confirm'];
+                $view->vars['attr']['data-confirm'] = $translator->trans($this->options['confirm']);
             }
 
             if (!empty($this->options['xhr_id'])) {

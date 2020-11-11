@@ -6,10 +6,10 @@
  * Time: 15:40
  */
 
-namespace Umbrella\CoreBundle\Component\Task\Pool;
+namespace Umbrella\CoreBundle\Component\Schedule\Runner;
 
 use Symfony\Component\Process\Process;
-use Umbrella\CoreBundle\Entity\Task;
+use Umbrella\CoreBundle\Entity\Job;
 
 /**
  * Class Pool
@@ -22,20 +22,27 @@ class Pool implements \IteratorAggregate, \Countable
     private $items = [];
 
     /**
-     * @param Task    $task
-     * @param Process $process
+     * Pool constructor.
      */
-    public function add(Task $task, Process $process)
+    public function __construct()
     {
-        $this->items[$task->id] = new PoolItem($task, $process);
     }
 
     /**
-     * @param Task $task
+     * @param Job    $job
+     * @param Process $process
      */
-    public function remove(Task $task)
+    public function add(Job $job, Process $process)
     {
-        unset($this->items[$task->id]);
+        $this->items[$job->id] = new PoolItem($job, $process);
+    }
+
+    /**
+     * @param Job $job
+     */
+    public function remove(Job $job)
+    {
+        unset($this->items[$job->id]);
     }
 
     /**

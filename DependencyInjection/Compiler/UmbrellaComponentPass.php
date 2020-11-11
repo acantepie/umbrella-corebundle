@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Umbrella\CoreBundle\Component\Action\ActionFactory;
 use Umbrella\CoreBundle\Component\Column\ColumnFactory;
 use Umbrella\CoreBundle\Component\DataTable\DataTableFactory;
-use Umbrella\CoreBundle\Component\Task\Handler\TaskHandlerFactory;
+use Umbrella\CoreBundle\Component\Schedule\Task\TaskFactory;
 
 /**
  * Class UmbrellaComponentPass
@@ -29,8 +29,8 @@ class UmbrellaComponentPass implements CompilerPassInterface
         $this->storeTaggedServiceToRegistry($container, ColumnFactory::class, 'umbrella.column.type', 'registerColumnType');
         $this->storeTaggedServiceToRegistry($container, DataTableFactory::class, 'umbrella.datatable.type', 'registerDataTableType');
         $this->storeTaggedServiceToRegistry($container, ActionFactory::class, 'umbrella.action.type', 'registerActionType');
+        $this->storeTaggedServiceToRegistry($container, TaskFactory::class, 'umbrella.task', 'register');
 
-        $this->storeTaggedServiceToRegistry($container, TaskHandlerFactory::class, 'umbrella.task.handler', 'registerHandler');
     }
 
     private function storeTaggedServiceToRegistry(ContainerBuilder $container, $registryClass, $tag, $method)

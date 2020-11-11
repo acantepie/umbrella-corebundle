@@ -1,40 +1,34 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: acantepie
- * Date: 19/01/19
- * Time: 17:14
- */
 
-namespace Umbrella\CoreBundle\Component\Task\Extension;
+namespace Umbrella\CoreBundle\Component\Schedule;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Umbrella\CoreBundle\Component\DateTime\DateTimeHelper;
-use Umbrella\CoreBundle\Entity\Task;
+use Umbrella\CoreBundle\Entity\Job;
 
 /**
- * Class TaskHelper
+ * Class JobHelper
  */
-class TaskHelper
+class JobHelper
 {
     private static $STATE_COLORS = [
-        Task::STATE_NEW => 'dark',
-        Task::STATE_PENDING => 'primary',
-        Task::STATE_RUNNING => 'info',
-        Task::STATE_FINISHED => 'success',
-        Task::STATE_TERMINATED => 'danger',
-        Task::STATE_FAILED => 'danger',
-        Task::STATE_CANCELED => 'dark',
+        Job::STATE_NEW => 'dark',
+        Job::STATE_PENDING => 'primary',
+        Job::STATE_RUNNING => 'info',
+        Job::STATE_FINISHED => 'success',
+        Job::STATE_TERMINATED => 'danger',
+        Job::STATE_FAILED => 'danger',
+        Job::STATE_CANCELED => 'dark',
     ];
 
     private static $STATE_ICONS = [
-        Task::STATE_NEW => null,
-        Task::STATE_PENDING => 'mdi mdi-clock',
-        Task::STATE_RUNNING => 'mdi mdi-spin mdi-loading',
-        Task::STATE_FINISHED => 'mdi mdi-check',
-        Task::STATE_TERMINATED => 'mdi mdi-stop',
-        Task::STATE_CANCELED => 'mdi mdi-cancel',
-        Task::STATE_FAILED => 'mdi mdi-alert',
+        Job::STATE_NEW => null,
+        Job::STATE_PENDING => 'mdi mdi-clock',
+        Job::STATE_RUNNING => 'mdi mdi-spin mdi-loading',
+        Job::STATE_FINISHED => 'mdi mdi-check',
+        Job::STATE_TERMINATED => 'mdi mdi-stop',
+        Job::STATE_CANCELED => 'mdi mdi-cancel',
+        Job::STATE_FAILED => 'mdi mdi-alert',
     ];
 
     /**
@@ -48,7 +42,7 @@ class TaskHelper
     private $dateTimeHelper;
 
     /**
-     * TaskHelper constructor.
+     * JobHelper constructor.
      *
      * @param TranslatorInterface $translator
      * @param DateTimeHelper      $dateTimeHelper
@@ -76,7 +70,7 @@ class TaskHelper
      */
     public function getStateLabel($state)
     {
-        return $this->translator->trans(sprintf('task.state.%s', $state));
+        return $this->translator->trans(sprintf('job.state.%s', $state));
     }
 
     /**
@@ -104,31 +98,31 @@ class TaskHelper
     }
 
     /**
-     * @param Task $task
+     * @param Job $job
      *
      * @return string|null
      */
-    public function renderRuntime(Task $task)
+    public function renderRuntime(Job $job)
     {
         // running
-        if ($task->isRunning()) {
+        if ($job->isRunning()) {
             return sprintf(
                 '<span>%s</span> <br> <span class="text-muted">%s</span>',
-                $this->dateTimeHelper->diff($task->startedAt),
-                $task->runtime()
+                $this->dateTimeHelper->diff($job->startedAt),
+                $job->runtime()
             );
         }
 
         // not started
-        if ($task->isPending() || $task->isNew() || $task->isCanceled()) {
+        if ($job->isPending() || $job->isNew() || $job->isCanceled()) {
             return null;
         }
 
         // done
         return sprintf(
             '<span>%s</span> <br> <span class="text-muted">%s</span>',
-            $task->startedAt->format('d/m/Y H:i'),
-            $task->runtime()
+            $job->startedAt->format('d/m/Y H:i'),
+            $job->runtime()
         );
     }
 }

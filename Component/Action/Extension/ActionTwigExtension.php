@@ -3,6 +3,7 @@
 namespace Umbrella\CoreBundle\Component\Action\Extension;
 
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -19,13 +20,19 @@ class ActionTwigExtension extends AbstractExtension
     private $router;
 
     /**
-     * ActionTwigExtension constructor.
-     *
-     * @param RouterInterface $router
+     * @var TranslatorInterface
      */
-    public function __construct(RouterInterface $router)
+    private $translator;
+
+    /**
+     * ActionTwigExtension constructor.
+     * @param RouterInterface $router
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(RouterInterface $router, TranslatorInterface $translator)
     {
         $this->router = $router;
+        $this->translator = $translator;
     }
 
     /**
@@ -49,7 +56,7 @@ class ActionTwigExtension extends AbstractExtension
      */
     public function render(Environment $twig, Action $action)
     {
-        $view = $action->createView($this->router);
+        $view = $action->createView($this->router, $this->translator);
 
         return $twig->render($view->template, $view->vars);
     }

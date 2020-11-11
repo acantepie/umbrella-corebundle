@@ -6,54 +6,61 @@
  * Time: 13:10
  */
 
-namespace Umbrella\CoreBundle\Component\Task\Command;
+namespace Umbrella\CoreBundle\Component\Schedule\Command;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\ConsoleSectionOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Umbrella\CoreBundle\Component\Task\TaskManager;
-use Umbrella\CoreBundle\Entity\Task;
+use Umbrella\CoreBundle\Component\Schedule\JobManager;
+use Umbrella\CoreBundle\Entity\Job;
 
 /**
- * Class TaskListCommand
- * To see progress of running process: watch php bin/console task:list
+ * Class ScheduleListCommand
+ * List all job
  */
-class TaskListCommand extends Command
+class ScheduleListCommand extends Command
 {
-    const CMD_NAME = 'task:list';
+    const CMD_NAME = 'schedule:list';
 
     /**
-     * @var TaskManager
+     * @var JobManager
      */
-    private $taskManager;
+    private $jobManager;
 
     /**
-     * @var SymfonyStyle
+     * @var EntityManagerInterface
      */
-    private $io;
+    private $em;
 
     /**
      * @var bool
      */
-    private $pending;
+    private $_done;
 
     /**
      * @var bool
      */
-    private $done;
+    private $_watch;
 
     /**
-     * TaskListCommand constructor.
+     * ScheduleListCommand constructor.
      *
-     * @param TaskManager $taskManager
+     * @param JobManager $jobManager
+     * @param EntityManagerInterface $em
      */
-    public function __construct(TaskManager $taskManager)
+    public function __construct(JobManager $jobManager, EntityManagerInterface $em)
     {
-        $this->taskManager = $taskManager;
+        $this->jobManager = $jobManager;
+        $this->em = $em;
         parent::__construct();
     }
+
 
     /**
      * {@inheritdoc}
@@ -61,9 +68,9 @@ class TaskListCommand extends Command
     protected function configure()
     {
         $this->setName(self::CMD_NAME);
-        $this->setDescription('List tasks');
-        $this->addOption('pending', null, InputOption::VALUE_NONE);
-        $this->addOption('done', null, InputOption::VALUE_NONE);
+        $this->setDescription('List schedule');
+        $this->addOption('done', 'd', InputOption::VALUE_NONE);
+        $this->addOption('watch', 'w', InputOption::VALUE_NONE);
     }
 
     /**
@@ -71,15 +78,85 @@ class TaskListCommand extends Command
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->io = new SymfonyStyle($input, $output);
-        $this->pending = $input->getOption('pending');
-        $this->done = $input->getOption('done');
+        $this->_done = $input->getOption('done');
+        $this->_watch = $input->getOption('watch');
     }
 
     /**
      * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $section = $output->section();
+
+        if ($this->_watch) {
+            do {
+                $section->clear();
+                $this->render($section);
+                $this->em->clear();
+                sleep(1);
+            } while(true);
+        } else {
+            $this->render($section);
+        }
+
+        return 0;
+    }
+
+    private function render(ConsoleSectionOutput $section)
+    {
+        $states = [
+            $states[] = Job::STATE_PENDING,
+            $states[] = Job::STATE_RUNNING,
+        ];
+
+        if ($this->_done) {
+            $states[] = Job::STATE_FINISHED;
+            $states[] = Job::STATE_TERMINATED;
+            $states[] = Job::STATE_FAILED;
+            $states[] = Job::STATE_CANCELED;
+        }
+
+        $jobs = $this->jobManager->getJobsByStates($states);
+
+
+        $table = new Table($section);
+        $table->setHeaderTitle(sprintf('%d jobs', count($jobs)));
+        $table->setHeaders(['Etat', 'Id', 'Description', 'Date', 'Runtime', 'pid']);
+
+
+        foreach ($jobs as $job) {
+            $table->addRow([
+                $this->_renderState($job->state),
+                $job->id,
+                $job->description,
+                $job->updatedAt->format('d/m/Y H:i'),
+                $job->runtime(),
+                $job->pid
+            ]);
+        }
+
+        $table->render();
+    }
+
+    private function _renderState($state) {
+        switch($state) {
+            case Job::STATE_PENDING:
+                return sprintf('<fg=blue>%s</>', $state);
+
+            case Job::STATE_RUNNING:
+                return sprintf('<bg=blue>%s</>', $state);
+
+            case Job::STATE_FAILED:
+                return sprintf('<error>%s</error>', $state);
+
+            default:
+                return sprintf('%s', $state);
+        }
+    }
+
+    // legacy
+    private function __execute(InputInterface $input, OutputInterface $output)
     {
         // Task pending
         if ($this->pending) {
@@ -91,7 +168,7 @@ class TaskListCommand extends Command
 
                 foreach ($tasksPending as $task) {
                     $rows[] = [
-                        $task->id,
+                        '<info>' . $task->id . '</info>',
                         $task->config->handlerAlias,
                         $task->config->tag,
                         $task->createdAt->format('d/m/Y H:i:s'),

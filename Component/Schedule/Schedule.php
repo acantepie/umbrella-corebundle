@@ -67,7 +67,7 @@ class Schedule
      * @param array $shellCommand
      * @return $this
      */
-    public function setShellCommand(array $shellCommand)
+    public function setShellCommand(array $shellCommand): Schedule
     {
         $this->shellCommand = $shellCommand;
         return $this;
@@ -85,7 +85,7 @@ class Schedule
      * @param $taskId
      * @return $this
      */
-    public function setTask(string $taskId, $runTimeEnv = null)
+    public function setTask(string $taskId, $runTimeEnv = null): Schedule
     {
         $this->taskId = $taskId;
         $this->runTimeEnv = $runTimeEnv;
@@ -112,7 +112,7 @@ class Schedule
      * @param int $timedout
      * @return $this
      */
-    public function setTimeout(int $timeout = 0)
+    public function setTimeout(int $timeout = 0): Schedule
     {
         $this->timeout = $timeout;
         return $this;
@@ -131,7 +131,7 @@ class Schedule
      * @param $description
      * @return $this
      */
-    public function setDescription(string $description)
+    public function setDescription(string $description): Schedule
     {
         $this->description = $description;
         return $this;
@@ -155,18 +155,21 @@ class Schedule
 
     /**
      * @param bool $disableOutput
+     * @return $this
      */
-    public function disableOutput(bool $disableOutput = true): void
+    public function disableOutput(bool $disableOutput = true): Schedule
     {
         $this->disableOutput = $disableOutput;
+        return $this;
     }
 
     /**
-     *
+     * @return $this
      */
-    public function validate()
+    public function validate(): Schedule
     {
         $this->scheduler->validateSchedule($this);
+        return $this;
     }
 
     /**

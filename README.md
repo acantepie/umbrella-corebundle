@@ -1,2 +1,1 @@
-# Umbrella CoreBundle
-vendor Umbrella/CoreBundle
+# Framework Umbrella - corebundle

@@ -11,7 +11,7 @@ use Umbrella\CoreBundle\Component\Schedule\Context\AbstractTaskContext;
  * Class JsonRuntimeEnvironment
  *
  * @ORM\Entity()
- * @ORM\Table(name="umbrella_array_env")
+ * @ORM\Table(name="umbrella_array_context")
  */
 class ArrayTaskContext extends AbstractTaskContext implements \ArrayAccess, \Countable, \IteratorAggregate
 {

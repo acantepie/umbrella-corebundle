@@ -1,1 +1,1 @@
-# Framework Umbrella - corebundle
+Framework Umbrella - vendor corebundle

@@ -2,7 +2,7 @@
 
 namespace Umbrella\CoreBundle\Component\Schedule\Task;
 
-use Umbrella\CoreBundle\Component\Schedule\RuntimeEnv\AbstractEnvironment;
+use Umbrella\CoreBundle\Component\Schedule\Context\AbstractTaskContext;
 
 /**
  * Class AbstractTask
@@ -10,9 +10,9 @@ use Umbrella\CoreBundle\Component\Schedule\RuntimeEnv\AbstractEnvironment;
 class AbstractTask
 {
     /**
-     * @param $env
+     * @param AbstractTaskContext $context
      */
-    public function execute($env)
+    public function execute(AbstractTaskContext $context)
     {
     }
 }

@@ -3,16 +3,8 @@
 
 namespace Umbrella\CoreBundle\Component\Schedule;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Process\Process;
-use Umbrella\CoreBundle\Component\Schedule\Command\TaskRunCommand;
-use Umbrella\CoreBundle\Component\Schedule\RuntimeEnv\AbstractEnvironment;
-use Umbrella\CoreBundle\Component\Schedule\Task\TaskFactory;
-use Umbrella\CoreBundle\Entity\ArrayRuntimeEnvironment;
-use Umbrella\CoreBundle\Entity\Job;
+use Umbrella\CoreBundle\Component\Schedule\Context\AbstractTaskContext;
+use Umbrella\CoreBundle\Entity\ArrayTaskContext;
 
 /**
  * Class Schedule
@@ -45,9 +37,9 @@ class Schedule
     private $taskId = null;
 
     /**
-     * @var mixed
+     * @var AbstractTaskContext|null
      */
-    private $runTimeEnv = null;
+    private $context = null;
 
     /**
      * @var bool
@@ -85,10 +77,9 @@ class Schedule
      * @param $taskId
      * @return $this
      */
-    public function setTask(string $taskId, $runTimeEnv = null): Schedule
+    public function setTask(string $taskId): Schedule
     {
         $this->taskId = $taskId;
-        $this->runTimeEnv = $runTimeEnv;
         return $this;
     }
 
@@ -101,11 +92,33 @@ class Schedule
     }
 
     /**
-     * @return mixed|null
+     * @param AbstractTaskContext|null $context
      */
-    public function getRunTimeEnv()
+    public function setContext($context): Schedule
     {
-        return $this->runTimeEnv;
+        if (null === $context) {
+            throw new \InvalidArgumentException('Context can\'t be null.');
+        }
+
+        if (is_array($context)) {
+            $this->context = new ArrayTaskContext($context);
+            return $this;
+        }
+
+        if (!is_a($context, AbstractTaskContext::class)) {
+            throw new \InvalidArgumentException(sprintf('Context must be an instance of "%s"', AbstractTaskContext::class));
+        }
+
+        $this->context = $context;
+        return $this;
+    }
+
+    /**
+     * @return AbstractTaskContext|null
+     */
+    public function getContext(): ?AbstractTaskContext
+    {
+        return $this->context;
     }
 
     /**

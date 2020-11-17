@@ -93,6 +93,12 @@ class Job
     public $processArgs = [];
 
     /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    public $contextId;
+
+    /**
      *
      */
     public function clearOutput()

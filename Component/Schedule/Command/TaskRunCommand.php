@@ -6,7 +6,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Umbrella\CoreBundle\Component\Schedule\RuntimeEnv\EnvironmentProvider;
+use Umbrella\CoreBundle\Component\Schedule\Context\EnvironmentProvider;
+use Umbrella\CoreBundle\Component\Schedule\Context\TaskContextProvider;
 use Umbrella\CoreBundle\Component\Schedule\Task\TaskFactory;
 
 /**
@@ -23,19 +24,20 @@ class TaskRunCommand extends Command
     private $taskFactory;
 
     /**
-     * @var EnvironmentProvider
+     * @var TaskContextProvider
      */
-    private $envProvider;
+    private $contextProvider;
 
     /**
      * TaskRunCommand constructor.
+     *
      * @param TaskFactory $taskFactory
-     * @param EnvironmentProvider $envProvider
+     * @param TaskContextProvider $contextProvider
      */
-    public function __construct(TaskFactory $taskFactory, EnvironmentProvider $envProvider)
+    public function __construct(TaskFactory $taskFactory, TaskContextProvider $contextProvider)
     {
         $this->taskFactory = $taskFactory;
-        $this->envProvider = $envProvider;
+        $this->contextProvider = $contextProvider;
         parent::__construct();
     }
 
@@ -45,8 +47,8 @@ class TaskRunCommand extends Command
     protected function configure()
     {
         $this->setName(self::CMD_NAME);
-        $this->addArgument('id', InputArgument::REQUIRED, 'Id of task to run');
-        $this->addArgument('runtime-env', InputArgument::OPTIONAL, 'Id of runtime env');
+        $this->addArgument('task-id', InputArgument::REQUIRED, 'Id of task to run');
+        $this->addArgument('context-id', InputArgument::REQUIRED, 'Id of run context');
     }
 
     /**
@@ -54,13 +56,10 @@ class TaskRunCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $task = $this->taskFactory->create($input->getArgument('id'));
+        $task = $this->taskFactory->create($input->getArgument('task-id'));
+        $context = $this->contextProvider->getContext($input->getArgument('context-id'));
 
-        $env = $input->getArgument('runtime-env')
-            ? $this->envProvider->getEnvironment($input->getArgument('runtime-env'))
-            : null;
-
-        $task->execute($env);
+        $task->execute($context);
 
         return 0;
     }

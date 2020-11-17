@@ -6,9 +6,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Umbrella\CoreBundle\Component\Schedule\Command\TaskRunCommand;
-use Umbrella\CoreBundle\Component\Schedule\RuntimeEnv\AbstractEnvironment;
+use Umbrella\CoreBundle\Component\Schedule\Context\AbstractTaskContext;
 use Umbrella\CoreBundle\Component\Schedule\Task\TaskFactory;
-use Umbrella\CoreBundle\Entity\ArrayRuntimeEnvironment;
+use Umbrella\CoreBundle\Entity\ArrayTaskContext;
 use Umbrella\CoreBundle\Entity\Job;
 
 /**
@@ -63,7 +63,7 @@ class Scheduler
         $job = new Job();
         $job->state = Job::STATE_PENDING;
 
-        $job->processArgs = $this->buildProcessArgs($schedule);
+        $this->buildProcessArgs($job, $schedule);
         $job->description = $schedule->getDescription();
         $job->timeout = $schedule->getTimeout();
         $job->disableOutput = $schedule->isDisableOutput();
@@ -78,12 +78,7 @@ class Scheduler
         // validate taskId
         $taskId = $schedule->getTaskId();
         if (null !== $taskId && !$this->taskFactory->has($taskId)) {
-            throw new \RuntimeException(sprintf('No task register with id %s, tasks registered are : ', $taskId, implode(', ', $this->taskFactory->listIds())));
-        }
-
-        $env = $schedule->getRunTimeEnv();
-        if (null !== $env && (!is_array($env) && !is_a($env, AbstractEnvironment::class))) {
-            throw new \InvalidArgumentException(sprintf('Runtime env should be an "array" or an "%s" object', AbstractEnvironment::class));
+            throw new \RuntimeException(sprintf('No task register with id %s, tasks registered are : %s', $taskId, implode(', ', $this->taskFactory->listIds())));
         }
 
         if (0 === count($schedule->getShellCommand()) && null === $schedule->getTaskId()) {
@@ -91,7 +86,7 @@ class Scheduler
         }
     }
 
-    private function buildProcessArgs(Schedule $schedule)
+    private function buildProcessArgs(Job $job, Schedule $schedule)
     {
         // build command around a task
         if ($schedule->getTaskId() !== null) {
@@ -102,27 +97,20 @@ class Scheduler
             $args[] = TaskRunCommand::CMD_NAME;
             $args[] = $schedule->getTaskId();
 
-            if (null !== $schedule->getRunTimeEnv()) {
-                $args[] = $this->buildRuntimeEnv($schedule);
-            }
+            $context = $schedule->getContext()
+                ? $schedule->getContext()
+                : new ArrayTaskContext();
 
-            return $args;
+            $this->em->persist($context);
+            $this->em->flush();
+
+            $job->contextId = $context->getContextId();
+            $args[] = $context->getContextId();
+
+            $job->processArgs = $args;
+            return;
         }
 
-        return $schedule->getShellCommand();
+        $job->processArgs = $schedule->getShellCommand();
     }
-
-    private function buildRuntimeEnv(Schedule $schedule)
-    {
-        $env = $schedule->getRunTimeEnv();
-
-        if (is_array($env)) {
-            $env = new ArrayRuntimeEnvironment($env);
-        }
-
-        $this->em->persist($env);
-        $this->em->flush();
-        return $env->getRuntimeEnvId();
-    }
-
 }

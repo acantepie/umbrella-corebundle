@@ -5,7 +5,7 @@ namespace Umbrella\CoreBundle\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
-use Umbrella\CoreBundle\Component\Schedule\RuntimeEnv\AbstractEnvironment;
+use Umbrella\CoreBundle\Component\Schedule\Context\AbstractTaskContext;
 
 /**
  * Class JsonRuntimeEnvironment
@@ -13,7 +13,7 @@ use Umbrella\CoreBundle\Component\Schedule\RuntimeEnv\AbstractEnvironment;
  * @ORM\Entity()
  * @ORM\Table(name="umbrella_array_env")
  */
-class ArrayRuntimeEnvironment extends AbstractEnvironment implements \ArrayAccess, \Countable, \IteratorAggregate
+class ArrayTaskContext extends AbstractTaskContext implements \ArrayAccess, \Countable, \IteratorAggregate
 {
 
     /**
@@ -24,7 +24,7 @@ class ArrayRuntimeEnvironment extends AbstractEnvironment implements \ArrayAcces
     private $vars = [];
 
     /**
-     * ArrayRuntimeEnvironment constructor.
+     * ArrayTaskContext constructor.
      * @param array $vars
      */
     public function __construct(array $vars = [])

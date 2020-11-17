@@ -74,14 +74,15 @@ services:
     Umbrella\CoreBundle\Component\Schedule\Command\TaskRunCommand:
     Umbrella\CoreBundle\Component\Schedule\Runner\Runner:
     Umbrella\CoreBundle\Component\Schedule\Extension\ScheduleExtension:
-    Umbrella\CoreBundle\Component\Schedule\RuntimeEnv\EnvironmentProvider:
+    Umbrella\CoreBundle\Component\Schedule\Context\TaskContextProvider:
     Umbrella\CoreBundle\Component\Schedule\Task\TaskFactory:
     Umbrella\CoreBundle\Component\Schedule\JobManager:
     Umbrella\CoreBundle\Component\Schedule\JobHelper:
     Umbrella\CoreBundle\Component\Schedule\Scheduler:
-        public : true
         bind:
             $consolePath: "%kernel.project_dir%/bin/console"
+    Umbrella\CoreBundle\Component\Schedule\ScheduleHelper:
+        public: true
 
     # Ckeditor
     Umbrella\CoreBundle\Component\Ckeditor\CkeditorConfiguration:

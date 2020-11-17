@@ -1,26 +1,26 @@
 <?php
 
-namespace Umbrella\CoreBundle\Component\Schedule\RuntimeEnv;
+namespace Umbrella\CoreBundle\Component\Schedule\Context;
 
 use Doctrine\ORM\Mapping as ORM;
 use Umbrella\CoreBundle\Model\IdTrait;
 
 
 /**
- * Class AbstractEnvironment
+ * Class AbstractTaskContext
  *
- * RunTime env for a job, must be persisted
+ * Run Context for a job, must be persisted
  *
  * @ORM\MappedSuperclass
  */
-class AbstractEnvironment
+class AbstractTaskContext
 {
     use IdTrait;
 
     /**
      * @return string
      */
-    public final function getRuntimeEnvId()
+    public final function getContextId()
     {
         return sprintf('%s:%s', get_class($this), $this->id);
     }

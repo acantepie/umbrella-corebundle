@@ -3,8 +3,7 @@
     "type": "symfony-bundle",
     "description": "Umbrella framework",
     "keywords": [],
-    "version": "1.0.0",
-    "license": "GPL-3.0+",
+    "license": "MIT",
     "authors": [
         {
             "name": "Adrien Cantepie",

@@ -90,8 +90,6 @@ services:
 
     # Tabs
     Umbrella\CoreBundle\Component\Tabs\TabsHelper:
-        bind:
-            $configPath: "%kernel.project_dir%/vendor/umbrella/corebundle/Component/Tabs/config.yml"
     Umbrella\CoreBundle\Component\Tabs\TabsExtension:
 
     # ---- Umbrella ----#

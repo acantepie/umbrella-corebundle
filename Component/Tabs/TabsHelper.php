@@ -57,10 +57,15 @@ class TabsHelper
      * @param RouterInterface $router
      * @param $configPath
      */
-    public function __construct(RequestStack $requestStack, RouterInterface $router, $configPath)
+    public function __construct(RequestStack $requestStack, RouterInterface $router, ?string $configPath = null)
     {
         $this->requestStack = $requestStack;
         $this->router = $router;
+
+        if (null === $configPath) {
+            $configPath = __DIR__ . '/config.yml';
+        }
+        
         $this->configPath = $configPath;
     }
 

@@ -1,7 +1,7 @@
 {
     "name": "umbrella2/corebundle",
     "type": "symfony-bundle",
-    "description": "Umbrella framework",
+    "description": "Umbrella framework - corebundle",
     "keywords": [],
     "license": "MIT",
     "authors": [

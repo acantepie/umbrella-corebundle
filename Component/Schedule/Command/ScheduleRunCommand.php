@@ -11,16 +11,8 @@ namespace Umbrella\CoreBundle\Component\Schedule\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Process\Exception\ProcessTimedOutException;
-use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Process\Process;
 use Umbrella\CoreBundle\Component\Schedule\Runner\Runner;
-use Umbrella\CoreBundle\Component\Schedule\Runner\Pool;
-use Umbrella\CoreBundle\Entity\Task;
 
 /**
  * Class TaskScheduleCommand
@@ -41,6 +33,7 @@ class ScheduleRunCommand extends Command
 
     /**
      * ScheduleRunCommand constructor.
+     *
      * @param Runner $runner
      */
     public function __construct(Runner $runner)
@@ -65,12 +58,14 @@ class ScheduleRunCommand extends Command
     {
         if (!$this->lock()) {
             $output->writeln('Scheduler is already running.');
+
             return 0;
         }
 
         $this->runner->run();
 
         $this->release();
+
         return 0;
     }
 }

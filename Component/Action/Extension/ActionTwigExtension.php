@@ -26,7 +26,8 @@ class ActionTwigExtension extends AbstractExtension
 
     /**
      * ActionTwigExtension constructor.
-     * @param RouterInterface $router
+     *
+     * @param RouterInterface     $router
      * @param TranslatorInterface $translator
      */
     public function __construct(RouterInterface $router, TranslatorInterface $translator)

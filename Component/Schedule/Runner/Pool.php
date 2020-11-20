@@ -29,7 +29,7 @@ class Pool implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @param Job    $job
+     * @param Job     $job
      * @param Process $process
      */
     public function add(Job $job, Process $process)

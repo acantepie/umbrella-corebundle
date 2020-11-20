@@ -5,7 +5,6 @@ namespace Umbrella\CoreBundle\Component\Schedule\Context;
 use Doctrine\ORM\Mapping as ORM;
 use Umbrella\CoreBundle\Model\IdTrait;
 
-
 /**
  * Class AbstractTaskContext
  *
@@ -20,9 +19,8 @@ class AbstractTaskContext
     /**
      * @return string
      */
-    public final function getContextId()
+    final public function getContextId()
     {
         return sprintf('%s:%s', get_class($this), $this->id);
     }
-
 }

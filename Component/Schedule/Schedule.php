@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Umbrella\CoreBundle\Component\Schedule;
 
 use Umbrella\CoreBundle\Component\Schedule\Context\AbstractTaskContext;
@@ -48,6 +47,7 @@ class Schedule
 
     /**
      * Schedule constructor.
+     *
      * @param Scheduler $scheduler
      */
     public function __construct(Scheduler $scheduler)
@@ -57,11 +57,13 @@ class Schedule
 
     /**
      * @param array $shellCommand
+     *
      * @return $this
      */
     public function setShellCommand(array $shellCommand): Schedule
     {
         $this->shellCommand = $shellCommand;
+
         return $this;
     }
 
@@ -75,11 +77,13 @@ class Schedule
 
     /**
      * @param $taskId
+     *
      * @return $this
      */
     public function setTask(string $taskId): Schedule
     {
         $this->taskId = $taskId;
+
         return $this;
     }
 
@@ -102,6 +106,7 @@ class Schedule
 
         if (is_array($context)) {
             $this->context = new ArrayTaskContext($context);
+
             return $this;
         }
 
@@ -110,6 +115,7 @@ class Schedule
         }
 
         $this->context = $context;
+
         return $this;
     }
 
@@ -123,11 +129,13 @@ class Schedule
 
     /**
      * @param int $timedout
+     *
      * @return $this
      */
     public function setTimeout(int $timeout = 0): Schedule
     {
         $this->timeout = $timeout;
+
         return $this;
     }
 
@@ -139,14 +147,15 @@ class Schedule
         return $this->timeout;
     }
 
-
     /**
      * @param $description
+     *
      * @return $this
      */
     public function setDescription(string $description): Schedule
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -168,11 +177,13 @@ class Schedule
 
     /**
      * @param bool $disableOutput
+     *
      * @return $this
      */
     public function disableOutput(bool $disableOutput = true): Schedule
     {
         $this->disableOutput = $disableOutput;
+
         return $this;
     }
 
@@ -182,6 +193,7 @@ class Schedule
     public function validate(): Schedule
     {
         $this->scheduler->validateSchedule($this);
+
         return $this;
     }
 
@@ -192,6 +204,4 @@ class Schedule
     {
         return $this->scheduler->registerSchedule($this);
     }
-
-
 }

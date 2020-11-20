@@ -10,9 +10,7 @@ namespace Umbrella\CoreBundle\Component\Schedule\Runner;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
-use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
-use Umbrella\CoreBundle\Component\Schedule\Command\TaskRunCommand;
 use Umbrella\CoreBundle\Component\Schedule\JobManager;
 use Umbrella\CoreBundle\Entity\Job;
 
@@ -43,8 +41,9 @@ class Runner
 
     /**
      * Runner constructor.
+     *
      * @param LoggerInterface $logger
-     * @param JobManager $jobManager
+     * @param JobManager      $jobManager
      */
     public function __construct(LoggerInterface $logger, JobManager $jobManager)
     {
@@ -61,7 +60,6 @@ class Runner
         $this->pool = new Pool();
 
         // init php binary path
-
 
         // init sig
         $this->setupSignalHandlers();
@@ -92,7 +90,7 @@ class Runner
 
         // wait all done/killed
         while (!$this->pool->isEmpty()) {
-            sleep(1);
+            usleep(500);
             pcntl_signal_dispatch();
             $this->checkRunningJobs();
         }
@@ -139,10 +137,9 @@ class Runner
 
                 $this->pool->remove($job);
 
-                $this->logJobState($job, 'timedout');
+                $this->logJobState($job, 'timeout !');
                 continue;
             }
-
         }
     }
 
@@ -157,7 +154,7 @@ class Runner
     }
 
     /**
-     * @param Job $job
+     * @param Job    $job
      * @param string $message
      */
     private function logJobState(Job $job, $message = '')

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Umbrella\CoreBundle\Entity;
-
 
 use Doctrine\ORM\Mapping as ORM;
 use Umbrella\CoreBundle\Component\Schedule\Context\AbstractTaskContext;
@@ -10,12 +8,11 @@ use Umbrella\CoreBundle\Component\Schedule\Context\AbstractTaskContext;
 /**
  * Class JsonRuntimeEnvironment
  *
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="umbrella_array_context")
  */
 class ArrayTaskContext extends AbstractTaskContext implements \ArrayAccess, \Countable, \IteratorAggregate
 {
-
     /**
      * @var array
      *
@@ -25,6 +22,7 @@ class ArrayTaskContext extends AbstractTaskContext implements \ArrayAccess, \Cou
 
     /**
      * ArrayTaskContext constructor.
+     *
      * @param array $vars
      */
     public function __construct(array $vars = [])
@@ -33,7 +31,7 @@ class ArrayTaskContext extends AbstractTaskContext implements \ArrayAccess, \Cou
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function count()
     {
@@ -41,7 +39,7 @@ class ArrayTaskContext extends AbstractTaskContext implements \ArrayAccess, \Cou
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function offsetExists($offset)
     {
@@ -49,7 +47,7 @@ class ArrayTaskContext extends AbstractTaskContext implements \ArrayAccess, \Cou
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function offsetGet($offset)
     {
@@ -57,7 +55,7 @@ class ArrayTaskContext extends AbstractTaskContext implements \ArrayAccess, \Cou
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function offsetSet($offset, $value)
     {
@@ -65,7 +63,7 @@ class ArrayTaskContext extends AbstractTaskContext implements \ArrayAccess, \Cou
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function offsetUnset($offset)
     {
@@ -73,12 +71,10 @@ class ArrayTaskContext extends AbstractTaskContext implements \ArrayAccess, \Cou
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getIterator()
     {
         return new \ArrayIterator($this->vars);
     }
-
-
 }

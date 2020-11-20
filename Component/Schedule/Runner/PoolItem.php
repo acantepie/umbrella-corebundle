@@ -39,7 +39,7 @@ class PoolItem
     /**
      * PoolItem constructor.
      *
-     * @param Job    $job
+     * @param Job     $job
      * @param Process $process
      */
     public function __construct(Job $job, Process $process)

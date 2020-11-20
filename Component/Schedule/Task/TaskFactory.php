@@ -2,8 +2,6 @@
 
 namespace Umbrella\CoreBundle\Component\Schedule\Task;
 
-use Doctrine\ORM\EntityManagerInterface;
-
 /**
  * Class TaskFactory
  */
@@ -39,6 +37,7 @@ class TaskFactory
 
     /**
      * @param $id
+     *
      * @return bool
      */
     public function has($id)

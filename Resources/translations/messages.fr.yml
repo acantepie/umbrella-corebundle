@@ -111,6 +111,9 @@ message:
     password_resetted: Votre mot de passe a bien été réinitialisé.
     signin_to_bo: "Merci de vous identifier pour accéder au service."
     delete_all_job: Supprimer tous les jobs qui ne sont pas en cours d'execution ?
+    reset_password_error: Ce lien a éxpiré.
+    reset_password_error_cause1: Cela fait fait plus de 24 heures que vous avez demandé à cet que votre mot de passe soit réinitialisé. Veuillez faire une nouvelle demande de <a href="%url%" class="text-primary">réinitialisation de mot de passe</a>.
+    reset_password_error_cause2: Si vous avez effectué plusieurs demande, seul l'email de réinitialisation envoyé en dernier sera valide.
 
 dateFormater:
     day:

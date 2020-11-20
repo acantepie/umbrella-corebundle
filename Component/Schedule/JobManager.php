@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Umbrella\CoreBundle\Component\Schedule;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,6 +17,7 @@ class JobManager
 
     /**
      * JobManager constructor.
+     *
      * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
@@ -27,6 +27,7 @@ class JobManager
 
     /**
      * @param $id
+     *
      * @return Job
      */
     public function getJob($id)
@@ -36,6 +37,7 @@ class JobManager
 
     /**
      * @param array $states
+     *
      * @return Job[]
      */
     public function getJobsByStates(array $states = [])
@@ -46,6 +48,7 @@ class JobManager
         $qb->where('e.state IN (:states)');
         $qb->setParameter('states', $states);
         $qb->orderBy('e.updatedAt', 'DESC');
+
         return $qb->getQuery()->getResult();
     }
 
@@ -81,9 +84,6 @@ class JobManager
         $this->em->flush();
     }
 
-    /**
-     *
-     */
     public function deleteJobsNotRunning()
     {
         $this->em->createQueryBuilder()

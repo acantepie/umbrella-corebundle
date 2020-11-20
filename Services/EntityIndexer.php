@@ -94,7 +94,7 @@ class EntityIndexer
             $entity = $row[0];
             $this->searchHandler->indexEntity($entity);
 
-            if (($i % $batchSize) === 0) {
+            if (0 === ($i % $batchSize)) {
                 $this->em->flush();
                 $this->em->clear();
                 $this->logger->info(sprintf('... ... ... %d', $i));

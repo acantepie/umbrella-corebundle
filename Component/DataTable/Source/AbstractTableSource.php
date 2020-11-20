@@ -40,7 +40,7 @@ abstract class AbstractTableSource
 
     /**
      * @param callable $callback
-     * @param int $priority
+     * @param int      $priority
      */
     public function addEntityCallbackModifier(callable $callback, $priority = 0)
     {

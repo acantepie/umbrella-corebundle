@@ -93,8 +93,9 @@ class Action
     }
 
     /**
-     * @param RouterInterface $router
+     * @param RouterInterface     $router
      * @param TranslatorInterface $translator
+     *
      * @return ComponentView
      */
     public function createView(RouterInterface $router, TranslatorInterface $translator): ComponentView

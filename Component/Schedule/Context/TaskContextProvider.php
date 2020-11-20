@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Umbrella\CoreBundle\Component\Schedule\Context;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,6 +18,7 @@ class TaskContextProvider
 
     /**
      * TaskContextProvider constructor.
+     *
      * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
@@ -28,6 +28,7 @@ class TaskContextProvider
 
     /**
      * @param $id
+     *
      * @return AbstractTaskContext
      */
     public function getContextOfJob($id)
@@ -43,6 +44,7 @@ class TaskContextProvider
 
     /**
      * @param string $id
+     *
      * @return AbstractTaskContext
      */
     public function getContext(string $id)
@@ -68,7 +70,7 @@ class TaskContextProvider
         }
 
         $this->em->refresh($context);
+
         return $context;
     }
-
 }

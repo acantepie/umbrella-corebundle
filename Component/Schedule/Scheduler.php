@@ -3,10 +3,8 @@
 namespace Umbrella\CoreBundle\Component\Schedule;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Umbrella\CoreBundle\Component\Schedule\Command\TaskRunCommand;
-use Umbrella\CoreBundle\Component\Schedule\Context\AbstractTaskContext;
 use Umbrella\CoreBundle\Component\Schedule\Task\TaskFactory;
 use Umbrella\CoreBundle\Entity\ArrayTaskContext;
 use Umbrella\CoreBundle\Entity\Job;
@@ -33,9 +31,10 @@ class Scheduler
 
     /**
      * Scheduler constructor.
+     *
      * @param EntityManagerInterface $em
-     * @param TaskFactory $taskFactory
-     * @param string $consolePath
+     * @param TaskFactory            $taskFactory
+     * @param string                 $consolePath
      */
     public function __construct(EntityManagerInterface $em, TaskFactory $taskFactory, string $consolePath)
     {
@@ -50,6 +49,7 @@ class Scheduler
     public function create()
     {
         $schedule = new Schedule($this);
+
         return $schedule;
     }
 
@@ -70,6 +70,7 @@ class Scheduler
 
         $this->em->persist($job);
         $this->em->flush();
+
         return $job->id;
     }
 
@@ -89,8 +90,7 @@ class Scheduler
     private function buildProcessArgs(Job $job, Schedule $schedule)
     {
         // build command around a task
-        if ($schedule->getTaskId() !== null) {
-
+        if (null !== $schedule->getTaskId()) {
             $args = [];
             $args[] = (new PhpExecutableFinder())->find();
             $args[] = $this->consolePath;
@@ -108,6 +108,7 @@ class Scheduler
             $args[] = $context->getContextId();
 
             $job->processArgs = $args;
+
             return;
         }
 

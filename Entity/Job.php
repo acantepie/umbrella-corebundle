@@ -45,6 +45,7 @@ class Job
 
     /**
      * Process timeout (s)
+     *
      * @var int
      * @ORM\Column(type="smallint", nullable=false)
      */
@@ -98,9 +99,6 @@ class Job
      */
     public $contextId;
 
-    /**
-     *
-     */
     public function clearOutput()
     {
         $this->stdOutput = '';

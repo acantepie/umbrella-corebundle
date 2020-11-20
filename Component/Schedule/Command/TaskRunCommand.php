@@ -6,7 +6,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Umbrella\CoreBundle\Component\Schedule\Context\EnvironmentProvider;
 use Umbrella\CoreBundle\Component\Schedule\Context\TaskContextProvider;
 use Umbrella\CoreBundle\Component\Schedule\Task\TaskFactory;
 
@@ -15,7 +14,7 @@ use Umbrella\CoreBundle\Component\Schedule\Task\TaskFactory;
  */
 class TaskRunCommand extends Command
 {
-    /** @var string  */
+    /** @var string */
     const CMD_NAME = 'task:run';
 
     /**
@@ -31,7 +30,7 @@ class TaskRunCommand extends Command
     /**
      * TaskRunCommand constructor.
      *
-     * @param TaskFactory $taskFactory
+     * @param TaskFactory         $taskFactory
      * @param TaskContextProvider $contextProvider
      */
     public function __construct(TaskFactory $taskFactory, TaskContextProvider $contextProvider)
@@ -63,6 +62,4 @@ class TaskRunCommand extends Command
 
         return 0;
     }
-
-
 }

@@ -30,7 +30,6 @@ class UmbrellaComponentPass implements CompilerPassInterface
         $this->storeTaggedServiceToRegistry($container, DataTableFactory::class, 'umbrella.datatable.type', 'registerDataTableType');
         $this->storeTaggedServiceToRegistry($container, ActionFactory::class, 'umbrella.action.type', 'registerActionType');
         $this->storeTaggedServiceToRegistry($container, TaskFactory::class, 'umbrella.task', 'register');
-
     }
 
     private function storeTaggedServiceToRegistry(ContainerBuilder $container, $registryClass, $tag, $method)

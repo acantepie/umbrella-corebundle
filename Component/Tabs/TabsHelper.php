@@ -65,7 +65,7 @@ class TabsHelper
         if (null === $configPath) {
             $configPath = __DIR__ . '/config.yml';
         }
-        
+
         $this->configPath = $configPath;
     }
 

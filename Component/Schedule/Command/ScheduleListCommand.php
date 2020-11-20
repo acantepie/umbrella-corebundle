@@ -10,13 +10,11 @@ namespace Umbrella\CoreBundle\Component\Schedule\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleSectionOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Umbrella\CoreBundle\Component\Schedule\JobManager;
 use Umbrella\CoreBundle\Entity\Job;
 
@@ -51,7 +49,7 @@ class ScheduleListCommand extends Command
     /**
      * ScheduleListCommand constructor.
      *
-     * @param JobManager $jobManager
+     * @param JobManager             $jobManager
      * @param EntityManagerInterface $em
      */
     public function __construct(JobManager $jobManager, EntityManagerInterface $em)
@@ -60,7 +58,6 @@ class ScheduleListCommand extends Command
         $this->em = $em;
         parent::__construct();
     }
-
 
     /**
      * {@inheritdoc}
@@ -95,7 +92,7 @@ class ScheduleListCommand extends Command
                 $this->render($section);
                 $this->em->clear();
                 sleep(1);
-            } while(true);
+            } while (true);
         } else {
             $this->render($section);
         }
@@ -119,11 +116,9 @@ class ScheduleListCommand extends Command
 
         $jobs = $this->jobManager->getJobsByStates($states);
 
-
         $table = new Table($section);
         $table->setHeaderTitle(sprintf('%d jobs', count($jobs)));
         $table->setHeaders(['Etat', 'Id', 'Description', 'Date', 'Runtime', 'pid']);
-
 
         foreach ($jobs as $job) {
             $table->addRow([
@@ -132,15 +127,16 @@ class ScheduleListCommand extends Command
                 $job->description,
                 $job->updatedAt->format('d/m/Y H:i'),
                 $job->runtime(),
-                $job->pid
+                $job->pid,
             ]);
         }
 
         $table->render();
     }
 
-    private function _renderState($state) {
-        switch($state) {
+    private function _renderState($state)
+    {
+        switch ($state) {
             case Job::STATE_PENDING:
                 return sprintf('<fg=blue>%s</>', $state);
 

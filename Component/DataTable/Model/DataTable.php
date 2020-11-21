@@ -70,7 +70,9 @@ class DataTable extends AbstractDataTable
             throw new \RuntimeException('Unable to retrieve result, datatable is not on callback context');
         }
 
-        return $this->source->search($this->options['data_class'], $this->columns, $this->query);
+        $result = $this->source->search($this->options['data_class'], $this->columns, $this->query);
+        $result->draw = $this->query['query']['draw']; // add draw id to result
+        return $result;
     }
 
     /**

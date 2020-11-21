@@ -87,7 +87,6 @@ class EntityDataTableSource extends AbstractTableSource
         $paginator = new Paginator($qb);
 
         $result = new DataTableResult();
-        $result->draw = $queryData['draw'];
         $result->count = count($paginator);
         $result->data = $paginator;
 

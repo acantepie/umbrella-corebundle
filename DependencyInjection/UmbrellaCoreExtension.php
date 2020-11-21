@@ -11,7 +11,6 @@ use Umbrella\CoreBundle\Component\Ckeditor\CkeditorConfiguration;
 use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\Schedule\Task\AbstractTask;
-use Umbrella\CoreBundle\Extension\WebpackTwigExtension;
 use Umbrella\CoreBundle\Services\UmbrellaRedis;
 use Umbrella\CoreBundle\Utils\ArrayUtils;
 
@@ -33,9 +32,6 @@ class UmbrellaCoreExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
         $loader->load('form_extension.yml');
-
-        $def = $container->getDefinition(WebpackTwigExtension::class);
-        $def->addMethodCall('loadConfig', [$config['webpack']]);
 
         $def = $container->getDefinition(UmbrellaRedis::class);
         $def->addMethodCall('loadConfig', [$config['redis']]);

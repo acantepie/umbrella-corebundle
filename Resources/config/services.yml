@@ -99,7 +99,6 @@ services:
 
     #Extension
     Umbrella\CoreBundle\Extension\CoreTwigExtension:
-    Umbrella\CoreBundle\Extension\WebpackTwigExtension:
 
     #Form
     Umbrella\CoreBundle\Form\:

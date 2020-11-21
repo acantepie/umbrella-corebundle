@@ -22,7 +22,6 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->getRootNode();
 
         $this->addMenuSection($rootNode);
-        $this->addwebpackSection($rootNode);
         $this->addRedisSection($rootNode);
         $this->ckeditorSection($rootNode);
 
@@ -35,16 +34,6 @@ class Configuration implements ConfigurationInterface
             ->arrayNode('menu')->addDefaultsIfNotSet()
             ->children()
             ->scalarNode('default_alias')->defaultValue('admin_sidebar')->end();
-    }
-
-    private function addwebpackSection(ArrayNodeDefinition $rootNode)
-    {
-        $rootNode->children()
-            ->arrayNode('webpack')->addDefaultsIfNotSet()
-            ->children()
-                ->booleanNode('dev_server_enable')->defaultFalse()->end()
-                ->scalarNode('dev_server_host')->defaultValue('http://127.0.0.1')->end()
-                ->integerNode('dev_server_port')->defaultValue(9000)->end();
     }
 
     private function addRedisSection(ArrayNodeDefinition $rootNode)

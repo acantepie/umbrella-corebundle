@@ -2,7 +2,7 @@
     <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
 
     {# load js here #}
-    <script src="{{ webpack_asset('/build/ckeditor.js', null, false) }}" type="text/javascript"></script>
+    {{ encore_entry_script_tags('ckeditor') }}
     <script>
         {{ render_ckeditor_js(form.vars.id, config) }}
     </script>

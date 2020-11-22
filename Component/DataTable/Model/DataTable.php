@@ -72,6 +72,7 @@ class DataTable extends AbstractDataTable
 
         $result = $this->source->search($this->options['data_class'], $this->columns, $this->query);
         $result->draw = $this->query['query']['draw']; // add draw id to result
+
         return $result;
     }
 

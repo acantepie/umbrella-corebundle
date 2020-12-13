@@ -62,14 +62,12 @@ class FileStorage implements StorageInterface
         // get a prettyName using SlugNamer
         $fileName = $this->namer->name($dirPath, $fileName);
 
-        // move file
-        $file->move($dirPath, $fileName);
-        
-        // Update file metadata
-        $path = FileUtils::resolvePath($dirPath, $fileName);
-
+        // metadata
         $umbrellaFile->name = FileUtils::resolvePath($umbrellaFile->_filePath, $fileName);
         $umbrellaFile->size = $file->getSize();
+
+        // move
+        $file->move($dirPath, $fileName);
     }
 
     /**

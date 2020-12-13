@@ -132,6 +132,4 @@ services:
         public: true
     Umbrella\CoreBundle\Services\DateFormater:
         public: true
-    Umbrella\CoreBundle\Services\Mailer:
-        public: true
 

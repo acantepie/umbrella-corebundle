@@ -6,14 +6,14 @@ export default class FileUpload extends Component {
     constructor($view) {
         super($view);
 
-        this.$inputFile = this.$view.find('input.js-umbrella-file');
-        this.$inputEntity = this.$view.find('input.js-umbrella-entity');
-        this.$inputTxt = this.$view.find('input.js-umbrella-text');
-        this.$inputDelete = this.$view.find('input.js-umbrella-delete');
+        this.$inputFile = this.$view.find('input.js-file');
+        this.$inputEntity = this.$view.find('input.js-entity');
+        this.$inputTxt = this.$view.find('input.js-text');
+        this.$inputDelete = this.$view.find('input.js-delete');
 
-        this.$removeBtn = this.$view.find('.js-umbrella-remove');
-        this.$downloadBtn = this.$view.find('.js-umbrella-download');
-        this.$browseBtn = this.$view.find('.js-umbrella-browse');
+        this.$removeBtn = this.$view.find('.js-remove');
+        this.$downloadBtn = this.$view.find('.js-download');
+        this.$browseBtn = this.$view.find('.js-browse');
 
         this.init();
         this.bind();
@@ -21,7 +21,7 @@ export default class FileUpload extends Component {
 
     init() {
 
-        if (this.$inputEntity.val()) {
+        if (this.$view.data('initialized')) {
             this.$removeBtn.removeClass('d-none');
         } else {
             this.$removeBtn.addClass('d-none');
@@ -54,7 +54,7 @@ export default class FileUpload extends Component {
         let files = this.$inputFile[0].files;
         if (files.length > 0) {
             let file = files[0];
-            this.$inputTxt.val(file.name + ' (' + Utils.bytes_to_size(file.size) + ')');
+            this.$inputTxt.val(file.name + ' - ' + Utils.bytes_to_size(file.size));
             this.$removeBtn.removeClass('d-none');
         } else {
             this.$inputTxt.val('');

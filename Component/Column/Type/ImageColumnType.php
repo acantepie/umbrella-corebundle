@@ -10,6 +10,7 @@ namespace Umbrella\CoreBundle\Component\Column\Type;
 
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Component\UmbrellaFile\UmbrellaFileHelper;
 use Umbrella\CoreBundle\Entity\UmbrellaFile;
 use Umbrella\CoreBundle\Utils\HtmlUtils;
 
@@ -19,20 +20,20 @@ use Umbrella\CoreBundle\Utils\HtmlUtils;
 class ImageColumnType extends PropertyColumnType
 {
     /**
-     * @var CacheManager
+     * @var UmbrellaFileHelper
      */
-    protected $cacheManager;
+    protected $fileHelper;
 
     /**
      * ImageColumnType constructor.
-     *
-     * @param CacheManager $cacheManager
+     * @param UmbrellaFileHelper $fileHelper
      */
-    public function __construct(CacheManager $cacheManager)
+    public function __construct(UmbrellaFileHelper $fileHelper)
     {
         parent::__construct();
-        $this->cacheManager = $cacheManager;
+        $this->fileHelper = $fileHelper;
     }
+
 
     /**
      * @param $entity
@@ -49,10 +50,7 @@ class ImageColumnType extends PropertyColumnType
         }
 
         $attr = array_merge(['title' => $file->name], $options['image_attr']);
-        $url = $file->getWebPath();
-        if (!empty($options['imagine_filter'])) {
-            $url = $this->cacheManager->getBrowserPath($url, $options['imagine_filter']);
-        }
+        $url = $this->fileHelper->getImageUrl($file, $options['imagine_filter']);
 
         return sprintf('<img src="%s" %s>', $url, HtmlUtils::array_to_html_attribute($attr));
     }

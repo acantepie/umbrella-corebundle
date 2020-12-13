@@ -1,1 +1,0 @@
-Deprecated component : rework it or use vichy/uploader-bundle

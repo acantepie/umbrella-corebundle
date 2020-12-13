@@ -1,37 +1,39 @@
 {% block umbrellafile_widget %}
-    <div class="js-umbrella-fileupload umbrella-fileupload" id="{{ form.vars.id }}">
-        <div hidden="hidden">
-            {{ form_widget(form.file, { 'attr' : { 'class' : 'js-umbrella-file' }}) }}
-            {{ form_widget(form.id, { 'attr' : { 'class' : 'js-umbrella-entity' }}) }}
-            {{ form_widget(form.delete, { 'attr' : { 'class' : 'js-umbrella-delete' }}) }}
-        </div>
-
+    <div class="js-umbrella-fileupload umbrella-fileupload" id="{{ form.vars.id }}" data-initialized="{{ null == umbrella_file ? 'false' : 'true' }}">
         <div class="input-group">
             <div class="input-container">
-                {# Use readonly class to allow required attribute #}
-                {{ form_widget(form.text, { 'attr' : { 'class' : 'js-umbrella-text', 'readonly' : true }}) }}
+
+                <div class="input-hidden">
+                    {{ form_widget(form._file) }}
+                    {{ form_widget(form._deleteFile) }}
+                </div>
+
+                {{ form_widget(form.filename, {'value': file_info}) }}
 
                 <div class="action-container">
+
                     {% if allow_delete %}
-                        <span class="js-umbrella-remove umbrella-remove hide" type="button">
+                        <span class="js-remove umbrella-remove hide" type="button">
                             {{ 'mdi mdi-close' | icon }}
                         </span>
                     {% endif %}
-                    {% if form.vars.entity and form.vars.entity.webPath is not empty %}
-                        <span onclick="window.open('{{ asset(form.vars.entity.webPath) }}'); return false" class="js-umbrella-download umbrella-download">
+
+                    {% if umbrella_file %}
+                        <a href="{{ file_url(umbrella_file) }}" class="js-umbrella-download umbrella-download" target="_blank">
                             {{ 'mdi mdi-download' | icon }}
-                        </span>
+                        </a>
                     {% endif %}
+
                 </div>
             </div>
 
             <div class="input-group-append">
-                <button class="btn btn-light js-umbrella-browse umbrella-browse" type="button">
-                    {%- if translation_domain is same as(false) -%}
-                        {{ label_browse | raw }}
-                    {% else %}
-                        {{ label_browse | trans | raw }}
-                    {% endif %}
+                <button class="btn btn-light js-browse umbrella-browse" type="button">
+                   {%- if translation_domain is same as(false) -%}
+                       {{ label_browse | raw  }}
+                   {%- else -%}
+                       {{ label_browse | trans([], translation_domain) | raw  }}
+                   {%- endif -%}
                 </button>
             </div>
         </div>

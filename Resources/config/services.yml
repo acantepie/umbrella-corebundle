@@ -43,7 +43,6 @@ services:
     Umbrella\CoreBundle\Component\Column\Type\ActiveColumnType:
     Umbrella\CoreBundle\Component\Column\Type\BooleanColumnType:
     Umbrella\CoreBundle\Component\Column\Type\ImageColumnType:
-        $cacheManager: "@liip_imagine.cache.manager"
     Umbrella\CoreBundle\Component\Column\ColumnFactory:
 
     # Toolbar
@@ -100,11 +99,14 @@ services:
             - { name: doctrine.event_subscriber }
 
     # UmbrellaFile
-    Umbrella\CoreBundle\Component\UmbrellaFile\UmbrellaFileUploader:
-        public: true
+    Umbrella\CoreBundle\Component\UmbrellaFile\Storage\FileStorage:
         bind:
-            $publicPath: "%kernel.project_dir%/public"
-            $assetPath: "/uploads"
+            $uploadDir: "%kernel.project_dir%/public/uploads"
+            $uriPrefix: "/uploads"
+    Umbrella\CoreBundle\Component\UmbrellaFile\Storage\SlugNamer:
+    Umbrella\CoreBundle\Component\UmbrellaFile\Extension\UmbrellaFileExtension:
+    Umbrella\CoreBundle\Component\UmbrellaFile\UmbrellaFileHelper:
+        public: true
     Umbrella\CoreBundle\Component\UmbrellaFile\UmbrellaFileListener:
         tags:
             - { name: doctrine.orm.entity_listener }

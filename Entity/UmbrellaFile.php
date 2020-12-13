@@ -44,27 +44,19 @@ class UmbrellaFile
     public $size;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=false)
+     * @var ?UploadedFile
      */
-    public $md5;
+    public $_file;
 
     /**
      * @var string
-     * @ORM\Column(type="string", nullable=false)
      */
-    public $mimeType;
+    public $_filePath;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=false)
+     * @var bool
      */
-    public $path;
-
-    /**
-     * @var UploadedFile
-     */
-    public $file;
+    public $_deleteFile = false;
 
     /**
      * UmbrellaFile constructor.
@@ -74,26 +66,7 @@ class UmbrellaFile
         $this->createdAt = new \DateTime('NOW');
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->getWebPath();
-    }
-
-    /**
-     * @return string
-     */
-    public function getWebPath()
-    {
-        return $this->path;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHumanSize()
+    public function getHumanSize() : string
     {
         return MathUtils::bytes_to_size($this->size);
     }

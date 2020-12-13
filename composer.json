@@ -14,6 +14,7 @@
         "psr-4": {"Umbrella\\CoreBundle\\": ""}
     },
     "require": {
+        "liip/imagine-bundle": "^2.3"
     },
     "scripts": {
         "post-install-cmd": [],

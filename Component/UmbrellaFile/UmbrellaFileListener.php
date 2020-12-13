@@ -10,6 +10,7 @@ namespace Umbrella\CoreBundle\Component\UmbrellaFile;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Umbrella\CoreBundle\Component\UmbrellaFile\Storage\StorageInterface;
 use Umbrella\CoreBundle\Entity\UmbrellaFile;
 
 /**
@@ -18,37 +19,38 @@ use Umbrella\CoreBundle\Entity\UmbrellaFile;
 class UmbrellaFileListener
 {
     /**
-     * @var UmbrellaFileUploader
+     * @var StorageInterface
      */
-    private $uploader;
+    private $storage;
 
     /**
      * UmbrellaFileListener constructor.
-     *
-     * @param UmbrellaFileUploader $uploader
+     * @param StorageInterface $storage
      */
-    public function __construct(UmbrellaFileUploader $uploader)
+    public function __construct(StorageInterface $storage)
     {
-        $this->uploader = $uploader;
+        $this->storage = $storage;
     }
 
     /**
      * @param UmbrellaFile       $umbrellaFile
      * @param LifecycleEventArgs $event
      */
-    public function preRemove(UmbrellaFile $umbrellaFile, LifecycleEventArgs $event)
+    public function preRemove(UmbrellaFile $umbrellaFile, LifecycleEventArgs $event) : void
     {
-        @unlink($this->uploader->getAbsolutePath($umbrellaFile));
+        $this->storage->remove($umbrellaFile);
     }
 
     /**
      * @param UmbrellaFile       $umbrellaFile
      * @param LifecycleEventArgs $event
      */
-    public function prePersist(UmbrellaFile $umbrellaFile, LifecycleEventArgs $event)
+    public function prePersist(UmbrellaFile $umbrellaFile, LifecycleEventArgs $event) : void
     {
-        if ($umbrellaFile->file instanceof UploadedFile && $umbrellaFile->file->isValid()) {
-            $umbrellaFile->path = $this->uploader->upload($umbrellaFile->file);
+        if (null === $umbrellaFile->_file || !$umbrellaFile->_file instanceof UploadedFile) {
+            return;
         }
+
+        $this->storage->upload($umbrellaFile);
     }
 }

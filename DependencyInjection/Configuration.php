@@ -5,6 +5,7 @@ namespace Umbrella\CoreBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Umbrella\CoreBundle\Component\UmbrellaFile\Storage\FileStorage;
 
 /**
  * This is the class that validates and merges configuration from your app/config files.
@@ -24,6 +25,7 @@ class Configuration implements ConfigurationInterface
         $this->addMenuSection($rootNode);
         $this->addRedisSection($rootNode);
         $this->ckeditorSection($rootNode);
+        $this->fileSection($rootNode);
 
         return $treeBuilder;
     }
@@ -58,5 +60,13 @@ class Configuration implements ConfigurationInterface
                     ->arrayPrototype()
                         ->variablePrototype()->end()
                     ->end();
+    }
+
+    private function fileSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode->children()
+            ->arrayNode('file')->addDefaultsIfNotSet()
+            ->children()
+                ->scalarNode('storage')->defaultValue(FileStorage::class)->end();
     }
 }

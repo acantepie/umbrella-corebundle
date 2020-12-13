@@ -12,6 +12,7 @@ use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
 use Umbrella\CoreBundle\Component\Redis\RedisClient;
 use Umbrella\CoreBundle\Component\Schedule\Task\AbstractTask;
+use Umbrella\CoreBundle\Component\UmbrellaFile\Storage\StorageInterface;
 use Umbrella\CoreBundle\Utils\ArrayUtils;
 
 /**
@@ -38,6 +39,8 @@ class UmbrellaCoreExtension extends Extension
 
         $def = $container->getDefinition(CkeditorConfiguration::class);
         $def->setArgument(0, $config['ckeditor']);
+
+        $container->setAlias(StorageInterface::class, $config['file']['storage']);
 
         $container->registerForAutoconfiguration(DataTableType::class)->addTag('umbrella.datatable.type');
         $container->registerForAutoconfiguration(ColumnType::class)->addTag('umbrella.column.type');

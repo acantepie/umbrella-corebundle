@@ -1,17 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: acantepie
- * Date: 08/02/18
- * Time: 21:43
- */
 
-namespace Umbrella\CoreBundle\Services;
+namespace Umbrella\CoreBundle\Component\Redis;
 
 /**
- * Class UmbrellaRedis
+ * Class RedisClient
  */
-class UmbrellaRedis
+class RedisClient
 {
     /**
      * @var string
@@ -33,24 +27,14 @@ class UmbrellaRedis
      */
     private $conn;
 
-    /**
-     * UmbrellaRedis constructor.
-     */
-    public function __construct()
-    {
-    }
-
-    public function loadConfig(array $config)
+    public function loadConfig(array $config) : void
     {
         $this->host = trim($config['host']);
         $this->port = trim($config['port']);
         $this->db = trim($config['db']);
     }
 
-    /**
-     * @return \Redis
-     */
-    public function getConn()
+    public function getConn() : \Redis
     {
         if (null == $this->conn) {
             $this->conn = $this->openConn();
@@ -59,10 +43,7 @@ class UmbrellaRedis
         return $this->conn;
     }
 
-    /**
-     * @return \Redis
-     */
-    private function openConn()
+    private function openConn() : \Redis
     {
         $connection = new \Redis();
         $connection->connect($this->host, $this->port);

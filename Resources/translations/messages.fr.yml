@@ -115,42 +115,6 @@ message:
     reset_password_error_cause1: Cela fait fait plus de 24 heures que vous avez demandé à cet que votre mot de passe soit réinitialisé. Veuillez faire une nouvelle demande de <a href="%url%" class="text-primary">réinitialisation de mot de passe</a>.
     reset_password_error_cause2: Si vous avez effectué plusieurs demande, seul l'email de réinitialisation envoyé en dernier sera valide.
 
-dateFormater:
-    day:
-        Monday: Lundi
-        Tuesday: Mardi
-        Wednesday: Mercredi
-        Thursday: Jeudi
-        Friday: Vendredi
-        Saturday: Samedi
-        Sunday: Dimanche
-    month:
-        September: Septembre
-        October: Octobre
-        November: Novembre
-        December: Decembre
-        January: Janvier
-        February: Fevrier
-        March: Mars
-        April: Avril
-        May: Mai
-        June: Juin
-        July: Juillet
-        August: Aout
-    reverseMonth:
-        Septembre: September
-        Octobre: October
-        Novembre: November
-        Decembre: December
-        Janvier: January
-        Fevrier: February
-        Mars: March
-        Avril: April
-        Mai: May
-        Juin: June
-        Juillet: July
-        Aout: August
-
 job:
     state:
         new: Nouveau

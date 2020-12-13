@@ -10,8 +10,8 @@ use Umbrella\CoreBundle\Component\Action\Type\ActionType;
 use Umbrella\CoreBundle\Component\Ckeditor\CkeditorConfiguration;
 use Umbrella\CoreBundle\Component\Column\Type\ColumnType;
 use Umbrella\CoreBundle\Component\DataTable\Type\DataTableType;
+use Umbrella\CoreBundle\Component\Redis\RedisClient;
 use Umbrella\CoreBundle\Component\Schedule\Task\AbstractTask;
-use Umbrella\CoreBundle\Services\UmbrellaRedis;
 use Umbrella\CoreBundle\Utils\ArrayUtils;
 
 /**
@@ -33,7 +33,7 @@ class UmbrellaCoreExtension extends Extension
         $loader->load('services.yml');
         $loader->load('form_extension.yml');
 
-        $def = $container->getDefinition(UmbrellaRedis::class);
+        $def = $container->getDefinition(RedisClient::class);
         $def->addMethodCall('loadConfig', [$config['redis']]);
 
         $def = $container->getDefinition(CkeditorConfiguration::class);

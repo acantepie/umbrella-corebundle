@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Umbrella\CoreBundle\Services\EntityIndexer;
+use Umbrella\CoreBundle\Component\Search\EntityIndexer;
 
 /**
  * Class IndexEntityCommand.
@@ -74,13 +74,13 @@ class IndexEntityCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if ($this->entityClass) {
-            if (!$this->indexer->isIndexable($this->entityClass)) {
+            if (!$this->indexer->isSearchable($this->entityClass)) {
                 $this->io->error(sprintf('Entity class %s is not indexable', $this->entityClass));
 
                 return 1;
             }
 
-            $this->indexer->indexEntity($this->entityClass);
+            $this->indexer->indexAllOfClass($this->entityClass);
 
             return 0;
         } else {

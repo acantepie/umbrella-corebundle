@@ -11,20 +11,20 @@ trait TimestampTrait
 {
     /**
      * @var \DateTimeInterface
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(type="datetime", nullable=false)
      */
     public $createdAt;
 
     /**
      * @var \DateTimeInterface
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     * @ORM\Column(type="datetime", nullable=false)
      */
     public $updatedAt;
 
     /**
      * @ORM\PrePersist
      */
-    public function updateCreatedAt()
+    public function updateCreatedAt() : void
     {
         $this->createdAt = new \DateTime('NOW');
     }
@@ -33,7 +33,7 @@ trait TimestampTrait
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
-    public function updateUpdatedAt()
+    public function updateUpdatedAt() : void
     {
         $this->updatedAt = new \DateTime('NOW');
     }

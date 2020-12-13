@@ -26,6 +26,9 @@ services:
     # JsResponse
     Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder:
         public: true
+    Umbrella\CoreBundle\Component\JsResponse\JsResponseViewListener:
+        tags:
+            - {name: kernel.event_subscriber }
 
     # DataTable
     Umbrella\CoreBundle\Component\DataTable\DataTableFactory:
@@ -92,6 +95,26 @@ services:
     Umbrella\CoreBundle\Component\Tabs\TabsHelper:
     Umbrella\CoreBundle\Component\Tabs\TabsExtension:
 
+    # Search
+    Umbrella\CoreBundle\Component\Search\Annotation\SearchableAnnotationReader:
+    Umbrella\CoreBundle\Component\Search\EntityIndexer:
+        public: true
+    Umbrella\CoreBundle\Component\Search\SearchableEntitySubscriber:
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    # UmbrellaFile
+    Umbrella\CoreBundle\Component\UmbrellaFile\UmbrellaFileUploader:
+        public: true
+        bind:
+            $publicPath: "%kernel.project_dir%/public"
+            $assetPath: "/uploads"
+    Umbrella\CoreBundle\Component\UmbrellaFile\UmbrellaFileListener:
+        tags:
+            - { name: doctrine.orm.entity_listener }
+    Umbrella\CoreBundle\Component\UmbrellaFile\Validator\UmbrellaFileValidator:
+    Umbrella\CoreBundle\Component\UmbrellaFile\Validator\UmbrellaImageValidator:
+
     # ---- Umbrella ----#
 
     #Command
@@ -105,38 +128,10 @@ services:
         resource: '../../Form'
 
     # Services
-    Umbrella\CoreBundle\Services\UmbrellaFileUploader:
-        public: true
-        bind:
-            $publicPath: "%kernel.project_dir%/public"
-            $assetPath: "/umbrella-file"
-
-    Umbrella\CoreBundle\Services\SearchHandler:
-        public: true
     Umbrella\CoreBundle\Services\UmbrellaRedis:
-        public: true
-    Umbrella\CoreBundle\Services\EntityIndexer:
         public: true
     Umbrella\CoreBundle\Services\DateFormater:
         public: true
     Umbrella\CoreBundle\Services\Mailer:
         public: true
 
-    # Annotation
-    Umbrella\CoreBundle\Annotation\SearchableAnnotationReader:
-    Umbrella\CoreBundle\Annotation\DiscriminatorEntryReader:
-
-    # Validator
-    Umbrella\CoreBundle\Validator\UmbrellaFileValidator:
-
-    # Listener
-
-    Umbrella\CoreBundle\Listener\EntitySubscriber:
-        tags:
-            - {name: doctrine.event_subscriber}
-    Umbrella\CoreBundle\Listener\UmbrellaFileListener:
-        tags:
-            - { name: doctrine.orm.entity_listener }
-    Umbrella\CoreBundle\Listener\UmbrellaViewResponseListener:
-        tags:
-            - {name: kernel.event_subscriber }

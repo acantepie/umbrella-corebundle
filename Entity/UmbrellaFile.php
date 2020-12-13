@@ -19,13 +19,17 @@ use Umbrella\CoreBundle\Utils\MathUtils;
  *
  * @ORM\Entity
  * @ORM\Table(name="umbrella_file")
- * @ORM\HasLifecycleCallbacks
- * @ORM\EntityListeners({ "Umbrella\CoreBundle\Listener\UmbrellaFileListener" })
+ * @ORM\EntityListeners({ "Umbrella\CoreBundle\Component\UmbrellaFile\UmbrellaFileListener" })
  */
 class UmbrellaFile
 {
     use IdTrait;
-    use TimestampTrait;
+
+    /**
+     * @var \DateTimeInterface
+     * @ORM\Column(type="datetime", nullable=false)
+     */
+    public $createdAt;
 
     /**
      * @var string
@@ -61,6 +65,14 @@ class UmbrellaFile
      * @var UploadedFile
      */
     public $file;
+
+    /**
+     * UmbrellaFile constructor.
+     */
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime('NOW');
+    }
 
     /**
      * @return string

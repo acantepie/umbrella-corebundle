@@ -1,9 +1,9 @@
 <?php
 
-namespace Umbrella\CoreBundle\Validator\Constraints;
+namespace Umbrella\CoreBundle\Component\UmbrellaFile\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraints\File;
-use Umbrella\CoreBundle\Validator\UmbrellaFileValidator;
+use Umbrella\CoreBundle\Component\UmbrellaFile\Validator\UmbrellaFileValidator;
 
 /**
  * @Annotation

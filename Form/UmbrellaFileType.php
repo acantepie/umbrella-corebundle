@@ -19,8 +19,8 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Umbrella\CoreBundle\Component\UmbrellaFile\UmbrellaFileUploader;
 use Umbrella\CoreBundle\Entity\UmbrellaFile;
-use Umbrella\CoreBundle\Services\UmbrellaFileUploader;
 use Umbrella\CoreBundle\Utils\ArrayUtils;
 
 /**
@@ -58,8 +58,7 @@ class UmbrellaFileType extends AbstractType
         // return UmbrellaFile entity to view
         $view->vars['entity'] = $form->getData();
         $view->vars['allow_delete'] = $options['allow_delete'];
-        $view->vars['browse_label'] = $options['browse_label'];
-        $view->vars['browse_html'] = $options['browse_html'];
+        $view->vars['label_browse'] = $options['label_browse'];
     }
 
     /**
@@ -71,8 +70,7 @@ class UmbrellaFileType extends AbstractType
         $builder->add('file', FileType::class, [
             'required' => false,
             'error_bubbling' => true, // pass error to the parent
-            'attr' => $options['file_attr'],
-            'constraints' => $options['file_constraints'],
+            'attr' => $options['file_attr']
         ]);
         $builder->add('id', TextType::class, [
             'required' => false,
@@ -96,15 +94,12 @@ class UmbrellaFileType extends AbstractType
     {
         $resolver->setDefaults([
             'file_attr' => [],
-            'file_constraints' => [],
             'error_bubbling' => false, // resolve error at this level
             'allow_delete' => true,
-            'browse_label' => 'common.browse',
-            'browse_html' => null,
+            'label_browse' => 'common.browse'
         ]);
 
         $resolver->setAllowedTypes('file_attr', 'array');
-        $resolver->setAllowedTypes('file_constraints', 'array');
         $resolver->setAllowedTypes('allow_delete', 'boolean');
     }
 

@@ -7,7 +7,7 @@
  * Time: 23:16
  */
 
-namespace Umbrella\CoreBundle\Services;
+namespace Umbrella\CoreBundle\Component\UmbrellaFile;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Umbrella\CoreBundle\Entity\UmbrellaFile;

@@ -6,7 +6,7 @@
  * Time: 23:36
  */
 
-namespace Umbrella\CoreBundle\Annotation;
+namespace Umbrella\CoreBundle\Component\Search\Annotation;
 
 use Doctrine\Common\Annotations\Annotation\Target;
 

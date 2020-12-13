@@ -6,7 +6,7 @@
  * Time: 23:40
  */
 
-namespace Umbrella\CoreBundle\Annotation;
+namespace Umbrella\CoreBundle\Component\Search\Annotation;
 
 use Doctrine\Common\Annotations\Reader;
 
@@ -30,14 +30,10 @@ class SearchableAnnotationReader
         $this->reader = $reader;
     }
 
-    /**
-     * @param $entityClass
-     *
-     * @return Searchable|null
-     */
-    public function getSearchable($entityClass)
+    public function getSearchable(string $entityClass) : ?Searchable
     {
-        return $this->getInheritAnnotation($entityClass, Searchable::class);
+        $reflection = new \ReflectionClass($entityClass);
+        return $this->reader->getClassAnnotation($reflection, Searchable::class);
     }
 
     /**
@@ -45,7 +41,7 @@ class SearchableAnnotationReader
      *
      * @return SearchableField[]
      */
-    public function getSearchableProperties($entityClass)
+    public function getSearchableProperties(string $entityClass) : array
     {
         $reflection = new \ReflectionClass($entityClass);
 
@@ -65,7 +61,7 @@ class SearchableAnnotationReader
      *
      * @return SearchableField[]
      */
-    public function getSearchableMethods($entityClass)
+    public function getSearchableMethods(string $entityClass) : array
     {
         $reflection = new \ReflectionClass($entityClass);
 
@@ -78,22 +74,5 @@ class SearchableAnnotationReader
         }
 
         return $result;
-    }
-
-    /* Helper */
-
-    /**
-     * @param $class
-     * @param $annotationName
-     *
-     * @return object|null
-     *
-     * @throws \ReflectionException
-     */
-    public function getInheritAnnotation($class, $annotationName)
-    {
-        $reflection = new \ReflectionClass($class);
-
-        return $this->reader->getClassAnnotation($reflection, $annotationName);
     }
 }

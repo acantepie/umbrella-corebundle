@@ -25,6 +25,7 @@ class UmbrellaFileListener
 
     /**
      * UmbrellaFileListener constructor.
+     *
      * @param StorageInterface $storage
      */
     public function __construct(StorageInterface $storage)
@@ -36,7 +37,7 @@ class UmbrellaFileListener
      * @param UmbrellaFile       $umbrellaFile
      * @param LifecycleEventArgs $event
      */
-    public function preRemove(UmbrellaFile $umbrellaFile, LifecycleEventArgs $event) : void
+    public function preRemove(UmbrellaFile $umbrellaFile, LifecycleEventArgs $event): void
     {
         $this->storage->remove($umbrellaFile);
     }
@@ -45,7 +46,7 @@ class UmbrellaFileListener
      * @param UmbrellaFile       $umbrellaFile
      * @param LifecycleEventArgs $event
      */
-    public function prePersist(UmbrellaFile $umbrellaFile, LifecycleEventArgs $event) : void
+    public function prePersist(UmbrellaFile $umbrellaFile, LifecycleEventArgs $event): void
     {
         if (null === $umbrellaFile->_file || !$umbrellaFile->_file instanceof UploadedFile) {
             return;

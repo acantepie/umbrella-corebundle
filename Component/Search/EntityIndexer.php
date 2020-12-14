@@ -30,9 +30,9 @@ class EntityIndexer
 
     /**
      * EntityIndexer constructor.
-     * 
-     * @param EntityManagerInterface $em
-     * @param LoggerInterface $logger
+     *
+     * @param EntityManagerInterface     $em
+     * @param LoggerInterface            $logger
      * @param SearchableAnnotationReader $annotationReader
      */
     public function __construct(EntityManagerInterface $em, LoggerInterface $logger, SearchableAnnotationReader $annotationReader)
@@ -42,7 +42,7 @@ class EntityIndexer
         $this->annotationReader = $annotationReader;
     }
 
-    public function isSearchable(string $class) : bool
+    public function isSearchable(string $class): bool
     {
         try {
             $md = $this->em->getClassMetadata($class);
@@ -60,13 +60,13 @@ class EntityIndexer
 
         return true;
     }
-    
-    public function isSearchableEntityClass(string $entityClass) : bool
+
+    public function isSearchableEntityClass(string $entityClass): bool
     {
         return null !== $this->annotationReader->getSearchable($entityClass);
     }
 
-    public function indexAll(int $batchSize = 2000) : void
+    public function indexAll(int $batchSize = 2000): void
     {
         $entitiesClass = $this->em->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
         foreach ($entitiesClass as $entityClass) {
@@ -76,7 +76,7 @@ class EntityIndexer
         }
     }
 
-    public function indexAllOfClass(string $entityClass, int $batchSize = 2000) : void
+    public function indexAllOfClass(string $entityClass, int $batchSize = 2000): void
     {
         SQLUtils::disableSQLLog($this->em);
 
@@ -107,7 +107,7 @@ class EntityIndexer
      *
      * @return bool
      */
-    public function indexEntity(object $entity) : bool
+    public function indexEntity(object $entity): bool
     {
         $entityClass = get_class($entity);
 

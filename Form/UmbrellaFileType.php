@@ -10,10 +10,6 @@ namespace Umbrella\CoreBundle\Form;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Event\PostSubmitEvent;
-use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\Event\SubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -22,12 +18,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Umbrella\CoreBundle\Component\UmbrellaFile\UploadHandler;
 use Umbrella\CoreBundle\Entity\UmbrellaFile;
-use Umbrella\CoreBundle\Services\UmbrellaFileUploader;
-use Umbrella\CoreBundle\Utils\ArrayUtils;
 
 /**
  * Class UmbrellaFileType
@@ -41,6 +33,7 @@ class UmbrellaFileType extends AbstractType
 
     /**
      * UmbrellaFileType constructor.
+     *
      * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
@@ -102,11 +95,9 @@ class UmbrellaFileType extends AbstractType
             ]
         ]);
 
-        $builder->addEventListener(FormEvents::SUBMIT, function (SubmitEvent $event) use($options) {
-
+        $builder->addEventListener(FormEvents::SUBMIT, function (SubmitEvent $event) use ($options) {
             /** @var ?UmbrellaFile $currentUmbrellaFile */
             $currentUmbrellaFile = $event->getData();
-
 
             if (null === $currentUmbrellaFile) {
                 return; // no upload was performed
@@ -118,6 +109,7 @@ class UmbrellaFileType extends AbstractType
             if (null === $uploadedFile && $currentUmbrellaFile->_deleteFile) {
                 $this->em->remove($currentUmbrellaFile);
                 $event->setData(null);
+
                 return;
             }
 
@@ -125,6 +117,7 @@ class UmbrellaFileType extends AbstractType
             if (null === $uploadedFile && null === $currentUmbrellaFile->id) {
                 $currentUmbrellaFile = null;
                 $event->setData(null);
+
                 return;
             }
 
@@ -150,7 +143,7 @@ class UmbrellaFileType extends AbstractType
             'data_class' => UmbrellaFile::class,
             'file_attr' => [],
 
-            'file_info' => function(UmbrellaFile $umbrellaFile) {
+            'file_info' => function (UmbrellaFile $umbrellaFile) {
                 return sprintf('%s - %s', \pathinfo($umbrellaFile->name, PATHINFO_FILENAME), $umbrellaFile->getHumanSize());
             },
             'file_path' => null,

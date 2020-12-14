@@ -27,14 +27,14 @@ class RedisClient
      */
     private $conn;
 
-    public function loadConfig(array $config) : void
+    public function loadConfig(array $config): void
     {
         $this->host = trim($config['host']);
         $this->port = trim($config['port']);
         $this->db = trim($config['db']);
     }
 
-    public function getConn() : \Redis
+    public function getConn(): \Redis
     {
         if (null == $this->conn) {
             $this->conn = $this->openConn();
@@ -43,7 +43,7 @@ class RedisClient
         return $this->conn;
     }
 
-    private function openConn() : \Redis
+    private function openConn(): \Redis
     {
         $connection = new \Redis();
         $connection->connect($this->host, $this->port);

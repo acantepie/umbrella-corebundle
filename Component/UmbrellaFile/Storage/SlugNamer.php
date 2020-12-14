@@ -20,6 +20,7 @@ class SlugNamer
 
     /**
      * SlugNamer constructor.
+     *
      * @param SluggerInterface $slugger
      */
     public function __construct(SluggerInterface $slugger)
@@ -31,6 +32,7 @@ class SlugNamer
      * Give the storage name to uploaded file
      *
      * @param UmbrellaFile $file
+     *
      * @return string
      */
     public function name(string $dirPath, string $originalName): string
@@ -47,7 +49,6 @@ class SlugNamer
         // check if there another object with same slug
         $num = 0;
         while (true) {
-
             if (false === $fs->exists(FileUtils::resolvePath($dirPath, $slug))) {
                 return $slug;
             }

@@ -24,7 +24,7 @@ trait TimestampTrait
     /**
      * @ORM\PrePersist
      */
-    public function updateCreatedAt() : void
+    public function updateCreatedAt(): void
     {
         $this->createdAt = new \DateTime('NOW');
     }
@@ -33,7 +33,7 @@ trait TimestampTrait
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
-    public function updateUpdatedAt() : void
+    public function updateUpdatedAt(): void
     {
         $this->updatedAt = new \DateTime('NOW');
     }

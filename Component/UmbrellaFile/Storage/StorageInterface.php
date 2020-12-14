@@ -3,7 +3,6 @@
 namespace Umbrella\CoreBundle\Component\UmbrellaFile\Storage;
 
 use Umbrella\CoreBundle\Entity\UmbrellaFile;
-use Vich\UploaderBundle\Mapping\PropertyMapping;
 
 /**
  * Interface StorageInterface
@@ -13,12 +12,12 @@ interface StorageInterface
     /**
      * @param UmbrellaFile $umbrellaFile
      */
-    public function upload(UmbrellaFile $umbrellaFile) : void;
+    public function upload(UmbrellaFile $umbrellaFile): void;
 
     /**
      * Remove file
      */
-    public function remove(UmbrellaFile $umbrellaFile) : void;
+    public function remove(UmbrellaFile $umbrellaFile): void;
 
     /**
      * Get the path for a file

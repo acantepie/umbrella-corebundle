@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Umbrella\CoreBundle\Component\UmbrellaFile;
 
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
@@ -24,8 +23,9 @@ class UmbrellaFileHelper
 
     /**
      * UmbrellaFileHelper constructor.
+     *
      * @param StorageInterface $storage
-     * @param CacheManager $liipCache
+     * @param CacheManager     $liipCache
      */
     public function __construct(StorageInterface $storage, CacheManager $liipCache)
     {
@@ -33,17 +33,17 @@ class UmbrellaFileHelper
         $this->liipCache = $liipCache;
     }
 
-    public function getPath(UmbrellaFile $umbrellaFile, bool $relative = false) : string
+    public function getPath(UmbrellaFile $umbrellaFile, bool $relative = false): string
     {
         return $this->storage->getPath($umbrellaFile, $relative);
     }
 
-    public function getUrl(UmbrellaFile $umbrellaFile) : string
+    public function getUrl(UmbrellaFile $umbrellaFile): string
     {
         return $path = $this->storage->getUrl($umbrellaFile, true);
     }
 
-    public function getImageUrl(UmbrellaFile $umbrellaFile, $liipFilter = null, array $config = [], $resolver = null) : string
+    public function getImageUrl(UmbrellaFile $umbrellaFile, $liipFilter = null, array $config = [], $resolver = null): string
     {
         if (empty($liipFilter)) {
             return $this->getUrl($umbrellaFile);
@@ -51,5 +51,4 @@ class UmbrellaFileHelper
 
         return $this->liipCache->getBrowserPath($this->getUrl($umbrellaFile), $liipFilter, $config, $resolver);
     }
-
 }

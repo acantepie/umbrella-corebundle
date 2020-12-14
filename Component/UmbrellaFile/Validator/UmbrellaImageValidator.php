@@ -19,6 +19,7 @@ class UmbrellaImageValidator extends ImageValidator
 
     /**
      * UmbrellaImageValidator constructor.
+     *
      * @param StorageInterface $storage
      */
     public function __construct(StorageInterface $storage)
@@ -29,7 +30,7 @@ class UmbrellaImageValidator extends ImageValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($value, Constraint $constraint) : void
+    public function validate($value, Constraint $constraint): void
     {
         if (!is_a($value, UmbrellaFile::class)) {
             return;
@@ -37,6 +38,7 @@ class UmbrellaImageValidator extends ImageValidator
 
         if ($value->_file) {
             parent::validate($value->_file, $constraint);
+
             return;
         }
 

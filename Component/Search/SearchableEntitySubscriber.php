@@ -12,7 +12,6 @@ namespace Umbrella\CoreBundle\Component\Search;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
-use Umbrella\CoreBundle\Component\Search\Annotation\SearchableAnnotationReader;
 
 /**
  * Class EntitySubscriber.
@@ -26,6 +25,7 @@ class SearchableEntitySubscriber implements EventSubscriber
 
     /**
      * SearchableEntitySubscriber constructor.
+     *
      * @param EntityIndexer $entityIndexer
      */
     public function __construct(EntityIndexer $entityIndexer)
@@ -36,7 +36,7 @@ class SearchableEntitySubscriber implements EventSubscriber
     /**
      * @param LifecycleEventArgs $args
      */
-    public function prePersist(LifecycleEventArgs $args) : void
+    public function prePersist(LifecycleEventArgs $args): void
     {
         $this->entityIndexer->indexEntity($args->getObject());
     }
@@ -44,7 +44,7 @@ class SearchableEntitySubscriber implements EventSubscriber
     /**
      * @param LifecycleEventArgs $args
      */
-    public function preUpdate(LifecycleEventArgs $args) : void
+    public function preUpdate(LifecycleEventArgs $args): void
     {
         $this->entityIndexer->indexEntity($args->getObject());
     }
@@ -54,7 +54,7 @@ class SearchableEntitySubscriber implements EventSubscriber
      *
      * @return array
      */
-    public function getSubscribedEvents() : array
+    public function getSubscribedEvents(): array
     {
         return [
             Events::prePersist,

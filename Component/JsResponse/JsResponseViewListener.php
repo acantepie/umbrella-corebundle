@@ -11,7 +11,6 @@ namespace Umbrella\CoreBundle\Component\JsResponse;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Umbrella\CoreBundle\Component\JsResponse\JsResponseBuilder;
 
 /**
  * Class JsResponseViewListener
@@ -21,7 +20,7 @@ class JsResponseViewListener implements EventSubscriberInterface
     /**
      * @param ViewEvent $event
      */
-    public function onKernelView(ViewEvent $event) : void
+    public function onKernelView(ViewEvent $event): void
     {
         $result = $event->getControllerResult();
         if ($result instanceof JsResponseBuilder) {
@@ -32,7 +31,7 @@ class JsResponseViewListener implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents() : array
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::VIEW => ['onKernelView', 40],

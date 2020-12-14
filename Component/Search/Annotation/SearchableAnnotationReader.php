@@ -30,9 +30,10 @@ class SearchableAnnotationReader
         $this->reader = $reader;
     }
 
-    public function getSearchable(string $entityClass) : ?Searchable
+    public function getSearchable(string $entityClass): ?Searchable
     {
         $reflection = new \ReflectionClass($entityClass);
+
         return $this->reader->getClassAnnotation($reflection, Searchable::class);
     }
 
@@ -41,7 +42,7 @@ class SearchableAnnotationReader
      *
      * @return SearchableField[]
      */
-    public function getSearchableProperties(string $entityClass) : array
+    public function getSearchableProperties(string $entityClass): array
     {
         $reflection = new \ReflectionClass($entityClass);
 
@@ -61,7 +62,7 @@ class SearchableAnnotationReader
      *
      * @return SearchableField[]
      */
-    public function getSearchableMethods(string $entityClass) : array
+    public function getSearchableMethods(string $entityClass): array
     {
         $reflection = new \ReflectionClass($entityClass);
 

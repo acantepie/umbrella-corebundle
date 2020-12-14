@@ -18,6 +18,7 @@ class UmbrellaFileExtension extends AbstractExtension
 
     /**
      * UmbrellaFileExtension constructor.
+     *
      * @param UmbrellaFileHelper $helper
      */
     public function __construct(UmbrellaFileHelper $helper)
@@ -28,14 +29,11 @@ class UmbrellaFileExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions() : array
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('file_url', [$this->helper, 'getUrl']),
             new TwigFunction('image_url', [$this->helper, 'getImageUrl'])
         ];
     }
-
-
-
 }

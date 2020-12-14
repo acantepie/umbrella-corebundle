@@ -4,7 +4,6 @@ namespace Umbrella\CoreBundle\Component\UmbrellaFile\Storage;
 
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Umbrella\CoreBundle\Entity\UmbrellaFile;
 use Umbrella\CoreBundle\Utils\FileUtils;
@@ -26,7 +25,7 @@ class FileStorage implements StorageInterface
      * FileStorage constructor.
      *
      * @param SlugNamer $namer
-     * @param string $uploadDir
+     * @param string    $uploadDir
      */
     public function __construct(SlugNamer $namer, string $uploadDir, string $uriPrefix)
     {
@@ -36,9 +35,9 @@ class FileStorage implements StorageInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function upload(UmbrellaFile $umbrellaFile) : void
+    public function upload(UmbrellaFile $umbrellaFile): void
     {
         $dirPath = FileUtils::resolvePath($this->uploadDir, $umbrellaFile->_filePath);
 
@@ -71,9 +70,9 @@ class FileStorage implements StorageInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function remove(UmbrellaFile $umbrellaFile) : void
+    public function remove(UmbrellaFile $umbrellaFile): void
     {
         $path = $this->getPath($umbrellaFile);
 
@@ -86,7 +85,7 @@ class FileStorage implements StorageInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getPath(UmbrellaFile $umbrellaFile, bool $relative = false): string
     {
@@ -96,7 +95,7 @@ class FileStorage implements StorageInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getUrl(UmbrellaFile $umbrellaFile, bool $relative = false): string
     {

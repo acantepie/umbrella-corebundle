@@ -11,7 +11,6 @@ namespace Umbrella\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Umbrella\CoreBundle\Model\IdTrait;
-use Umbrella\CoreBundle\Model\TimestampTrait;
 use Umbrella\CoreBundle\Utils\MathUtils;
 
 /**
@@ -66,7 +65,7 @@ class UmbrellaFile
         $this->createdAt = new \DateTime('NOW');
     }
 
-    public function getHumanSize() : string
+    public function getHumanSize(): string
     {
         return MathUtils::bytes_to_size($this->size);
     }

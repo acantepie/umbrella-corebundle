@@ -8,7 +8,6 @@
 
 namespace Umbrella\CoreBundle\Component\Column\Type;
 
-use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Umbrella\CoreBundle\Component\UmbrellaFile\UmbrellaFileHelper;
 use Umbrella\CoreBundle\Entity\UmbrellaFile;
@@ -26,6 +25,7 @@ class ImageColumnType extends PropertyColumnType
 
     /**
      * ImageColumnType constructor.
+     *
      * @param UmbrellaFileHelper $fileHelper
      */
     public function __construct(UmbrellaFileHelper $fileHelper)
@@ -33,7 +33,6 @@ class ImageColumnType extends PropertyColumnType
         parent::__construct();
         $this->fileHelper = $fileHelper;
     }
-
 
     /**
      * @param $entity

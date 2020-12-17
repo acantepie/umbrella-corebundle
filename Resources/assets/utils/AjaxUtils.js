@@ -14,8 +14,7 @@ export default class AjaxUtils {
             method: $view.data('method') || 'get'
         },...options};
 
-        const handler = app.getAjaxHandler($view.data('handler') || null);
-        this.request(options, handler);
+        this.request(options);
     }
 
     static handleForm($view, options = []) {
@@ -28,15 +27,10 @@ export default class AjaxUtils {
             data: $view.serializeFormToFormData(),
         },...options};
 
-        const handler = app.getAjaxHandler($view.data('handler') || null);
-        this.request(options, handler);
+        this.request(options);
     }
 
-    static request(options = {}, handler = null) {
-        if (handler === null) {
-            handler = app.getAjaxHandler();
-        }
-
+    static request(options = {}) {
         if ('xhr_id' in options && options['xhr_id']) {
             if (AjaxUtils.xhrPendingRegistryIds.includes(options['xhr_id'])) {
                 console.warn(`Request prevented : request with id ${options['xhr_id']} is pending.`);
@@ -56,10 +50,10 @@ export default class AjaxUtils {
         }
 
         options['success'] = (response) => {
-            handler.success(response);
+            app.jsResponseHandler.success(response);
         };
         options['error'] = (requestObject, error, errorThrown) => {
-            handler.error(requestObject, error, errorThrown);
+            app.jsResponseHandler.error(requestObject, error, errorThrown);
         };
         options['complete'] = () => {
 
@@ -70,7 +64,6 @@ export default class AjaxUtils {
             }
 
             Spinner.hide();
-            handler.complete();
         };
 
         if ('confirm' in options && false !== options['confirm']) {
@@ -85,13 +78,13 @@ export default class AjaxUtils {
 
     }
 
-    static get(options = {}, handler = null) {
+    static get(options = {}) {
         options['method'] = 'get';
-        return AjaxUtils.request(options, handler);
+        return AjaxUtils.request(options);
     }
 
-    static post(options = {}, handler = null) {
+    static post(options = {}) {
         options['method'] = 'post';
-        return AjaxUtils.request(options, handler);
+        return AjaxUtils.request(options);
     }
 }

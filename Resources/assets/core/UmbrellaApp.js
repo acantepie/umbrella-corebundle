@@ -1,12 +1,22 @@
 import Component from "umbrella_core/core/Component";
 import Bind from "umbrella_core/core/Bind";
-import AjaxHandler from "umbrella_core/core/AjaxHandler";
+import JsResponseHandler from "umbrella_core/jsresponse/JsResponseHandler";
 
 export default class UmbrellaApp {
 
     constructor() {
         this.componentRegistry = {};
-        this.ajaxHandlerRegistry = {};
+        this.jsResponseHandler = new JsResponseHandler();
+    }
+
+    init($container = null) {
+        if (null === $container) {
+            this.mount();
+            this.bind($('body'));
+        } else {
+            this.mount($container);
+            this.bind($container);
+        }
     }
 
     // *** Components *** //
@@ -27,7 +37,7 @@ export default class UmbrellaApp {
 
     use(selector, componentClass) {
         if (!(componentClass.prototype instanceof Component)) {
-            console.error(`Can't use component ${componentClass.prototype.constructor.name}, he must extends Component class`);
+            console.error(`Can't use component ${componentClass.prototype.constructor.name}, class must extends Component class`);
             return;
         }
 
@@ -48,38 +58,9 @@ export default class UmbrellaApp {
         return components;
     }
 
-    // *** Ajax handlers *** //
-
-    useAjaxHandler(handlerName, handler) {
-        if (!(handler instanceof AjaxHandler)) {
-            console.error(`Can't use handler ${handler.constructor.name}, he must extends AjaxHandler class`);
-            return;
-        }
-
-        this.ajaxHandlerRegistry[handlerName] = handler;
-    }
-
-    getAjaxHandler(handlerName = null) {
-        if (!handlerName) {
-            handlerName = 'default';
-        }
-
-        if (!(handlerName in this.ajaxHandlerRegistry)) {
-            throw `No ajax handler registered with name ${handlerName}`;
-        }
-
-
-
-        return this.ajaxHandlerRegistry[handlerName];
-    }
-
     // *** Bind *** //
 
-    bind() {
-        new Bind($('body'), false);
-    }
-
-    bindNewDom($e) {
-        new Bind($e, true);
+    bind($container = null) {
+        new Bind($container, false);
     }
 }

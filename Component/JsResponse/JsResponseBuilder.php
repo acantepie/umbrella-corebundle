@@ -20,7 +20,7 @@ use Umbrella\CoreBundle\Component\Toast\ToastFactory;
 class JsResponseBuilder
 {
     const TOAST = 'toast';
-    const EXECUTE_JS = 'execute_js';
+    const EVAL = 'eval';
     const REDIRECT = 'redirect';
     const RELOAD = 'reload';
 
@@ -165,9 +165,9 @@ class JsResponseBuilder
         return $this->add(self::RELOAD);
     }
 
-    public function execute($js)
+    public function eval($js)
     {
-        return $this->add(self::EXECUTE_JS, [
+        return $this->add(self::EVAL, [
             'value' => $js,
         ]);
     }

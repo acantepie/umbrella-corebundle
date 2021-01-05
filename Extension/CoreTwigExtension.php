@@ -12,6 +12,8 @@ namespace Umbrella\CoreBundle\Extension;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigTest;
+use Umbrella\CoreBundle\Component\UmbrellaFile\UmbrellaFileHelper;
+use Umbrella\CoreBundle\Entity\UmbrellaFile;
 use Umbrella\CoreBundle\Utils\HtmlUtils;
 use Umbrella\CoreBundle\Utils\StringUtils;
 
@@ -20,6 +22,19 @@ use Umbrella\CoreBundle\Utils\StringUtils;
  */
 class CoreTwigExtension extends AbstractExtension
 {
+
+    /** @var UmbrellaFileHelper */
+    protected $fileHelper;
+
+    /**
+     * CoreTwigExtension constructor.
+     * @param UmbrellaFileHelper $fileHelper
+     */
+    public function __construct(UmbrellaFileHelper $fileHelper)
+    {
+        $this->fileHelper = $fileHelper;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -30,6 +45,7 @@ class CoreTwigExtension extends AbstractExtension
             new TwigFilter('to_human_size', [$this, 'toHumanSize'], ['is_safe' => ['html']]),
             new TwigFilter('icon', [$this, 'renderIcon'], ['is_safe' => ['html']]),
             new TwigFilter('html_attributes', [$this, 'toHtmlAttribute'], ['is_safe' => ['html']]),
+            new TwigFilter('get_thumb', [$this, 'getThumb'], ['is_safe' => ['html']]),
         ];
     }
 
@@ -97,5 +113,12 @@ class CoreTwigExtension extends AbstractExtension
     public function toHtmlAttribute($attributes)
     {
         return HtmlUtils::array_to_html_attribute($attributes);
+    }
+
+    public function getThumb(UmbrellaFile $file, $filter = null) {
+        if (null === $file) {
+            return "";
+        }
+        return $this->fileHelper->getImageUrl($file, $filter);
     }
 }

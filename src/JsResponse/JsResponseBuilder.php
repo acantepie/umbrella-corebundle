@@ -198,7 +198,7 @@ class JsResponseBuilder implements \Countable
         return $this->callTable($ids, 'reload');
     }
 
-    public function callTable(?array $ids, string $method, ...$methodParams): self
+    public function callTable($ids, string $method, ...$methodParams): self
     {
         return $this->callWebComponent($this->toSelector($ids, 'umbrella-datatable'), $method, $methodParams);
     }
